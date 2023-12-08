@@ -53,7 +53,8 @@ function ManagersDay({leaders, loader, managerStatus}) {
                 {managers?.map((el, index) => {
                     return <ManagerResult avatar={el.avatar} id={el.id} name={el.name} surname={el.surname} status={el.work_status}
                                           bp={el.bp_num} bpPlan={el.bp_plan} call={el.call_num} callPlan={el.call_plan} 
-                                          level={el.level} mistakes={el.mistakes} timeEnd={el.time_end_work} loader={loader} managerStatus={managerStatus}/>
+                                          level={el.level} mistakes={el.mistakes} timeEnd={el.time_end_work} loader={loader} 
+                                          managerStatus={managerStatus} rate={el.rate}/>
                 })}
                 
             </ul>

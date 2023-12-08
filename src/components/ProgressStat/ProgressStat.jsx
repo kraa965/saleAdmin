@@ -29,7 +29,7 @@ function ProgressStat({ title, type, indicators, loader }) {
             </div>
             <div className={s.indicators}>
                 {arrStat.map(el => {
-                    return <IndicatorDay title={el[0]} quantity={el[1].num} total={el[1].plan} loader={loader}/>
+                    return <IndicatorDay title={el[0]} quantity={el[1].num} total={el[1].plan < 4 ? 4 : el[1].plan} loader={loader}/>
                 })}
             </div>
             {type === 'expert' &&

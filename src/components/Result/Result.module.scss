@@ -55,6 +55,11 @@
     &_dark {
         color: #9397A6;
     }
+
+    &_dis {
+        pointer-events: none;
+        cursor: default;
+    }
 }
 
 .button_active {

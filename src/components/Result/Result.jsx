@@ -49,7 +49,7 @@ function Result() {
                 setStat(data.progres);
                 setTimeout(() => {
                     setLoader(false);
-                }, 200)
+                }, 300)
             })
             .catch(err => console.log(err))
 
@@ -63,9 +63,9 @@ function Result() {
                         console.log(res);
                         setLeadersToday(data.leaders);
                         setStatToday(data.progres);
-                        setTimeout(() => {
+                       /*  setTimeout(() => {
                             setLoader(false);
-                        }, 200)
+                        }, 700) */
                     })
                     .catch(err => console.log(err))
                     .finally(setTimeout(() => {handleInfoDashbord(date)},10000))
@@ -86,9 +86,9 @@ function Result() {
             <div className={s.header}>
                 <p className={s.title}>Результаты дня</p>
                 <div className={`${s.switch} ${dark && s.switch_dark}`}>
-                    <button onClick={handleActivePoint} id='2' className={`${`${s.button} ${dark && s.button_dark}`} ${activePoint === 2 && s.button_active} ${activePoint === 2 && dark && s.button_active_dark}`}>Позавчера</button>
-                    <button onClick={handleActivePoint} id='1' className={`${s.button} ${dark && s.button_dark} ${activePoint === 1 && s.button_active} ${activePoint === 1 && dark && s.button_active_dark}`}>Вчера</button>
-                    <button onClick={handleActivePoint} id='0' className={`${s.button} ${dark && s.button_dark} ${activePoint === 0 && s.button_active} ${activePoint === 0 && dark && s.button_active_dark}`}>Сегодня</button>
+                    <button onClick={handleActivePoint} id='2' className={`${s.button} ${loader && s.button_dis} ${dark && s.button_dark} ${activePoint === 2 && s.button_active} ${activePoint === 2 && dark && s.button_active_dark}`}>Позавчера</button>
+                    <button onClick={handleActivePoint} id='1' className={`${s.button} ${loader && s.button_dis} ${dark && s.button_dark} ${activePoint === 1 && s.button_active} ${activePoint === 1 && dark && s.button_active_dark}`}>Вчера</button>
+                    <button onClick={handleActivePoint} id='0' className={`${s.button} ${loader && s.button_dis} ${dark && s.button_dark} ${activePoint === 0 && s.button_active} ${activePoint === 0 && dark && s.button_active_dark}`}>Сегодня</button>
                 </div>
             </div>
 

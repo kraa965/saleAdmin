@@ -13,7 +13,7 @@ import Tooltip from '../Tooltip/Tooltip';
 import { useEffect, useState } from 'react';
 import Loader from '../Loader/Loader';
 
-function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPlan, level, mistakes, timeEnd, loader, id, managerStatus} ) {
+function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPlan, level, mistakes, timeEnd, loader, id, managerStatus, rate} ) {
     const dark = useSelector(menuSelector).dark;
     const [tooltip, setTooltip] = useState(false);
     const [colorLine, setColorLine] = useState('');
@@ -26,7 +26,7 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
         } else {
             setStatusNow(status);
         }
-    },[managerStatus])
+    },[managerStatus, loader])
     
 
     function handleOpenTooltip() {
@@ -59,7 +59,7 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
         setAnim(false)
        setTimeout(() => {
         setAnim(true)
-       },100)
+       })
     },[statusNow])
 
 
@@ -73,8 +73,8 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
                 <div className={s.container_result}>
                     <div className={s.text}>
                         <p>{name} {surname} <sup>lvl {level}</sup>
-                            {/* <ArrowDown/> */}
-                            {/*   <ArrowNarrow /> */}
+                            {rate === -1 && <ArrowDown/>}
+                            {rate === 0 && <ArrowNarrow/>}
                         </p>
                         <div style={{display: status === 'holiday' && 'none'}} className={s.bp}>
                             {mistakes.length > 0 &&
@@ -163,7 +163,7 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
 
                 {statusNow === 'end_work' &&
                     <div className={`${s.status} ${anim && s.anim} ${dark && s.status_dark} `}>
-                        <p>День завершен<sup>{timeEnd.slice(0,5)}</sup></p>
+                        <p>День завершен<sup>{timeEnd?.slice(0,5)}</sup></p>
                     </div>
                 }
             </div>
