@@ -1,0 +1,36 @@
+.sales {
+    width: 100%;
+    display: grid;
+    grid-template-areas: 'header header'
+        'graphs statistic'
+        'client client'
+        'plan plan';
+    grid-template-columns: 1fr 506px;
+    gap: 20px;
+    opacity: 0;
+    transition: all 0.2s;
+}
+
+.anim {
+    opacity: 1;
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    grid-area: header;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 28px;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    grid-area: statistic;
+}

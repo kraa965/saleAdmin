@@ -1,0 +1,6 @@
+.main {
+    display: grid;
+    grid-template-areas: 'sidebar work';
+    grid-template-columns: 282px 1fr;
+    color: #121922;
+}

@@ -1,0 +1,49 @@
+.indicator {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    margin-bottom: 12px;
+
+    sup {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 14px;
+        margin-left: 4px;
+        opacity: 0.5;
+    }
+}
+
+.progress {
+    width: 100%;
+    height: 8px;
+    border-radius: 3.3px;
+    background-color: #F1F4F9;
+    overflow: hidden;
+
+    &_dark {
+        background-color: #414B5D;
+    }
+}
+
+.inner {
+    height: 100%;
+    background-color: #E75A5A;
+    transition: all 0.2s;
+}
+
+
+.yellow {
+    background-color: #FFDE35;
+}
+
+.green {
+    background-color: #2EA96E;
+}

@@ -1,0 +1,79 @@
+.result {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: all 0.15s;
+}
+
+
+
+.anim {
+    opacity: 1;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 28px;
+}
+
+.switch {
+    display: flex;
+    gap: 8px;
+    padding: 5px;
+    background-color: #FFF;
+    border-radius: 8px;
+
+    &_dark {
+        background-color: #1A263B;
+    }
+}
+
+.button {
+    color: #71869D;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: all 0.2s;
+    height: 36px;
+
+    &_dark {
+        color: #9397A6;
+    }
+}
+
+.button_active {
+    color: #121922;
+    background-color: #F1F4F9;
+
+    &_dark {
+        color: #ECECEC;
+        background-color: #414B5D;
+    }
+}
+
+.content {
+    width: 100%;
+    display: grid;
+    gap: 20px;
+    grid-template-areas: 'managers dayprogress'
+                         'managers video';
+    grid-template-columns: 1fr 506px;
+    grid-template-rows: min-content 1fr;
+    align-items: start;
+}

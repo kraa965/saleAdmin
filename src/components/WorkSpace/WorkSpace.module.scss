@@ -1,0 +1,34 @@
+.space {
+    grid-area: video;
+    background-color: #FFF;
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 28px;
+    align-self: start;
+
+    &_dark {
+        background-color: #1A263B;
+    }
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    margin-bottom: 20px;
+}
+
+.videos {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.video {
+    width: 100%;
+    height: 305px;
+}
