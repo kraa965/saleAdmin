@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux';
 import { menuSelector } from '../../store/reducer/menu/selector';
 import { useState } from 'react';
 
-function Graph({ dayMonth }) {
+function Graph({ dayMonth, graphData }) {
     const dark = useSelector(menuSelector).dark;
     const [tooltipId, setTooltipId] = useState(0);
-    console.log(tooltipId)
+    const datesArr = Object.keys(graphData);
+    console.log(datesArr)
     //Передаем в график 1-значение оси Y, 2-Массив дат за месяц(преобразуем в день недели), план на день по предоплатам и кол-во предоплат по дням
     const payMax = 4;
     const payPlan = 4;
@@ -32,13 +33,13 @@ function Graph({ dayMonth }) {
                 })}
             </div>
             <div className={`${s.axisX} ${dark && s.axisX_dark}`}>
-                {[...Array(dayMonth)].map((el, index) => {
-                    return <p>Пн</p>
+                {datesArr.map((el, index) => {
+                    return <p>{el}</p>
                 })}
             </div>
 
             <div className={s.content}>
-                {[...Array(dayMonth)].map((el, index) => {
+                {datesArr.map((el, index) => {
                     return <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} id={`${index + 1}`} style={{ height: `${payPlanColumn / payMax * 100}%` }} className={`${s.columnplan} ${dark && s.columnplan_dark}`}>
                         <div style={{ height: `${payNum / payPlanColumn * 100}%`, zIndex: `${31 - index}` }} className={s.column}>
                             <div className={`${s.tooltip} ${dark && s.tooltip_dark}`} style={{ display: index + 1 == tooltipId ? '' : 'none' }}>

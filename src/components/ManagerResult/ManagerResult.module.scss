@@ -130,13 +130,16 @@
     display: flex;
     align-items: center;
     position: relative;
-    background-color: #F1F4F9;
     margin-left: 20px;
     border-radius: 4px;
     color: #71869D;
     overflow: hidden;
     opacity: 0;
     transition: all 0.5s;
+
+    &_pause {
+        background-color: #F1F4F9;
+    }
 
     p {
         z-index: 1;
@@ -150,9 +153,11 @@
         color: #71869D;
     }
 
-    &_dark {
+    &_pause_dark {
         background-color: #414B5D;
+    }
 
+    &_dark {
         sup {
             color: #9397A6;
         }

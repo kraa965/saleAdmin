@@ -145,7 +145,7 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
                 }
 
                 {statusNow === 'pause' &&
-                    <div className={`${s.status} ${anim && s.anim} ${dark && s.status_dark} ${s.status_active} ${dark && s.status_active_dark}`}>
+                    <div className={`${s.status} ${s.status_pause} ${anim && s.anim} ${dark && s.status_pause_dark} ${s.status_active} ${dark && s.status_active_dark}`}>
                         {/*  <div style={{ width: '90%' }} className={`${s.pauseProgress} ${dark && s.pauseProgress_dark}`}></div> */}
                         <p>Пауза{/* <sup>{10} мин</sup> */}</p>
                         <div className={`${s.iconPause} ${dark && s.iconPause_dark}`}>

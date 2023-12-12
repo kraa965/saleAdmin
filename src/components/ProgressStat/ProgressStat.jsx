@@ -10,7 +10,7 @@ function ProgressStat({ title, type, indicators, loader }) {
     const dark = useSelector(menuSelector).dark;
     const [tooltip, setTooltip] = useState(false);
     const arrStat = Object.entries(indicators)
-    console.log(arrStat)
+
     function handleOpenTooltip() {
         setTooltip(true)
     }
@@ -29,7 +29,7 @@ function ProgressStat({ title, type, indicators, loader }) {
             </div>
             <div className={s.indicators}>
                 {arrStat.map(el => {
-                    return <IndicatorDay title={el[0]} quantity={el[1].num} total={el[1].plan < 4 ? 4 : el[1].plan} loader={loader}/>
+                    return <IndicatorDay title={el[0]} quantity={el[1].plan === 0 ? 0 : el[1].num} total={el[1].plan > 0 ? el[1].plan < 4 ? 4 : el[1].plan : 0} loader={loader}/>
                 })}
             </div>
             {type === 'expert' &&

@@ -2,7 +2,7 @@ export function setDateForCalendarMonth(monthNum) {
     const date = new Date();
     const dayNum =  date.getDate();
    
-    date.setDate(1 + monthNum * 30.3);
+    date.setDate(dayNum + monthNum * 30);
     const year = date.getFullYear();
     const month = date.getMonth();
     const day = date.getDate();
@@ -45,6 +45,7 @@ export function setDateForCalendarMonth(monthNum) {
      const dateSend = {date:`${year}-${month + 1 < 10 ? '0': ''}${month + 1}-${day < 10 ? '0': ''}${day}`,
                        month: fMonth,
                        month2: fMonth2,
+                       day: day,
                        dayInMonth: dayInMonth};
      return dateSend;
   }

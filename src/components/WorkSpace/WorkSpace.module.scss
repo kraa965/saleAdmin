@@ -31,4 +31,8 @@
 .video {
     width: 100%;
     height: 305px;
+
+    .b-embed-logo {
+        display: none !important;
+    }
 }

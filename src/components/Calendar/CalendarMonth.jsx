@@ -9,18 +9,22 @@ import { setNameMonth } from '../../store/reducer/sales/slice';
 import { setNameMonth2 } from '../../store/reducer/sales/slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { menuSelector } from '../../store/reducer/menu/selector';
+import { setMonthIndex } from '../../store/reducer/sales/slice';
+import { setDay } from '../../store/reducer/sales/slice';
 
 function CalendarMonth() {
     const [month, setMonth] = useState(0);
     const dispatch = useDispatch();
     const date = setDateForCalendarMonth(month);
     const dark = useSelector(menuSelector).dark;
-    
+    console.log(month)
     useEffect(() => {
         dispatch(setDateMonth(date.date));
         dispatch(setDayMonth(date.dayInMonth));
         dispatch(setNameMonth(date.month));
         dispatch(setNameMonth2(date.month2));
+        dispatch(setMonthIndex(month));
+        dispatch(setDay(date.day));
     },[month])
 
     function handleChangeMonth(e) {
@@ -43,7 +47,8 @@ function CalendarMonth() {
                 <IconCalendar/>
                 <p>{date.month}</p>
             </div>
-            <div onClick={handleChangeMonth} id='right' className={`${s.right} ${dark && s.right_dark}`}>
+
+            <div onClick={handleChangeMonth} id='right' className={`${s.right} ${dark && s.right_dark} ${month >= 0  && s.right_dis}`}>
                 <ArrowLeft/>
             </div>
         </div>

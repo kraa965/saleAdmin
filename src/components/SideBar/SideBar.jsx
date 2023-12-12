@@ -3,6 +3,7 @@ import logo from '../../image/logo.png';
 import avatar from '../../image/avatar.png';
 import {ReactComponent as DashIcon} from '../../image/dash.svg';
 import {ReactComponent as SalesIcon} from '../../image/sales.svg';
+import {ReactComponent as IconTeam} from '../../image/iconTeam.svg';
 import {ReactComponent as IconExit} from '../../image/iconExit.svg';
 import {ReactComponent as IconMoon} from '../../image/iconMoon.svg';
 import {ReactComponent as IconOrders} from '../../image/iconOrders.svg';
@@ -15,6 +16,7 @@ import {ReactComponent as IconAnalitic} from '../../image/iconAnalitic.svg';
 import {ReactComponent as IconStat} from '../../image/iconStat.svg';
 import {ReactComponent as IconCalenM} from '../../image/iconCalenM.svg';
 import {ReactComponent as IconSetting} from '../../image/iconSetting.svg';
+import { ReactComponent as IconSkills } from '../../image/iconSkills.svg';
 import { useEffect, useState } from 'react';
 import { setMenuStatus } from '../../store/reducer/menu/slice';
 import { useDispatch } from 'react-redux';
@@ -43,6 +45,18 @@ function SideBar() {
         if(activePoint === 2) {
             dispatch(setMenuStatus('sales'));
             localStorage.setItem('point', JSON.stringify(2))
+            return
+        }
+
+        if(activePoint === 19) {
+            dispatch(setMenuStatus('team'));
+            localStorage.setItem('point', JSON.stringify(19))
+            return
+        }
+
+        if(activePoint === 20) {
+            dispatch(setMenuStatus('skills'));
+            localStorage.setItem('point', JSON.stringify(20))
             return
         }
     },[activePoint]);
@@ -102,16 +116,16 @@ function SideBar() {
             <div className={s.container_avatar}>
                 <div ref={buttonRef} onClick={handleOpenOptions} className={s.button}></div>
                 <div ref={optionsRef} className={`${s.options} ${dark && s.options_dark} ${optionsOpen && s.options_open}`}>
-                    <div className={`${s.container_switch} ${dark && s.container_switch_dark}`}>
+                    <div onClick={handleSwitch} className={`${s.container_switch} ${dark && s.container_switch_dark}`}>
                         <div className={`${s.block} ${dark && s.block_dark}`}>
                             <IconMoon/>
                             <p>Темная тема</p>
                         </div>
-                        <div onClick={handleSwitch} className={`${s.switch} ${switchOn && s.switch_on}`}>
+                        <div  className={`${s.switch} ${switchOn && s.switch_on}`}>
                             <div></div>
                         </div>
                     </div>
-                    <button className={s.exit}>Выйти из профиля<IconExit/></button>
+                    <a href='https://lk.skilla.ru/login/logout.php' className={s.exit}>Выйти из профиля<IconExit/></a>
                 </div>
                 <div className={s.avatar}>
                     <img src={avatar}></img>
@@ -127,6 +141,8 @@ function SideBar() {
             <ul className={s.items}>
                 <li onClick={handleActivePoint} id='1' className={`${s.item} ${activePoint === 1 && s.item_active}`}><DashIcon/>Дашборд</li>
                 <li onClick={handleActivePoint} id='2' className={`${s.item} ${s.item_2} ${activePoint === 2 && s.item_2_active}`}><SalesIcon/>Продажи</li>
+                <li onClick={handleActivePoint} id='19' className={`${s.item}  ${activePoint === 19 && s.item_active}`}><IconTeam/>Команда</li>
+                <li onClick={handleActivePoint} id='20' className={`${s.item}  ${activePoint === 20 && s.item_active}`}><IconSkills/>Навыки</li>
                 <a href='https://lk.skilla.ru/frmanager/?type=all'><li onClick={handleActivePoint} id='3' className={`${s.item} ${s.item_3} ${activePoint === 3 && s.item_active}`}><IconOrders/>Заявки</li></a>
                 <a href='https://lk.skilla.ru/leader/report'><li onClick={handleActivePoint} id='4' className={`${s.item} ${s.item_3} ${activePoint === 4 && s.item_active}`}><IconSvod/>Сводка</li></a>
                 <a href='https://lk.skilla.ru/frmanager/bp/'><li onClick={handleActivePoint} id='5' className={`${s.item} ${s.item_3} ${activePoint === 5 && s.item_active}`}><IconOpenBp/>Открытые БП</li></a>

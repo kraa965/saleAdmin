@@ -248,7 +248,7 @@
     width: 288px;
     input {
         background: none;
-        color: #ECECEC;
+        
     }
 
     p {
@@ -271,7 +271,11 @@
         background-color: #1A263B;
 
         p {
-            color: #9397A6;
+            color: #ECECEC;
+        }
+
+        input {
+            color: #ECECEC;
         }
     }
 }

@@ -79,4 +79,12 @@
             opacity: 0.5;
         }
     }
+
+    &_dis {
+        pointer-events: none;
+        svg {
+            opacity: 0.3;
+            cursor: default;
+        }
+    }
 }

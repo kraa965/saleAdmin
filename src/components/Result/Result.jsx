@@ -27,9 +27,14 @@ function Result() {
     const dark = useSelector(menuSelector).dark;
     const date = (setDateDay(activePoint));
     console.log(managerStatus)
+
     useEffect(() => {
         setAnim(true);
     }, []);
+
+    useEffect(() => {
+        window.scrollTo(0,0);
+      }, []);
 
     useEffect(() => {
         ws.addEventListener('message', (e) => {
@@ -46,7 +51,7 @@ function Result() {
                 const data = res.data.data;
                 console.log(res);
                 setLeaders(data.leaders);
-                setStat(data.progres);
+                setStat(data.progress); 
                 setTimeout(() => {
                     setLoader(false);
                 }, 300)
@@ -61,8 +66,9 @@ function Result() {
                     .then(res => {
                         const data = res.data.data;
                         console.log(res);
+                        setStatToday(data.progress);
                         setLeadersToday(data.leaders);
-                        setStatToday(data.progres);
+                        
                        /*  setTimeout(() => {
                             setLoader(false);
                         }, 700) */

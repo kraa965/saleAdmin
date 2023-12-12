@@ -233,6 +233,7 @@
     letter-spacing: 0.15px;
     cursor: pointer;
     transition: all 0.2s;
+    text-decoration: none;
 
     svg {
         margin-left: 8px;
@@ -250,6 +251,7 @@
     background-color: #F8FAFD;
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
 
     &_dark {
         background-color: #2C374B;

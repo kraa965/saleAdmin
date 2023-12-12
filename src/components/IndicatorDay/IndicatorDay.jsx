@@ -7,9 +7,13 @@ import { useEffect, useState } from 'react';
 function IndicatorDay({title, quantity, total, loader}) {
     const dark = useSelector(menuSelector).dark;
     const [colorLine, setColorLine] = useState('');
-    const percent = Math.ceil(quantity/total * 100);
+    const percent = total <= 0 ? 0 : Math.ceil(quantity/total * 100);
 
     useEffect(() => {
+        if (total <= 0) {
+            setColorLine('');
+            return
+        }
         if(quantity / total <= 0.5) {
             setColorLine('');
             return
@@ -33,7 +37,7 @@ function IndicatorDay({title, quantity, total, loader}) {
                     {title === 'login' && 'Входы в личный кабинет'}
                     {title === 'bp' && 'Открытые бизнес-планы '}
                     {title === 'bp_per_manager' && 'Бизнес-планов на консультанта'}
-                    <sup>{percent}%</sup>
+                    {total > 0 && <sup>{percent}%</sup>}
                 </p>
                 <p>{quantity} из {total}</p>
             </div>
