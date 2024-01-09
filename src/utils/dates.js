@@ -73,3 +73,67 @@ export function setDateForCalendarMonth(monthNum) {
      const dateSend = `${year}-${month + 1 < 10 ? '0': ''}${month + 1}-${day < 10 ? '0': ''}${day}`;
      return dateSend;
   }
+
+  export function setDayOfWeek(data) {
+    const date = new Date(data);
+    const month = date.getMonth();
+    const day = date.getDate();
+  
+    const dayWeek = date.getDay();
+    let fDay;
+    switch (dayWeek){
+      case 1: fDay = "Пн"; break;
+      case 2: fDay = "Вт"; break;
+      case 3: fDay = "Ср"; break;
+      case 4: fDay = "Чт"; break;
+      case 5: fDay = "Пт"; break;
+      case 6: fDay = "Сб"; break;
+      default: fDay = "Вс";
+  }
+
+  let fMonth2;
+  switch (month){
+    case 0: fMonth2 = "января"; break;
+    case 1: fMonth2="февраля"; break;
+    case 2: fMonth2="марта"; break;
+    case 3: fMonth2="апреля"; break;
+    case 4: fMonth2="мая"; break;
+    case 5: fMonth2="июнья"; break;
+    case 6: fMonth2="июлья"; break;
+    case 7: fMonth2="августа"; break;
+    case 8: fMonth2="сентября"; break;
+    case 9: fMonth2="октября"; break;
+    case 10: fMonth2="ноября"; break;
+    case 11: fMonth2="декабря"; break;
+    default:
+}
+ 
+    return {day, fMonth2, fDay};
+  };
+
+  export function monthAndWeek(num) {
+   
+    const month = Math.floor(num/30);
+    const week = Math.floor((num%30)/7);
+    const day = week < 1 ? num%30  : Math.floor(week%7);
+    const monthF = month >= 1 ? `${month} мес.` : '';
+    const weekF = (week > 1 && month < 1) ? `${week} нед.`: '';
+    const dayF =  (week >= 1 || month >= 1 || day === 0) ? '' : `${day} д.`;
+
+    const monthA = month >= 1 ? `${month} мес.` : '';
+    const weekA = week > 1  ? `${week} нед.`: '';
+    const dayA = day === 0 ? '' : `${day} д.`
+
+
+    return {dateClient: `${monthF} ${weekF} ${dayF}`, dateStat: `${monthA} ${weekA} ${dayA}`}
+    
+  }
+
+  export function handleTimeNow() {
+    const date = new Date();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const percent = ((hours - 11) * 60 + minutes)/((19-11)*60) > 0 ? ((hours - 11) * 60 + minutes)/((19-11)*60) : 0
+    return percent
+
+  }

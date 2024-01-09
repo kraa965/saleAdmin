@@ -3,30 +3,32 @@ import { menuSelector } from '../../store/reducer/menu/selector';
 import Loader from '../Loader/Loader';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { handleTimeNow } from '../../utils/dates';
 
-function IndicatorDay({title, quantity, total, loader}) {
+function IndicatorDay({title, quantity, total, loader, activePoint}) {
     const dark = useSelector(menuSelector).dark;
     const [colorLine, setColorLine] = useState('');
     const percent = total <= 0 ? 0 : Math.ceil(quantity/total * 100);
-
+    const percentNow = total <= 0 ? 0 : Math.ceil((total* handleTimeNow())/total * 100);
+    const totalNow = activePoint === 0 ? total * handleTimeNow() : total;
     useEffect(() => {
-        if (total <= 0) {
+        if (quantity/totalNow <= 0) {
             setColorLine('');
             return
         }
-        if(quantity / total <= 0.5) {
-            setColorLine('');
+        if(quantity / totalNow <= 0.5) {
+            setColorLine('red');
             return
         }
-        if (quantity / total > 0.5 && quantity / total < 1) {
+        if (quantity / totalNow > 0.5 && quantity / totalNow < 0.9) {
             setColorLine('yellow');
             return
         }
-        if (quantity / total >= 1) {
+        if (quantity / totalNow >= 0.9) {
             setColorLine('green');
             return
         }
-    }, [quantity, total]);
+    }, [quantity, totalNow]);
 
 
     return (
@@ -37,13 +39,17 @@ function IndicatorDay({title, quantity, total, loader}) {
                     {title === 'login' && 'Входы в личный кабинет'}
                     {title === 'bp' && 'Открытые бизнес-планы '}
                     {title === 'bp_per_manager' && 'Бизнес-планов на консультанта'}
+                    {title === 'zoom' && 'Zoom-встречи'}
+                    {title === 'anketa' && 'Одобренные анкеты'}
+                    {title === 'sales' && 'Продажи'}
                     {total > 0 && <sup>{percent}%</sup>}
                 </p>
                 <p>{quantity} из {total}</p>
             </div>
 
             <div className={`${s.progress} ${dark && s.progress_dark}`}>
-                <div style={{width: `${percent}%`}} className={`${s.inner} ${colorLine === 'yellow' && s.yellow} ${colorLine === 'green' && s.green}`}></div>
+                <div style={{width: `${percent}%`}} className={`${s.inner} ${colorLine === 'yellow' && s.yellow} ${colorLine === 'green' && s.green} ${colorLine === 'red' && s.red}`}></div>
+                {activePoint === 0 && <div style={{width: `${percentNow}%`}} className={`${s.plan} ${dark && s.plan_dark}`}></div>}
             </div>
         </div>
     )

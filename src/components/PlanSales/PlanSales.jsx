@@ -1,33 +1,35 @@
 import s from './PlanSales.module.scss';
-import avatar from '../../image/avatar.png';
-import { addSpaceNumber } from '../../utils/addSpaceNumber';
 import { useSelector } from 'react-redux';
 import { menuSelector } from '../../store/reducer/menu/selector';
-const planSales = [{ name: 'Юлия', surname: 'Кондыбаева', plan: 20000000, total: 10000000, avatar: avatar },
-{ name: 'Юлия', surname: 'Кондыбаева', plan: 20000000, total: 10000000, avatar: avatar },
-{ name: 'Юлия', surname: 'Кондыбаева', plan: 20000000, total: 10000000, avatar: avatar }]
-function PlanSales() {
+import Loader from '../Loader/Loader';
+import ExpertMonth from '../ExpertMonth/ExpertMonth';
+import { useEffect, useState } from 'react';
+
+function PlanSales({ experts, loader }) {
     const dark = useSelector(menuSelector).dark;
+    const [expertsSort, setExpertSort] = useState([]);
+    console.log(expertsSort)
+
+    useEffect(() => {
+        const expertsSort = experts?.sort(function (a, b) {
+            if (Number(a.sale) <= Number(b.sale)) {
+                return 1;
+            }
+            if (Number(a.sale) > Number(b.sale)) {
+                return -1;
+            }
+        });
+
+        setExpertSort(expertsSort)
+    }, [experts, loader])
+
     return (
         <div className={`${s.paln} ${dark && s.paln_dark}`}>
             <p className={s.title}>Выполнение плана</p>
             <div className={s.managers}>
-                {planSales.map((el) => {
-                    return <div className={s.manager}>
-                        <div className={s.avatar}>
-                            <img src={el.avatar}></img>
-                        </div>
-                        <div className={s.container}>
-                            <div className={s.block_top}>
-                                <p>Юлия Кондыбаева<sup>96%</sup></p>
-                                <p>{addSpaceNumber(el.total)} из {addSpaceNumber(el.plan)} ₽</p>
-                            </div>
-                            <div className={`${s.progress} ${dark && s.progress_dark}`}>
-                                <div style={{width: '70%'}} className={`${s.selfplan} ${dark && s.selfplan_dark}`}></div>
-                                <div style={{width: `${el.total/el.plan * 100}%`}} className={s.bar}></div>
-                            </div>
-                        </div>
-                    </div>
+                {loader && <Loader />}
+                {expertsSort?.map((el) => {
+                    return <ExpertMonth el={el} />
                 })}
             </div>
         </div>

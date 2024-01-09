@@ -5,12 +5,17 @@ import { menuSelector } from '../../store/reducer/menu/selector';
 import { useSelector } from 'react-redux';
 import Tooltip from '../Tooltip/Tooltip';
 import { useState } from 'react';
+import { addSpaceNumber } from '../../utils/addSpaceNumber';
+import { monthAndWeek } from '../../utils/dates';
+import Loader from '../Loader/Loader';
 
-function ProgressStat({ title, type, indicators, loader }) {
+function ProgressStat({ title, type, indicators, loader, day, activePoint}) {
     const dark = useSelector(menuSelector).dark;
     const [tooltip, setTooltip] = useState(false);
-    const arrStat = Object.entries(indicators)
-
+    const arrStat = Object.entries(indicators);
+    const dateText = monthAndWeek(indicators?.average_accept_interval).dateStat;
+    const consBp = arrStat[2]?.[1];
+   
     function handleOpenTooltip() {
         setTooltip(true)
     }
@@ -25,22 +30,42 @@ function ProgressStat({ title, type, indicators, loader }) {
                 <div style={{ cursor: 'pointer' }} onMouseEnter={handleOpenTooltip} onMouseLeave={handleCloseTooltip}>
                     <TooltipIcon />
                 </div>
-                {tooltip && <Tooltip type={type} />}
+                {tooltip && <Tooltip type={type} day={day}/>}
             </div>
-            <div className={s.indicators}>
-                {arrStat.map(el => {
-                    return <IndicatorDay title={el[0]} quantity={el[1].plan === 0 ? 0 : el[1].num} total={el[1].plan > 0 ? el[1].plan < 4 ? 4 : el[1].plan : 0} loader={loader}/>
+            
+                {type !== 'expert' && 
+                <div className={s.indicators}>
+                {arrStat.slice(0, 2).map(el => {
+                    return <IndicatorDay activePoint={activePoint} title={el[0]} quantity={el[1].plan === 0 ? 0 : el[1].num} total={el[1].plan > 0 ? el[1].plan < 4 ? 4 : el[1].plan : 0} loader={loader}/>
                 })}
-            </div>
-            {type === 'expert' &&
+                 <div className={s.consultbp}>
+                    <p>Бизнес-планов на консультанта</p>
+                    <p>{consBp?.num}</p>
+                    {loader && <Loader/>}
+                 </div>
+                </div>
+                }
+                
+
+                {type === 'expert' && 
+                <div className={s.indicators}>
+                    <IndicatorDay title={'zoom'} quantity={indicators?.zoom?.num} total={indicators?.zoom?.plan} loader={loader}/>
+                    <IndicatorDay title={'anketa'} quantity={indicators?.anketa?.num} total={indicators?.anketa?.plan} loader={loader}/>
+                    <IndicatorDay title={'sales'} quantity={indicators?.sales?.num} total={indicators?.sales?.plan} loader={loader}/>
+                </div>
+                }
+            
+            {type === 'expert' && !day &&
                 <div className={s.expert}>
                     <div className={s.block}>
+                    {loader && <Loader/>}
                         <p>Средний чек</p>
-                        <p>420 250 руб</p>
+                        <p>{addSpaceNumber(indicators?.average_check)} руб</p>
                     </div>
                     <div className={s.block}>
+                    {loader && <Loader/>}
                         <p>Время принятия решения</p>
-                        <p>2 мес 1 нед</p>
+                        <p>{dateText}</p>
                     </div>
                 </div>
             }

@@ -22,45 +22,66 @@ function Sales() {
     const [anim, setAnim] = useState(false);
     const [salesTotal, setSalesTotal] = useState({});
     const [loader, setLoader] = useState(false);
-    const [graphData, setGraphData] = useState({})
+    const [graphData, setGraphData] = useState({});
+    const [clients, setClients] = useState([]);
+    const [experts, setExperts] = useState([]);
+    const [statConsult, setStatConsult] = useState([]);
+    const [statExpert, setStatExpert] = useState([]);
+    const [date, setDate] = useState('')
+    const [dailyAvarage, setDailyAvarage] = useState(0);
     const salesInfo = useSelector(salesSelector);
     const dateMonth = salesInfo?.dateMonth;
-   console.log(salesTotal)
+    console.log(dateMonth)
     useEffect(() => {
         setAnim(true);
     }, []);
 
     useEffect(() => {
-        window.scrollTo(0,0);
+        setDate(dateMonth);
+    }, [dateMonth])
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
         setLoader(true)
-        if(dateMonth) {
-            getSales(dateMonth)
-            .then((res) => {
-                const data = res.data.data;
-                console.log(data)
-                setSalesTotal(data.sales);
-                setGraphData(data.sale_graph)
-                setTimeout(() => {
-                    setLoader(false)
-                }, 200)
-            })
-            .catch(err => console.log(err))
+        if (date !== '') {
+            getSales(date)
+                .then((res) => {
+                    const data = res.data.data;
+                    console.log(data)
+                    setSalesTotal(data.sales);
+                    setGraphData(data.sale_graph.data);
+                    setDailyAvarage(data.sale_graph.daily_average);
+                    setClients(data.clients);
+                    setExperts(data.experts);
+                    setStatConsult(data.progress);
+                    setStatExpert(data.progress_experts);
+                    setTimeout(() => {
+                        setLoader(false)
+                    }, 200)
+                })
+                .catch(err => {
+                    setTimeout(() => {
+                        setLoader(false)
+                    }, 200)
+                })
+        }  else {
+            setLoader(true) 
         }
-      }, [dateMonth]);
+    }, [date]);
 
     return (
         <div className={`${s.sales} ${anim && s.anim}`}>
             <div className={s.header}>
                 <p className={s.title}>Продажи</p>
-                <CalendarMonth />
+                <CalendarMonth loader={loader} />
             </div>
-            <GraphSales salesTotal={salesTotal} loader={loader} graphData={graphData}/>
+            <GraphSales salesTotal={salesTotal} loader={loader} graphData={graphData} dailyAvarage={dailyAvarage} />
             <div className={s.stat}>
-                <ProgressStat title={'Бизнес-консультанты'} type={'consult'} indicators={indicatorsDay} />
-                <ProgressStat title={'Эксперты'} type={'expert'} indicators={indicatorsExpert} />
+                <ProgressStat title={'Бизнес-консультанты'} type={'consult'} indicators={statConsult} loader={loader} />
+                <ProgressStat title={'Эксперты'} type={'expert'} indicators={statExpert} loader={loader} />
             </div>
-            <Clients/>
-            <PlanSales/>
+            <Clients clients={clients} loader={loader} />
+            <PlanSales experts={experts} loader={loader} />
         </div>
     )
 };

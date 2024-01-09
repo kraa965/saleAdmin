@@ -6,9 +6,20 @@
     flex-direction: column;
     align-items: center;
     position: relative;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        background-color: #F1F4F9;
+    }
+
 
     &_new {
         background-color: #E6EAFF;
+
+        &:hover {
+            background-color: #d7dcf5;
+        }
     }
 }
 

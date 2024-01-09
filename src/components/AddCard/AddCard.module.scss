@@ -1,0 +1,67 @@
+.add {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 28px;
+}
+
+.conteiner_header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 28px;
+}
+
+.button_close {
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        opacity: 0.5;
+    }
+}
+
+.progress {
+    display: flex;
+}
+
+.path {
+    position: relative;
+
+    p {
+        position: absolute;
+        color: #BFCBE0;
+        top: 10px;
+        left: 20px;
+        width: 113px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 18px;
+        letter-spacing: 0.056px;
+    }
+
+    svg path {
+        fill: #E9EEF5;
+    }
+
+    &_active {
+        p {
+            color: #FFF;
+        }
+
+        svg path {
+            fill: #002CFB;
+        }
+    }
+}

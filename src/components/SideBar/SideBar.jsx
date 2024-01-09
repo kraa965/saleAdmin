@@ -24,16 +24,50 @@ import { menuSelector } from '../../store/reducer/menu/selector';
 import { useSelector } from 'react-redux';
 import { useRef } from 'react';
 import { setDark } from '../../store/reducer/menu/slice';
-import { current } from '@reduxjs/toolkit';
+import { setSkillWindow } from '../../store/reducer/skills/slice';
+import { getDashbord } from '../../Api/Api';
+import { setDateDay } from '../../utils/dates';
+import { handleTimeNow } from '../../utils/dates';
 
 function SideBar() {
     const [activePoint, setActivePoint] = useState(JSON.parse(localStorage.getItem('point')) || 1);
     const [optionsOpen, setOptionsOpen] = useState(false);
     const [switchOn, setSwitchOn] = useState(false);
+    const [colorLine, setColorLine] = useState('');
+    const [stat, setStat] = useState({});
+    const [directProgress, setDirectProgress] = useState(0);
+    const [diretProgressNow, setDirectProgressNow] = useState(0);
+    const [percentNow, setPercentNow] = useState(0);
     const dispatch = useDispatch();
     const dark = useSelector(menuSelector).dark;
     const optionsRef = useRef();
     const buttonRef = useRef();
+  
+    useEffect(() => {
+        function handleInfoDashbord() {
+            getDashbord(setDateDay(0))
+            .then(res => {
+                const data = res.data.data.progress;
+                const dayProgress = handleTimeNow();
+    
+                const percentBp = data?.bp?.num/data?.bp?.plan < 1 ? data?.bp?.num/data?.bp?.plan : 1;
+                const percentLk = data?.login?.num/data?.login?.plan < 1 ? data?.login?.num/data?.login?.plan : 1;
+                const percentBpNow = data?.bp?.num/(data?.bp?.plan * dayProgress) < 1 ? data?.bp?.num/(data?.bp?.plan * dayProgress) : 1;
+                const percentLkNow = data?.login?.num/(data?.login?.plan * dayProgress) < 1 ? data?.login?.num/(data?.login?.plan * dayProgress) : 1;
+                const avarage = (percentBp + percentLk)/2*100;
+                
+                const planNow = (data?.login?.plan * dayProgress / data?.login?.plan + data?.bp?.plan * dayProgress / data?.bp?.plan)/2*100;
+                const avarageNow = avarage/planNow * 100;
+          console.log(avarageNow)
+                setDirectProgress(avarage);
+                setDirectProgressNow(avarageNow);
+                setPercentNow(planNow)
+            })
+            .catch(err => console.log(err))
+            .finally(setTimeout(() => { handleInfoDashbord()}, 10000))
+        }
+        handleInfoDashbord()
+        },[])
 
     useEffect(() => {
         if(activePoint === 1) {
@@ -55,6 +89,7 @@ function SideBar() {
         }
 
         if(activePoint === 20) {
+           
             dispatch(setMenuStatus('skills'));
             localStorage.setItem('point', JSON.stringify(20))
             return
@@ -73,6 +108,11 @@ function SideBar() {
        const id = Number(e.currentTarget.id);
        console.log(id)
        setActivePoint(id)
+
+       if(activePoint === 20) {
+        console.log('скилл')
+        dispatch(setSkillWindow(''));
+       }
     }
 
     function handleSwitch() {
@@ -87,8 +127,6 @@ function SideBar() {
         }
     }
 
-    console.log(localStorage.getItem('darkTheme'))
-
     useEffect(() => {
        if(dark) {
         setSwitchOn(true);
@@ -102,12 +140,31 @@ function SideBar() {
             setOptionsOpen(false)
         }
     }
-
+    console.log(diretProgressNow)
     useEffect(() => {
         document.addEventListener('click', closeModal);
 
         return () => document.removeEventListener('click', closeModal);
     }, []);
+
+    useEffect(() => {
+        if (diretProgressNow <= 0) {
+            setColorLine('');
+            return
+        }
+        if(diretProgressNow <= 50) {
+            setColorLine('red');
+            return
+        }
+        if (diretProgressNow > 50 && diretProgressNow < 90) {
+            setColorLine('yellow');
+            return
+        }
+        if (diretProgressNow >= 90) {
+            setColorLine('green');
+            return
+        }
+    }, [diretProgressNow]);
 
     return (
         <div className={s.sidebar}>
@@ -132,10 +189,11 @@ function SideBar() {
                 </div>
                 <p className={s.name}>Юлия Корчагина</p>
                 <p className={s.post}>Руководитель</p>
-               {/*  <div className={s.progress}>
-                    <div  style={{width: '70%'}}  className={s.inner}></div>
+                <div className={s.progress}>
+                    <div  style={{width: `${directProgress}%`}}  className={`${s.inner} ${colorLine === 'yellow' && s.yellow} ${colorLine === 'green' && s.green} ${colorLine === 'red' && s.red}`}></div>
+                    <div style={{width: `${Math.ceil(percentNow)}%`}} className={`${s.plan}`}></div>
                 </div>
-                <p className={s.percent}>70 %</p> */}
+                <p className={s.percent}>Прогресс дня {Math.round(directProgress)} %</p>
             </div>
             
             <ul className={s.items}>

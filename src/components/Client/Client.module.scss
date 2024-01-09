@@ -6,9 +6,18 @@
     background-color: #FCFCFC;
     border-radius: 4px;
     padding: 16px 0;
+
+    a {
+        text-decoration: none;
+        color: #121922;
+    }
     
     &_dark {
         background-color: #273246;
+
+        a {
+            color: #ECECEC;
+        }
     }
 }
 
@@ -16,6 +25,13 @@
     font-size: 16px;
     font-weight: 400;
     line-height: 22px;
+
+    &_date {
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 18px; 
+        opacity: 0.5; 
+    }
 }
 
 .sub {
@@ -48,17 +64,17 @@
 }
 
 .name {
-    min-width: 250px;
+    min-width: 220px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding-left: 16px;
+    padding: 0 16px;
     height: 100%;
     box-sizing: border-box;
 }
 
 .sum {
-    min-width: 109px;
+    min-width: 97px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -68,17 +84,18 @@
 }
 
 .time {
-    min-width: 103px;
+    width: 80px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     padding-left: 16px;
     height: 100%;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 .source {
-    min-width: 160px;
+    min-width: 130px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -88,7 +105,7 @@
 }
 
 .managers {
-    min-width: 220px;
+    min-width: 230px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -108,12 +125,11 @@
 }
 
 .progress {
-    min-width: 290px;
+    min-width: 185px;
+    width: 100%;
     display: flex;
-    justify-content: space-between !important;
-    align-items: center !important;
-    padding-right: 16px;
-    gap: 8px;
+    flex-direction: column;
+    padding: 0 16px;
     box-sizing: border-box;
     position: relative;
 }
@@ -298,4 +314,12 @@
 
 .data {
     margin-bottom: 20px;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
 }

@@ -1,6 +1,7 @@
 import s from './ManagerResult.module.scss';
 import avatarDef from '../../image/avatar.png';
 import { ReactComponent as CallIcon } from '../../image/iconcall.svg';
+import { ReactComponent as IconLogin } from '../../image/iconLogin.svg';
 import { ReactComponent as WarningYellowIcon } from '../../image/warningYellow.svg';
 import { ReactComponent as IconMicro } from '../../image/iconMicro.svg';
 import { ReactComponent as IconPause } from '../../image/iconPause.svg';
@@ -12,22 +13,28 @@ import { useSelector } from 'react-redux';
 import Tooltip from '../Tooltip/Tooltip';
 import { useEffect, useState } from 'react';
 import Loader from '../Loader/Loader';
+import Profile from '../Profile/Profile';
 
-function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPlan, level, mistakes, timeEnd, loader, id, managerStatus, rate} ) {
+function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPlan, level, mistakes, timeEnd, loader, id, managerStatus, rate }) {
     const dark = useSelector(menuSelector).dark;
     const [tooltip, setTooltip] = useState(false);
     const [colorLine, setColorLine] = useState('');
     const [anim, setAnim] = useState(false);
     const [statusNow, setStatusNow] = useState('');
-
+    const [openProfile, setOpenProfile] = useState(false);
+    console.log(openProfile)
     useEffect(() => {
-        if(id === managerStatus.manager_id) {
+        if (id === managerStatus.manager_id) {
             setStatusNow(managerStatus.work_status)
         } else {
             setStatusNow(status);
         }
-    },[managerStatus, loader])
-    
+    }, [managerStatus, loader]);
+
+    function handleOpenProfile() {
+        setOpenProfile(true)
+    }
+
 
     function handleOpenTooltip() {
         setTooltip(true)
@@ -38,7 +45,7 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
     }
 
     useEffect(() => {
-        if(bp / bpPlan <= 0.5) {
+        if (bp / bpPlan <= 0.5) {
             setColorLine('');
             return
         }
@@ -51,60 +58,74 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
             return
         }
     }, [bp, bpPlan]);
-    
+
 
 
 
     useEffect(() => {
         setAnim(false)
-       setTimeout(() => {
-        setAnim(true)
-       })
-    },[statusNow])
+        setTimeout(() => {
+            setAnim(true)
+        })
+    }, [statusNow])
 
 
     return (
-        <div className={`${s.manager} ${dark && s.dark}`}>
-            {loader && <Loader/>}
-            <div className={s.container_left}>
-                <div className={s.avatar}>
-                    <img src={avatar}></img>
-                </div>
-                <div className={s.container_result}>
-                    <div className={s.text}>
-                        <p>{name} {surname} <sup>lvl {level}</sup>
-                            {rate === -1 && <ArrowDown/>}
-                            {rate === 0 && <ArrowNarrow/>}
-                        </p>
-                        <div style={{display: status === 'holiday' && 'none'}} className={s.bp}>
-                            {mistakes.length > 0 &&
-                                <div onMouseEnter={handleOpenTooltip} onMouseLeave={handleCloseTooltip}>
-                                    <WarningRed />
-                                </div>
-                            }
+        <>
+            <div onClick={handleOpenProfile} className={`${s.manager} ${dark && s.dark}`}>
+                {loader && <Loader />}
+                <div className={s.container_left}>
+                    <div className={s.avatar}>
+                        <img src={avatar}></img>
+                    </div>
+                    <div className={s.container_result}>
+                        <div className={s.text}>
+                            <p>{name} {surname} <sup>lvl {level}</sup>
+                                {/*  {rate === -1 && <ArrowDown/>}
+                            {rate === 0 && <ArrowNarrow/>} */}
+                            </p>
+                            <div style={{ display: status === 'holiday' && 'none' }} className={s.bp}>
+                                {mistakes.length > 0 &&
+                                    <div onMouseEnter={handleOpenTooltip} onMouseLeave={handleCloseTooltip}>
+                                        <WarningRed />
+                                    </div>
+                                }
 
-                            {tooltip && <Tooltip type={'fault'} mistakes={mistakes} />}
-                            {bp} из {bpPlan}
+                                {tooltip && <Tooltip type={'fault'} mistakes={mistakes} />}
+                                {bp} из {bpPlan}
+                            </div>
+                        </div>
+                        <div style={{ display: status === 'holiday' && 'none' }} className={`${s.progress} ${dark && s.progress_dark}`}>
+                            <div style={{ width: `${bp / bpPlan * 100}%` }} className={`${s.inner} ${colorLine === 'yellow' && s.yellow} ${colorLine === 'green' && s.green}`}></div>
                         </div>
                     </div>
-                    <div style={{display: status === 'holiday' && 'none'}} className={`${s.progress} ${dark && s.progress_dark}`}>
-                        <div style={{ width: `${bp / bpPlan * 100}%`}} className={`${s.inner} ${colorLine === 'yellow' && s.yellow} ${colorLine === 'green' && s.green}`}></div>
-                    </div>
-                </div>
-            </div>
-
-            <div className={s.container_right}>
-                <div style={{display: status === 'holiday' && 'none'}} className={s.calls}>
-                    <div className={`${s.callsnum} ${dark && s.callsnum_dark}`}>
-                        <CallIcon />
-                        <p>{call} из {callPlan}</p>
-                    </div>
-                    <div className={`${s.callsprogress} ${dark && s.callsprogress_dark}`}>
-                        <div style={{ width: `${call / callPlan * 100}%` }} className={`${s.callinner}`}></div>
-                    </div>
                 </div>
 
-                {/* <div className={`${s.status} ${dark && s.status_dark} ${s.status_active} ${dark && s.status_active_dark}`}>
+                <div className={s.container_right}>
+                    <div className={s.block_progress}>
+                        <div style={{ display: status === 'holiday' && 'none' }} className={s.calls}>
+                            <div className={`${s.callsnum} ${dark && s.callsnum_dark}`}>
+                                <CallIcon />
+                                <p>{call}</p>
+                            </div>
+                            <div className={`${s.callsprogress} ${dark && s.callsprogress_dark}`}>
+                                <div style={{ width: `${call / callPlan * 100}%` }} className={`${s.callinner}`}></div>
+                            </div>
+                        </div>
+
+                        <div style={{ display: status === 'holiday' && 'none' }} className={s.calls}>
+                            <div className={`${s.callsnum} ${dark && s.callsnum_dark}`}>
+                                <IconLogin />
+                                <p>{`0`}</p>
+                            </div>
+                            <div className={`${s.callsprogress} ${dark && s.callsprogress_dark}`}>
+                                <div style={{ width: `${0}%` }} className={`${s.callinner}`}></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {/* <div className={`${s.status} ${dark && s.status_dark} ${s.status_active} ${dark && s.status_active_dark}`}>
                     <div style={{ width: '90%' }} className={`${s.pauseProgress} ${dark && s.pauseProgress_dark}`}></div>
                     <div className={s.iconWarning} style={{ display: 'none' }}>
                         <WarningYellowIcon />
@@ -123,51 +144,60 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
 
                 </div> */}
 
-                {statusNow === 'talk' &&
-                    <div className={`${s.status} ${anim && s.anim} ${dark && s.status_dark} ${s.status_active} ${dark && s.status_active_dark}`}>
-                        <p >Разговор{/* <sup>6:45</sup> */}</p>
-                        <div className={`${s.iconMicro} ${dark && s.iconMicro_dark}`}>
-                            <IconMicro />
+                    {statusNow === 'talk' &&
+                        <div className={`${s.status} ${anim && s.anim} ${dark && s.status_dark} ${s.status_active} ${dark && s.status_active_dark}`}>
+                            <p >Разговор{/* <sup>6:45</sup> */}</p>
+                            <div className={`${s.iconMicro} ${dark && s.iconMicro_dark}`}>
+                                <IconMicro />
+                            </div>
                         </div>
-                    </div>
-                }
+                    }
 
-                {statusNow === 'in_work' &&
-                    <div className={`${s.status} ${anim && s.anim} ${dark && s.status_dark} ${s.status_active} ${dark && s.status_active_dark}`}>
-                        <p>В работе</p>
-                    </div>
-                }
-
-                {statusNow === 'not_work' &&
-                    <div className={`${s.status} ${anim && s.anim} ${dark && s.status_dark}`}>
-                        <p>Готовится начать день</p>
-                    </div>
-                }
-
-                {statusNow === 'pause' &&
-                    <div className={`${s.status} ${s.status_pause} ${anim && s.anim} ${dark && s.status_pause_dark} ${s.status_active} ${dark && s.status_active_dark}`}>
-                        {/*  <div style={{ width: '90%' }} className={`${s.pauseProgress} ${dark && s.pauseProgress_dark}`}></div> */}
-                        <p>Пауза{/* <sup>{10} мин</sup> */}</p>
-                        <div className={`${s.iconPause} ${dark && s.iconPause_dark}`}>
-                            <IconPause />
+                    {statusNow === 'in_work' &&
+                        <div className={`${s.status} ${anim && s.anim} ${dark && s.status_dark} ${s.status_active} ${dark && s.status_active_dark}`}>
+                            <p>В работе</p>
                         </div>
+                    }
 
-                    </div>
-                }
+                    {statusNow === 'not_work' &&
+                        <div className={`${s.status} ${anim && s.anim} ${dark && s.status_dark}`}>
+                            <p>Готовится начать день</p>
+                        </div>
+                    }
 
-                {statusNow === 'holiday' &&
-                    <div className={`${s.status} ${anim && s.anim}  ${dark && s.status_dark}`}>
-                        <p>Выходной</p>
-                    </div>
-                }
+                    {statusNow === 'pause' &&
+                        <div className={`${s.status} ${s.status_pause} ${anim && s.anim} ${dark && s.status_pause_dark} ${s.status_active} ${dark && s.status_active_dark}`}>
+                            {/*  <div style={{ width: '90%' }} className={`${s.pauseProgress} ${dark && s.pauseProgress_dark}`}></div> */}
+                            <p>Пауза{/* <sup>{10} мин</sup> */}</p>
+                            <div className={`${s.iconPause} ${dark && s.iconPause_dark}`}>
+                                <IconPause />
+                            </div>
 
-                {statusNow === 'end_work' &&
-                    <div className={`${s.status} ${anim && s.anim} ${dark && s.status_dark} `}>
-                        <p>День завершен<sup>{timeEnd?.slice(0,5)}</sup></p>
-                    </div>
-                }
+                        </div>
+                    }
+
+                    {statusNow === 'holiday' &&
+                        <div className={`${s.status} ${anim && s.anim}  ${dark && s.status_dark}`}>
+                            <p>Выходной</p>
+                        </div>
+                    }
+
+                    {statusNow === 'queue_end' &&
+                        <div className={`${s.status} ${anim && s.anim}  ${dark && s.status_dark}`}>
+                            <p>Очередь звонков закончилась</p>
+                        </div>
+                    }
+
+                    {statusNow === 'end_work' &&
+                        <div className={`${s.status} ${anim && s.anim} ${dark && s.status_dark} `}>
+                            <p>День завершен<sup>{timeEnd?.slice(0, 5)}</sup></p>
+                        </div>
+                    }
+                </div>
             </div>
-        </div>
+            {openProfile && <Profile setOpenProfile={setOpenProfile} name={name} surname={surname} avatar={avatar} level={level}/>}
+        </>
+
     )
 };
 

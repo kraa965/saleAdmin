@@ -5,9 +5,12 @@ import { menuSelector } from '../../store/reducer/menu/selector';
 import {ReactComponent as IconSearch} from '../../image/iconSearch.svg';
 import {ReactComponent as IconPlus} from '../../image/iconPlus.svg';
 import TeamMember from '../TeamMember/TeamMember';
+import ManagerCard from '../ManagerCard/ManagerCard';
 
 function Team() {
     const [fired, setFired] = useState(false);
+    const [addWindow, setAddWindow] = useState(false);
+    const [typeEdit, setTypeEdit] = useState(false);
     const dark = useSelector(menuSelector).dark;
 
     function handleSwitchFired() {
@@ -21,6 +24,11 @@ function Team() {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    function handleOpenAddWindow() {
+        setAddWindow(true);
+        setTypeEdit(true);
+    }
 
     return (
         <div className={`${s.team} ${dark && s.team_dark}`}>
@@ -36,7 +44,7 @@ function Team() {
                         <button onClick={handleSwitchFired}  className={`${s.button} ${s.button_workers} ${dark && s.button_workers_dark} ${fired && dark && s.button_active_dark} ${fired && s.button_active}`}>Уволенные</button>
                     </div>
                 </div>
-                <button className={`${s.button} ${s.button_new}`}><IconPlus/><p>Добавить сотрудника</p></button>
+                <button onClick={handleOpenAddWindow} className={`${s.button} ${s.button_new}`}><IconPlus/><p>Добавить сотрудника</p></button>
             </div>
 
             <div className={s.container}>
@@ -51,6 +59,7 @@ function Team() {
                     <TeamMember/>
                 </div>
             </div>
+            {addWindow && <ManagerCard setAddWindow={setAddWindow} typeEdit={typeEdit}/>}
         </div>
     )
 };

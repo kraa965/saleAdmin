@@ -32,6 +32,13 @@ body {
      margin: 0;
      padding: 0; 
   }
+
+  input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
   
     body::-webkit-scrollbar {
       width: 8px;             
@@ -42,6 +49,20 @@ body {
     }
     
     body::-webkit-scrollbar-thumb {
+      background-color: #BFCBE0;   
+      border-radius: 20px;     
+      border: 1px solid #F8FAFD;  
+    }
+
+    textarea::-webkit-scrollbar {
+      width: 4px;             
+    }
+    
+    textarea::-webkit-scrollbar-track {
+      background: #F8FAFD;       
+    }
+    
+    textarea::-webkit-scrollbar-thumb {
       background-color: #BFCBE0;   
       border-radius: 20px;     
       border: 1px solid #F8FAFD;  

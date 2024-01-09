@@ -1,0 +1,135 @@
+.loader {
+    width: 100%;
+    padding: 16px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    border: 1px dashed #E5ECF5;
+    box-sizing: border-box;
+    height: 72px;
+    position: relative;
+    z-index: 90;
+
+    input {
+        display: none;
+    }
+}
+
+.files {
+    margin: 0;
+}
+
+.text {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    margin-bottom: 2px;
+
+    label {
+        color: #002CFB;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+            color: #0126D4;
+        }
+    }
+}
+
+.sub {
+    color: #71869D;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+}
+
+.process {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.result {
+    border: 1px solid #ECF2FC;
+    background: #F8FAFD;
+    padding: 16px;
+    height: 72px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+
+    img {
+        width: auto;
+        height: 46px;
+        margin-right: 12px;
+    }
+}
+
+.file {
+    display: flex;
+    align-items: center;
+}
+
+.fileinfo {
+    display: flex;
+    flex-direction: column;
+
+    p {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 140%;
+        margin-bottom: 2px;
+        max-width: 300px;
+        overflow: hidden;
+    }
+
+    span {
+        font-size: 12px;
+        color: #71869D;
+    }
+}
+
+.delete {
+    cursor: pointer;
+    transition: all 0.2s;
+    
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
+.error {
+    border: 1px solid #E75A5A;
+    background: #FFDFDF;
+    padding: 16px;
+    height: 72px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    margin-bottom: 2px;
+
+    input {
+        display: none;
+    }
+
+
+    label {
+        color: #002CFB;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+            color: #0126D4;
+        }
+    }
+}

@@ -1,0 +1,149 @@
+.window {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(18, 25, 34, 0.20);
+    top: 0;
+    left: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.1s;
+}
+
+.anim {
+    opacity: 1;
+}
+
+.modal {
+    width: 829px;
+    height: 626px;
+    border-radius: 8px;
+    padding: 32px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFF;
+    box-shadow: 0px 0px 50px 0px rgba(129, 135, 163, 0.20);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 28px;
+}
+
+.button_close {
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.subtitle {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    color: #71869D;
+    margin-bottom: 8px;
+}
+
+.homework {
+    padding: 8px 16px;
+    height: 420px;
+    box-sizing: border-box;
+    background-color: #F8FAFD;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    width: 100%;
+    display: flex;
+    gap: 16px;
+    height: 48px;
+}
+
+.retake {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    border: 1px solid #E75A5A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22px;
+    color: #E75A5A;
+    letter-spacing: 0.15px;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        color: #d14545;
+        border-color: #d14545;
+    }
+}
+
+.passed {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    background-color: #002CFB;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.2s;
+    
+    &:hover {
+        background-color: #0028E5;
+    }
+}
+
+.homework::-webkit-scrollbar {
+    width: 2px;
+}
+
+.homework::-webkit-scrollbar-track {
+    background: #F1F4F9;
+    overflow: hidden;
+}
+
+.homework::-webkit-scrollbar-thumb {
+    background-color: #BFCBE0;
+    border-radius: 20px;
+    border: 1px solid #BFCBE0;
+}
+
+.homework_dark::-webkit-scrollbar {
+    width: 2px;
+}
+
+.homework_dark::-webkit-scrollbar-track {
+    background: #414B5D;
+}
+
+.homework_dark::-webkit-scrollbar-thumb {
+    background-color: #BFCBE0;
+    border-radius: 20px;
+    border: 1px solid #BFCBE0;
+}

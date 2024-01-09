@@ -5,14 +5,14 @@ import ManagersDay from '../ManagersDay/ManagersDay';
 import WorkSpace from '../WorkSpace/WorkSpace';
 import { getDashbord } from '../../Api/Api';
 import { menuSelector } from '../../store/reducer/menu/selector';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setDateDay } from '../../utils/dates';
 
 const token = `1050618373649ab4de90f22649ab4de90f59`;
 let ws = new WebSocket(`wss://lk.skilla.ru:8007/?user=${token}`);
 ws.addEventListener('close', (e) => {
-  ws = new WebSocket(`wss://lk.skilla.ru:8007/?user=${token}`);
-  console.log('соединение переустановленно');
+    ws = new WebSocket(`wss://lk.skilla.ru:8007/?user=${token}`);
+    console.log('соединение переустановленно');
 });
 
 function Result() {
@@ -26,32 +26,31 @@ function Result() {
     const [loader, setLoader] = useState(false);
     const dark = useSelector(menuSelector).dark;
     const date = (setDateDay(activePoint));
-    console.log(managerStatus)
-
+    console.log(leaders)
     useEffect(() => {
         setAnim(true);
     }, []);
 
     useEffect(() => {
-        window.scrollTo(0,0);
-      }, []);
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
         ws.addEventListener('message', (e) => {
-           if (JSON.parse(e.data).action == 'manager_status') {
-            setManagerStatus(JSON.parse(e.data));
-          } 
+        
+            if (JSON.parse(e.data).action == 'manager_status') {
+                setManagerStatus(JSON.parse(e.data));
+            }
         });
-      }, []);
+    }, []);
 
     useEffect(() => {
         setLoader(true)
         getDashbord(date)
             .then(res => {
                 const data = res.data.data;
-                console.log(res);
                 setLeaders(data.leaders);
-                setStat(data.progress); 
+                setStat(data.progress);
                 setTimeout(() => {
                     setLoader(false);
                 }, 300)
@@ -61,20 +60,20 @@ function Result() {
         if (activePoint === 0) {
             const date = setDateDay(0)
             function handleInfoDashbord(date) {
-            
+
                 getDashbord(date)
                     .then(res => {
                         const data = res.data.data;
                         console.log(res);
                         setStatToday(data.progress);
                         setLeadersToday(data.leaders);
-                        
-                       /*  setTimeout(() => {
-                            setLoader(false);
-                        }, 700) */
+
+                        /*  setTimeout(() => {
+                             setLoader(false);
+                         }, 700) */
                     })
                     .catch(err => console.log(err))
-                    .finally(setTimeout(() => {handleInfoDashbord(date)},10000))
+                    .finally(setTimeout(() => { handleInfoDashbord(date) }, 10000))
             }
 
             handleInfoDashbord(date)
@@ -99,8 +98,12 @@ function Result() {
             </div>
 
             <div className={s.content}>
-                <ManagersDay leaders={activePoint === 0 ? leadersToday : leaders} loader={loader} managerStatus={activePoint === 0 ? managerStatus : {}}/>
-                <ProgressStat title={'Бизнес-консультанты'} type={'default'} indicators={ activePoint === 0 ? statToday : stat} loader={loader} />
+                <ManagersDay leaders={activePoint === 0 ? leadersToday : leaders} loader={loader} managerStatus={activePoint === 0 ? managerStatus : {}} />
+                <div className={s.stat}>
+                    <ProgressStat title={'Бизнес-консультанты'} type={'default'} indicators={activePoint === 0 ? statToday : stat} loader={loader} activePoint={activePoint}/>
+                    <ProgressStat title={'Эксперты'} type={'expert'} day={true} indicators={{}} loader={loader} />
+                </div>
+
                 <WorkSpace />
             </div>
 

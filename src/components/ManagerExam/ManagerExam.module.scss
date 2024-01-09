@@ -1,0 +1,145 @@
+.exam {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #FCFCFC;
+    height: 64px;
+    border-radius: 4px;
+}
+
+.block {
+    width: 253px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+
+    img {
+        width: 42px;
+        height: 42px;
+    }
+}
+
+.name {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+}
+
+.progress {
+    display: flex;
+    padding: 16px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.bar {
+    width: 62px;
+    height: 8px;
+    border-radius: 100px;
+    background-color: #E9EEF5;
+    position: relative;
+    cursor: pointer;
+}
+
+.button_check {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-wrap: nowrap;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 140%;
+    color: #002CFB;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        color: #0028E5;
+    }
+}
+
+.green {
+    background-color: #2EA96E;
+}
+
+.red {
+    background-color: #E75A5A;
+}
+
+.tooltip {
+    padding: 8px 12px;
+    border-radius: 4px;
+    background-color: #FFF;
+    box-shadow: 0px 2px 8px 0px rgba(0, 32, 51, 0.16), 0px 2px 2px 0px rgba(0, 32, 51, 0.02);
+    text-wrap: nowrap;
+    position: absolute;
+    color: #71869D;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 140%;
+    top: -42px;
+    left: -59px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.1s;
+
+
+    div {
+        width: 10px;
+        height: 10px;
+        background-color: #FFF;
+        transform: rotate(45deg);
+        position: absolute;
+        left: 45%;
+    }
+
+    &_active {
+        opacity: 1;
+        visibility: visible; 
+    }
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 181px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 140%;
+}
+
+.button_retake {
+    color: #E75A5A;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        color: #d45454; 
+    }
+}
+
+.button_passed {
+    color: #002CFB;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        color: #0028E5; 
+    }
+}
+

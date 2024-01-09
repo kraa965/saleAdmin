@@ -4,6 +4,7 @@
     flex-direction: column;
     opacity: 0;
     transition: all 0.15s;
+    max-width: 1658px;
 }
 
 
@@ -81,4 +82,10 @@
     grid-template-columns: 1fr 506px;
     grid-template-rows: min-content 1fr;
     align-items: start;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }

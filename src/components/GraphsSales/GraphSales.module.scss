@@ -74,7 +74,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #79ED76;
+    /* background-color: #79ED76; */
 }
 
 .container_bottom {
@@ -112,4 +112,20 @@
         font-weight: 400;
         line-height: 22px;
     }
+
+    span {
+        position: relative;
+    }
+}
+
+.yellow {
+    background-color: #FFDE35;
+}
+
+.green {
+    background-color: #2EA96E;
+}
+
+.red {
+    background-color: #E75A5A;
 }

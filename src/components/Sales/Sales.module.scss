@@ -1,10 +1,10 @@
 .sales {
     width: 100%;
+    max-width: 1658px;
     display: grid;
     grid-template-areas: 'header header'
         'graphs statistic'
-        'client client'
-        'plan plan';
+        'client plan';
     grid-template-columns: 1fr 506px;
     gap: 20px;
     opacity: 0;

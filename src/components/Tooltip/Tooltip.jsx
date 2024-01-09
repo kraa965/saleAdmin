@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { menuSelector } from '../../store/reducer/menu/selector';
 
-function Tooltip({ type, mistakes }) {
+function Tooltip({ type, mistakes, day }) {
     const dark = useSelector(menuSelector).dark;
     const [anim, setAnim] = useState(false);
 
@@ -41,7 +41,7 @@ function Tooltip({ type, mistakes }) {
 
             {type === 'expert' &&
                 <div className={`${s.tooltip} ${s.tooltip_expert} ${anim && s.tooltip_open} ${dark && s.tooltip_dark}`}>
-                    <p>Плановые значения рассчитываются исходя из количества человек работающих в конкретный месяц</p>
+                    <p>Плановые значения рассчитываются исходя из количества человек работающих в конкретный {day ? 'день' : 'месяц'}</p>
                     <div className={`${s.trig} ${s.trig_expert} ${dark && s.trig_dark}`}></div>
                 </div>
             }
