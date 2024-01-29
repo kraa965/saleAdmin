@@ -8,6 +8,8 @@ import PlanSales from '../PlanSales/PlanSales';
 import { getSales } from '../../Api/Api';
 import { useSelector } from 'react-redux';
 import { salesSelector } from '../../store/reducer/sales/selector';
+import TopConsul from '../TopConsul/TopConsul';
+import Debt from '../Debt/Debt';
 
 const indicatorsDay = [{ title: 'Входы в личный кабинет', quantity: 189, total: 500 },
 { title: 'Открытые бизнес-планы', quantity: 105, total: 150 },
@@ -31,7 +33,7 @@ function Sales() {
     const [dailyAvarage, setDailyAvarage] = useState(0);
     const salesInfo = useSelector(salesSelector);
     const dateMonth = salesInfo?.dateMonth;
-    console.log(dateMonth)
+  
     useEffect(() => {
         setAnim(true);
     }, []);
@@ -47,7 +49,7 @@ function Sales() {
             getSales(date)
                 .then((res) => {
                     const data = res.data.data;
-                    console.log(data)
+              
                     setSalesTotal(data.sales);
                     setGraphData(data.sale_graph.data);
                     setDailyAvarage(data.sale_graph.daily_average);
@@ -82,6 +84,8 @@ function Sales() {
             </div>
             <Clients clients={clients} loader={loader} />
             <PlanSales experts={experts} loader={loader} />
+            <TopConsul loader={loader}/>
+            <Debt/>
         </div>
     )
 };

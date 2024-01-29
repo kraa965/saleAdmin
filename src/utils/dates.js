@@ -2,7 +2,8 @@ export function setDateForCalendarMonth(monthNum) {
     const date = new Date();
     const dayNum =  date.getDate();
    
-    date.setDate(dayNum + monthNum * 30);
+    /* date.setDate(dayNum + monthNum * 30); */
+    date.setMonth(date.getMonth() + monthNum);
     const year = date.getFullYear();
     const month = date.getMonth();
     const day = date.getDate();
@@ -133,7 +134,7 @@ export function setDateForCalendarMonth(monthNum) {
     const date = new Date();
     const hours = date.getHours();
     const minutes = date.getMinutes();
-    const percent = ((hours - 11) * 60 + minutes)/((19-11)*60) > 0 ? ((hours - 11) * 60 + minutes)/((19-11)*60) : 0
+    const percent = (((hours - 10) * 60 + minutes)/((19-10)*60) > 0 || hours > 19) ? ((hours - 10) * 60 + minutes)/((19-10)*60) : 1;
     return percent
 
   }

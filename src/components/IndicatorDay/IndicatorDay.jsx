@@ -10,21 +10,22 @@ function IndicatorDay({title, quantity, total, loader, activePoint}) {
     const [colorLine, setColorLine] = useState('');
     const percent = total <= 0 ? 0 : Math.ceil(quantity/total * 100);
     const percentNow = total <= 0 ? 0 : Math.ceil((total* handleTimeNow())/total * 100);
-    const totalNow = activePoint === 0 ? total * handleTimeNow() : total;
+    const totalNow = activePoint === 0 ? quantity >= total ? total : total * handleTimeNow() : total;
+   console.log(activePoint)
     useEffect(() => {
         if (quantity/totalNow <= 0) {
             setColorLine('');
             return
         }
-        if(quantity / totalNow <= 0.5) {
+        if(quantity/totalNow <= 0.5) {
             setColorLine('red');
             return
         }
-        if (quantity / totalNow > 0.5 && quantity / totalNow < 0.9) {
+        if (quantity/totalNow > 0.5 && quantity/totalNow < 0.9) {
             setColorLine('yellow');
             return
         }
-        if (quantity / totalNow >= 0.9) {
+        if (quantity/totalNow >= 0.9) {
             setColorLine('green');
             return
         }
@@ -42,6 +43,14 @@ function IndicatorDay({title, quantity, total, loader, activePoint}) {
                     {title === 'zoom' && 'Zoom-встречи'}
                     {title === 'anketa' && 'Одобренные анкеты'}
                     {title === 'sales' && 'Продажи'}
+
+                    {title === 'consul' && 'Бизнес-консультанты'}
+                    {title === 'expert' && 'Эксперты'}
+                    {title === 'intern' && 'Стажеры'}
+
+                    {title === 'reg' && 'Записаны на интервью'}
+                    {title === 'first' && 'Прошли первое интервью'}
+                    {title === 'second' && 'Прошли второе интервью'}
                     {total > 0 && <sup>{percent}%</sup>}
                 </p>
                 <p>{quantity} из {total}</p>

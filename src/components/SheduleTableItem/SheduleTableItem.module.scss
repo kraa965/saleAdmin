@@ -1,0 +1,266 @@
+.item {
+    width: 100%;
+    height: 72px;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    display: flex;
+
+    &_dark {
+        background-color: #1A263B;
+    }
+
+    div {
+        display: flex;
+    }
+
+}
+
+.manager {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+        width: 52px;
+        height: 52px;
+    }
+}
+
+.block_text {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2px;
+
+    sup {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 14px;
+        opacity: 0.7;
+        margin-left: 4px;
+    }
+
+    span {
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 18px;
+        color: #71869D;
+    }
+
+    &_dark {
+
+        span {
+            color: #9397A6;
+        }
+    }
+}
+
+.text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+}
+
+.progress {
+    min-width: 268px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.line {
+    width: 236px;
+    background-color: #F8FAFD;
+    border-radius: 4px;
+    height: 8px;
+    overflow: hidden;
+    position: relative;
+
+    &_plan {
+        height: 100%;
+        background-color: #F1F4F9;
+
+        &_dark {
+            background-color: #414B5D;
+        }
+    }
+
+    &_dark {
+        background-color: #2C374B;
+    }
+}
+
+.inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #FFC227;
+}
+
+.plan {
+    min-width: 189px;
+    padding: 16px;
+    box-sizing: border-box;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.bonus {
+    min-width: 172px;
+    padding: 16px;
+    box-sizing: border-box;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+
+    svg {
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}
+
+.shift {
+    min-width: 170px;
+    padding: 16px;
+    box-sizing: border-box;
+    align-items: center;
+    position: relative;
+
+    svg {
+        margin-left: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+}
+
+.accruals {
+    min-width: 215px;
+    padding: 16px;
+    box-sizing: border-box;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.profit {
+    min-width: 150px;
+    padding: 16px;
+    box-sizing: border-box;
+    justify-content: flex-end;
+    align-items: center;
+    font-weight: 600;
+    align-items: center;
+}
+
+.tooltip {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-radius: 4px;
+    background-color: #FFF;
+    box-shadow: 0px 2px 8px 0px rgba(0, 32, 51, 0.16), 0px 2px 2px 0px rgba(0, 32, 51, 0.02);
+    padding: 12px;
+    width: 244px;
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 52px;
+    left: 14%;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 140%;
+
+    .arrow {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        transform: rotate(45deg);
+        background-color: #FFF;
+        bottom: -3px;
+        left: 47.5%;
+    }
+
+    &_open {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    span {
+        font-size: 12px;
+        color: #71869D;
+    }
+
+    &_dark {
+        background-color: #304253;
+
+        span {
+            color: #9397A6;
+        }
+
+        .arrow {
+            background-color: #304253;
+        }
+    }
+
+
+    &_2 {
+        bottom: 52px;
+        left: -63px;
+        width: 332px;
+
+        span {
+            font-size: 14px;
+            color: #71869D;
+        }
+
+        &_dark {
+            span {
+                color: #9397A6;
+            }
+        }
+    }
+
+}
+
+.block_fail {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 140%;
+
+    p {
+        color: #E75A5A;
+    }
+}
+
+.block_tooltip {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}

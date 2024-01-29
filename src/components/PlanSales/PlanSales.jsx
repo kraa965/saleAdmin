@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 function PlanSales({ experts, loader }) {
     const dark = useSelector(menuSelector).dark;
     const [expertsSort, setExpertSort] = useState([]);
-    console.log(expertsSort)
 
     useEffect(() => {
         const expertsSort = experts?.sort(function (a, b) {

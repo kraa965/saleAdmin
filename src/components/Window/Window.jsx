@@ -5,17 +5,23 @@ import Team from '../Team/Team';
 import Skills from '../Skills/Skills';
 import { useSelector } from 'react-redux';
 import { menuSelector } from '../../store/reducer/menu/selector';
+import Shedule from '../Schedule/Schedule';
+import Metrics from '../Metrics/Metrics';
 
 function Window() {
     const menu = useSelector(menuSelector).menu;
     const dark = useSelector(menuSelector).dark;
-    console.log(menu)
+
     return (
         <div className={`${s.window} ${dark && s.dark}`}>
-            {menu === 'result' && <Result/>}
-            {menu === 'sales' && <Sales/>}
-            {menu === 'team' && <Team/>}
-            {menu === 'skills' && <Skills/>}
+            <div className={s.container}>
+                {menu === 'result' && <Result />}
+                {menu === 'sales' && <Sales />}
+                {menu === 'team' && <Team />}
+                {menu === 'skills' && <Skills />}
+                {menu === 'shedule' && <Shedule />}
+                {menu === 'metrics' && <Metrics />}
+            </div>
         </div>
     )
 }

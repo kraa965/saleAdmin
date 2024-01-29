@@ -9,6 +9,11 @@
     &_dark {
         background-color: #1A263B;
     }
+
+    &_team {
+        padding: 0;
+    }
+
 }
 
 .header {
@@ -20,6 +25,14 @@
     line-height: 24px;
     letter-spacing: 0.15px;
     margin-bottom: 20px;
+
+    &_team {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 22px;
+        letter-spacing: 0.15px;
+        margin-bottom: 12px;
+    }
 }
 
 .indicators {

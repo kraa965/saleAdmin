@@ -1,0 +1,35 @@
+
+
+svg {
+
+    text {
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 130px;
+        height: 100px;
+        fill: #9397A6 !important;
+        color: #9397A6 !important;
+        
+       
+    }
+
+  
+   
+}
+
+.xAxis {
+    transform: translate(1px, 10px);
+  
+}
+
+.yAxis {
+    transform: translateX(-10px);
+}
+
+.recharts-tooltip-cursor {
+stroke: #BFCBE0;
+stroke-dasharray: 2px;
+}
+

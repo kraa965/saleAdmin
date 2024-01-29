@@ -13,7 +13,7 @@ function SkillWindow() {
     const [anim, setAnim] = useState(false);
     const dispatch = useDispatch();
     const homeworkModal = useSelector(skillsSelector).homeWorkModal
-    console.log(homeworkModal)
+
     useEffect(() => {
         setAnim(true);
     }, []);

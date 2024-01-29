@@ -1,0 +1,158 @@
+.window {
+    width: 100%;
+    padding: 28px 28px 28px 0;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background-color: #F8FAFD;
+
+    &_dark {
+        background-color: #2C374B;
+    }
+}
+
+.graph {
+    width: 100%;
+    height: 334px;
+
+    b canvas {
+        height: 100%;
+        width: 100%;
+    }
+}
+
+.tooltip {
+    width: 340px;
+    padding: 16px;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 8px 0px rgba(0, 32, 51, 0.16), 0px 2px 2px 0px rgba(0, 32, 51, 0.02);
+    background-color: #FFF;
+    border-radius: 4px;
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+
+    &_dark {
+        background-color: #1A263B;
+    }
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: 0.15px;
+    margin-bottom: 4px;
+
+    sup {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 14px;
+        opacity: 0.7;
+        margin-left: 6px;
+    }
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+
+    span {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 14px;
+        color: rgba(18, 25, 34, 0.50);
+    }
+}
+
+.green {
+    display: flex;
+    align-items: center;
+
+    div {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #63E08D;
+        margin-right: 6px;
+    }
+}
+
+.blue {
+    display: flex;
+    align-items: center;
+
+    div {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 6px;
+        background-color: #5CD8F0;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-left: 28px;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+
+    sup {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 14px;
+        opacity: 0.7;
+    }
+}
+
+.bages {
+    display: flex;
+    gap: 20px;
+    height: 34px;
+}
+
+.bage {
+    height: 100%;
+    padding: 2px 12px;
+    background-color: #FFF;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+
+    &_dark {
+        background-color: #1A263B;
+    }
+
+    div {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #63E08D;
+        margin-right: 6px;
+    }
+
+    span {
+        font-weight: 500;
+        letter-spacing: 0.056px;
+        margin-left: 8px;
+    }
+
+    &_right {
+        div {
+            background-color: #5CD8F0;
+        }
+    }
+}

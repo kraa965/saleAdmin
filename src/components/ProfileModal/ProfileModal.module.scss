@@ -1,0 +1,245 @@
+.window {
+    /*  height: 100%;
+    width: 100%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 13;
+}
+
+
+.modal {
+    background-color: #F1F4F9;
+    box-shadow: 0px 0px 50px 0px rgba(129, 135, 163, 0.20);
+    border-radius: 8px;
+    padding: 32px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    transition: all 0.2s;
+    width: 380px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &_anim {
+        opacity: 1;
+    }
+
+    &_dark {
+        background-color: #091525;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    p {
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 28px;
+    }
+
+    svg {
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+}
+
+.block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.event {
+    width: 100%;
+    height: 46px;
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    justify-content: space-between;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+
+    input {
+        width: 90%;
+        background-color: #FFFFFF;
+        border: none;
+        cursor: pointer;
+        z-index: 1;
+        pointer-events: none;
+
+        &:disabled {
+            background-color: none;
+            color: #121922;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 22px;
+        }
+    }
+
+    &_open {
+        svg {
+            transform: rotate(180deg);
+        }
+    }
+
+    &:hover svg {
+        opacity: 0.7;
+    }
+
+    svg {
+        transition: all 0.2s;
+    }
+
+    &_dark {
+        background-color: #1A263B;
+        input {
+            background-color: #1A263B;
+            &::placeholder {
+                color: #5E6582;
+            }
+            &:disabled {
+                color: #ECECEC; 
+            }
+        }
+    }
+}
+
+.list {
+    width: 100%;
+    position: absolute;
+    top: 56px;
+    left: 0;
+    background-color: #FFFFFF;
+    border-radius: 0 0 4px 4px;
+    box-sizing: border-box;
+    margin-top: -13px;
+    height: 0;
+    overflow: hidden;
+    transition: all 0.15s;
+
+    &_open {
+        height: 100px;
+    }
+
+    &_dark {
+        background-color: #1A263B; 
+    }
+}
+
+.text {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    color: #71869D;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    height: 46px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    transition: all 0.2s;
+    padding: 12px 16px;
+    box-sizing: border-box;
+    width: 100%;
+
+    &:hover {
+        background-color: #E2E7FF;
+    }
+
+    &_dark {
+        &:hover {
+            background-color: #364053;
+        }
+    }
+}
+
+.button {
+    background-color: #002CFB;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 48px;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0.15px;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        background-color: #0028E5;
+    }
+
+    &_dis {
+        pointer-events: none;
+        background-color: #E9EEF5;
+        color: #BFCBE0;
+        &_dark {
+            pointer-events: none;
+            color: #5E6582;
+            background-color: #364053;
+        }
+    }
+
+
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    gap: 8px;
+    height: 34px;
+}
+
+.time {
+    width: 100%;
+    height: 100%;
+    background-color: #F8FAFD;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.00);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        background-color: #E2E7FF;
+        color: #002CFB;
+    }
+
+    &_dark {
+        background-color: #414B5D;
+    }
+
+    &_active {
+        background-color: #E2E7FF;
+        color: #002CFB;
+    }
+}

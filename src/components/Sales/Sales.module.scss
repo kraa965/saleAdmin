@@ -2,10 +2,14 @@
     width: 100%;
     max-width: 1658px;
     display: grid;
+    align-content: start;
     grid-template-areas: 'header header'
         'graphs statistic'
-        'client plan';
+        'client debt'
+        'client plan'
+        'client top';
     grid-template-columns: 1fr 506px;
+    grid-template-rows: repeat(4, min-content) 1fr;
     gap: 20px;
     opacity: 0;
     transition: all 0.2s;

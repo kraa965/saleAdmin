@@ -1,0 +1,119 @@
+.table {
+   padding: 12px 20px 20px;
+   box-sizing: border-box;
+   background-color: #F8FAFD;
+   border-radius: 8px;
+   display: flex;
+   flex-direction: column;
+   gap: 12px;
+
+   &_dark {
+      background-color: #2C374B;
+   }
+}
+
+.header {
+   display: flex;
+   font-size: 16px;
+   font-style: normal;
+   font-weight: 400;
+   line-height: 22px;
+   color: #71869D;
+   height: 36px;
+   border-bottom: 1px solid #EAF0FA;
+
+   &_dark {
+      color: #9397A6;
+      border-color: #3F4A5E;
+   }
+
+   div {
+      display: flex;
+      align-items: center;
+ 
+      padding-left: 16px;
+      box-sizing: border-box;
+   }
+
+   &_manager {
+      width: 100%;
+   }
+
+   &_progress {
+      min-width: 268px;
+      position: relative;
+
+      svg {
+         margin-left: 8px;
+         transition: all 0.2s;
+         cursor: pointer;
+
+         &:hover {
+            opacity: 0.7;
+         }
+      }
+   }
+
+   &_plan {
+      min-width: 189px;
+   }
+
+   &_bonus {
+      min-width: 172px;
+   }
+
+   &_shift {
+      min-width: 170px;
+   }
+
+   &_accruals {
+      min-width: 215px;
+   }
+
+   &_profit {
+      min-width: 150px;
+   }
+}
+
+.tooltip {
+   position: absolute;
+   top: -54px;
+   left: 21px;
+   border-radius: 4px;
+   background: #FFF;
+   color: #71869D;
+   width: 284px;
+   box-sizing: border-box;
+   padding: 8px 12px;
+   font-size: 14px;
+   font-weight: 400;
+   line-height: 140%;
+   box-shadow: 0px 2px 8px 0px rgba(0, 32, 51, 0.16), 0px 2px 2px 0px rgba(0, 32, 51, 0.02);
+   opacity: 0;
+   visibility: hidden;
+   transition: all 0.15s;
+
+   div {
+      height: 10px;
+      width: 10px;
+      transform: rotate(45deg);
+      padding: 0;
+      position: absolute;
+      bottom: -5px;
+      left: 48%;
+      background: #FFF;
+   }
+
+   &_dark {
+      background-color: #304253;
+      color: #FFFFFF;
+      div {
+         background-color: #304253;
+      }
+   }
+
+   &_open {
+      opacity: 1;
+      visibility: visible;
+   }
+}

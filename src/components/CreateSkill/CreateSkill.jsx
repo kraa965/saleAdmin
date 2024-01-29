@@ -14,7 +14,7 @@ function CreateSkill() {
     const [level, setLevel] = useState(JSON.parse(localStorage.getItem('skillLevel')) || '');
     const [introduction, setIntroduction] = useState(JSON.parse(localStorage.getItem('skillIntroduction')) || '');
     const dispatch = useDispatch();
-    console.log(name, switchOnline, descpirt, duration, level)
+
     useEffect(() => {
         setAnim(true);
     }, []);

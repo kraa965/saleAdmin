@@ -12,10 +12,7 @@ function Graph({ dayMonth, graphData, loader }) {
     const datesArr = Object.keys(graphData);
     //Передаем в график 1-значение оси Y, 2-Массив дат за месяц(преобразуем в день недели), план на день по предоплатам и кол-во предоплат по дням
     const payMax = 3;
-    console.log(graphData)
-    
 
-    
     function handleMouseEnter(e) {
         const id = e.currentTarget.id;
         setTooltipId(id)
@@ -37,7 +34,7 @@ function Graph({ dayMonth, graphData, loader }) {
             </div>
             <div className={`${s.axisX} ${dark && s.axisX_dark}`}>
                 {datesArr.map((el, index) => {
-                    return <p>{setDayOfWeek(el).fDay}</p>
+                    return <p>{setDayOfWeek(el).fDay} <span>{setDayOfWeek(el).day}</span></p>
                 })}
             </div>
 

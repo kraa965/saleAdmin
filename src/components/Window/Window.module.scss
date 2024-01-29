@@ -6,9 +6,15 @@
     min-height: calc(100vh - 80px);
     padding: 40px;
     background-color: #F1F4F9;
+    justify-content: center;
 }
 
 .dark {
     background-color: #091525;
     color: #ECECEC;
+}
+
+.container {
+    max-width: 1658px;
+    width: 100%;
 }

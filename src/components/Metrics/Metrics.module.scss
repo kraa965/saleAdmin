@@ -1,0 +1,89 @@
+.metrics {
+    width: 100%;
+}
+
+.container {
+    width: 100%;
+    padding: 28px;
+    background-color: #FFFF;
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+
+    &_dark {
+        background-color: #1A263B;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+
+    h2 {
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 28px;
+    }
+}
+
+.buttons {
+    height: 46px;
+    padding: 5px;
+    background-color: #FFF;
+    border-radius: 8px;
+    box-sizing: border-box;
+    gap: 8px;
+    display: flex;
+
+    &_dark {
+        background-color: #1A263B;
+    }
+}
+
+.button {
+    height: 100%;
+    padding: 8px 12px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #71869D;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        background-color: #f1f4f973;  
+    }
+
+    &_active {
+        background-color: #F1F4F9;
+        color: #121922;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #F1F4F9;  
+        }
+    }
+
+    &_dark {
+        color: #9397A6;
+        
+        &:hover {
+            background-color: #414b5d60;  
+        }
+    
+        &_active {
+            background-color: #414B5D;
+            color: #ECECEC;
+            cursor: pointer;
+    
+            &:hover {
+                background-color: #414B5D;  
+            }
+        }
+    }
+}

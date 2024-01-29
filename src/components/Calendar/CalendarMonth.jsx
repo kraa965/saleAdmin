@@ -12,19 +12,24 @@ import { menuSelector } from '../../store/reducer/menu/selector';
 import { setMonthIndex } from '../../store/reducer/sales/slice';
 import { setDay } from '../../store/reducer/sales/slice';
 
-function CalendarMonth({ loader }) {
-    const [month, setMonth] = useState(0);
+function CalendarMonth({ loader, type }) {
+    const [month, setMonth] = useState(type ==='shedule' ? 12 : 0);
     const [date, setDate] = useState('');
     const dispatch = useDispatch();
-   
+    console.log(date, month)
     const dark = useSelector(menuSelector).dark;
-    console.log(month)
 
     useEffect(() => {
         dispatch(setDateMonth(''));
         const date = setDateForCalendarMonth(month);
-        setDate(date)
+        if(month < 12) {
+            setDate(date)
+        } else {
+            setDate({})  
+        }
+       
     },[month])
+
 
     useEffect(() => {
         dispatch(setDateMonth(date.date));
@@ -38,13 +43,42 @@ function CalendarMonth({ loader }) {
     function handleChangeMonth(e) {
         const id = e.currentTarget.id;
 
-        if (!loader) {
+        if(!loader && month === 12) {
+            if (id === 'left') {
+                setMonth(-1)
+            } else {
+                setMonth(0)
+            }
+            return 
+        }
+
+        if(!loader && month === -1 && type ==='shedule') {
+            if (id === 'left') {
+                setMonth(-2)
+            } else {
+                setMonth(12)
+            }
+            return 
+        }
+
+        if(!loader && month === 0 && type ==='shedule') {
+            if (id === 'left') {
+                setMonth(12)
+            } else {
+                setMonth(1)
+            }
+            return 
+        }
+
+        if (!loader && month < 12) {
             if (id === 'left') {
                 setMonth(month - 1)
             } else {
                 setMonth(month + 1)
             }
+            return
         }
+
     }
 
 
@@ -56,10 +90,10 @@ function CalendarMonth({ loader }) {
             </div>
             <div className={`${s.center} ${dark && s.center_dark}`}>
                 <IconCalendar />
-                <p>{date.month}</p>
+                <p>{month == 12 ? '2 недели' : date.month}</p>
             </div>
 
-            <div onClick={handleChangeMonth} id='right' className={`${s.right} ${dark && s.right_dark} ${month >= 0 && s.right_dis}`}>
+            <div onClick={handleChangeMonth} id='right' className={`${s.right} ${dark && s.right_dark} ${month >= 0 && type !=='shedule' && s.right_dis}`}>
                 <ArrowLeft />
             </div>
         </div>

@@ -22,7 +22,7 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
     const [anim, setAnim] = useState(false);
     const [statusNow, setStatusNow] = useState('');
     const [openProfile, setOpenProfile] = useState(false);
-    console.log(openProfile)
+
     useEffect(() => {
         if (id === managerStatus.manager_id) {
             setStatusNow(managerStatus.work_status)
@@ -195,7 +195,7 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
                     }
                 </div>
             </div>
-            {openProfile && <Profile setOpenProfile={setOpenProfile} name={name} surname={surname} avatar={avatar} level={level}/>}
+            {openProfile && <Profile setOpenProfile={setOpenProfile} name={name} surname={surname} avatar={avatar} level={level} dark={dark}/>}
         </>
 
     )

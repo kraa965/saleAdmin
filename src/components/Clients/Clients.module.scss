@@ -5,7 +5,7 @@
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-
+    height: min-content;
     &_dark {
         background-color: #1A263B;
     }

@@ -16,12 +16,10 @@ function HomeWorkModal() {
 
 
     function handleCloseHomework() {
-        console.log(12)
         dispatch(setHomeWorkModal(false));
     }
 
     function closeModal(e) {
-        console.log(e.target)
         if (modalRef.current && !modalRef.current.contains(e.target) && e.target.textContent !== 'Проверить домашку') {
             dispatch(setHomeWorkModal(false));
         }

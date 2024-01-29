@@ -9,6 +9,7 @@ function App() {
   window.ondrop = (e) => {
     e.preventDefault()
   }
+  const role = document.getElementById('root_leader').getAttribute('role');
 
   const menu = useSelector(menuSelector).menu;
  
@@ -34,11 +35,16 @@ function App() {
       document.title = `Навыки`;
       return
     }
+
+    if (menu === 'shedule' ) {
+      document.title = `Расписание`;
+      return
+    }
   },[menu]);
 
   return (
     <div className={s.main}>
-        <SideBar/>
+        <SideBar role={role}/>
         <Window/>
     </div>
   );

@@ -67,3 +67,7 @@ input::-webkit-inner-spin-button {
       border-radius: 20px;     
       border: 1px solid #F8FAFD;  
     }
+
+    html {
+      scroll-behavior: smooth;
+    }

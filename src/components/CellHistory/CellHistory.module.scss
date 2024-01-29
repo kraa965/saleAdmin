@@ -1,0 +1,238 @@
+.window {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    background-color: rgba(18, 25, 34, 0);
+    transition: all 0.2s;
+
+    &_anim {
+        background-color: rgba(18, 25, 34, 0.2);
+    }
+}
+
+.modal {
+    background-color: #F1F4F9;
+    padding: 32px;
+    border-radius: 8px;
+    z-index: 4;
+    width: 548px;
+    gap: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.15s;
+
+    &_anim {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &_dark {
+        background-color: #091525;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 28px;
+    margin-bottom: 4px;
+
+    svg {
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+}
+
+
+.block {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    box-sizing: border-box;
+    background-color: #F8FAFD;
+    border-radius: 4px;
+
+    &_dark {
+        background-color: #1A263B;
+    }
+}
+
+.title {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: 0.15px;
+    margin-bottom: 12px;
+
+    span {
+        font-weight: 400;
+    }
+}
+
+.progress {
+    width: 100%;
+    height: 20px;
+    display: flex;
+    gap: 3px;
+    overflow: hidden;
+    border-radius: 4px;
+    margin-bottom: 16px;
+
+    div {
+        height: 100%;
+    }
+
+    &_plan {
+        background-color: #7763E0;
+    }
+
+    &_call {
+        background-color: #5084E8;
+    }
+
+    &_card {
+        background-color: #5CD8F0;
+    }
+
+    &_client {
+        background-color: #63E0C2;
+    }
+
+    &_pause {
+        background-color: #ADBFDF;
+    }
+
+    &_add {
+        background-color: #F05C91;
+    }
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    gap: 28px;
+}
+
+.subs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.point {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+
+    sup {
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 14px;
+        opacity: 0.7;
+        margin-left: 6px;
+    }
+
+    div {
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+        margin-right: 6px;
+    }
+
+    &_plan {
+        background-color: #7763E0;
+    }
+
+    &_call {
+        background-color: #5084E8;
+    }
+
+    &_card {
+        background-color: #5CD8F0;
+    }
+
+    &_client {
+        background-color: #63E0C2;
+    }
+
+    &_pause {
+        background-color: #ADBFDF;
+    }
+
+    &_add {
+        background-color: #F05C91;
+    }
+}
+
+.event {
+    display: flex;
+    align-items: center;
+    color: #71869D;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 140%;
+    gap: 6px;
+    margin-bottom: 8px;
+
+    &_start {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 18px;
+        letter-spacing: 0.056px;
+        color: #121922;
+
+        span {
+            font-weight: 400;
+        }
+
+        &_dark {
+            color: #ECECEC;
+            svg path {
+                fill: #ECECEC;
+            }
+        }
+    }
+}
+
+.icon {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: -4px;
+}
+
+.line {
+    border-radius: 100px;
+    background-color: #ADBFDF;
+    height: 8px;
+}
+
+.text_err {
+    color: #E75A5A;
+}

@@ -7,6 +7,7 @@ import { getDashbord } from '../../Api/Api';
 import { menuSelector } from '../../store/reducer/menu/selector';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDateDay } from '../../utils/dates';
+import { ReactComponent as TooltipIcon } from '../../image/tooltipIcon.svg';
 
 const token = `1050618373649ab4de90f22649ab4de90f59`;
 let ws = new WebSocket(`wss://lk.skilla.ru:8007/?user=${token}`);
@@ -26,7 +27,7 @@ function Result() {
     const [loader, setLoader] = useState(false);
     const dark = useSelector(menuSelector).dark;
     const date = (setDateDay(activePoint));
-    console.log(leaders)
+
     useEffect(() => {
         setAnim(true);
     }, []);
@@ -37,7 +38,7 @@ function Result() {
 
     useEffect(() => {
         ws.addEventListener('message', (e) => {
-        
+
             if (JSON.parse(e.data).action == 'manager_status') {
                 setManagerStatus(JSON.parse(e.data));
             }
@@ -64,7 +65,6 @@ function Result() {
                 getDashbord(date)
                     .then(res => {
                         const data = res.data.data;
-                        console.log(res);
                         setStatToday(data.progress);
                         setLeadersToday(data.leaders);
 
@@ -100,11 +100,18 @@ function Result() {
             <div className={s.content}>
                 <ManagersDay leaders={activePoint === 0 ? leadersToday : leaders} loader={loader} managerStatus={activePoint === 0 ? managerStatus : {}} />
                 <div className={s.stat}>
-                    <ProgressStat title={'Бизнес-консультанты'} type={'default'} indicators={activePoint === 0 ? statToday : stat} loader={loader} activePoint={activePoint}/>
+                    <ProgressStat title={'Бизнес-консультанты'} type={'default'} indicators={activePoint === 0 ? statToday : stat} loader={loader} activePoint={activePoint} />
                     <ProgressStat title={'Эксперты'} type={'expert'} day={true} indicators={{}} loader={loader} />
                 </div>
-
                 <WorkSpace />
+                <div className={`${s.teamStat} ${dark && s.teamStat_dark}`}>
+                    <div className={s.header_team}>
+                        <h3>Команда</h3>
+                        <TooltipIcon />
+                    </div>
+                    <ProgressStat title={'Сотрудники'} type={'team'} indicators={{}} loader={loader} />
+                    <ProgressStat title={'Соискатели'} type={'applicants'} day={true} indicators={{}} loader={loader} />
+                </div>
             </div>
 
         </div>

@@ -6,6 +6,9 @@
     left: 0;
     z-index: 10;
     cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
 }
 
@@ -15,10 +18,30 @@
     background-color: rgba(18, 25, 34, 0.20);
     opacity: 0;
     transition: all 0.4s;
+    z-index: 2;
+   
 
     &_anim {
         opacity: 1;
     }
+
+  /*   &_profile {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(18, 25, 34, 0.20);
+        top: 0;
+        right: 0;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.2s;
+        
+
+        &_open {
+            visibility: visible;
+            opacity: 1;
+        }
+    } */
 }
 
 .profile {
@@ -29,10 +52,20 @@
     top: 0;
     right: -664px;
     padding: 40px;
+    box-sizing: border-box;
     transition: all 0.4s;
+    z-index: 3;
 
     &_anim {
         right: 0;
+    }
+
+    &_modal {
+        z-index: 1;
+    }
+
+    &_dark {
+        background-color: #1A263B;
     }
 }
 
@@ -46,6 +79,11 @@
     position: absolute;
     top: 12px;
     right: 18px;
+    transition: all 0.2s;
+
+    &:hover {
+        opacity: 0.7;
+    }
 }
 
 .profile {
@@ -56,6 +94,7 @@
 .header {
     width: 100%;
     justify-content: space-between;
+    margin-bottom: 28px;
 }
 
 .container {
@@ -96,4 +135,68 @@
     font-size: 16px;
     font-weight: 400;
     line-height: 18px;
+}
+
+.container_graph {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.buttons {
+    margin-top: auto;
+    margin-bottom: 0;
+    width: 100%;
+    display: flex;
+    gap: 12px;
+}
+
+.resort {
+    border-radius: 4px;
+    border: 1px solid #002CFB;
+    color: #002CFB;
+    padding: 12px 24px;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 115%;
+    text-wrap: nowrap;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &_dark {
+        color: #87A2FF;
+        border-color: #87A2FF;
+    }
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.event {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    color: #FFF;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 115%;
+    border-radius: 4px;
+    background-color: #002CFB;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        background-color: #0028E5;
+    }
+
+    svg {
+        margin-right: 6px;
+    }
 }

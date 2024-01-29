@@ -18,6 +18,30 @@
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 20px;
+
+    &_team {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        svg {
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+                opacity: 0.7;
+            }
+        }
+
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 24px;
+            letter-spacing: 0.15px;
+            margin: 0;
+            padding: 0;
+        }
+    }
 }
 
 .title {
@@ -76,9 +100,11 @@
 .content {
     width: 100%;
     display: grid;
+
     gap: 20px;
     grid-template-areas: 'managers dayprogress'
-                         'managers video';
+        'managers video'
+        'managers team';
     grid-template-columns: 1fr 506px;
     grid-template-rows: min-content 1fr;
     align-items: start;
@@ -88,4 +114,18 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+.teamStat {
+    grid-area: team;
+    padding: 40px;
+    background-color: #FFF;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &_dark {
+        background-color: #1A263B;
+    }
 }

@@ -17,7 +17,7 @@ function TeamMember({index}) {
 
     function handleOpenTooltip(e) {
         const id = e.currentTarget.id;
-        console.log(id)
+        
         if(id === '1') {
             setTooltip1(true);
             return
