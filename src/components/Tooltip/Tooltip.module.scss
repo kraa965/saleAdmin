@@ -10,24 +10,25 @@
     font-size: 14px;
     font-weight: 400;
     line-height: 140%;
+    z-index: 6;
    
 
     &_default {
         width: 380px;
-        top: 86px;
-        right: 24px;
+        top: -60px;
+        right: -57px;
     }
 
     &_consult {
         width: 400px;
-        top: 80px;
-        right: 21px;
+        top: -60px;
+        right: -59px;
     }
 
     &_expert {
         width: 400px;
-        top: 368px;
-        right: 21px; 
+        top: -60px;
+        right: -59px; 
     }
 
     &_dark {

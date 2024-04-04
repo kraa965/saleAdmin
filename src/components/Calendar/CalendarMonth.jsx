@@ -10,25 +10,21 @@ import { setNameMonth2 } from '../../store/reducer/sales/slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { menuSelector } from '../../store/reducer/menu/selector';
 import { setMonthIndex } from '../../store/reducer/sales/slice';
-import { setDay } from '../../store/reducer/sales/slice';
+import { setDay, setDayStart, setDayEnd, setDayStartNum } from '../../store/reducer/sales/slice';
 
-function CalendarMonth({ loader, type }) {
-    const [month, setMonth] = useState(type ==='shedule' ? 12 : 0);
+function CalendarMonth({ loader, type, disCalendar, setDisCalendar, setDateStartDefault, setDateEndDefault, handleOpenCalendar, range, setRange, setValue, rangeText }) {
+    const [month, setMonth] = useState(type === 'shedule' ? 12 : 0);
     const [date, setDate] = useState('');
+    const [date2, setDate2] = useState('');
     const dispatch = useDispatch();
-    console.log(date, month)
     const dark = useSelector(menuSelector).dark;
-
+    const forward = date.day > 24 ? true : false;
+    console.log(month)
     useEffect(() => {
         dispatch(setDateMonth(''));
         const date = setDateForCalendarMonth(month);
-        if(month < 12) {
-            setDate(date)
-        } else {
-            setDate({})  
-        }
-       
-    },[month])
+        setDate(date)
+    }, [month])
 
 
     useEffect(() => {
@@ -38,36 +34,87 @@ function CalendarMonth({ loader, type }) {
         dispatch(setNameMonth2(date.month2));
         dispatch(setMonthIndex(month));
         dispatch(setDay(date.day));
-    }, [date])
+        dispatch(setDayStart(date.dateStart));
+        dispatch(setDayEnd(date.dateEnd));
+        dispatch(setDayStartNum(date.dateStartNum));
+
+        if (month === 12) {
+            setDateStartDefault(date.dateStartDefault);
+            setDateEndDefault(date.dateEndDefault);
+        }
+
+    }, [date]);
+
+    useEffect(() => {
+        if (!loader && month === 12 && type === 'reprot') {
+            setMonth(0)
+        }
+    }, [type])
 
     function handleChangeMonth(e) {
         const id = e.currentTarget.id;
-
-        if(!loader && month === 12) {
+        type === 'shedule' && setRange(false);
+        type === 'shedule' && setValue([null, null]);
+        if ((month === 12 || range) && !forward) {
             if (id === 'left') {
                 setMonth(-1)
             } else {
                 setMonth(0)
             }
-            return 
+            return
         }
 
-        if(!loader && month === -1 && type ==='shedule') {
+        if (!loader && (month === -1 || range) && !forward && type === 'shedule') {
+            setDisCalendar(true)
             if (id === 'left') {
                 setMonth(-2)
             } else {
                 setMonth(12)
             }
-            return 
+            return
         }
 
-        if(!loader && month === 0 && type ==='shedule') {
+
+        if (!loader && (month === 0 || range) && !forward && type === 'shedule') {
+            setDisCalendar(true)
             if (id === 'left') {
                 setMonth(12)
             } else {
                 setMonth(1)
             }
-            return 
+            return
+        }
+
+
+        //forward
+        if ((month === 12 || range) && forward) {
+            if (id === 'left') {
+                setMonth(0)
+            } else {
+                setMonth(1)
+            }
+            return
+        }
+
+        if (!loader && (month === 0 || range)&& forward && type === 'shedule') {
+            setDisCalendar(true)
+            if (id === 'left') {
+                setMonth(-1)
+            } else {
+                setMonth(12)
+            }
+            return
+        }
+
+
+        if (!loader && (month === 1|| range) && forward && type === 'shedule') {
+            setDisCalendar(true)
+            if (id === 'left') {
+                setMonth(12)
+            } else {
+                setMonth(2)
+            }
+            return
         }
 
         if (!loader && month < 12) {
@@ -80,20 +127,20 @@ function CalendarMonth({ loader, type }) {
         }
 
     }
-
-
+    console.log('дата календаря', date, month)
 
     return (
         <div className={`${s.month} ${dark && s.month_dark}`}>
-            <div onClick={handleChangeMonth} id='left' className={`${s.left} ${dark && s.left_dark}`}>
+            <div onClick={handleChangeMonth} id='left' className={`${s.left} ${dark && s.left_dark} ${disCalendar && s.dis}`}>
                 <ArrowLeft />
             </div>
-            <div className={`${s.center} ${dark && s.center_dark}`}>
+            <div onClick={handleOpenCalendar} className={`${s.center} ${dark && s.center_dark} ${type == 'shedule' && s.center_shedule}`}>
                 <IconCalendar />
-                <p>{month == 12 ? '2 недели' : date.month}</p>
+                {!range && <p>{month == 12 ? '2 недели' : date.month}</p>}
+                {range && <p>{rangeText}</p>}
             </div>
 
-            <div onClick={handleChangeMonth} id='right' className={`${s.right} ${dark && s.right_dark} ${month >= 0 && type !=='shedule' && s.right_dis}`}>
+            <div onClick={handleChangeMonth} id='right' className={`${s.right} ${dark && s.right_dark} ${disCalendar && s.dis} ${month >= 0 && type !== 'shedule' && type !== 'reprot' && s.dis}`}>
                 <ArrowLeft />
             </div>
         </div>

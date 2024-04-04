@@ -7,6 +7,9 @@ const initialState = {
 	nameMonth2: '',
 	monthIndex: 0,
 	day: 1,
+	dayStart: '',
+	dayEnd: '',
+	dayStartNum: 1,
 };
 
 const salesSlice = createSlice({
@@ -37,6 +40,18 @@ const salesSlice = createSlice({
 		setDay(state, action) {
 			state.day = action.payload;
 		},
+
+		setDayStart(state, action) {
+			state.dayStart = action.payload;
+		},
+
+		setDayStartNum(state, action) {
+			state.dayStartNum = action.payload;
+		},
+
+		setDayEnd(state, action) {
+			state.dayEnd = action.payload;
+		},
 	},
 });
 
@@ -46,7 +61,10 @@ export const {
 	setNameMonth,
 	setNameMonth2,
 	setMonthIndex,
-	setDay
+	setDay,
+	setDayStart,
+	setDayEnd,
+	setDayStartNum
 } = salesSlice.actions;
 
 export default salesSlice.reducer;

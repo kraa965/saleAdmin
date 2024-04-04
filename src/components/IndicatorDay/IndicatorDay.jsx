@@ -3,15 +3,15 @@ import { menuSelector } from '../../store/reducer/menu/selector';
 import Loader from '../Loader/Loader';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { handleTimeNow } from '../../utils/dates';
+import { handleTimeNow, handleTimeNowExpert } from '../../utils/dates';
 
-function IndicatorDay({title, quantity, total, loader, activePoint}) {
+function IndicatorDay({title, quantity, total, loader, activePoint, type}) {
     const dark = useSelector(menuSelector).dark;
     const [colorLine, setColorLine] = useState('');
     const percent = total <= 0 ? 0 : Math.ceil(quantity/total * 100);
-    const percentNow = total <= 0 ? 0 : Math.ceil((total* handleTimeNow())/total * 100);
-    const totalNow = activePoint === 0 ? quantity >= total ? total : total * handleTimeNow() : total;
-   console.log(activePoint)
+    const percentNow = total <= 0 ? 0 : Math.ceil((total * (type === 'expert' ? handleTimeNowExpert() : handleTimeNow()))/total * 100);
+    const totalNow = activePoint === 0 ? quantity >= total ? total : total * (type === 'expert' ? handleTimeNowExpert() : handleTimeNow()) : total;
+
     useEffect(() => {
         if (quantity/totalNow <= 0) {
             setColorLine('');
@@ -33,13 +33,14 @@ function IndicatorDay({title, quantity, total, loader, activePoint}) {
 
 
     return (
-        <div className={s.indicator}>
+        <div style={{order: title === 'login' ? '-3' : title === 'bp_view' ? '-2' : '-1'}} className={s.indicator}>
             {loader && <Loader/>}
             <div className={s.container}>
                 <p>
                     {title === 'login' && 'Входы в личный кабинет'}
-                    {title === 'bp' && 'Открытые бизнес-планы '}
-                    {title === 'bp_per_manager' && 'Бизнес-планов на консультанта'}
+                    {title === 'bp' && 'Открытые бизнес-планы'}
+                    {title === 'bp_view' && 'Открытые БП'}
+                  
                     {title === 'zoom' && 'Zoom-встречи'}
                     {title === 'anketa' && 'Одобренные анкеты'}
                     {title === 'sales' && 'Продажи'}

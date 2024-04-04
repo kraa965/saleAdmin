@@ -3,7 +3,7 @@ import { ReactComponent as IconWallet } from '../../../image/iconWallet.svg';
 import { ReactComponent as IconChekk } from '../../../image/iconChekk.svg';
 import { ReactComponent as IconChewron } from '../../../image/iconChewron.svg';
 import GraphFunnel from '../../Graphs/GraphFunnel/GraphFunnel';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { menuSelector } from '../../../store/reducer/menu/selector';
 
@@ -27,13 +27,26 @@ function SalesFunnel() {
         }
     }
 
+    function closeModal(e) {
+        e.stopPropagation()
+        if(modalRef.current && !modalRef.current.contains(e.target)) {
+            setOpenList(false);
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('click', closeModal);
+
+        return () => document.removeEventListener('click', closeModal);
+    }, []);
+
     return (
         <div className={`${s.funnel} ${dark && s.funnel_dark}`}>
             <h2>Воронка продаж</h2>
             <div className={`${s.container_graph} ${dark && s.container_graph_dark}`}>
                 <div className={s.header}>
                     <h3>Январь</h3>
-                    <div onClick={handleOpenList} className={`${s.month} ${dark && s.month_dark} ${openList && s.month_open}`}>
+                    <div ref={modalRef} onClick={handleOpenList} className={`${s.month} ${dark && s.month_dark} ${openList && s.month_open}`}>
                         {countList === 1 && <p>текущий месяц</p>}
                         {countList === 3 && <p>3 месяца</p>}
                         {countList === 6 && <p>6 месяцев</p>}

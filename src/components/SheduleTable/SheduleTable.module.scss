@@ -1,14 +1,21 @@
 .table {
-   padding: 12px 20px 20px;
+   padding: 0 20px 20px;
    box-sizing: border-box;
    background-color: #F8FAFD;
+   position: relative;
    border-radius: 8px;
    display: flex;
    flex-direction: column;
    gap: 12px;
+   opacity: 0;
+   transition: all 0.3s;
 
    &_dark {
       background-color: #2C374B;
+   }
+
+   &_anim {
+      opacity: 1;
    }
 }
 
@@ -20,17 +27,23 @@
    line-height: 22px;
    color: #71869D;
    height: 36px;
+   position: sticky;
+   padding-top: 12px;
+   top: 0;
+   background-color: #F8FAFD;
    border-bottom: 1px solid #EAF0FA;
+   z-index: 4;
 
    &_dark {
       color: #9397A6;
+      background-color: #2C374B;
       border-color: #3F4A5E;
    }
 
    div {
       display: flex;
       align-items: center;
- 
+
       padding-left: 16px;
       box-sizing: border-box;
    }
@@ -40,11 +53,17 @@
    }
 
    &_progress {
-      min-width: 268px;
+      min-width: 228px;
       position: relative;
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-left: -16px;
+
+      &:hover {
+         opacity: 0.8;
+      }
 
       svg {
-         margin-left: 8px;
          transition: all 0.2s;
          cursor: pointer;
 
@@ -64,6 +83,21 @@
 
    &_shift {
       min-width: 170px;
+      display: flex;
+      justify-content: flex-end;
+
+      &_half {
+         min-width: 154px;
+         display: flex;
+         justify-content: flex-end;
+      }
+
+      &_vacation {
+         display: flex;
+         justify-content: flex-end;
+         min-width: 90px;
+         margin-right: 16px;
+      }
    }
 
    &_accruals {
@@ -78,7 +112,7 @@
 .tooltip {
    position: absolute;
    top: -54px;
-   left: 21px;
+   left: 34px;
    border-radius: 4px;
    background: #FFF;
    color: #71869D;
@@ -107,6 +141,7 @@
    &_dark {
       background-color: #304253;
       color: #FFFFFF;
+
       div {
          background-color: #304253;
       }
@@ -115,5 +150,21 @@
    &_open {
       opacity: 1;
       visibility: visible;
+   }
+}
+
+.chewron {
+   padding: 0;
+   opacity: 1;
+   transition: all 0.15s;
+
+   &_hiden {
+      opacity: 0;
+      transition: all 0.15s;
+   }
+
+   &_down {
+      transition: all 0.15s;
+      transform: rotate(180deg);
    }
 }

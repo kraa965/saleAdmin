@@ -5,9 +5,9 @@ import { menuSelector } from '../../store/reducer/menu/selector';
 import Loader from '../Loader/Loader';
 import { useEffect } from 'react';
 
-function Clients({clients, loader}) {
+function Clients({clients, loader, setUpdate}) {
     const dark = useSelector(menuSelector).dark;
-
+    console.log(clients)
    /*  useEffect(() => {
         if(clients) {
           clients.sort((a, b) => {
@@ -56,9 +56,9 @@ function Clients({clients, loader}) {
             <div className={s.container}>
             {loader && <Loader/>}
             {clientRev.map((el) => {
-                    return <Client name={el.name} surname={el.surname} city={el.city} sum={el.sum} step={0} stepFail={0}
+                    return <Client name={el.name} surname={el.surname} city={el.city} sum={el.sum}
                                    source={el.source} expert={el.expert} interne={el.interne} acceptDate={el.accept_interval}
-                                   dateStudy={el.crm_date} id={el.id}/>
+                                   dateStudy={el.crm_date} id={el.id} progress={Object.values(el.progress)} setUpdate={setUpdate} crmLogin={el.crm_login && el.crm_login !== '' ? true : false}/>
                 })}
 
             </div>

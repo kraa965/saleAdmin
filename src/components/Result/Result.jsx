@@ -1,5 +1,5 @@
 import s from './Result.module.scss';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import ProgressStat from '../ProgressStat/ProgressStat';
 import ManagersDay from '../ManagersDay/ManagersDay';
 import WorkSpace from '../WorkSpace/WorkSpace';
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setDateDay } from '../../utils/dates';
 import { ReactComponent as TooltipIcon } from '../../image/tooltipIcon.svg';
 
+
 const token = `1050618373649ab4de90f22649ab4de90f59`;
 let ws = new WebSocket(`wss://lk.skilla.ru:8007/?user=${token}`);
 ws.addEventListener('close', (e) => {
@@ -16,26 +17,23 @@ ws.addEventListener('close', (e) => {
     console.log('соединение переустановленно');
 });
 
-function Result() {
-    const [activePoint, setActivePoint] = useState(0);
-    const [anim, setAnim] = useState(false);
+function Result({activePoint, date, setLoader, loader, managers}) {
+    const dark = useSelector(menuSelector).dark;
     const [leaders, setLeaders] = useState([]);
-    const [leadersToday, setLeadersToday] = useState([])
+    const [leadersToday, setLeadersToday] = useState([]);
+    const [mobleaders, setMobleaders] = useState([]);
+    const [mobleadersToday, setMobleadersToday] = useState([]);
+    const [experts, setExperts] = useState([]);
+    const [expertsToday, setExpertsToday] = useState([]);
     const [stat, setStat] = useState({});
     const [statToday, setStatToday] = useState({});
+    const [statMob, setStatMob] = useState({});
+    const [statMobToday, setStatMobToday] = useState({});
+    const [statExpert, setStatExpert] = useState({});
+    const [statExpertToday, setStatExpertToday] = useState({});
     const [managerStatus, setManagerStatus] = useState({});
-    const [loader, setLoader] = useState(false);
-    const dark = useSelector(menuSelector).dark;
-    const date = (setDateDay(activePoint));
-
-    useEffect(() => {
-        setAnim(true);
-    }, []);
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
-
+    const role = document.getElementById('root_leader').getAttribute('role');
+    console.log(managers)
     useEffect(() => {
         ws.addEventListener('message', (e) => {
 
@@ -49,9 +47,14 @@ function Result() {
         setLoader(true)
         getDashbord(date)
             .then(res => {
+                console.log(res)
                 const data = res.data.data;
-                setLeaders(data.leaders);
-                setStat(data.progress);
+                setLeaders(data.business_consultants.leaders);
+                setMobleaders(data.mobile_consultants.leaders);
+                setExperts(data.experts.leaders);
+                setStat(data.business_consultants.progress);
+                setStatMob(data.mobile_consultants.progress);
+                setStatExpert(data.experts.progress);
                 setTimeout(() => {
                     setLoader(false);
                 }, 300)
@@ -65,9 +68,12 @@ function Result() {
                 getDashbord(date)
                     .then(res => {
                         const data = res.data.data;
-                        setStatToday(data.progress);
-                        setLeadersToday(data.leaders);
-
+                        setStatToday(data.business_consultants.progress);
+                        setStatMobToday(data.mobile_consultants.progress);
+                        setStatExpertToday(data.experts.progress);
+                        setLeadersToday(data.business_consultants.leaders);
+                        setExpertsToday(data.experts.leaders);
+                        setMobleadersToday(data.mobile_consultants.leaders);
                         /*  setTimeout(() => {
                              setLoader(false);
                          }, 700) */
@@ -78,31 +84,33 @@ function Result() {
 
             handleInfoDashbord(date)
         }
-    }, [activePoint])
-
-    function handleActivePoint(e) {
-        const id = Number(e.currentTarget.id);
-        console.log(id)
-        setActivePoint(id);
-    }
+    }, [date])
 
     return (
-        <div className={`${s.result} ${anim && s.anim}`}>
-            <div className={s.header}>
-                <p className={s.title}>Результаты дня</p>
-                <div className={`${s.switch} ${dark && s.switch_dark}`}>
-                    <button onClick={handleActivePoint} id='2' className={`${s.button} ${loader && s.button_dis} ${dark && s.button_dark} ${activePoint === 2 && s.button_active} ${activePoint === 2 && dark && s.button_active_dark}`}>Позавчера</button>
-                    <button onClick={handleActivePoint} id='1' className={`${s.button} ${loader && s.button_dis} ${dark && s.button_dark} ${activePoint === 1 && s.button_active} ${activePoint === 1 && dark && s.button_active_dark}`}>Вчера</button>
-                    <button onClick={handleActivePoint} id='0' className={`${s.button} ${loader && s.button_dis} ${dark && s.button_dark} ${activePoint === 0 && s.button_active} ${activePoint === 0 && dark && s.button_active_dark}`}>Сегодня</button>
-                </div>
-            </div>
-
-            <div className={s.content}>
-                <ManagersDay leaders={activePoint === 0 ? leadersToday : leaders} loader={loader} managerStatus={activePoint === 0 ? managerStatus : {}} />
-                <div className={s.stat}>
+        
+            <div className={`${s.content} ${managers && s.content_manager}`}>
+              <ManagersDay leaders={activePoint === 0 ? leadersToday : leaders} activePoint={activePoint} mobLeaders={activePoint === 0 ? mobleadersToday : mobleaders} experts={activePoint === 0 ? expertsToday : experts}
+                    loader={loader} managerStatus={activePoint === 0 ? managerStatus : {}} role={role} />
+                {role === 'leader' && <div className={s.stat}>
                     <ProgressStat title={'Бизнес-консультанты'} type={'default'} indicators={activePoint === 0 ? statToday : stat} loader={loader} activePoint={activePoint} />
-                    <ProgressStat title={'Эксперты'} type={'expert'} day={true} indicators={{}} loader={loader} />
+                    <ProgressStat title={'Мобильные бизнес-консультнты'} type={'mob'} indicators={activePoint === 0 ? statMobToday : statMob} loader={loader} activePoint={activePoint} />
+                    <ProgressStat title={'Эксперты'} type={'expert'} day={true} indicators={activePoint === 0 ? statExpertToday : statExpert} loader={loader}  activePoint={activePoint}/>
                 </div>
+                }
+
+                {role === 'mobleader' && <div className={s.stat}>
+                    <ProgressStat title={'Мобильные бизнес-консультнты'} type={'mob'} indicators={activePoint === 0 ? statMobToday : statMob} loader={loader} activePoint={activePoint} />
+                    <ProgressStat title={'Бизнес-консультанты'} type={'default'} indicators={activePoint === 0 ? statToday : stat} loader={loader} activePoint={activePoint} />
+                    <ProgressStat title={'Эксперты'} type={'expert'} day={true} indicators={activePoint === 0 ? statExpertToday : statExpert} loader={loader} activePoint={activePoint}/>
+                </div>
+                }
+
+                {role === 'frmanager' && <div className={s.stat}>
+                    <ProgressStat title={'Эксперты'} type={'expert'} day={true} indicators={activePoint === 0 ? statExpertToday : statExpert} loader={loader} activePoint={activePoint}/>
+                    <ProgressStat title={'Бизнес-консультанты'} type={'default'} indicators={activePoint === 0 ? statToday : stat} loader={loader} activePoint={activePoint} />
+                    <ProgressStat title={'Мобильные бизнес-консультнты'} type={'mob'} indicators={activePoint === 0 ? statMobToday : statMob} loader={loader} activePoint={activePoint} />
+                </div>
+                }
                 <WorkSpace />
                 <div className={`${s.teamStat} ${dark && s.teamStat_dark}`}>
                     <div className={s.header_team}>
@@ -114,7 +122,7 @@ function Result() {
                 </div>
             </div>
 
-        </div>
+        
     )
 };
 

@@ -1,0 +1,153 @@
+.add {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 28px;
+}
+
+.conteiner_header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 28px;
+}
+
+.button_close {
+    width: 20px;
+    height: 20px;
+    padding-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    object-fit: contain;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        opacity: 0.5;
+    }
+}
+
+.progress {
+    display: flex;
+}
+
+.path {
+    position: relative;
+    user-select: none;
+    p {
+        position: absolute;
+        color: var(--color-button-disabled);
+        top: 10px;
+        left: 20px;
+        width: 113px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 18px;
+        letter-spacing: 0.056px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    svg path {
+        fill: var(--color-bg-disabled);
+        transition: all 0.3s ease-in-out;
+    }
+
+    &_check {
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+            opacity: 0.8;
+        }
+
+        p {
+            color: #526ED3;
+        }
+
+        svg path {
+            fill: #526ED3;
+            opacity: 0.2;
+        }
+    }
+
+    &_active {
+        cursor: default;
+
+        &:hover {
+            opacity: 1;
+        }
+
+        p {
+            color: #FFF;
+        }
+
+        svg path {
+            fill: #002CFB !important;
+            opacity: 1;
+        }
+    }
+
+}
+
+.button {
+    width: 100%;
+    margin-top: auto;
+    background-color: #002CFB;
+    color: #FFFFFF;
+    transition: all 0.15s;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0.15px;
+    border-radius: 4px;
+    padding: 12px 24px;
+    height: 46px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #0028E5;
+    }
+
+    &_dis {
+        pointer-events: none; 
+        background-color: var(--color-bg-disabled);
+        color: var(--color-button-disabled);
+    }
+}
+
+.photo {
+    height: 128px;
+}
+
+.main {
+    width: 466px;
+    height: 100%;
+    display: flex;
+    gap: 16px;
+    overflow: hidden;
+}
+
+.item {
+    width: 466px;
+    height: 100%;
+    flex-shrink: 0;
+    transition: all 0.3s ease-in-out;
+}

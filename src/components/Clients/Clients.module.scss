@@ -6,6 +6,7 @@
     display: flex;
     flex-direction: column;
     height: min-content;
+    min-height: 150px;
     &_dark {
         background-color: #1A263B;
     }
@@ -48,7 +49,7 @@
     &_client {
         padding: 8px 0 10px 16px;
         display: flex;
-        min-width: 235px;
+        width: 276px;
         box-sizing: border-box;
     }
 

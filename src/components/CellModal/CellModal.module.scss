@@ -7,7 +7,7 @@
     justify-content: center;
     top: 0;
     left: 0;
-    z-index: 3;
+    z-index: 10;
 }
 
 .overlay {
@@ -15,10 +15,14 @@
     width: 100%;
     height: 100%;
     position: absolute;
-    transition: all 0.15s;
+    transition: all 0.2s;
 
     &_anim {
         background-color: rgba(18, 25, 34, 0.2);
+    }
+
+    &_dark {
+        background-color: rgba(255, 255, 255, 0.15);
     }
 }
 
@@ -27,18 +31,24 @@
     padding: 32px;
     border-radius: 8px;
     z-index: 4;
-    width: 380px;
+    width: 440px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: 20px;
     opacity: 0;
+    transform: scale(0.6);
     visibility: hidden;
-    transition: all 0.15s;
+    transition: all 0.2s ease-in-out;
     box-shadow: 0px 0px 50px 0px rgba(129, 135, 163, 0.20);
+
+    &_event {
+        width: 480px;
+    }
 
     &_anim {
         opacity: 1;
+        transform: scale(1);
         visibility: visible;
     }
 
@@ -56,6 +66,14 @@
     font-size: 24px;
     font-weight: 600;
     line-height: 28px;
+
+    sup {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        opacity: 0.7;
+        margin-left: 8px;
+    }
 
     svg {
         cursor: pointer;
@@ -136,6 +154,13 @@
         border-radius: 4px;
         display: flex;
         align-items: center;
+        overflow: hidden;
+
+        p {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
         &_dark {
             background-color: #364053;
@@ -215,7 +240,7 @@
             &::placeholder {
                 color: #9397A6;
             }
-            
+
         }
     }
 }
@@ -230,11 +255,19 @@
     box-sizing: border-box;
     margin-top: -13px;
     height: 0;
-    overflow: hidden;
+    overflow: auto;
     transition: all 0.15s;
 
+    &_2 {
+        height: 150px;
+    }
+
     &_open {
-        height: 100px;
+        height: 360px;
+
+        &_2 {
+            height: 150px;
+        }
     }
 
     &_dark {
@@ -245,6 +278,7 @@
 .item {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     height: 46px;
     font-size: 16px;
     font-weight: 400;
@@ -254,14 +288,27 @@
     box-sizing: border-box;
     width: 100%;
 
+    div {
+        width: 8px;
+        height: 8px;
+        background-color: #e75a5a9c;
+        border-radius: 50%;
+    }
+
     &:hover {
         background-color: #E2E7FF;
     }
 
     &_dark {
         &:hover {
-            background-color: #364053; 
+            background-color: #364053;
         }
+    }
+
+    &_check {
+
+        pointer-events: none;
+        cursor: default;
     }
 }
 
@@ -291,9 +338,72 @@
         color: #BFCBE0;
 
         &_dark {
-           background-color: #364053;
-           color: #9397A6;
-           pointer-events: none;
+            background-color: #364053;
+            color: #9397A6;
+            pointer-events: none;
         }
     }
+}
+
+.switch {
+    margin-bottom: 8px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.switcher {
+    height: 20px;
+    width: 34px;
+    border-radius: 25px;
+    background-color: rgba(173, 191, 223, 0.40);
+    padding: 2px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    div {
+        width: 16px;
+        height: 16px;
+        background-color: #FFFFFF;
+        border-radius: 50%;
+        transition: all 0.2s;
+    }
+
+    &_on {
+        background-color: #002CFB;
+
+        div {
+            transform: translateX(14px);
+        }
+    }
+}
+
+
+.list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.list::-webkit-scrollbar-track {
+    background: #F1F4F9;
+    border-radius: 100px;
+}
+
+.list::-webkit-scrollbar-thumb {
+    background: rgba(113, 134, 157, 0.20);
+    border-radius: 100px;
+}
+
+
+
+.list_dark::-webkit-scrollbar-track {
+    background: rgba(113, 134, 157, 0.20);
+    border-radius: 100px;
+}
+
+.list_dark::-webkit-scrollbar-thumb {
+    background: #091525;
+    border-radius: 100px;
 }

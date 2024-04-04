@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { menuSelector } from '../../store/reducer/menu/selector';
 
-function TeamMember({index}) {
+function TeamMember({index, openEdit}) {
     const [tooltip1, setTooltip1] = useState(false);
     const [tooltip2, setTooltip2] = useState(false);
     const dark = useSelector(menuSelector).dark;
@@ -36,7 +36,7 @@ function TeamMember({index}) {
     }
 
     return (
-        <div className={`${s.member} ${dark && s.member_dark}`}>
+        <div onClick={openEdit} className={`${s.member} ${dark && s.member_dark}`}>
             <div className={s.header}>
                 <div className={s.avatar}>
                     <div className={s.overlay}>

@@ -30,6 +30,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
 
     img {
         width: 52px;
@@ -72,8 +74,14 @@
     line-height: 22px;
 }
 
+.shifts {
+    width: 70px;
+    display: flex;
+    justify-content: flex-end;
+}
+
 .progress {
-    min-width: 268px;
+    min-width: 228px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -83,7 +91,7 @@
 }
 
 .line {
-    width: 236px;
+    width: 100%;
     background-color: #F8FAFD;
     border-radius: 4px;
     height: 8px;
@@ -143,7 +151,22 @@
     padding: 16px;
     box-sizing: border-box;
     align-items: center;
+    display: flex;
+    justify-content: flex-end;
     position: relative;
+    padding: 0;
+   
+
+    &_half {
+        min-width: 154px;
+        justify-content: center;
+    }
+
+    &_vacation {
+        min-width: 90px;
+        margin-right: 16px;
+        justify-content: center;
+    }
 
     svg {
         margin-left: 8px;
@@ -182,11 +205,11 @@
     background-color: #FFF;
     box-shadow: 0px 2px 8px 0px rgba(0, 32, 51, 0.16), 0px 2px 2px 0px rgba(0, 32, 51, 0.02);
     padding: 12px;
-    width: 244px;
+    width: 350px;
     box-sizing: border-box;
     position: absolute;
     bottom: 52px;
-    left: 14%;
+    left: -27px;
     opacity: 0;
     visibility: hidden;
     transition: all 0.2s;
@@ -229,8 +252,9 @@
 
     &_2 {
         bottom: 52px;
-        left: -63px;
-        width: 332px;
+        left: -110px;
+        width: 440px;
+        text-wrap: nowrap;
 
         span {
             font-size: 14px;
@@ -263,4 +287,19 @@
     display: flex;
     gap: 8px;
     align-items: center;
+    span {
+        width: 86px;
+    }
+}
+
+.yellow {
+    background-color: #FFDE35;
+}
+
+.green {
+    background-color: #2EA96E;
+}
+
+.red {
+    background-color: #E75A5A;
 }

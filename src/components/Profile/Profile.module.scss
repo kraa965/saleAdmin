@@ -19,10 +19,17 @@
     opacity: 0;
     transition: all 0.4s;
     z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
    
 
     &_anim {
         opacity: 1;
+    }
+
+    &_dark {
+        background-color: rgba(255, 255, 255, 0.15);
     }
 
   /*   &_profile {

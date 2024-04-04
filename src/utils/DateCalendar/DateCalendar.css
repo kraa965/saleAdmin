@@ -1,0 +1,32 @@
+.calendar_dark { 
+    background-color: #1A263B !important;
+    span {
+        color: #ECECEC; 
+    }
+}
+
+.calendar_dark button {
+    color: #ECECEC !important;
+}
+
+.calendar_dark button {
+    color: #ECECEC !important;
+}
+
+.calendar_dark .Mui-disabled:not(.Mui-selected) {
+    color: #71869D !important;
+}
+
+.MuiDateCalendar-root {
+    height: min-content !important;
+   /*  margin-bottom: 6px !important; */
+}
+
+
+.Mui-selected {
+    background-color: #002CFB !important;
+}
+
+.calendar_dark .MuiPickersDay-today {
+    border: 1px solid #ececec2f !important;
+}

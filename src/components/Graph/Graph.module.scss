@@ -96,6 +96,10 @@
     position: relative;
     z-index: 1;
     cursor: pointer;
+
+    &_2 {
+        background-color: #67E78B;
+    }
 }
 
 .lines {

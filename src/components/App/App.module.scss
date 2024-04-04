@@ -3,4 +3,8 @@
     grid-template-areas: 'sidebar work';
     grid-template-columns: 282px 1fr;
     color: #121922;
+
+    @media(max-width: 720px) {
+        grid-template-columns: 0 1fr;
+    }
 }

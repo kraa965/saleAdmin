@@ -1,0 +1,53 @@
+ .picker {
+     background-color: var(--color-bg-card);
+     border-radius: 8px;
+     height: 46px;
+     overflow: hidden;
+     box-sizing: border-box;
+     width: 100%;
+
+     div {
+         background-color: var(--color-bg-card) !important;
+         color: var(--color-text-primary) !important;
+     }
+
+     label {
+         display: none;
+     }
+
+     fieldset {
+         display: none;
+     }
+
+     svg {
+        color:/*  var(--color-text-primary) */#ADBFDF;
+     }
+
+
+     input {
+         color: var(--color-text-primary);
+         padding-top: 11.5px;
+         padding-bottom: 11.5px;
+     }
+
+     span {
+         color: var(--color-text-primary) !important;
+     }
+ }
+
+ .base-Popper-root button {
+     color: var(--color-text-primary);
+ }
+
+ .base-Popper-root span {
+    color: var(--color-text-secondary);
+}
+.base-Popper-root {
+    box-shadow: var(--box-shadow2);
+    margin-top: 6px !important;
+    overflow: hidden;
+}
+
+.MuiFormControl-root {
+    width: 100%;
+}

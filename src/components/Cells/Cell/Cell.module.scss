@@ -1,5 +1,5 @@
 .cell {
-    width: 226px;
+    width: 166px;
     height: 100%;
     padding: 8px;
     flex-shrink: 0;
@@ -11,6 +11,17 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    z-index: 1;
+    opacity: 0;
+    /* filter: blur(2px); */
+
+    transition: all 0.15s ease-in-out;
+
+    &_anim {
+        /*  filter: blur(0); */
+        opacity: 1;
+
+    }
 
     svg {
         display: flex;
@@ -25,12 +36,13 @@
     &_2 {
         background-color: #F1F4F9;
         color: #71869D;
+        align-items: center;
 
         &_dark {
             background-color: #414B5D;
             color: #9397A6;
 
-            svg path {
+            .iconcalendar path {
                 fill: #9397A6;
             }
         }
@@ -59,6 +71,7 @@
     &_5 {
         background-color: rgba(46, 169, 110, 0.12);
         color: #2EA96E;
+
     }
 
     &_6 {
@@ -77,6 +90,14 @@
     gap: 4px;
     transition: all 0.15s;
     display: flex;
+
+    &_column {
+        flex-direction: column;
+
+        div {
+            height: 30px;
+        }
+    }
 }
 
 .button {
@@ -85,6 +106,8 @@
     justify-content: center;
     height: 34px;
     width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
     background-color: #002CFB;
     color: #FFF;
     border-radius: 4px;
@@ -94,21 +117,32 @@
     letter-spacing: 0.056px;
     transition: all 0.2s;
     cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
 
     svg {
         margin-right: 4px;
         width: 16px;
         height: 16px;
+        z-index: 22;
     }
 
     &:hover {
         background-color: #0028E5;
     }
+
+    &_disable {
+        pointer-events: none;
+        opacity: 0.5;
+        cursor: default;
+    }
 }
 
 .button_2 {
     height: 34px;
-    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     box-sizing: border-box;
     border-radius: 4px;
     border: 1px solid #002CFB;
@@ -135,11 +169,49 @@
     }
 }
 
+.button_3 {
+    height: 34px;
+    border: 1.5px solid #002CFB;
+    box-sizing: border-box;
+    width: 34px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+
+    &:hover {
+        border-color: #0028E5;
+
+        svg path {
+            fill: #0028E5;
+        }
+    }
+
+    &_dark {
+        border-color: #87A2FF;
+
+        svg path {
+            transition: all 0.2s;
+            fill: #87A2FF;
+        }
+
+        &:hover {
+            border-color: #6e8cf7;
+
+            svg path {
+                fill: #6e8cf7;
+            }
+        }
+    }
+}
+
 .time {
     display: flex;
     margin-left: 4px;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     align-self: flex-end;
     font-size: 16px;
     font-weight: 500;
@@ -148,9 +220,11 @@
     pointer-events: none;
 
     svg {
+        flex-shrink: 0;
         height: 16px;
         width: 16px;
         margin-right: 4px;
+        margin-bottom: 2px;
     }
 }
 
@@ -184,4 +258,33 @@
     position: absolute;
     top: 10px;
     right: 8px;
+
+    svg {
+        width: 22px;
+        height: 22px;
+    }
+
+}
+
+.textadd {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+}
+
+.delete {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+
+    svg {
+        width: 14px;
+        height: 14px;
+        transition: all 0.2s;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+
 }

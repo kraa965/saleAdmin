@@ -15,16 +15,17 @@ const disabledDate = (current) => {
 function DataPicker({ setQueryDate, queryDate, dark }) {
 
   const dateFormat = 'DD.MM.YYYY';
+  
   const currentDate = setDate();
 
   function onChange(date, dateString) {
-    setQueryDate(dateString);
+    setQueryDate(date.format('YYYY-MM-DD'));
   };
 
   return (
       <Space direction="vertical">
         <ConfigProvider locale={locale}>
-          <DatePicker onChange={onChange} defaultValue={queryDate === '' ? dayjs(currentDate, dateFormat) : dayjs(queryDate, dateFormat)} format={dateFormat} allowClear={false} />
+          <DatePicker className={dark ? 'pick_dark' : 'pick'} onChange={onChange} defaultValue={queryDate === '' ? dayjs(currentDate, dateFormat) : dayjs(queryDate)} format={dateFormat} allowClear={false} />
         </ConfigProvider>
       </Space>
   )

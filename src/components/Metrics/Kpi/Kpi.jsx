@@ -3,7 +3,7 @@ import { ReactComponent as IconChewron } from '../../../image/iconChewron.svg';
 import { ReactComponent as IconEdit } from '../../../image/iconEdit.svg';
 import { ReactComponent as IconSave } from '../../../image/iconSave.svg';
 import { addSpaceNumber } from '../../../utils/addSpaceNumber';
-import { useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { menuSelector } from '../../../store/reducer/menu/selector';
 
@@ -21,6 +21,7 @@ function Kpi() {
     const [listOpen, setListOpen] = useState(false);
     const [countMonth, setCountMonth] = useState(6);
     const dark = useSelector(menuSelector).dark;
+    const modalRef = useRef();
 
     function handleVisible() {
         setEditVis(true)
@@ -97,11 +98,24 @@ function Kpi() {
         setListOpen(false)
     }
 
+    function closeModal(e) {
+        e.stopPropagation()
+        if(modalRef.current && !modalRef.current.contains(e.target)) {
+            setListOpen(false);
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('click', closeModal);
+
+        return () => document.removeEventListener('click', closeModal);
+    }, []);
+
     return (
         <div className={s.container}>
             <div className={s.header}>
                 <h2>KPI по месяцам</h2>
-                <div onClick={handleOpenList} className={`${s.selection} ${dark && s.selection_dark} ${listOpen && s.selection_open}`}>
+                <div ref={modalRef} onClick={handleOpenList} className={`${s.selection} ${dark && s.selection_dark} ${listOpen && s.selection_open}`}>
                     <p >{countMonth} месяцев</p>
                     <ul className={`${s.list} ${dark && s.list_dark} ${listOpen && s.list_open}`}>
                         <li className={`${countMonth === 6 && !dark && s.active} ${countMonth === 6 && dark && s.active_dark}`} onClick={handleSelect} id='6'>6 месяцев</li>

@@ -158,13 +158,13 @@
 
     &_bp {
         width: 202px;
-        align-items: flex-start;
+        align-items: center;
         gap: 12px;
     }
 
     &_zoom {
         width: 202px;
-        align-items: flex-start;
+        align-items: center;
         gap: 12px;
     }
 
@@ -176,14 +176,14 @@
 
     &_pays {
         width: 202px;
-        align-items: flex-start;
+        align-items: center;
         gap: 12px;
     }
 
     &_proceeds {
         width: 153px;
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         flex-direction: column;
         gap: 6px;
         justify-content: center;
@@ -192,6 +192,7 @@
     &_check {
         width: 170px;
         justify-content: flex-end;
+       
     }
 
 

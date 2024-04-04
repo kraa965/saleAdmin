@@ -1,5 +1,11 @@
 .clients {
     width: 100%;
+    opacity: 0.2;
+    transition: all 0.3s;
+
+    &_anim {
+        opacity: 1;
+    }
 }
 
 .header {
@@ -86,6 +92,12 @@
 
     svg {
         transition: all 0.2s;
+    }
+
+    &_open {
+        svg {
+        transform: rotate(180deg);
+        }
     }
 
     &:hover {

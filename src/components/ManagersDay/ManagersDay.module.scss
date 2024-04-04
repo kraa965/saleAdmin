@@ -4,14 +4,23 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    /* min-width: 1200px; */
+    @media(max-width: 720px) {
+        gap: 18px;
+    }
 }
 
 .managers {
     border-radius: 8px;
     background-color: #FFF;
     padding: 40px;
-
+    position: relative;
     height: min-content;
+
+    @media(max-width: 720px) {
+        padding: 16px;
+        border-radius: 0;
+    }
 }
 
 .dark {
@@ -23,6 +32,11 @@
     background-color: #FFF;
     padding: 40px;
     height: min-content;
+
+    @media(max-width: 720px) {
+        padding: 16px;
+        border-radius: 0;
+    }
 }
 
 .dark {
@@ -47,17 +61,28 @@
 
 .list {
     width: 100%;
+    margin: -40px 0 0 0;
+    padding: 40px 0 0 0;
     display: flex;
     flex-direction: column;
     gap: 12px;
     list-style-type: none;
-    margin: 0;
-    padding: 0;
+    height: min-content;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+
+    @media(max-width: 720px) {
+     
+    }
 }
 
 .header {
     display: flex;
     justify-content: space-between;
+
+    @media(max-width: 720px) {
+        flex-direction: column;
+    }
 }
 
 .buttons {
@@ -69,6 +94,7 @@
     margin-bottom: 20px;
     gap: 8px;
     color: #71869D;
+    width: min-content;
 
     &_dark {
         color: #71869D;
@@ -102,6 +128,26 @@
     &_dark {
         &:hover {
             background-color: #414b5d7c;
-        } 
+        }
+    }
+
+    &_weekend {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        bottom: 12px;
+        left: 0;
+        cursor: pointer;
+        font-size: 12px;
+        color: #71869D;
+        transition: all 0.2s;
+        &:hover {
+            opacity: 0.7;
+        }
+
+        @media(max-width: 720px) {
+            bottom: 8px;
+            font-size: 14px;
+        }
     }
 }

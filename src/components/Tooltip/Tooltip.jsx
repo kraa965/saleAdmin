@@ -25,7 +25,7 @@ function Tooltip({ type, mistakes, day }) {
                 </div>
             }
 
-            {type === 'default' &&
+            {(type === 'default' || type === 'mob') &&
                 <div className={`${s.tooltip} ${s.tooltip_default} ${anim && s.tooltip_open} ${dark && s.tooltip_dark}`}>
                     <p>Плановые значения рассчитываются исходя из количества человек работающих в конкретный день</p>
                     <div className={`${s.trig} ${s.trig_def} ${dark && s.trig_dark}`}></div>

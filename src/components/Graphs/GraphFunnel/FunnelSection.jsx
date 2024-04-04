@@ -22,7 +22,7 @@ function FunnelSection({ number, next, planLine, nextPlanLine, currentPlanLine, 
             setAnim(true)
         }, 50 * (index + 1))
     }, [])
-    console.log(elWidth)
+    console.log(elWidth, elHeight, mark)
     useEffect(() => {
         const height = refSection.current.getBoundingClientRect().height;
         const width = refSection.current.getBoundingClientRect().width;
@@ -54,61 +54,62 @@ function FunnelSection({ number, next, planLine, nextPlanLine, currentPlanLine, 
             return
         }
 
-    }, [mark, dark]);
+    }, [mark, dark, elWidth]);
 
     useEffect(() => {
         const percent = number / currentPlanLine * 100;
-        if( countList == 1) {
-         
+        console.log(percent)
+        if (countList == 1) {
+
             if (percent <= 20) {
                 setColor('#E75A5A');
                 return;
             }
-    
+
             if (percent <= 50 && percent > 20) {
                 setColor('#FDD674');
                 return
             }
-    
+
             if (percent <= 80 && percent > 50) {
                 setColor('#FDE56B');
                 return
             }
-    
-            if (percent <= 100 && percent > 80) {
+
+            if (percent > 80) {
                 setColor('#2EA96E');
                 return
             }
         } else {
-            if(index === 0) {
+            if (index === 0) {
                 setColor('#3CCAEA');
                 return
             }
 
-            if(index === 1) {
+            if (index === 1) {
                 setColor('#1E9FD6');
                 return
             }
 
-            if(index === 2) {
+            if (index === 2) {
                 setColor('#1774C9');
                 return
             }
 
-            if(index === 3) {
+            if (index === 3) {
                 setColor('#033CAD');
                 return
             }
 
-            if(index === 4) {
+            if (index === 4) {
                 setColor('#002C81');
                 return
             }
         }
-       
+
     }, [number, currentPlanLine, countList, index]);
 
-console.log(countList)
+    console.log(countList)
     function draw() {
         console.log(canvasRef.current.current)
         if (canvasRef.current.getContext) {
@@ -125,12 +126,12 @@ console.log(countList)
             ctx.moveTo(0, plan);
             ctx.lineTo(0, plan);
 
-            ctx.arcTo(elWidth - 20, plan, elWidth + 18, nextPlan, 50)
+            ctx.arcTo(elWidth - elWidth * 0.2, plan, elWidth - elWidth * 0.1, nextPlan, 42)
             ctxDotted.lineWidth = 0.8;
-            ctx.arcTo(elWidth + 18, nextPlan, elWidth + 28, nextPlan, 50)
-            ctx.lineTo(elWidth + 100, nextPlan);
+            ctx.arcTo(elWidth - elWidth * 0.1, nextPlan, elWidth, nextPlan, 42)
+            ctx.lineTo(elWidth, nextPlan);
 
-            ctx.lineTo(elWidth + 100, elHeight + 30);
+            ctx.lineTo(elWidth, elHeight + 30);
             ctxDotted.strokeStyle = 'black';
             ctxDotted.stroke();
 
@@ -139,15 +140,15 @@ console.log(countList)
             //текущий план
             ctx.beginPath();
             ctx.lineWidth = 2;
-            ctx.moveTo(0, elHeight + 30);
+            ctx.moveTo(0, elHeight + 70);
             ctx.lineTo(0, currentPlan);
 
-            ctx.arcTo(elWidth - 20, currentPlan, elWidth + 18, nextCurrentPlan, 50)
+            ctx.arcTo(elWidth - elWidth * 0.2, currentPlan, elWidth - elWidth * 0.1, nextCurrentPlan, 50)
 
-            ctx.arcTo(elWidth + 18, nextCurrentPlan, elWidth + 28, nextCurrentPlan, 50)
-            ctx.lineTo(elWidth + 100, nextCurrentPlan);
+            ctx.arcTo(elWidth - elWidth * 0.1, nextCurrentPlan, elWidth, nextCurrentPlan, 50)
+            ctx.lineTo(elWidth, nextCurrentPlan);
 
-            ctx.lineTo(elWidth + 100, elHeight + 30);
+            ctx.lineTo(elWidth, elHeight + 70);
 
             ctx.fillStyle = '#F1F4F9';
             ctx.strokeStyle = '#fdd67400';
@@ -159,15 +160,15 @@ console.log(countList)
             //график
             ctx.beginPath();
             ctx.lineWidth = 2;
-            ctx.moveTo(0, elHeight + 30);
+            ctx.moveTo(0, elHeight + 70);
             ctx.lineTo(0, mark);
 
-            ctx.arcTo(elWidth - 20, mark, elWidth + 18, nextMark, 50)
+            ctx.arcTo(elWidth - elWidth * 0.2, mark, elWidth - elWidth * 0.1, nextMark, 50)
 
-            ctx.arcTo(elWidth + 18, nextMark, elWidth + 28, nextMark, 50)
-            ctx.lineTo(elWidth + 100, nextMark);
+            ctx.arcTo(elWidth - elWidth * 0.1, nextMark, elWidth, nextMark, 50)
+            ctx.lineTo(elWidth, nextMark);
 
-            ctx.lineTo(elWidth + 100, elHeight + 30);
+            ctx.lineTo(elWidth, elHeight + 70);
 
             ctx.fillStyle = color;
             ctx.strokeStyle = '#fdd67400';
@@ -193,12 +194,12 @@ console.log(countList)
             ctx.moveTo(0, plan);
             ctx.lineTo(0, plan);
 
-            ctx.arcTo(elWidth - 20, plan, elWidth + 18, nextPlan, 50)
+            ctx.arcTo(elWidth - elWidth * 0.2, plan, elWidth - elWidth * 0.1, nextPlan, 42)
             ctxDotted.lineWidth = 0.8;
-            ctx.arcTo(elWidth + 18, nextPlan, elWidth + 28, nextPlan, 50)
-            ctx.lineTo(elWidth + 100, nextPlan);
+            ctx.arcTo(elWidth - elWidth * 0.1, nextPlan, elWidth, nextPlan, 42)
+            ctx.lineTo(elWidth, nextPlan);
 
-            ctx.lineTo(elWidth + 100, elHeight + 30);
+            ctx.lineTo(elWidth, elHeight + 30);
             ctxDotted.strokeStyle = '#ECECEC';
             ctxDotted.stroke();
 
@@ -207,15 +208,15 @@ console.log(countList)
             //текущий план
             ctx.beginPath();
             ctx.lineWidth = 2;
-            ctx.moveTo(0, elHeight + 30);
+            ctx.moveTo(0, elHeight + 70);
             ctx.lineTo(0, currentPlan);
 
-            ctx.arcTo(elWidth - 20, currentPlan, elWidth + 18, nextCurrentPlan, 50)
+            ctx.arcTo(elWidth - elWidth * 0.2, currentPlan, elWidth - elWidth * 0.1, nextCurrentPlan, 50)
 
-            ctx.arcTo(elWidth + 18, nextCurrentPlan, elWidth + 28, nextCurrentPlan, 50)
-            ctx.lineTo(elWidth + 100, nextCurrentPlan);
+            ctx.arcTo(elWidth - elWidth * 0.1, nextCurrentPlan, elWidth, nextCurrentPlan, 50)
+            ctx.lineTo(elWidth, nextCurrentPlan);
 
-            ctx.lineTo(elWidth + 100, elHeight + 30);
+            ctx.lineTo(elWidth, elHeight + 70);
 
             ctx.fillStyle = '#414B5D';
             ctx.strokeStyle = '#414B5D';
@@ -227,15 +228,15 @@ console.log(countList)
             //график
             ctx.beginPath();
             ctx.lineWidth = 2;
-            ctx.moveTo(0, elHeight + 30);
+            ctx.moveTo(0, elHeight + 70);
             ctx.lineTo(0, mark);
 
-            ctx.arcTo(elWidth - 20, mark, elWidth + 18, nextMark, 50)
+            ctx.arcTo(elWidth - elWidth * 0.2, mark, elWidth - elWidth * 0.1, nextMark, 50)
 
-            ctx.arcTo(elWidth + 18, nextMark, elWidth + 28, nextMark, 50)
-            ctx.lineTo(elWidth + 100, nextMark);
+            ctx.arcTo(elWidth - elWidth * 0.1, nextMark, elWidth, nextMark, 50)
+            ctx.lineTo(elWidth, nextMark);
 
-            ctx.lineTo(elWidth + 100, elHeight + 30);
+            ctx.lineTo(elWidth, elHeight + 70);
 
             ctx.fillStyle = color;
             ctx.strokeStyle = '#fdd67400';
@@ -251,19 +252,19 @@ console.log(countList)
             const ctx = canvasRef.current.getContext("2d");
 
             ctx.save()
-           
+
             //график
             ctx.beginPath();
             ctx.lineWidth = 2;
-            ctx.moveTo(0, elHeight + 30);
+            ctx.moveTo(0, elHeight + 70);
             ctx.lineTo(0, mark);
 
-            ctx.arcTo(elWidth - 20, mark, elWidth + 18, nextMark, 50)
+            ctx.arcTo(elWidth - elWidth * 0.2, mark, elWidth - elWidth * 0.1, nextMark, 50)
 
-            ctx.arcTo(elWidth + 18, nextMark, elWidth + 28, nextMark, 50)
-            ctx.lineTo(elWidth + 100, nextMark);
+            ctx.arcTo(elWidth - elWidth * 0.1, nextMark, elWidth, nextMark, 50)
+            ctx.lineTo(elWidth, nextMark);
 
-            ctx.lineTo(elWidth + 100, elHeight + 30);
+            ctx.lineTo(elWidth, elHeight + 70);
 
             ctx.fillStyle = color;
             ctx.strokeStyle = '#fdd67400';
@@ -277,7 +278,7 @@ console.log(countList)
     return (
         <div ref={refSection} className={`${s.section} ${anim && s.section_anim}`}>
             <div className={`${s.overlay} ${dark && s.overlay_dark}`}></div>
-            <canvas ref={canvasRef} id="canvas"></canvas>
+            <canvas ref={canvasRef} id="canvas" width={elWidth}></canvas>
         </div>
     )
 };

@@ -9,7 +9,7 @@ function GraphProfile({dark}) {
     const [type, setType] = useState(1);
     const max = Math.max(...points);
     const graphRef = useRef();
-    console.log(graphRef.offsetHeight)
+   
 
     useEffect(() => {
         setTimeout(() => {
@@ -18,7 +18,6 @@ function GraphProfile({dark}) {
     }, [])
 
     function draw() {
-        console.log(canvasRef.current.current)
         if (canvasRef.current.getContext) {
             const ctx = canvasRef.current.getContext("2d");
             const ctxDotted = canvasRef.current.getContext("2d");
@@ -57,8 +56,9 @@ function GraphProfile({dark}) {
                 }
             })
 
-            ctx.lineTo(485, 58 - points[20] / max * 58)
-            ctx.lineTo(500, 62);
+            ctx.lineTo(470, 58 - points[20] / max * 58)
+            ctx.lineTo(500, 58 - points[20] / max * 58);
+            ctx.lineTo(500, 72);
             ctx.lineTo(0, 62);
             const grad = ctx.createLinearGradient(241, 58, 241, 2);
             grad.addColorStop(1, `rgba(255, 222, 51, 0.52)`);
@@ -107,10 +107,11 @@ function GraphProfile({dark}) {
                         <div
                             style={{
                                 opacity: idTooltip === `${index}` ? '1' : '0',
-                                visibility: 'visible',
+                                visibility: idTooltip === `${index}` ? 'visible' : 'hidden',
                                 top: `${53 - 80 - el / max * 58 - 12}px`,
                                 left: `${index * 23 - 2 - 355}px`,
                             }}
+
                             className={`${s.tooltip} ${dark && s.tooltip_dark}`}>
                             <p className={s.title}>{'Пятница'}<sup>{'10.12'}</sup></p>
                             <div className={s.indicators}>

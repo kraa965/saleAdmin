@@ -7,109 +7,79 @@ import { ReactComponent as IconCalendarSmall } from '../../image/iconCalendarSma
 import { useSelector } from 'react-redux';
 import { menuSelector } from '../../store/reducer/menu/selector';
 import { addSpaceNumber } from '../../utils/addSpaceNumber';
-import { setDayOfWeek } from '../../utils/dates';
-import { monthAndWeek } from '../../utils/dates';
+import { setDayOfWeek, monthAndWeek, setDateDay } from '../../utils/dates';
+import { postSum, postStudy, postSumRecived } from '../../Api/Api';
+import Bar from './Bar';
 
-function Client({ step, stepFail, name, surname, sum, city, source, expert, interne, dateStudy, acceptDate, id }) {
-    const [tooltip1, setTooltip1] = useState(false);
-    const [tooltipFail1, setTooltipFail1] = useState(false);
-    const [tooltip2, setTooltip2] = useState(false);
-    const [tooltipFail2, setTooltipFail2] = useState(false);
-    const [tooltip3, setTooltip3] = useState(false);
-    const [tooltip4, setTooltip4] = useState(false);
-    const [tooltip5, setTooltip5] = useState(false);
+function Client({ progress, name, surname, sum, city, source, expert, interne, dateStudy, acceptDate, id, setUpdate, crmLogin }) {
+    const [step, setStep] = useState(1);
     const [modalConfirmSum, setModalConfirmSum] = useState(false);
     const [modalReceivedSum, setModalReceivedSum] = useState(false);
     const [anim, setAnim] = useState(false);
-    const [queryDate, setQueryDate] = useState('');
-
+    const [sumValue, setSumValue] = useState(sum || 0);
+    const [sumError, setSumError] = useState('');
+    const [modalStudy, setModalStudy] = useState(false);
+    const [studyErr, setStudyErr] = useState(false);
+    const [recivedErr, setRecivedErr] = useState(false);
+    const [queryDate, setQueryDate] = useState(setDateDay(0) || '');
+    const [loader, setLoader] = useState(false);
+    const [buttonStudyHiden, setButtonStudyHiden] = useState(false);
     const dark = useSelector(menuSelector).dark;
     const modalRef = useRef(null);
     const buttonRef = useRef(null);
-
     const dateText = monthAndWeek(acceptDate).dateClient;
+    const role = document.getElementById('root_leader').getAttribute('role');
+   
+    useEffect(() => {
+        if(crmLogin) {
+            setButtonStudyHiden(true)
+        } else {
+            setButtonStudyHiden(false)
+        }
+    }, [crmLogin])
 
-    function handleOpenTooltip(e) {
-        const id = e.target.id;
-        if (id == '1' && stepFail !== 1) {
-            setTooltip1(true);
+    useEffect(() => {
+        if (progress?.[0].status == 'cancel') {
+            setStep(0);
+            return
+        }
+        if (progress?.[0].status == 'done' && progress?.[1].status !== 'done') {
+            setStep(1);
             return
         }
 
-        if (id == '1' && stepFail === 1) {
-            setTooltipFail1(true);
+        if (progress?.[1].status == 'done' && progress?.[2].status !== 'done' && progress?.[3].status !== 'done') {
+            setStep(2);
             return
         }
 
-        if (id == '2' && stepFail !== 2) {
-            setTooltip2(true);
+
+        if (progress?.[2].status == 'done' && progress?.[3].status !== 'done') {
+            setStep(3);
             return
         }
 
-        if (id == '2' && stepFail === 2) {
-            setTooltipFail2(true);
+        if (progress?.[3].status == 'done' && progress?.[4].status !== 'done') {
+            setStep(4);
             return
         }
 
-        if (id == '3') {
-            setTooltip3(true);
+        if (progress?.[4].status === 'done') {
+            setStep(5);
             return
         }
 
-        if (id == '4') {
-            setTooltip4(true);
-            return
-        }
-
-        if (id == '5') {
-            setTooltip5(true);
-            return
-        }
-
-    }
-
-    function handleCloseTooltip(e) {
-        const id = e.target.id;
-        if (id == '1' && stepFail !== 1) {
-            setTooltip1(false);
-            return
-        }
-
-        if (id == '1' && stepFail === 1) {
-            setTooltipFail1(false);
-            return
-        }
-
-        if (id == '2' && stepFail !== 2) {
-            setTooltip2(false);
-            return
-        }
-
-        if (id == '2' && stepFail === 2) {
-            setTooltipFail2(false);
-            return
-        }
-
-        if (id == '3') {
-            setTooltip3(false);
-            return
-        }
-
-        if (id == '4') {
-            setTooltip4(false);
-            return
-        }
-
-        if (id == '5') {
-            setTooltip5(false);
-            return
-        }
-    }
+    }, [progress])
 
     function handleСonfirmButton() {
         if (modalConfirmSum) {
-            setModalConfirmSum(false);
-            setAnim(false)
+            setAnim(false);
+            setTimeout(() => {
+                setModalConfirmSum(false);
+                setSumValue(sum);
+                setSumError('');
+                setQueryDate(setDateDay(0));
+            }, 200)
         } else {
             setModalConfirmSum(true);
             setTimeout(() => { setAnim(true) })
@@ -125,36 +95,135 @@ function Client({ step, stepFail, name, surname, sum, city, source, expert, inte
             setTimeout(() => { setAnim(true) })
         }
     }
+
+    function handleSumValue(e) {
+        const value = e.target.value;
+        setSumError('');
+        setSumValue(value);
+    }
+
+    function handleConfirmSum(e) {
+        if ((e.type == 'click' || e.keyCode == 13) && sumValue > sum) {
+            setSumError(`Сумма не может быть больше ${addSpaceNumber(sum)}`);
+            return
+        }
+        if ((e.type == 'click' || e.keyCode == 13) && sumValue <= sum) {
+            setLoader(true)
+            postSum(id, sumValue)
+                .then((res) => {
+                    console.log(res);
+                    setStep(3);
+                    setUpdate(prevState => prevState + 1);
+                    setTimeout(() => {
+                        setAnim(false);
+                    }, 300)
+
+                    setTimeout(() => {
+                        setModalConfirmSum(false);
+                        setLoader(false)
+                    }, 500);
+                })
+                .catch(err => { setSumError('Ошибка при подтверждении суммы, попробуй еще раз') })
+            return
+        }
+    }
+
+    function handleStudy() {
+        setStudyErr(false);
+        setLoader(true);
+        postStudy(id)
+            .then((res) => {
+                setUpdate(prevState => prevState + 1);
+                setButtonStudyHiden(true);
+                setTimeout(() => {
+                    setAnim(false);
+                }, 300)
+
+                setTimeout(() => {
+                    setLoader(false)
+                    handleModalStudy();
+                }, 500);
+            })
+            .catch(err => setStudyErr(true))
+    }
+
+    function handleModalStudy() {
+        if (modalStudy) {
+            setAnim(false)
+            setTimeout(() => {
+                setModalStudy(false)
+            }, 200)
+        } else {
+            setModalStudy(true);
+            setTimeout(() => {
+                setAnim(true)
+            })
+        }
+    }
+
+    function handleSumRecived(e) {
+        setLoader(true)
+        postSumRecived(id, queryDate)
+            .then((res) => {
+                console.log(res)
+                setUpdate(prevState => prevState + 1);
+                setStep(5);
+                setTimeout(() => {
+                    setAnim(false);
+                }, 300)
+
+                setTimeout(() => {
+                    setLoader(false);
+                    setModalReceivedSum(false);
+                    setModalConfirmSum(false);
+                    setQueryDate(setDateDay(0));
+                }, 500);
+            })
+            .catch(err => setRecivedErr(true));
+
+    }
     //закрытия модалки при клике вне элемента
     function closeModal(e) {
-        if (modalRef.current && !modalRef.current.contains(e.target) && !buttonRef.current.contains(e.target) && !e.target.closest('.ant-picker-dropdown')) {
-            setModalConfirmSum(false);
-            setModalReceivedSum(false);
+        if (modalRef?.current && !modalRef?.current?.contains(e.target) && !buttonRef?.current?.contains(e.target) && !e.target.closest('.ant-picker-dropdown')) {
             setAnim(false);
+            setTimeout(() => {
+                setModalConfirmSum(false);
+                setModalReceivedSum(false);
+                setModalStudy(false);
+                setSumValue(sum);
+                setSumError('');
+                setQueryDate(setDateDay(0));
+            }, 200)
         }
     }
 
     useEffect(() => {
-        document.addEventListener('click', closeModal);
-
-        return () => document.removeEventListener('click', closeModal);
+        document.addEventListener('mousedown', closeModal);
+        return () => document.removeEventListener('mousedown', closeModal);
     }, []);
 
     return (
         <div className={`${s.client} ${dark && s.client_dark}`}>
-            <a href={`https://lk.skilla.ru/frmanager/req/?id=${id}`}>
+            {(role === 'leader' || role === 'frmanager') ?
+                <a style={{ height: '100%' }} href={`https://lk.skilla.ru/frmanager/req/?id=${id}`}>
+                    <div className={s.name}>
+                        <p className={s.text}>{name} {surname}</p>
+                        <p className={s.sub}>{city}</p>
+                    </div>
+                </a>
+                :
                 <div className={s.name}>
                     <p className={s.text}>{name} {surname}</p>
                     <p className={s.sub}>{city}</p>
                 </div>
-            </a>
+            }
 
 
             <div className={s.sum}>
                 <p className={s.text}>{addSpaceNumber(sum)}</p>
             </div>
 
-          
+
 
             <div className={s.source}>
                 <p className={s.text}>{source}</p>
@@ -170,46 +239,56 @@ function Client({ step, stepFail, name, surname, sum, city, source, expert, inte
                 <p className={s.text}>{dateStudy && setDayOfWeek(dateStudy).day} {dateStudy && setDayOfWeek(dateStudy).fMonth2}</p>
             </div> */}
 
-            <div className={s.progress}>
-                <div className={s.container}>
-                    {[...Array(5)].map((el, index) => {
-                        return <div id={`${index + 1}`} /* onMouseEnter={handleOpenTooltip} onMouseLeave={handleCloseTooltip} */
-                            className={`${s.bar} ${dark && s.bar_dark} ${index + 1 <= step && s.green} ${index + 1 === stepFail && s.red}`}
-                        >
-                        </div>
-                    })}
-                   
+
+            <div className={s.container_big}>
+                <div className={s.progress}>
+                    <div className={s.container}>
+                        {progress?.map((el, index) => {
+                            return <Bar key={index + 1} id={index + 1} el={el} dark={dark} step={step} />
+                        })}
+
+                    </div>
                 </div>
-                <p className={s.text}>{dateStudy && setDayOfWeek(dateStudy).day} {dateStudy && setDayOfWeek(dateStudy).fMonth2}</p>
-                {tooltip1 && <TooltipBar type={'1'} />}
-                {tooltip2 && <TooltipBar type={'2'} />}
-                {tooltip3 && <TooltipBar type={'3'} />}
-                {tooltip4 && <TooltipBar type={'4'} sign={1} />}
-                {tooltip5 && <TooltipBar type={'5'} />}
-                {tooltipFail1 && <TooltipBar type={'1fail'} />}
-                {tooltipFail2 && <TooltipBar type={'2fail'} />}
+
+                <div className={s.pay}>
+                    {step === 2  && role === 'frmanager' && <button ref={buttonRef} onClick={handleСonfirmButton} className={`${s.button} ${dark && s.button_dark}`}>Подтвердить сумму</button>}
+                    {step === 3 && !buttonStudyHiden && role === 'frmanager' && <button onClick={handleModalStudy} className={`${s.button} ${dark && s.button_dark}`}>Прибыл на обучение</button>}
+                    {(step == 3 || step == 4) && progress?.[4].status !== 'done' && role === 'frmanager' && <button ref={buttonRef} onClick={handleReceivedButton} className={`${s.button} ${dark && s.button_dark}`}>Средства поступили</button>}
+                    {step == 5 && <p className={s.sub}>{dateStudy && setDayOfWeek(dateStudy).day} {dateStudy && setDayOfWeek(dateStudy).fMonth2}</p>}
+                </div>
             </div>
 
-            {/* <div className={s.pay}>
-                {step === 2 && stepFail !== 2 && <button ref={buttonRef} onClick={handleСonfirmButton} className={`${s.button} ${dark && s.button_dark}`}>Подтвердить сумму</button>}
-                {step === 3 && <button className={`${s.button} ${dark && s.button_dark}`}>Прибыл на обучение</button>}
-                {step === 4 && <button ref={buttonRef} onClick={handleReceivedButton} className={`${s.button} ${dark && s.button_dark}`}>Средства поступили</button>}
-                <p className={s.text}>{dateStudy && setDayOfWeek(dateStudy).day} {dateStudy && setDayOfWeek(dateStudy).fMonth2}</p>
-            </div> */}
 
             {modalConfirmSum &&
-                <div className={`${s.modal} ${anim && s.modal_anim} ${dark && s.modal_dark}`}>
+                <div onKeyDown={handleConfirmSum} className={`${s.modal} ${anim && s.modal_anim} ${dark && s.modal_dark}`}>
                     <div ref={modalRef} className={`${s.confirm} ${dark && s.confirm_dark}`}>
                         <div className={s.button_close}>
                             <p className={s.title}>Подтверждение суммы</p>
                             <IconCloseModal onClick={handleСonfirmButton} />
                         </div>
                         <p className={`${s.confirm_sub} ${dark && s.confirm_sub_dark}`}>Сумма оплаты</p>
-                        <div className={`${s.block} ${dark && s.block_dark}`}>
-                            <input className={s.input}></input>
+                        <div className={`${s.block} ${dark && s.block_dark} ${sumError !== '' && s.block_err} `}>
+                            <input type='number' onChange={handleSumValue} value={sumValue || ''} className={s.input}></input>
                             <p>руб</p>
+                            <span>{sumError}</span>
                         </div>
-                        <button className={s.button_confirm}>Подтвердить</button>
+
+                        <button onClick={handleConfirmSum} className={s.button_confirm}>{loader ? 'Подтверждаем...' : 'Подтвердить'}</button>
+                    </div>
+                </div>
+            }
+
+            {modalStudy &&
+                <div className={`${s.modal} ${anim && s.modal_anim} ${dark && s.modal_dark}`}>
+                    <div ref={modalRef} className={`${s.confirm} ${dark && s.confirm_dark}`}>
+                        <div className={s.button_close}>
+                            <p className={s.title}>Подтвердить прибытие на обучение</p>
+                            <IconCloseModal onClick={handleModalStudy} />
+                        </div>
+                        <div className={s.buttons}>
+                            <button onClick={handleStudy} className={s.button_confirm}>{loader ? 'Подтверждаем...' : 'Подтвердить'}</button>
+                            <button onClick={handleModalStudy} className={s.button_cancle}>Отмена</button>
+                        </div>
                     </div>
                 </div>
             }
@@ -225,7 +304,7 @@ function Client({ step, stepFail, name, surname, sum, city, source, expert, inte
                         <div className={s.data}>
                             <DatePicker dark={dark} queryDate={queryDate} setQueryDate={setQueryDate} />
                         </div>
-                        <button className={s.button_confirm}>Подтвердить</button>
+                        <button onClick={handleSumRecived} className={s.button_confirm}>{loader ? 'Подтверждаем...' : 'Подтвердить'}</button>
                     </div>
                 </div>
             }

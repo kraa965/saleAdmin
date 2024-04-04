@@ -1,0 +1,25 @@
+.event {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-bg-card);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    gap: 12px;
+    border-radius: 4px;
+    padding: 0 12px;
+    height: 50px;
+}
+
+.fail {
+    color: #E75A5A;
+}

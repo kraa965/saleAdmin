@@ -1,7 +1,7 @@
 import s from './Clients.module.scss';
 import GraphClient from '../../Graphs/GraphClients/GraphClients';
 import { ReactComponent as IconChewron } from '../../../image/iconChewron.svg';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { menuSelector } from '../../../store/reducer/menu/selector';
 const day = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
@@ -16,7 +16,15 @@ function Clients({ active }) {
     const [openListManager, setOpenListManager] = useState(false);
     const [countListDate, setCountListDate] = useState(1);
     const [managerList, setManagerList] = useState('Общие показатели');
+    const [anim, setAnim] = useState(false);
     const dark = useSelector(menuSelector).dark;
+    const listRef = useRef();
+    const managerRef = useRef();
+
+    useEffect(() => {
+        setAnim(true);
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
         let dataArr = [];
@@ -57,8 +65,25 @@ function Clients({ active }) {
         setManagerList(value)
     }
 
+    function closeModal(e) {
+        e.stopPropagation()
+        if(listRef.current && !listRef.current.contains(e.target)) {
+            setOpenListDate(false);
+        }
+        if(managerRef.current && !managerRef.current.contains(e.target)) {
+            setOpenListManager(false);
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('click', closeModal);
+
+        return () => document.removeEventListener('click', closeModal);
+    }, []);
+
+
     return (
-        <div className={s.clients}>
+        <div className={`${s.clients} ${anim && s.clients_anim}`}>
             <div className={s.header}>
                 <p className={s.title}>
                     {active === 2 && 'Шаги клиентов'}
@@ -66,7 +91,7 @@ function Clients({ active }) {
                     {active === 4 && 'Сотрудники'}
                 </p>
                 <div className={s.container}>
-                    <div onClick={handleOpenListDate} className={`${s.date} ${dark && s.date_dark} ${openListDate && s.date_open}`}>
+                    <div ref={listRef} onClick={handleOpenListDate} className={`${s.date} ${dark && s.date_dark} ${openListDate && s.date_open}`}>
                         <p>
                             {countListDate === 1 && '3 недели'}
                             {countListDate === 3 && '3 месяца'}
@@ -86,7 +111,7 @@ function Clients({ active }) {
                         </ul>
                     </div>
 
-                    {active !== 4 && <div onClick={handleOpenListManager} className={`${s.indicators} ${dark && s.indicators_dark} ${openListManager && s.indicators_open}`}>
+                    {active !== 4 && <div ref={managerRef} onClick={handleOpenListManager} className={`${s.indicators} ${dark && s.indicators_dark} ${openListManager && s.indicators_open}`}>
                         <p>{managerList}</p>
                         <ul className={`${s.list}  ${dark && s.list_dark} ${s.list_manager} ${dark && s.list_manager_dark} ${openListManager && s.list_openm}`}>
                             <li onClick={handleChooseManager} id='1' className={`${managerList === 'Общие показатели' && !dark && s.listactive}  
@@ -118,7 +143,7 @@ function Clients({ active }) {
             </div>
             {active === 2 && <div className={s.graphs}>
                 <GraphClient data={datGraph} title={'Входы в личный кабинет'} ind1={{ name: 'Новые входы', num: 1777 }} ind2={{ name: 'Отправлено смс приглашений', num: 3245 }} />
-                <GraphClient data={datGraph} title={'Открытые бизнес-планы'} ind1={{ name: 'Открыто бизнес-планов', num: 1777 }} ind2={{ name: 'Сформировано бизнес-планов', num: 3245 }} />
+                <GraphClient data={datGraph} title={'Открые бизнес-планы'} ind1={{ name: 'Открыто бизнес-планов', num: 1777 }} ind2={{ name: 'Сформировано бизнес-планов', num: 3245 }} />
                 <GraphClient data={datGraph} title={'Zoom-встречи'} ind1={{ name: 'Состоявшиеся Zoom-встречи', num: 1777 }} ind2={{ name: 'Запланировано встреч', num: 3245 }} />
             </div>
             }

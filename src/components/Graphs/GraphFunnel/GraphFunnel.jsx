@@ -2,7 +2,7 @@ import s from './GraphFunnel.module.scss';
 import FunnelSection from './FunnelSection';
 import { useEffect, useState } from 'react';
 const arr = [45, 35, 28, 12, 5]
-const plan = [98, 90, 70, 50, 37]
+const plan = [98, 80, 70, 50, 37]
 const currentPlan = [55, 45, 35, 20, 12]
 
 function GraphFunnel({ countList }) {

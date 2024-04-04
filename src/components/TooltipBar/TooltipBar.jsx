@@ -6,104 +6,57 @@ import { ReactComponent as IconTime } from '../../image/iconTime.svg';
 import { ReactComponent as IconClose } from '../../image/iconClose.svg';
 import { useSelector } from 'react-redux';
 import { menuSelector } from '../../store/reducer/menu/selector';
+import { handleDateLog, handleDateStudy } from '../../utils/dates';
+import { addSpaceNumber } from '../../utils/addSpaceNumber';
 
-function TooltipBar({ type, sign }) {
+function TooltipBar({ status, step, logs }) {
     const [anim, setAnim] = useState(false);
     const dark = useSelector(menuSelector).dark;
- 
+    const studyCancel = step == 2 && logs[0]?.type == 'CancelTraining' ? true : false;
+    const prePaySum = logs[0]?.sum
+
     useEffect(() => {
         setTimeout(() => {
             setAnim(true)
         })
+    }, [step, status]);
 
-    }, [type]);
     return (
-        <>
-            {type === '1' &&
-                <div className={`${s.tooltip} ${dark && s.tooltip_dark} ${anim && s.anim} ${s.tooltip_1}`}>
-                    <IconDone />
-                    <div className={s.container}>
-                        <p className={s.text}>Внесена предоплата</p>
-                        <p className={s.text2}>На расчетный счет</p>
-                        <p className={s.sub}>7 ноября в 12:45 Юлия Корчагина</p>
-                    </div>
-                    <div className={s.trig}></div>
-                </div>
-            }
+        <div className={`${s.tooltip} ${(step == 3 || step == 5)  && status == 'done' && s.tooltip_1} ${step == 1 && status == 'cancel' && s.tooltip_2} ${dark && s.tooltip_dark} ${anim && s.anim}`}>
+            {status == 'done' && step !== 2 && step !== 5 && <IconDone />}
+            {status == 'done' && step == 5 && <IconDone2 />}
+            {step == 2 && status == 'done' && <IconTime />}
+            {(status == 'cancel' || studyCancel) && <IconClose />}
+            <div className={s.container}>
+                {step == 1 && status == 'done' && <p className={s.text}>Внесена предоплата {prePaySum && `${addSpaceNumber(prePaySum)} руб`}</p>}
+                {step == 1 && status == 'cancel' && <p className={s.text}>Возврат предоплаты </p>}
+                {step == 2 && status == 'done' && <p className={s.text}>Запланировано обучение</p>}
+                 {step == 2 && status == 'cancel' && <p className={s.text}>Обучение отменено</p>}
+                {step == 3 && status == 'done' && <p className={s.text}>Сумма договора подтверждена</p>}
+                {step == 4 && status == 'done' && <p className={s.text}>Обучение пройдено</p>}
+                {step == 5 && status == 'done' && <p className={s.text}>Средства поступили на счет</p>}
+                <div className={s.logs}>
+                    {logs.map((el, index) => {
+                        return <div style={{ display: (el.type == "ClientFinishTraining" || el.type == 'lkReqAccessCheck') && (index == 1 || index == 2) ? 'none' : '' }} className={s.log}>
+                            {el.type == 'prepay' && el.is_online == 1 && index == 0 && <p className={s.text2}>В личном кабинете</p>}
+                            {el.type == 'prepay' && el.is_online == 0 && index == 0 && <p className={s.text2}>На расчетный счет</p>}
+                            {el.type == 'prepay' && el.is_online == 1 && index == 1 && <p className={s.text2}>Клиент внес предоплату в личном кабинете</p>}
+                            {el.type == 'prepay' && el.is_online == 0 && index == 1 && <p className={s.text2}>Клиент внес предоплату на расчетный счет</p>}
+                            {el.type == 'ReqTraining' && <p className={s.text2}>Клиент записался на {handleDateStudy(el?.comment?.slice(-11))}</p>}
+                            {el.type == 'CancelTraining' && <p className={s.text2}>Клиент отменил запись</p>}
+                            {el.type == 'lkReqAccessCheck' && index == 0 && <p className={s.text2}>Акт подписан</p>}
+                            {el.type == 'ClientPayFull' && <p className={s.text2}>Дата поступления средств {handleDateLog(el.date).main}</p>}
+                            <p className={s.sub}>{handleDateLog(el.date).sub} {el.person ? `${el.person.name} ${el.person.surname}` : ''}</p>
 
-            {type === '1fail' &&
-                <div className={`${s.tooltip} ${dark && s.tooltip_dark} ${anim && s.anim} ${s.tooltip_1_fail}`}>
-                    <IconClose />
-                    <div className={s.container}>
-                        <p className={s.text}>Возврат предоплаты</p>
-                        <p className={s.sub}>7 ноября в 12:45 Юлия Корчагина</p>
-                    </div>
-                    <div className={s.trig}></div>
+                        </div>
+                    })}
                 </div>
-            }
 
-            {type === '2' &&
-                <div className={`${s.tooltip} ${dark && s.tooltip_dark} ${anim && s.anim} ${s.tooltip_2}`}>
-                    <IconTime />
-                    <div className={s.container}>
-                        <p className={s.text}>Запланировано обучение</p>
-                        <p className={s.text2}>Клиент записался на 25 ноября </p>
-                        <p className={s.sub}>7 ноября в 12:45</p>
-                    </div>
-                    <div className={s.trig}></div>
-                </div>
-            }
-            
-            {type === '2fail' &&
-                <div className={`${s.tooltip} ${dark && s.tooltip_dark} ${anim && s.anim} ${s.tooltip_2_fail}`}>
-                    <IconClose />
-                    <div className={s.container}>
-                        <p className={s.text}>Обучение отменено</p>
-                        <p className={s.text2}>Клиент отменил запись</p>
-                        <p className={s.sub}>17 ноября в 12:45</p>
-                    </div>
-                    <div className={s.trig}></div>
-                </div>
-            }
 
-            {type === '3' &&
-                <div className={`${s.tooltip} ${dark && s.tooltip_dark} ${anim && s.anim} ${s.tooltip_3}`}>
-                    <IconDone />
-                    <div className={s.container}>
-                        <p className={s.text}>Сумма договора подтверждена</p>
-                        <p className={s.sub}>7 ноября в 12:45 Юлия Корчагина </p>
-                    </div>
-                    <div className={s.trig}></div>
-                </div>
-            }
 
-            {type === '4' &&
-                <div className={`${s.tooltip} ${dark && s.tooltip_dark} ${anim && s.anim} ${sign === 1 ? s.tooltip_4 : s.tooltip_4_1}`}>
-                    <IconDone />
-                    <div className={s.container}>
-                        <p className={s.text}>Обучение пройдено</p>
-                        {sign === 1 && <p className={s.text2}>Акт подписан в личном кабинете</p>}
-                        {sign === 1 && <p className={s.sub}>7 ноября в 12:45</p>}
-                        {sign === 0 && <p className={s.text2}>Акт подписан на бумажном носителе</p>}
-                        {sign === 0 && <p className={s.sub}>7 ноября в 12:45 Юлия Корчагина</p>}
-                    </div>
-                    <div className={s.trig}></div>
-                </div>
-            }
-
-            {type === '5' &&
-                <div className={`${s.tooltip} ${dark && s.tooltip_dark} ${anim && s.anim} ${s.tooltip_5}`}>
-                    <IconDone2 />
-                    <div className={s.container}>
-                        <p className={s.text}>Средства поступили на счет</p>
-                        <p className={s.text2}>Дата поступления средств 6 ноября</p>
-                        <p className={s.sub}>7 ноября в 12:45 Юлия Корчагина</p>
-                    </div>
-                    <div className={s.trig}></div>
-                </div>
-            }
-
-        </>
+            </div>
+            <div className={s.trig}></div>
+        </div>
     )
 };
 

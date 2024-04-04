@@ -6,19 +6,10 @@ import ProgressStat from '../ProgressStat/ProgressStat';
 import Clients from '../Clients/Clients';
 import PlanSales from '../PlanSales/PlanSales';
 import { getSales } from '../../Api/Api';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { salesSelector } from '../../store/reducer/sales/selector';
 import TopConsul from '../TopConsul/TopConsul';
 import Debt from '../Debt/Debt';
-
-const indicatorsDay = [{ title: 'Входы в личный кабинет', quantity: 189, total: 500 },
-{ title: 'Открытые бизнес-планы', quantity: 105, total: 150 },
-{ title: 'Бизнес-планов на консультанта', quantity: 109, total: 250 }]
-
-const indicatorsExpert = [{ title: 'Zoom-встречи', quantity: 189, total: 500 },
-{ title: 'Одобренные анкеты', quantity: 105, total: 150 },
-{ title: 'Продажи', quantity: 109, total: 250 }]
-
 
 function Sales() {
     const [anim, setAnim] = useState(false);
@@ -31,9 +22,12 @@ function Sales() {
     const [statExpert, setStatExpert] = useState([]);
     const [date, setDate] = useState('')
     const [dailyAvarage, setDailyAvarage] = useState(0);
+    const [update, setUpdate] = useState(0);
     const salesInfo = useSelector(salesSelector);
     const dateMonth = salesInfo?.dateMonth;
-  
+    
+    const dispatch = useDispatch();
+
     useEffect(() => {
         setAnim(true);
     }, []);
@@ -45,11 +39,11 @@ function Sales() {
     useEffect(() => {
         window.scrollTo(0, 0);
         setLoader(true)
-        if (date !== '') {
+        if (date) {
             getSales(date)
                 .then((res) => {
                     const data = res.data.data;
-              
+                    console.log(data)
                     setSalesTotal(data.sales);
                     setGraphData(data.sale_graph.data);
                     setDailyAvarage(data.sale_graph.daily_average);
@@ -71,18 +65,30 @@ function Sales() {
         }
     }, [date]);
 
+    useEffect(() => {
+        if (date) {
+            getSales(date)
+                .then((res) => {
+                    const data = res.data.data;
+                    setClients(data.clients);
+                })
+                .catch(err => {
+                })
+        } 
+    }, [date, update]);
+
     return (
         <div className={`${s.sales} ${anim && s.anim}`}>
             <div className={s.header}>
                 <p className={s.title}>Продажи</p>
                 <CalendarMonth loader={loader} />
             </div>
-            <GraphSales salesTotal={salesTotal} loader={loader} graphData={graphData} dailyAvarage={dailyAvarage} />
+            <GraphSales salesTotal={salesTotal} loader={loader} graphData={graphData} dailyAvarage={dailyAvarage} experts={experts}/>
             <div className={s.stat}>
                 <ProgressStat title={'Бизнес-консультанты'} type={'consult'} indicators={statConsult} loader={loader} />
                 <ProgressStat title={'Эксперты'} type={'expert'} indicators={statExpert} loader={loader} />
             </div>
-            <Clients clients={clients} loader={loader} />
+            <Clients clients={clients} loader={loader} setUpdate={setUpdate}/>
             <PlanSales experts={experts} loader={loader} />
             <TopConsul loader={loader}/>
             <Debt/>

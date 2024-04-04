@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import s from './Metrics.module.scss';
 import SalesFunnel from './SalesFunnel/SalesFunnel';
 import Kpi from './Kpi/Kpi';
@@ -8,7 +8,14 @@ import { menuSelector } from '../../store/reducer/menu/selector';
 
 function Metrics() {
     const [activeButton, setActiveButton] = useState(1);
+    const [anim, setAnim] = useState(false);
     const dark = useSelector(menuSelector).dark;
+
+    useEffect(() => {
+            setAnim(true);
+        window.scrollTo(0, 0);
+    }, []);
+
 
     function handleMenu(e) {
         const id = Number(e.currentTarget.id);
@@ -16,7 +23,7 @@ function Metrics() {
 
     }
     return (
-        <div className={s.metrics}>
+        <div className={`${s.metrics} ${anim && s.metrics_anim}`}>
             <div className={s.header}>
                 <h2>Метрики</h2>
                 <div className={`${s.buttons} ${dark && s.buttons_dark}`}>

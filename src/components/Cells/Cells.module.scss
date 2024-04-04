@@ -1,7 +1,8 @@
 .cells {
-    height: 72px;
-    width: 226px;
+    height: 76px;
     display: flex;
     gap: 8px;
     width: 100%;
+    box-sizing: border-box;
+    position: relative;
 }

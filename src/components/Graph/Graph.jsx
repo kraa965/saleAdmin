@@ -39,13 +39,13 @@ function Graph({ dayMonth, graphData, loader }) {
             </div>
 
             <div className={s.content}>
-                {datesArr.map((el, index) => {
+                {datesArr?.map((el, index) => {
                     const payNum = graphData[el].items.length;
                     const payPlan = (setDayOfWeek(el).fDay === 'Сб' || setDayOfWeek(el).fDay === 'Вс') ? 0 : 2;
                     const payPlanColumn = payNum > payPlan ? payNum : payPlan;
                     return <div className={s.container_column}>
                         <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} id={`${index + 1}`} style={{ height: `${payPlanColumn / payMax * 100}%` }} className={`${s.columnplan} ${dark && s.columnplan_dark}`}>
-                            <div style={{ height: `${payNum / payPlanColumn * 100}%`, zIndex: `${31 - index}` }} className={s.column}>
+                            <div style={{ height: `${payNum / payPlanColumn * 100}%`, zIndex: `${31 - index}` }} className={`${s.column} ${payNum >= 2 && s.column_2}`}>
                                 <div className={`${s.tooltip} ${dark && s.tooltip_dark}`} style={{ display: index + 1 == tooltipId ? '' : 'none' }}>
                                     <div className={s.trigle}></div>
                                     <div className={s.total}>
