@@ -4,7 +4,7 @@ import { ReactComponent as IconTooltip } from '../../image/iconTooltip.svg';
 import { ReactComponent as IconChewron2 } from '../../image/iconChewron2.svg';
 import { useState, useEffect } from 'react';
 
-function SheduleTable({ dark, table }) {
+function SheduleTable({ dark, table, date }) {
     const [openTooltip, setOpenTooltip] = useState(false);
     const [anim, setAnim] = useState(false);
     const [sort, setSort] = useState('');
@@ -115,7 +115,7 @@ function SheduleTable({ dark, table }) {
                 <div className={s.header_profit}>Итого к оплате</div>
             </div>
             {tableSort.map((el) => {
-                return <SheduleTableItem dark={dark} manager={el?.manager} sheet={el?.sheet} />
+                return <SheduleTableItem dark={dark} manager={el?.manager} sheet={el?.sheet} date={date}/>
             })}
         </div>
     )

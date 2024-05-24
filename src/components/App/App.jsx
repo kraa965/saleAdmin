@@ -37,23 +37,33 @@ document.documentElement.dataset.theme = theme;
       return
     }
    
-    if (path == '/leader/dashboard') {
+    if (path == '/leader/dashboard' || path == '/leader/dashboard/' ) {
       document.title = 'Дашборд';
       return
     }
 
-    if (path == '/leader/dashboard/sales') {
+    if (path == '/leader/dashboard/sales' || path == '/leader/dashboard/sales/') {
       document.title = `Продажи`;
       return
     }
 
-    if (path == '/leader/dashboard/shedule') {
+    if (path == '/leader/dashboard/team' || path == '/leader/dashboard/team/') {
+      document.title = `Команда`;
+      return
+    }
+
+    if (path == '/leader/dashboard/shedule' || path == '/leader/dashboard/shedule/') {
       document.title = `Расписание`;
       return
     }
 
-    if (path == '/leader/dashboard/metrics') {
+    if (path == '/leader/dashboard/metrics' || path == '/leader/dashboard/metrics/   ') {
       document.title = `Метрики`;
+      return
+    }
+
+    if (path == '/leader/dashboard/stock' || path == '/leader/dashboard/stock/   ') {
+      document.title = `Склад`;
       return
     }
   }, [path]);

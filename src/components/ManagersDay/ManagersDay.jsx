@@ -17,7 +17,7 @@ function ManagersDay({ leaders, loader, managerStatus, mobLeaders, experts, role
   const [mobFilterWeekend, setMobFilterWeekend] = useState([]);
   const [viewWeekend, setViewWeekend] = useState(false);
   const [managerType, setManagerType] = useState('all');
-  const heigthItem = window.screen.availWidth > 720 ? 83.2 : 134;
+  const heigthItem = window.screen.availWidth > 720 ? 83.2 : 83.2;
 
   useEffect(() => {
 
@@ -56,7 +56,7 @@ function ManagersDay({ leaders, loader, managerStatus, mobLeaders, experts, role
     setConsultFilterWeekend(leaders?.filter(el => el.work_status !== "holiday"))
     setManagers(teamResultSorting3);
   }, [leaders]);
-  
+
 
   useEffect(() => {
     if (managerType === 'all') {
@@ -191,20 +191,20 @@ function ManagersDay({ leaders, loader, managerStatus, mobLeaders, experts, role
           </div>
         </div>
 
-        <ul style={{height: `${(viewWeekend ? managersFilter : managerFilterWeekend).length * heigthItem}px`}} className={s.list}>
+        <ul style={{ height: `${(viewWeekend ? managersFilter : managerFilterWeekend).length * heigthItem}px` }} className={s.list}>
           {(managersFilter)?.map((el, index) => {
             return <ManagerResult key={el.id} avatar={el.avatar} id={el.id} name={el.name} surname={el.surname} status={el.work_status}
               bp={el.bp_num} bpPlan={el.bp_plan} call={el.call_num} callPlan={el.call_plan}
               level={el.level} mistakes={el.mistakes} timeEnd={el.time_end_work} loader={loader} managerStatus={managerStatus} rate={el.rate}
-              schedule={el.schedule.id} pause={el.pause_time} pauseDuration={el.pause_duration} type={'leader'} 
-              loginNum={el.login_num} loginPlan={el.login_plan} lids={el.base_day_clients} lidsPlan={el.base_day_limit} activePoint={activePoint}/>
+              schedule={el.schedule.id} pause={el.pause_time} pauseDuration={el.pause_duration} type={'leader'}
+              loginNum={el.login_num} loginPlan={el.login_plan} lids={el.base_day_clients} lidsPlan={el.base_day_limit} activePoint={activePoint} callTime={el.average_call_time} />
           })}
         </ul>
-        {!viewWeekend && managersFilter.length !== managerFilterWeekend.length && <p className={s.button_weekend} onClick={handleViewWeekend}>Показать больше</p>}
-        {viewWeekend && managersFilter.length !== managerFilterWeekend.length && <p className={s.button_weekend} onClick={handleViewWeekend}>Скрыть</p>}
+       {/*  {!viewWeekend && managersFilter.length !== managerFilterWeekend.length && <p className={s.button_weekend} onClick={handleViewWeekend}>Показать больше</p>}
+        {viewWeekend && managersFilter.length !== managerFilterWeekend.length && <p className={s.button_weekend} onClick={handleViewWeekend}>Скрыть</p>} */}
       </div>
 
-      <div style={{ order: role === 'mobleader' ? '0' : role === 'frmanager' ? '2' : '' }} className={`${s.expert} ${dark && s.dark}`}>
+      {/* <div style={{ order: role === 'mobleader' ? '0' : role === 'frmanager' ? '2' : '' }} className={`${s.expert} ${dark && s.dark}`}>
         <p className={s.title}>Мобильные консультанты <sup>{mobFilterWeekend?.length} чел</sup></p>
 
         <ul className={s.list}>
@@ -212,11 +212,11 @@ function ManagersDay({ leaders, loader, managerStatus, mobLeaders, experts, role
             return <ManagerResult key={el.id} avatar={el.avatar} id={el.id} name={el.name} surname={el.surname} status={el.work_status}
               bp={el.bp_num} bpPlan={el.bp_plan} call={el.call_num} callPlan={el.call_plan}
               level={el.level} mistakes={el.mistakes} timeEnd={el.time_end_work} loader={loader} managerStatus={managerStatus}
-              rate={el.rate} schedule={el.schedule.id} pause={el.pause_time} pauseDuration={el.pause_duration} type={'mobleader'} 
-              loginNum={el.login_num} loginPlan={el.login_plan} lids={el.base_day_clients} lidsPlan={el.base_day_limit} activePoint={activePoint}/>
+              rate={el.rate} schedule={el.schedule.id} pause={el.pause_time} pauseDuration={el.pause_duration} type={'mobleader'}
+              loginNum={el.login_num} loginPlan={el.login_plan} lids={el.base_day_clients} lidsPlan={el.base_day_limit} activePoint={activePoint} callTime={el.average_call_time} />
           })}
         </ul>
-      </div>
+      </div> */}
 
       <div style={{ order: role === 'frmanager' ? '0' : role === 'mobleader' ? '2' : '' }} className={`${s.expert} ${dark && s.dark}`}>
         <p className={s.title}>Эксперты <sup>{expertFilterWeekend?.length} чел</sup></p>
@@ -226,7 +226,7 @@ function ManagersDay({ leaders, loader, managerStatus, mobLeaders, experts, role
             return <ManagerResult avatar={el.avatar} key={el.id} id={el.id} name={el.name} surname={el.surname} status={el.work_status}
               bp={el.zoom_num} bpPlan={2/* el.zoom_plan */} call={el.call_num} callPlan={el.call_plan} newClients={el.new_clients_num}
               level={el.level} mistakes={el.mistakes} timeEnd={el.time_end_work} loader={loader} managerStatus={managerStatus} rate={el.rate}
-              typeManager={'expert'} pause={el.pause_time} pauseDuration={el.pause_duration} type={'frmanager'} activePoint={activePoint}/>
+              typeManager={'expert'} pause={el.pause_time} pauseDuration={el.pause_duration} type={'frmanager'} activePoint={activePoint} callTime={el.average_call_time} />
           })}
         </ul>
       </div>

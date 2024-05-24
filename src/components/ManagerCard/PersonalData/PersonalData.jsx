@@ -43,7 +43,7 @@ function PersonalData() {
     }
 
     const handleSelectSex = (e) => {
-        const sex = e.currentTarget.textContent;
+        const sex = e.currentTarget.id;
         dispatch(setSex(sex));
         localStorage.setItem('addSex', JSON.stringify(sex));
         setSexList(false);
@@ -97,11 +97,11 @@ function PersonalData() {
                 <div className={s.block}>
                     <p className={s.sub}>Пол</p>
                     <div ref={modalRef} onClick={handleOpenSexList} className={`${s.select}  ${sexList && s.select_open}`}>
-                        <input onClick={handleOpenSexList} value={workerInfo.sex || ''} className={`${s.input} ${s.input_select}`} placeholder='Укажите пол' type='text'></input>
+                        <input onClick={handleOpenSexList} value={workerInfo.sex == 1 ? 'Мужской' : 'Женский'  || ''} className={`${s.input} ${s.input_select}`} placeholder='Укажите пол' type='text'></input>
                         <ArrowInput />
                         <div className={`${s.list} ${sexList && s.list_open}`}>
-                            <div onClick={handleSelectSex} className={`${s.item} ${workerInfo.sex == 'Мужской' && s.item_active}`}><p>Мужской</p></div>
-                            <div onClick={handleSelectSex} className={`${s.item} ${workerInfo.sex == 'Женский' && s.item_active}`}><p>Женский</p></div>
+                            <div id = '1' onClick={handleSelectSex} className={`${s.item} ${workerInfo.sex == '1' && s.item_active}`}><p>Мужской</p></div>
+                            <div id = '0' onClick={handleSelectSex} className={`${s.item} ${workerInfo.sex == '0' && s.item_active}`}><p>Женский</p></div>
                         </div>
                     </div>
                 </div>
@@ -114,15 +114,15 @@ function PersonalData() {
 
             <p className={s.sub}>Моб телефон</p>
             <div className={`${s.input} ${s.input_tel}`}>
-                <InputMask mask="+7 (999)-999-9999" onChange={handleTel} value={workerInfo.tel || ''}>
+                <InputMask mask="+7 (999)-999-99-99" onChange={handleTel} value={workerInfo.tel || ''}>
                     {() => <input
                         type="tel"
-                        placeholder="+7 (___)-___-____"
+                        placeholder="+7 (___)-___-__-__"
                     />}
                 </InputMask>
             </div>
             <p className={s.sub}>Добавочный в Mango</p>
-            <input onChange={handleMango} className={`${s.input} ${s.input_text}`} value={workerInfo.mango || ''} placeholder='Не указано' type='text'></input>
+            <input onChange={handleMango} className={`${s.input} ${s.input_text}`} value={workerInfo.mango || ''} placeholder='Не указано' type='number'></input>
 
             <p className={s.sub}>Логин в Скилла</p>
             <input onChange={handleLogin} className={`${s.input} ${s.input_text}`} value={workerInfo.login || ''} placeholder='Не указано' type='text'></input>

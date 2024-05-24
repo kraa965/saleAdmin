@@ -85,6 +85,22 @@
         margin: 0;
         caret-color: transparent
     }
+
+    &_dis {
+        background-color: var(--color-bg-disabled);
+        color: var(--color-button-disabled);
+        cursor: default;
+
+        input {
+            background-color: var(--color-bg-disabled);
+            color: var(--color-button-disabled);
+            cursor: default;
+        }
+
+        svg path {
+            fill: var(--color-button-disabled);
+        }
+    }
 }
 
 .list {

@@ -1,0 +1,251 @@
+.member {
+    padding: 24px;
+    background-color: #F8FAFD;
+    border-radius: 8px;
+    min-width: 262px;
+    box-sizing: border-box;
+
+    &_dark {
+        background-color: #2C374B;
+
+    }
+}
+
+.header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.avatar {
+    width: 130px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+
+    div {
+        width: 140px;
+    }
+
+}
+
+.add {
+    background-color: #FFF;
+    border-radius: 200px;
+    box-shadow: 3px 3px 20px 0px rgba(94, 92, 154, 0.12);
+    height: 32px;
+    width: 83px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+
+    &_dark {
+        background-color: #1A263B;
+    }
+}
+
+.name {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    margin-bottom: 12px;
+}
+
+.level {
+    height: 18px;
+    width: 162px;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.progress {
+    width: 100%;
+    height: 12px;
+    background-color: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    position: relative;
+
+    &_dark {
+        background-color: #1A263B;
+    }
+}
+
+.inner {
+    height: 100%;
+    background: linear-gradient(450deg, #FFD146, #FFF734);
+}
+
+.indicators {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    span {
+        position: relative;
+        height: 14px;
+        width: 68px;
+    }
+}
+
+.indicator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    position: relative;
+    cursor: pointer;
+}
+
+.tooltip {
+    position: absolute;
+    top: -74px;
+    right: -238px;
+    padding: 16px;
+    border-radius: 4px;
+    background-color: #FFF;
+    box-shadow: 0px 2px 8px 0px rgba(0, 32, 51, 0.16), 0px 2px 2px 0px rgba(0, 32, 51, 0.02);
+    display: flex;
+    flex-direction: column;
+    width: 231px;
+    box-sizing: border-box;
+    gap: 12px;
+    z-index: 5;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.2s;
+
+    span {
+        color: #71869D;
+    }
+
+    &_open {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .trig {
+        position: absolute;
+        top: 45%;
+        left: -4px;
+        width: 10px;
+        height: 10px;
+        background-color: #FFF;
+        transform: rotate(45deg);
+    }
+
+    &_left {
+        left: -238px;
+
+        .trig {
+            position: absolute;
+            top: 45%;
+            left: 226px;
+            width: 10px;
+            height: 10px;
+            background-color: #FFF;
+            transform: rotate(45deg);
+        }
+    }
+
+    &_dark {
+        background-color: #2D314E;
+        box-shadow: 0px 2px 8px 0px rgba(0, 32, 51, 0.16), 0px 2px 2px 0px rgba(0, 32, 51, 0.02);
+
+        svg path {
+            fill: #ECECEC;
+        }
+
+        span {
+            color: #9397A6;
+        }
+
+        .trig {
+            background-color: #2D314E;
+        }
+    }
+
+    &_2 {
+        width: 316px;
+        top: -142px;
+        right: -325px;
+    }
+
+    &_left2 {
+        left: -326px;
+
+        .trig {
+            position: absolute;
+            top: 45%;
+            left: 310px;
+            width: 10px;
+            height: 10px;
+            transform: rotate(45deg);
+        }
+    }
+}
+
+.container_tooltip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+
+    div {
+        display: flex;
+        align-items: center;
+
+
+        svg {
+            margin-right: 4px;
+        }
+    }
+}
+
+.overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 110%;
+    height: 110%;
+    z-index: 3;
+    background-color: #0F1E2FCC;
+    color: #FFFFFF;
+    opacity: 0;
+    transition: all 0.2s;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.point {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #2EA96E;
+
+    &_orange {
+        background-color: #FFC227;
+    }
+
+    &_red {
+        background-color: #E75A5A;
+    }
+}

@@ -4,16 +4,16 @@ const initialState = {
 	filledStage: 0,
 	name: JSON.parse(localStorage.getItem('addName')) || '',
 	secondName: JSON.parse(localStorage.getItem('addSecondName')) || '',
-	sex: JSON.parse(localStorage.getItem('addSex')) || '',
+	sex: JSON.parse(localStorage.getItem('addSex')) || 1,
 	hbDate: JSON.parse(localStorage.getItem('addHbDate')) || '',
 	tel: JSON.parse(localStorage.getItem('addTel')) || '',
 	mango: JSON.parse(localStorage.getItem('addMango')) || '',
 	login: JSON.parse(localStorage.getItem('addLogin')) || '',
 	password: JSON.parse(localStorage.getItem('addPassword')) || '',
-	format: JSON.parse(localStorage.getItem('format')) || 'Офис',
+	format: JSON.parse(localStorage.getItem('format')) || 0,
 	startDate: JSON.parse(localStorage.getItem('startDateManager')) || '',
-	shedule: JSON.parse(localStorage.getItem('shedule')) || 0,
-	shedule2: JSON.parse(localStorage.getItem('shedule2')) || 0,
+	shedule: JSON.parse(localStorage.getItem('shedule')) || 1,
+	shedule2: JSON.parse(localStorage.getItem('shedule2')) || 1,
 	photo: JSON.parse(localStorage.getItem('photo')) || {},
 };
 
@@ -95,7 +95,7 @@ export const {
 	setStartDate,
 	setShedule,
 	setShedule2,
-	setPhoto
+	setPhoto,
 } = addWorkSlice.actions;
 
 export default addWorkSlice.reducer;

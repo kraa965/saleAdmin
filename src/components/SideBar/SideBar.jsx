@@ -26,6 +26,8 @@ import { ReactComponent as NavPartners } from '../../image/navPartners.svg';
 import { ReactComponent as NavAnalytics } from '../../image/navAnalytics.svg';
 import { ReactComponent as IconEvent } from '../../image/iconEvent.svg';
 import { ReactComponent as MobButton } from '../../image/mobButton.svg';
+import { ReactComponent as IconArrow } from '../../image/ArrowInput.svg';
+import { ReactComponent as Stock } from '../../image/icon/sidebar/Stock.svg';
 import { useEffect, useState } from 'react';
 import { setMenuStatus } from '../../store/reducer/menu/slice';
 import { useDispatch } from 'react-redux';
@@ -50,6 +52,7 @@ function SideBar({ role, location }) {
     const [diretProgressNow, setDirectProgressNow] = useState(0);
     const [percentNow, setPercentNow] = useState(0);
     const [openMobMenu, setOpenMobMenu] = useState(false);
+    const [openList, setOpenList] = useState(false);
     const dispatch = useDispatch();
     const dark = useSelector(menuSelector).dark;
     const optionsRef = useRef();
@@ -144,6 +147,12 @@ function SideBar({ role, location }) {
                 localStorage.setItem('point', JSON.stringify(22))
                 return
             }
+
+            if (path === '/leader/dashboard/stock') {
+                setActivePoint(23);
+                localStorage.setItem('point', JSON.stringify(23))
+                return
+            }
         }
 
     }, [location.pathname])
@@ -225,6 +234,14 @@ function SideBar({ role, location }) {
         }
     }
 
+    function handleOpenList() {
+        openList && activePoint !== 23 && activePoint !== 24 ? setOpenList(false) : setOpenList(true);
+    }
+
+    useEffect(() => {
+        activePoint !== 23 && activePoint !== 24 && setOpenList(false);
+    }, [activePoint])
+
     return (
         <>
             <div className={`${s.sidebar} ${openMobMenu && s.sidebar_open}`}>
@@ -305,6 +322,13 @@ function SideBar({ role, location }) {
                     <Link to={'/leader/dashboard/metrics'}>
                         <li onClick={handleActivePoint} id='22' className={`${s.item} ${s.item_2} ${activePoint === 22 && s.item_2_active}`}><IconMetrics />Метрики</li>
                     </Link>
+                    <div className={`${s.list} ${(openList || activePoint === 23 || activePoint === 24) && s.list_open}`}>
+                        <li id='233' onClick={handleOpenList} className={`${s.item} ${(activePoint === 23 || activePoint === 24) && s.item_active}`}><Stock />Закупки <div className={`${s.arrow} ${(openList || activePoint === 23 || activePoint === 24) && s.arrow_open}`}><IconArrow /></div></li>
+                        <li onClick={handleActivePoint} id='24' className={`${s.item} ${s.item_small} ${s.item_dis} ${activePoint === 24 && s.item_small_active}`}>Список закупок</li>
+                        <Link to={'/leader/dashboard/stock'}>
+                            <li onClick={handleActivePoint} id='23' className={`${s.item} ${s.item_small} ${activePoint === 23 && s.item_small_active}`}>Склад</li>
+                        </Link>
+                    </div>
 
                     <a href='https://lk.skilla.ru/frmanager/?type=all'><li onClick={handleActivePoint} id='3' className={`${s.item} ${s.item_3} ${activePoint === 3 && s.item_active}`}><IconOrders />Заявки</li></a>
                     {/* <a href='https://lk.skilla.ru/leader/report'><li onClick={handleActivePoint} id='4' className={`${s.item} ${s.item_3} ${activePoint === 4 && s.item_active}`}><IconSvod />Сводка</li></a> */}
@@ -339,6 +363,10 @@ function SideBar({ role, location }) {
                         <li onClick={handleActivePoint} id='2' className={`${s.item} ${s.item_2} ${activePoint === 2 && s.item_2_active}`}><SalesIcon />Продажи</li>
                     </Link>
 
+                    <Link to={'/leader/dashboard/team'}>
+                        <li onClick={handleActivePoint} id='19' className={`${s.item}  ${activePoint === 19 && s.item_active}`}><IconTeam />Команда</li>
+                    </Link>
+
                     <a href='https://lk.skilla.ru/leader/managers'><li onClick={handleActivePoint} id='10' className={`${s.item} ${s.item_3} ${activePoint === 10 && s.item_active}`}><IconManager />Менеджеры</li></a>
                     <a href='https://lk.skilla.ru/leader/skills'><li onClick={handleActivePoint} id='14' className={`${s.item} ${s.item_3} ${activePoint === 14 && s.item_active}`}><IconStat />Сдача навыков</li></a>
                     {/*  <a href='https://lk.skilla.ru/leader/managers/nowork'><li onClick={handleActivePoint} id='3' className={`${s.item} ${s.item_3} ${activePoint === 3 && s.item_active}`}><IconEvent />События</li></a> */}
@@ -354,6 +382,10 @@ function SideBar({ role, location }) {
                     </Link>
                     <Link to={'/leader/dashboard/shedule'}>
                         <li onClick={handleActivePoint} id='21' className={`${s.item}  ${activePoint === 21 && s.item_active}`}><IconShedule />Расписание</li>
+                    </Link>
+
+                    <Link to={'/leader/dashboard/team'}>
+                        <li onClick={handleActivePoint} id='19' className={`${s.item}  ${activePoint === 19 && s.item_active}`}><IconTeam />Команда</li>
                     </Link>
                     <a href='https://lk.skilla.ru/leader/managers'><li onClick={handleActivePoint} id='10' className={`${s.item} ${s.item_3} ${activePoint === 10 && s.item_active}`}><IconManager />Менеджеры</li></a>
                     <a href='https://lk.skilla.ru/frmanager/bp/'><li onClick={handleActivePoint} id='5' className={`${s.item} ${s.item_3} ${activePoint === 5 && s.item_active}`}><IconOpenBp />Открытые БП</li></a>

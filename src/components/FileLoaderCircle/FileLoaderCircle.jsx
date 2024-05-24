@@ -47,6 +47,7 @@ function FileLoaderCircle({ file, setFile, type }) {
         reader.onload = function () {
             setFile({
                 file: reader.result,
+                fileSend: file,
                 name: file.name,
                 size: file.size / 1048576
             })

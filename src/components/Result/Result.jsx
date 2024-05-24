@@ -93,13 +93,13 @@ function Result({activePoint, date, setLoader, loader, managers}) {
                     loader={loader} managerStatus={activePoint === 0 ? managerStatus : {}} role={role} />
                 {role === 'leader' && <div className={s.stat}>
                     <ProgressStat title={'Бизнес-консультанты'} type={'default'} indicators={activePoint === 0 ? statToday : stat} loader={loader} activePoint={activePoint} />
-                    <ProgressStat title={'Мобильные бизнес-консультнты'} type={'mob'} indicators={activePoint === 0 ? statMobToday : statMob} loader={loader} activePoint={activePoint} />
+                   {/*  <ProgressStat title={'Мобильные бизнес-консультнты'} type={'mob'} indicators={activePoint === 0 ? statMobToday : statMob} loader={loader} activePoint={activePoint} /> */}
                     <ProgressStat title={'Эксперты'} type={'expert'} day={true} indicators={activePoint === 0 ? statExpertToday : statExpert} loader={loader}  activePoint={activePoint}/>
                 </div>
                 }
 
                 {role === 'mobleader' && <div className={s.stat}>
-                    <ProgressStat title={'Мобильные бизнес-консультнты'} type={'mob'} indicators={activePoint === 0 ? statMobToday : statMob} loader={loader} activePoint={activePoint} />
+                    {/* <ProgressStat title={'Мобильные бизнес-консультнты'} type={'mob'} indicators={activePoint === 0 ? statMobToday : statMob} loader={loader} activePoint={activePoint} /> */}
                     <ProgressStat title={'Бизнес-консультанты'} type={'default'} indicators={activePoint === 0 ? statToday : stat} loader={loader} activePoint={activePoint} />
                     <ProgressStat title={'Эксперты'} type={'expert'} day={true} indicators={activePoint === 0 ? statExpertToday : statExpert} loader={loader} activePoint={activePoint}/>
                 </div>
@@ -108,7 +108,7 @@ function Result({activePoint, date, setLoader, loader, managers}) {
                 {role === 'frmanager' && <div className={s.stat}>
                     <ProgressStat title={'Эксперты'} type={'expert'} day={true} indicators={activePoint === 0 ? statExpertToday : statExpert} loader={loader} activePoint={activePoint}/>
                     <ProgressStat title={'Бизнес-консультанты'} type={'default'} indicators={activePoint === 0 ? statToday : stat} loader={loader} activePoint={activePoint} />
-                    <ProgressStat title={'Мобильные бизнес-консультнты'} type={'mob'} indicators={activePoint === 0 ? statMobToday : statMob} loader={loader} activePoint={activePoint} />
+                    {/* <ProgressStat title={'Мобильные бизнес-консультнты'} type={'mob'} indicators={activePoint === 0 ? statMobToday : statMob} loader={loader} activePoint={activePoint} /> */}
                 </div>
                 }
                 <WorkSpace />

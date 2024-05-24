@@ -43,6 +43,7 @@ function FileLoader({ file, setFile }) {
         reader.onload = function () {
             dispatch(setFile({
                 file: reader.result,
+                fileSend: file,
                 name: file.name,
                 size: file.size / 1048576
             }))

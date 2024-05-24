@@ -3,6 +3,7 @@ import ResultOverlay from '../Result/ResultOverlay';
 import Sales from '../Sales/Sales';
 import Team from '../Team/Team';
 import Skills from '../Skills/Skills';
+import AppStock from '../Stock/components/AppStock/AppStock';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { menuSelector } from '../../store/reducer/menu/selector';
@@ -28,6 +29,7 @@ function Window({role}) {
                     <Route path="/leader/dashboard/skills" element={<Skills />} />
                     <Route path="/leader/dashboard/shedule" element={<Shedule role={role}/>} />
                     <Route path="/leader/dashboard/metrics" element={<Metrics />} />
+                    <Route path="/leader/dashboard/stock" element={<AppStock />} />
                     {/* {menu === 'result' && <Result />}
                         {menu === 'sales' && <Sales />} */}
                     {/* {menu === 'team' && <Team />}

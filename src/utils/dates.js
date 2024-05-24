@@ -176,6 +176,7 @@ export function handleTimeNowExpert() {
 
 export function handleDiffDates(date) {
   const date1 = new Date(date);
+  console.log(date)
   const date3 = new Date();
   return Math.floor((date3 - date1) / (60 * 60 * 24 * 1000));
 }
@@ -320,6 +321,15 @@ export function handleRangeDate(n) {
   return `${day < 10 ? `0${day}` : `${day}`}.${month + 1 < 10 ? `0${month + 1}` : `${month + 1}`}`;
 }
 
+export function handleRangeDateYear(n) {
+  const date = new Date(n);
+  console.log(date)
+  const day = date.getDate();
+  const month = date.getMonth();
+  const year = date.getFullYear();
+  return `${day < 10 ? `0${day}` : `${day}`}.${month + 1 < 10 ? `0${month + 1}` : `${month + 1}`}.${year}`;
+}
+
 export const handleDateLog = (n) => {
   const date = new Date(n);
   const day = date.getDate();
@@ -345,7 +355,7 @@ export const handleDateLog = (n) => {
   }
 
   return {
-    sub: `${day} ${fMonth2} в ${hours >= 10 ? hours: `0${hours}`}:${minutes >= 10 ? minutes: `0${minutes}`}`,
+    sub: `${day} ${fMonth2} в ${hours >= 10 ? hours : `0${hours}`}:${minutes >= 10 ? minutes : `0${minutes}`}`,
     main: `${day} ${fMonth2}`
   }
 }
@@ -374,4 +384,45 @@ export const handleDateStudy = (n) => {
   }
 
   return `${day} ${fMonth2}`;
+}
+
+export const handleCompareDate = (n) => {
+  const m = `${n.slice(4, 6)}-${n.slice(1, 3)}-${n.slice(7, 11)}`;
+  const date = new Date(m);
+  const date2 = new Date();
+  const result = date2 < date ? true : false;
+  return result;
+}
+
+export const handleCompareTime = (n) => {
+  const date = new Date();
+  date.setHours(n);
+  date.setMinutes(0);
+  const date2 = new Date();
+  const result = date2 > date ? false : true;
+  return result;
+}
+
+export const handleMonth = (n) => {
+  const date = new Date();
+  const month = date.getMonth() + n;
+
+  let fMonth2;
+  switch (month) {
+    case 0: fMonth2 = "январь"; break;
+    case 1: fMonth2 = "февраль"; break;
+    case 2: fMonth2 = "март"; break;
+    case 3: fMonth2 = "апрель"; break;
+    case 4: fMonth2 = "май"; break;
+    case 5: fMonth2 = "июнь"; break;
+    case 6: fMonth2 = "июль"; break;
+    case 7: fMonth2 = "август"; break;
+    case 8: fMonth2 = "сентябрь"; break;
+    case 9: fMonth2 = "октябрь"; break;
+    case 10: fMonth2 = "ноябрь"; break;
+    case 11: fMonth2 = "декабрь"; break;
+    default:
+  }
+
+  return fMonth2;
 }

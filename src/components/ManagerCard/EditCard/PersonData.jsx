@@ -6,7 +6,7 @@ import InputMask from 'react-input-mask';
 
 const PersonData = ({ name, setName, surName, setSurName,
     sex, setSex, hbDate, setHbDate, tel, setTel, mango, setMango,
-    login, setLogin, password, setPassword, comment, setComment }) => {
+    login, setLogin, password, setPassword, comment, setComment, restoreWindow }) => {
     const [sexList, setSexList] = useState(false);
     const textRef = useRef();
     const modalRef = useRef();
@@ -21,6 +21,7 @@ const PersonData = ({ name, setName, surName, setSurName,
 
     const handleSelectSex = (e) => {
         const sex = e.currentTarget.id;
+        console.log(sex)
         setSex(sex);
         setSexList(false);
     }
@@ -42,6 +43,7 @@ const PersonData = ({ name, setName, surName, setSurName,
             console.log(id)
             const regex = /[0-9]/g;
             const cleanValue = value?.match(regex)?.join('');
+            console.log('телефон', value, cleanValue, tel)
             value && setTel(cleanValue);
             return
         }
@@ -62,7 +64,7 @@ const PersonData = ({ name, setName, surName, setSurName,
         }
 
         if (id === 'comment') {
-            setComment(textRef.current.textContent);
+            setComment(value);
             return
         }
 
@@ -82,71 +84,73 @@ const PersonData = ({ name, setName, surName, setSurName,
 
         return () => document.removeEventListener('click', closeModal);
     }, []);
+
+    console.log(restoreWindow)
     return (
         <div className={s.data}>
             <div className={s.container_string}>
                 <div className={s.block}>
                     <p className={s.sub}>Имя</p>
-                    <input autocomplete="off" id='name' onChange={handleChangeData} className={`${s.input}`} value={name || ''} placeholder='Имя' type='text'></input>
+                    <input disabled={restoreWindow} autocomplete="off" id='name' onChange={handleChangeData} className={`${s.input}`} value={name || ''} placeholder='Имя' type='text'></input>
                 </div>
                 <div className={s.block}>
                     <p className={s.sub}>Фамилия</p>
-                    <input autocomplete="off" id='surname' onChange={handleChangeData} className={`${s.input}`} value={surName || ''} placeholder='Фамилия' type='text'></input>
+                    <input disabled={restoreWindow} autocomplete="off" id='surname' onChange={handleChangeData} className={`${s.input}`} value={surName || ''} placeholder='Фамилия' type='text'></input>
                 </div>
             </div>
 
             <div className={s.container_string}>
                 <div className={s.block}>
                     <p className={s.sub}>Пол</p>
-                    <div ref={modalRef} onClick={handleOpenSexList} className={`${s.select}  ${sexList && s.select_open}`}>
-                        <input onClick={handleOpenSexList} value={sex == 'male' ? 'Мужской' : sex == 'female' ? 'Женский' : '' || ''} className={`${s.input} ${s.input_select}`} placeholder='Укажите пол' type='text'></input>
+                    <div ref={modalRef} onClick={handleOpenSexList} className={`${s.select} ${sexList && s.select_open} ${restoreWindow && s.select_dis}`}>
+                        <input disabled={restoreWindow} onClick={handleOpenSexList} value={sex == '1' ? 'Мужской' : sex == '0' ? 'Женский' : '' || ''} className={`${s.input} ${s.input_select}`} placeholder='Укажите пол' type='text'></input>
                         <ArrowInput />
-                        <div  className={`${s.list} ${sexList && s.list_open}`}>
-                            <div id='male' onClick={handleSelectSex} className={`${s.itemlist} ${sex == 'male' && s.itemlist_active}`}><p>Мужской</p></div>
-                            <div id='female' onClick={handleSelectSex} className={`${s.itemlist} ${sex == 'female' && s.itemlist_active}`}><p>Женский</p></div>
+                        <div className={`${s.list} ${sexList && s.list_open}`}>
+                            <div id='1' onClick={handleSelectSex} className={`${s.itemlist} ${sex == '1' && s.itemlist_active}`}><p>Мужской</p></div>
+                            <div id='0' onClick={handleSelectSex} className={`${s.itemlist} ${sex == '0' && s.itemlist_active}`}><p>Женский</p></div>
                         </div>
                     </div>
                 </div>
 
                 <div className={s.block}>
                     <p className={s.sub}>День рождения</p>
-                    <DataPickerMiu date={hbDate} setDate={setHbDate} type={'edit'} />
+                    <DataPickerMiu disabled={restoreWindow} date={hbDate} setDate={setHbDate} type={'edit'} />
                 </div>
             </div>
 
             <div className={s.container_string}>
                 <div className={s.block}>
                     <p className={s.sub}>Моб телефон</p>
-                    <div className={`${s.input} ${s.input_tel}`}>
-                        <InputMask mask="+7 (999)-999-9999" onChange={handleChangeData} value={tel || ''}>
+                    <div className={`${s.input} ${s.input_tel} ${restoreWindow && s.input_tel_dis}`}>
+                        <InputMask mask="+7 (999)-999-99-99" onChange={handleChangeData} value={tel || ''}>
                             {() => <input
                                 id='tel'
                                 type="tel"
-                                placeholder="+7 (___)-___-____"
+                                placeholder="+7 (___)-___-__-__"
                             />}
                         </InputMask>
                     </div>
                 </div>
                 <div className={s.block}>
                     <p className={s.sub}>Добавочный в Mango</p>
-                    <input autocomplete="off" id='mango' onChange={handleChangeData} className={`${s.input}`} value={mango || ''} placeholder='Mango' type='text'></input>
+                    <input disabled={restoreWindow} autocomplete="off" id='mango' onChange={handleChangeData} className={`${s.input}`} value={mango || ''} placeholder='Mango' type='number'></input>
                 </div>
             </div>
 
             <div className={s.container_string}>
                 <div className={s.block}>
                     <p className={s.sub}>Логин в Скилла</p>
-                    <input autocomplete="off" id='login' onChange={handleChangeData} className={`${s.input}`} value={login || ''} placeholder='Логин' type='text'></input>
+                    <input disabled={true} autocomplete="off" id='login' onChange={handleChangeData} className={`${s.input}`} value={login || ''} placeholder='Логин' type='text'></input>
                 </div>
                 <div className={s.block}>
                     <p className={s.sub}>Пароль</p>
-                    <input autocomplete="off" id='password' onChange={handleChangeData} className={`${s.input}`} value={password || ''} placeholder='Пароль' type='text'></input>
+                    <input disabled={restoreWindow} autocomplete="off" id='password' onChange={handleChangeData} className={`${s.input}`} value={password || ''} placeholder='Пароль' type='text'></input>
                 </div>
             </div>
             <div className={s.container_string}>
                 <div className={s.block}>
                     <p className={s.sub}>Комментарий</p>
-                    <textarea id='comment' ref={textRef} onChange={handleChangeData} className={s.comment} placeholder='Комментарий'></textarea>
+                    <textarea disabled={restoreWindow} id='comment' ref={textRef} onChange={handleChangeData} className={s.comment} placeholder='Комментарий'></textarea>
                 </div>
             </div>
         </div>

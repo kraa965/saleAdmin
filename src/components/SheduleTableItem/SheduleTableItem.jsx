@@ -6,7 +6,7 @@ import { addSpaceNumber } from '../../utils/addSpaceNumber';
 import { useState, useEffect } from 'react';
 import { setDayOfWeek } from '../../utils/dates';
 
-function SheduleTableItem({ dark, manager, sheet }) {
+function SheduleTableItem({ dark, manager, sheet, date }) {
     const [tooltipFail, setTooltipFail] = useState(false);
     const [tooltip, setTooltip] = useState(false);
     const [colorLine, setColorLine] = useState('');
@@ -48,22 +48,26 @@ function SheduleTableItem({ dark, manager, sheet }) {
         }
     }
 
+    console.log(sheet)
+
     return (
-        <div className={`${s.item} ${dark && s.item_dark}`}>
+        <div style={{ display: sheet.shift_worked <= 0 && date.monthIndex <= 0 ? 'none' : '' }} className={`${s.item} ${dark && s.item_dark}`}>
             <div className={s.manager}>
                 <div className={s.avatar}>
                     <img src={manager.avatar === '' ? avatarDef : manager.avatar}></img>
                 </div>
 
                 <div className={`${s.block_text} ${dark && s.block_text_dark}`}>
-                    <p className={s.text}>{manager.name} {manager.surname}<sup>lvl {manager.level}</sup></p>
+                    <div><p className={`${s.text} ${s.text_2}`}>{manager.name} {manager.surname}</p>
+                        <sup>lvl {manager.level}</sup>
+                    </div>
                     <span>{manager.schedule.id === 1 ? '5/2' : '2/2'}</span>
                 </div>
             </div>
             <div className={s.progress}>
                 <p className={s.text}>{sheet.bp_num} из {sheet.bp_plan} БП / {sheet.bp_num == 0 ? Math.round(sheet.earnings_total) : addSpaceNumber(Math.round(sheet.earnings_total / sheet.bp_num))} руб</p>
                 <div className={`${s.line} ${dark && s.line_dark}`}>
-                    <div style={{ width: `${sheet.earnings_actual / sheet.plan * 100}%` }} className={`${s.line_plan} ${dark && s.line_plan_dark}`}></div>
+                   {/*  <div style={{ width: `${sheet.earnings_actual / sheet.plan * 100}%` }} className={`${s.line_plan} ${dark && s.line_plan_dark}`}></div> */}
                     <div style={{ width: (sheet.bp_num == 0 || !sheet.bp_num) ? '0%' : `${sheet.bp_num / sheet.bp_plan * 100}%` }} className={`${s.inner} ${colorLine === 'yellow' && s.yellow} 
                                                                                                 ${colorLine === 'green' && s.green} ${colorLine === 'red' && s.red}`}>
                     </div>
@@ -89,7 +93,7 @@ function SheduleTableItem({ dark, manager, sheet }) {
             </div>
             <div className={s.shift}>
                 <div className={s.shifts}>
-                    <p className={s.text}>{Math.floor(sheet.shift_worked)} из {sheet.shift_number}</p>
+                    <p className={s.text}>{sheet.shift_worked - (sheet.shift_half * 0.5)} из {sheet.shift_number}</p>
                 </div>
                 {sheet?.mistakes?.filter((el) => el?.type?.name === 'Незапланированный выходной за свой счет' ||
                     el?.type?.name === 'Плановый выходной за свой счет' ||
@@ -113,17 +117,17 @@ function SheduleTableItem({ dark, manager, sheet }) {
 
             <div className={`${s.shift} ${s.shift_half}`}>
                 <div className={s.shifts}>
-                    <p className={s.text}>{sheet.shift_half}</p>
+                    <p className={s.text}>{sheet.shift_half == 0 ? '' : sheet.shift_half}</p>
                 </div>
             </div>
 
             <div className={`${s.shift} ${s.shift_vacation}`}>
                 <div className={s.shifts}>
-                    <p className={s.text}>{sheet.shift_vacation}</p>
+                    <p className={s.text}>{sheet.shift_vacation == 0 ? '' : sheet.shift_vacation}</p>
                 </div>
             </div>
 
-           {/*  <div className={s.accruals}>
+            {/*  <div className={s.accruals}>
                 <p className={s.text}>{addSpaceNumber(sheet.earnings_actual)}</p>
             </div> */}
             <div className={s.profit}>

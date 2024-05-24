@@ -11,6 +11,7 @@ import { ReactComponent as IconPauseSmall } from '../../image/iconPauseSmall.svg
 import { ReactComponent as ArrowDown } from '../../image/arrowDown.svg';
 import { ReactComponent as ArrowNarrow } from '../../image/arrowNarrow.svg';
 import { ReactComponent as WarningRed } from '../../image/warningRed.svg';
+import { ReactComponent as IconCallTime } from '../../image/iconCallTime.svg';
 import { menuSelector } from '../../store/reducer/menu/selector';
 import { useSelector } from 'react-redux';
 import Tooltip from '../Tooltip/Tooltip';
@@ -20,7 +21,7 @@ import Profile from '../Profile/Profile';
 
 function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPlan,
     level, mistakes, timeEnd, loader, id, managerStatus, rate, newClients, typeManager,
-    schedule, pause, pauseDuration, type, loginNum, loginPlan, lids, lidsPlan, activePoint }) {
+    schedule, pause, pauseDuration, type, loginNum, loginPlan, lids, lidsPlan, activePoint, callTime }) {
 
     const dark = useSelector(menuSelector).dark;
     const [tooltip, setTooltip] = useState(false);
@@ -28,25 +29,8 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
     const [anim, setAnim] = useState(false);
     const [statusNow, setStatusNow] = useState('');
     const [openProfile, setOpenProfile] = useState(false);
-    const [timerId, setTimerId] = useState();
     const [timer, setTimer] = useState(pauseDuration);
 
-    //таймер
-    useEffect(() => {
-        if (statusNow === 'pause') {
-            setTimerId(
-                setInterval(() => {
-                    setTimer(state => state - 1);
-                }, 1000)
-            );
-        }
-    }, [statusNow, pauseDuration])
-
-
-
-    useEffect(() => {
-        return () => clearInterval(timerId);
-    }, [timerId]);
 
     useEffect(() => {
         if (id === managerStatus.manager_id) {
@@ -130,16 +114,16 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
                 <div className={s.container_right}>
                     {typeManager !== 'expert' &&
                         <div style={{ marginRight: '20px' }} className={s.block_progress}>
-                            <div style={{ display: status === 'holiday' && 'none' }} className={`${s.calls} ${activePoint == 0 && s.calls_lid}`}>
+
+                            <div style={{ display: status === 'holiday' && 'none', width: '50px' }} className={`${s.calls} ${activePoint == 0 && s.calls_lid}`}>
                                 <div className={`${s.tooltip} ${dark && s.tooltip_dark} ${s.tooltip_lid}`}>
-                                    Новые клиенты
+                                    средняя длительность разговоров за 3 дня
                                 </div>
                                 <div className={`${s.callsnum} ${dark && s.callsnum_dark}`}>
-                                    <IconNewClient />
-                                    <p>{lids}<sup> {lidsPlan}</sup></p>
-                                </div>
-                                <div className={`${s.callsprogress} ${dark && s.callsprogress_dark}`}>
-                                    <div style={{ width: `${lids / lidsPlan * 100}%` }} className={`${s.callinner}`}></div>
+                                    <div className={`${s.iconTime} ${callTime / 3600 >= 4 && s.iconTime_green} ${callTime / 3600 >= 3 && callTime / 3600 < 4 && s.iconTime_yellow} ${callTime / 3600 < 3 && s.iconTime_red}`}>
+                                        <IconCallTime />
+                                    </div>
+                                    <p>{`${callTime / 3600}`.slice(0, 3)}</p>
                                 </div>
                             </div>
 
@@ -151,6 +135,19 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
                                 </div>
                                 <div className={`${s.callsprogress} ${dark && s.callsprogress_dark}`}>
                                     <div style={{ width: `${call / (typeManager === 'expert' ? 20 : callPlan) * 100}%` }} className={`${s.callinner}`}></div>
+                                </div>
+                            </div>
+
+                            <div style={{ display: status === 'holiday' && 'none' }} className={`${s.calls} ${activePoint == 0 && s.calls_lid}`}>
+                                <div className={`${s.tooltip} ${dark && s.tooltip_dark} ${s.tooltip_lid}`}>
+                                    Новые клиенты
+                                </div>
+                                <div className={`${s.callsnum} ${dark && s.callsnum_dark}`}>
+                                    <IconNewClient />
+                                    <p>{lids}<sup> {lidsPlan}</sup></p>
+                                </div>
+                                <div className={`${s.callsprogress} ${dark && s.callsprogress_dark}`}>
+                                    <div style={{ width: `${lids / lidsPlan * 100}%` }} className={`${s.callinner}`}></div>
                                 </div>
                             </div>
 
@@ -166,7 +163,7 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
                                 </div>
                             </div>
 
-                            <div style={{ display: (status === 'holiday' || activePoint !== 0) && 'none' }} className={`${s.calls} ${s.calls_pause}`}>
+                            <div style={{ display: status === 'holiday' && 'none' }} className={`${s.calls} ${s.calls_pause}`}>
                                 <div className={`${s.tooltip} ${dark && s.tooltip_dark} ${s.tooltip_pause}`}>Пауза</div>
                                 <div className={`${s.callsnum} ${dark && s.callsnum_dark}`}>
                                     <IconPauseSmall />
@@ -182,6 +179,17 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
                     }
 
                     {typeManager === 'expert' && < div className={s.block_progress}>
+                        <div style={{ display: status === 'holiday' && 'none', width: '50px' }} className={`${s.calls} ${activePoint == 0 && s.calls_lid}`}>
+                            <div className={`${s.tooltip} ${dark && s.tooltip_dark} ${s.tooltip_lid}`}>
+                                средняя длительность разговоров за 3 дня
+                            </div>
+                            <div className={`${s.callsnum} ${dark && s.callsnum_dark}`}>
+                                <div className={`${s.iconTime} ${callTime / 3600 >= 4 && s.iconTime_green} ${callTime / 3600 >= 3 && callTime / 3600 < 4 && s.iconTime_yellow} ${callTime / 3600 < 3 && s.iconTime_red}`}>
+                                    <IconCallTime />
+                                </div>
+                                <p>{`${callTime / 3600}`.slice(0, 3)}</p>
+                            </div>
+                        </div>
                         <div style={{ display: status === 'holiday' && 'none' }} className={`${s.calls} ${s.calls_call}`}>
                             <div className={`${s.tooltip} ${dark && s.tooltip_dark} ${s.tooltip_call}`}>Звонки от 1 минуты</div>
                             <div className={`${s.callsnum} ${dark && s.callsnum_dark}`}>

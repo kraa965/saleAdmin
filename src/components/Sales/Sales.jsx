@@ -43,7 +43,7 @@ function Sales() {
             getSales(date)
                 .then((res) => {
                     const data = res.data.data;
-                    console.log(data)
+                    console.log(res)
                     setSalesTotal(data.sales);
                     setGraphData(data.sale_graph.data);
                     setDailyAvarage(data.sale_graph.daily_average);

@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { addEvent } from '../../Api/Api';
 import { сompareDate } from '../../utils/dates';
 import { deleteEvent } from '../../Api/Api';
-import { dateForModal } from '../../utils/dates';
+import { dateForModal, handleCompareTime } from '../../utils/dates';
 import { addAdditionalShift, deleteShift } from '../../Api/Api';
 
 
@@ -32,7 +32,7 @@ function CellModal({ type, setOpenModal, dark, id, name, surname, date, eventsLi
     const eventVacation = eventsDay.find(el => el.event_id === 12);
     const eventUnplanWeekend = eventsDay.find(el => el.event_id === 1);
     const role = document.getElementById('root_leader').getAttribute('role');
-    
+    console.log(eventsList)
     useEffect(() => {
         const allIdDay = eventsDay.map((el) => {
             return el.event_id
@@ -101,22 +101,13 @@ function CellModal({ type, setOpenModal, dark, id, name, surname, date, eventsLi
     }
 
     function handleAddEvent() {
-        if (reason === '14') {
-            addAdditionalShift(queryDate, id)
-                .then((res) => {
-                    dispatch(setUpdate());
-                    handleClose();
-                })
-                .catch(err => console.log(err))
-        } else {
-            addEvent(queryDate, id, reason)
-                .then((res) => {
-                    /* deleteShift(shiftId) */
-                    dispatch(setUpdate());
-                    handleClose();
-                })
-                .catch(err => console.log(err))
-        }
+
+        addEvent(queryDate, id, reason)
+            .then((res) => {
+                dispatch(setUpdate());
+                handleClose();
+            })
+            .catch(err => console.log(err))
     }
 
     function handleDeleteEvent() {
@@ -201,19 +192,21 @@ function CellModal({ type, setOpenModal, dark, id, name, surname, date, eventsLi
                                 </div>
                                 } */}
 
-                                {status !== 2 &&
+                                {status == 0 &&
                                     (role === 'mobleader' ?
                                         eventsList.filter((el) => el.id !== 2 && el.id !== 6 && el.id !== 7 && el.id !== 9 && el.id !== 10 && el.id !== 7)
                                         :
                                         eventsList).map((el) => {
-                                            return <div key={el.id} onClick={handleInputValue} id={el.id}
-                                                className={`${s.item} ${idEventsDay.includes(el.id) && s.item_check} ${value == el.name && s.item_active} ${dark && s.item_dark}`}>
-                                                <p>{el.name}</p>
-                                                {idEventsDay.includes(el.id) && <div></div>}
-                                            </div>
+                                            if (el.id !== 11) {
+                                                return <div key={el.id} onClick={handleInputValue} id={el.id}
+                                                    className={`${s.item} ${idEventsDay.includes(el.id) && s.item_check} ${value == el.name && s.item_active} ${dark && s.item_dark}`}>
+                                                    <p>{el.name}</p>
+                                                    {idEventsDay.includes(el.id) && <div></div>}
+                                                </div>
+                                            }
                                         })}
 
-                                {status === 2 && (cell === 6 || cell === 11) && eventsList.map((el) => {
+                                {status === 2 && (cell === 5 || cell === 6 || cell === 11) && eventsList.map((el) => {
                                     if (el.id === 1 || el.id === 11 || el.id === 12) {
                                         return <div key={el.id} onClick={handleInputValue} id={el.id}
                                             className={`${s.item} ${idEventsDay.includes(el.id) && s.item_check} ${value == el.name && s.item_active} ${dark && s.item_dark}`}>
@@ -223,14 +216,15 @@ function CellModal({ type, setOpenModal, dark, id, name, surname, date, eventsLi
                                     }
                                 })}
 
-                                {status === 2 && cell === 5 && eventsList.map((el) => {
-                                    if (el.id === 12 || el.id === 11 || el.id === 1) {
-                                        return <div key={el.id} onClick={handleInputValue} id={el.id}
+                                {status === 1 && eventsList.map((el) => {
+                                    const weekendEvent = handleCompareTime(sheduleId == 1 ? 11 : 8); 
+                                  
+                                        return <div style={{display: !weekendEvent && el.id == 11 ? 'none' : ''}} key={el.id} onClick={handleInputValue} id={el.id}
                                             className={`${s.item} ${idEventsDay.includes(el.id) && s.item_check} ${value == el.name && s.item_active} ${dark && s.item_dark}`}>
                                             <p>{el.name}</p>
                                             {idEventsDay.includes(el.id) && <div></div>}
                                         </div>
-                                    }
+                                    
                                 })}
                             </div>
                         </div>

@@ -69,7 +69,7 @@
     @media(max-width: 720px) {
         display: none;
     }
-    
+
     img {
         width: 144px;
         height: 144px;
@@ -125,7 +125,7 @@
     height: 100%;
     top: 0;
     left: 0;
-    background-color:#414B5D;
+    background-color: #414B5D;
 }
 
 .percent {
@@ -167,6 +167,7 @@
     gap: 4px;
     width: 100%;
     overflow-Y: auto;
+
     @media(max-width: 720px) {
         overflow-y: hidden;
     }
@@ -191,8 +192,27 @@
     cursor: pointer;
     transition: all 0.2s;
 
+    &_small {
+        font-weight: 400;
+        padding-left: 42px;
+
+        &_active {
+            color: #ECECEC;
+        }
+    }
+
     svg {
         margin-right: 6px;
+    }
+
+    div {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+
+        svg {
+            margin: 0;
+        }
     }
 
     @media(max-width: 720px) {
@@ -204,7 +224,7 @@
             height: 34px;
             margin-right: 12px;
         }
-        
+
     }
 
     svg path {
@@ -270,6 +290,26 @@
             }
         }
     }
+
+    &_small {
+        font-weight: 400;
+        padding-left: 42px;
+
+        &_active {
+            color: #ECECEC;
+        }
+
+        &:hover {
+            background: none;
+        }
+    }
+
+    &_dis {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+
+    user-select: none;
 }
 
 .options {
@@ -443,4 +483,27 @@
 
 .red {
     background-color: #E75A5A;
+}
+
+.list {
+    height: 40px;
+    overflow: hidden;
+    transition: all 0.2s;
+    flex-shrink: 0;
+
+    &_open {
+        height: 120px;
+    }
+}
+
+.arrow {
+    svg {
+        transition: all 0.2s;
+    }
+
+    &_open {
+        svg {
+            transform: rotate(180deg);
+        }
+    }
 }

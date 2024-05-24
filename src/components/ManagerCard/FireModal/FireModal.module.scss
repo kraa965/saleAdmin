@@ -79,6 +79,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     border-radius: 4px;
     background-color: #E75A5A;
     transition: all 0.15s;
@@ -96,4 +97,14 @@
             opacity: 0.3;
         }
     }
+}
+
+.error {
+    position: absolute;
+    top: 62%;
+    left: 0;
+    width: 100%;
+    font-size: 14px;
+    text-align: center;
+    color: #E75A5A;
 }

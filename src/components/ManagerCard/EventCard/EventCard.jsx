@@ -1,17 +1,23 @@
 import s from './EventCard.module.scss';
+import { handleRangeDateYear } from '../../../utils/dates';
 
-const EventCard = () => {
+const EventCard = ({ events }) => {
     return (
         <ul className={s.event}>
-            <li className={s.item}>
-                <p className={s.date}>25.05.23</p>
-                <p className={`${s.fail}`}>Незапланированный выходной за свой счет</p>
-            </li>
 
-            <li className={s.item}>
-                <p>25.05.23</p>
-                <p>Незапланированный выходной за свой счет</p>
-            </li>
+            {events.map((el) => {
+                if (el.event_id == 11 || el.event_id == 12) {
+                    return <li className={s.item}>
+                        <p>{handleRangeDateYear(el.date)}</p>
+                        <p className={s.name}>{el.type.name}</p>
+                    </li>
+                } else {
+                    return <li className={s.item}>
+                        <p>{handleRangeDateYear(el.date)}</p>
+                        <p  className={`${s.fail} ${s.name}`}>{el.type.name}</p>
+                    </li>
+                }
+            })}
         </ul>
     )
 };

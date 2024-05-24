@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addWorkSelector } from '../../../store/reducer/addWorker/selector';
 //slice
 import { setFormat, setStartDate, setShedule, setShedule2 } from '../../../store/reducer/addWorker/slice';
+//utils
+import { handleMonth } from '../../../utils/dates';
 
 
 const WorkData = () => {
@@ -64,9 +66,9 @@ const WorkData = () => {
     }
 
     const handleWorkFormat = (e) => {
-        const text = e.currentTarget.textContent;
-        dispatch(setFormat(text));
-        localStorage.setItem('format', JSON.stringify(text))
+        const id = e.currentTarget.id;
+        dispatch(setFormat(id));
+        localStorage.setItem('format', JSON.stringify(id))
     }
 
     const handleShedule = (e) => {
@@ -99,12 +101,12 @@ const WorkData = () => {
     return (
         <div className={s.work}>
             <p className={s.sub}>Формат работы</p>
-            <div ref={modalRef} id={'format'} onClick={handleOpenPopup} className={`${s.select} ${workFormatPopup && s.select_open}`}>
-                <input value={workerInfo.format || ''} className={`${s.input} ${s.input_select}`} placeholder='' type='text'></input>
+            <div ref={modalRef} id={'format'} onClick={handleOpenPopup} className={`${s.select} ${s.select_dis} ${workFormatPopup && s.select_open}`}>
+                <input value={workerInfo.format == 0 ? 'Офис' : 'Удаленный' || ''} className={`${s.input} ${s.input_select}`} placeholder='' type='text'></input>
                 <ArrowInput />
                 <div className={`${s.list} ${workFormatPopup && s.list_open}`}>
-                    <div onClick={handleWorkFormat} className={`${s.item} ${workerInfo.format == 'Офис' && s.item_active}`}><p>Офис</p></div>
-                    <div onClick={handleWorkFormat} className={`${s.item} ${workerInfo.format == 'Удаленный' && s.item_active}`}><p>Удаленный</p></div>
+                    <div id={0} onClick={handleWorkFormat} className={`${s.item} ${workerInfo.format == 0 && s.item_active}`}><p>Офис</p></div>
+                    <div id={1} onClick={handleWorkFormat} className={`${s.item} ${workerInfo.format == 1 && s.item_active}`}><p>Удаленный</p></div>
 
                 </div>
             </div>
@@ -114,25 +116,25 @@ const WorkData = () => {
 
             <div className={s.container}>
                 <div className={s.block}>
-                    <p className={s.sub}>График работы на март</p>
+                    <p className={s.sub}>График работы на {handleMonth(0)}</p>
                     <div ref={modalRef2} onClick={handleOpenPopup} id={'shedule'} className={`${s.select} ${workShudelPopup && s.select_open}`}>
-                        <input value={workerInfo.shedule == 1 ? '2/2' : '5/2'} className={`${s.input} ${s.input_select}`} placeholder='график' type='text'></input>
+                        <input value={workerInfo.shedule == 2 ? '2/2' : '5/2'} className={`${s.input} ${s.input_select}`} placeholder='график' type='text'></input>
                         <ArrowInput />
                         <div className={`${s.list} ${workShudelPopup && s.list_open}`}>
-                            <div id='0' onClick={handleShedule} className={`${s.item} ${workerInfo.shedule == 0 && s.item_active}`}><p>5/2</p></div>
-                            <div id='1' onClick={handleShedule} className={`${s.item} ${workerInfo.shedule == 1 && s.item_active}`}><p>2/2</p></div>
+                            <div id='1' onClick={handleShedule} className={`${s.item} ${workerInfo.shedule == 1 && s.item_active}`}><p>5/2</p></div>
+                            <div id='2' onClick={handleShedule} className={`${s.item} ${workerInfo.shedule == 2 && s.item_active}`}><p>2/2</p></div>
                         </div>
                     </div>
                 </div>
 
                 <div className={s.block}>
-                    <p className={s.sub}>График работы на апрель</p>
+                    <p className={s.sub}>График работы на {handleMonth(1)}</p>
                     <div ref={modalRef3} onClick={handleOpenPopup} id={'shedule2'} className={`${s.select} ${workShudelPopup2 && s.select_open}`}>
-                        <input value={workerInfo.shedule2 == 1 ? '2/2' : '5/2'} className={`${s.input} ${s.input_select}`} placeholder='график' type='text'></input>
+                        <input value={workerInfo.shedule2 == 2 ? '2/2' : '5/2'} className={`${s.input} ${s.input_select}`} placeholder='график' type='text'></input>
                         <ArrowInput />
                         <div className={`${s.list} ${workShudelPopup2 && s.list_open}`}>
-                            <div id='0' onClick={handleShedule2} className={`${s.item} ${workerInfo.shedule2 == 0 && s.item_active}`}><p>5/2</p></div>
-                            <div id='1' onClick={handleShedule2} className={`${s.item} ${workerInfo.shedule2 == 1 && s.item_active}`}><p>2/2</p></div>
+                            <div id='1' onClick={handleShedule2} className={`${s.item} ${workerInfo.shedule2 == 1 && s.item_active}`}><p>5/2</p></div>
+                            <div id='2' onClick={handleShedule2} className={`${s.item} ${workerInfo.shedule2 == 2 && s.item_active}`}><p>2/2</p></div>
                         </div>
                     </div>
                 </div>

@@ -23,11 +23,10 @@ function Cells({ arr, dark, manager, managersShedule, loader, events }) {
       <div className={s.cells}>
 
          {arr?.map((el) => {
-            const isAdd = managersShedule?.[el]?.is_additional === 1 ? true : false;
             const status = сompareDate(el);
             const dayStartStatus = сompareDateStart(manager.manager_start_date, el);
             let type
-            if (managersShedule[el].status === '' && !isAdd && dayStartStatus === 2) {
+            if (managersShedule[el].status === '' && dayStartStatus === 2) {
                if (managersShedule[el].is_work === 0 && status == 2) {
                   type = 5;
                } else if (managersShedule[el].is_work === 0 && status == 0) {
@@ -47,8 +46,6 @@ function Cells({ arr, dark, manager, managersShedule, loader, events }) {
                } else if (managersShedule[el].is_work === 0 && status === 1) {
                   type = 5;
                }
-            } else if (managersShedule[el].status === '' && isAdd && dayStartStatus === 2) {
-               type = 11
             } else if (managersShedule[el].status === 'unplanned_weekend' && dayStartStatus === 2) {
                if (status == 2) {
                   type = 10;
@@ -79,7 +76,7 @@ function Cells({ arr, dark, manager, managersShedule, loader, events }) {
 
 
             return <Cell loader={loader} key={el} type={type} dark={dark} manager={manager} eventsDay={managersShedule[el].events} 
-            history={managersShedule[el].history} date={el} eventsList={events} isAdd={isAdd} shiftId={managersShedule[el].id}/>
+            history={managersShedule[el].history} date={el} eventsList={events} shiftId={managersShedule[el].id}/>
          })}
       </div>
    )

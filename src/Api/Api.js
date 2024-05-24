@@ -1,8 +1,10 @@
 import axios from 'axios'
 
+export const baseUrl = process.env.REACT_APP_API_URL;
+
 const instanceWithToken = axios.create({
     withCredentials: false,
-    baseURL: `https://api2.skilla.ru/`
+    baseURL: baseUrl
 })
 
 const token = document.getElementById('root_leader').getAttribute('token');
@@ -61,4 +63,61 @@ export const getTimesheet = (date) => {
 }
 export const addShiftPlan = (date, id, plan) => {
     return instanceWithToken.post(`https://api2.skilla.ru/api/leader/schedule/plan/add?date=${date}&manager_id=${id}&shifts=${plan}`);
+}
+
+export const getTeam = (data) => {
+    return instanceWithToken.get(`${baseUrl}api/leader/managers?is_work=${data}`);
+}
+
+export const addManager = (data) => {
+    return instanceWithToken({
+        method: 'post',
+        mode: "cors",
+        headers: {
+            "Content-type": "multipart/form-data",
+            "Accept": "application/json"
+        },
+        url: `${baseUrl}api/leader/managers`,
+        data: data,
+    })
+}
+
+export const editManager = (data) => {
+    return instanceWithToken({
+        method: 'post',
+        mode: "cors",
+        headers: {
+            "Content-type": "multipart/form-data",
+            "Accept": "application/json"
+        },
+        url: `${baseUrl}api/leader/managers/edit`,
+        data: data,
+    })
+}
+
+export const firedManager = (data) => {
+    return instanceWithToken({
+        method: 'post',
+        mode: "cors",
+        headers: {
+            "Content-type": "application/json",
+            "Accept": "application/json"
+        },
+        url: `${baseUrl}api/leader/managers/dismiss`,
+        data: data,
+    })
+}
+
+
+export const restoreManager = (data) => {
+    return instanceWithToken({
+        method: 'post',
+        mode: "cors",
+        headers: {
+            "Content-type": "application/json",
+            "Accept": "application/json"
+        },
+        url: `${baseUrl}api/leader/managers/restore`,
+        data: data,
+    })
 }

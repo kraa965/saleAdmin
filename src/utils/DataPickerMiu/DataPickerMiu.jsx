@@ -9,7 +9,7 @@ import { setDateCalendar } from '../../utils/dates';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-const DataPickerMiu = ({ date, setDate, type }) => {
+const DataPickerMiu = ({ date, setDate, type, disabled }) => {
     const dispatch = useDispatch();
     const currentDate = setDateCalendar(0);
     const newTheme = (theme) => createTheme({
@@ -46,7 +46,7 @@ const DataPickerMiu = ({ date, setDate, type }) => {
     })
 
     return (
-        <div className={'picker'}>
+        <div className={`picker ${disabled && 'picker_disabled'}`}>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
                 <ThemeProvider theme={newTheme}>
                     <DatePicker

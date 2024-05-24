@@ -20,7 +20,9 @@
      }
 
      svg {
-        color:/*  var(--color-text-primary) */#ADBFDF;
+         color:
+             /*  var(--color-text-primary) */
+             #ADBFDF;
      }
 
 
@@ -33,6 +35,30 @@
      span {
          color: var(--color-text-primary) !important;
      }
+
+     &_disabled {
+         pointer-events: none;
+
+         div {
+             background-color: var(--color-bg-disabled) !important;
+             color: var(--color-button-disabled) !important;
+         }
+
+         svg {
+             color: var(--color-button-disabled) !important;
+         }
+
+         input {
+             color: var(--color-button-disabled) !important;
+
+         }
+
+         span {
+             color: var(--color-button-disabled) !important;
+         }
+
+         cursor: default;
+     }
  }
 
  .base-Popper-root button {
@@ -40,14 +66,15 @@
  }
 
  .base-Popper-root span {
-    color: var(--color-text-secondary);
-}
-.base-Popper-root {
-    box-shadow: var(--box-shadow2);
-    margin-top: 6px !important;
-    overflow: hidden;
-}
+     color: var(--color-text-secondary);
+ }
 
-.MuiFormControl-root {
-    width: 100%;
-}
+ .base-Popper-root {
+     box-shadow: var(--box-shadow2);
+     margin-top: 6px !important;
+     overflow: hidden;
+ }
+
+ .MuiFormControl-root {
+     width: 100%;
+ }

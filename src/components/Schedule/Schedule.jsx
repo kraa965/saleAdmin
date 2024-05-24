@@ -146,7 +146,7 @@ function Shedule({ role }) {
                     </div>
                 </div>
                 {sheduleView && <SheduleWork dark={dark} shedule={shedule} date={date} loader={loader} update={update} sheduleTwoWeek={sheduleTwoWeek} range={range} />}
-                {!sheduleView && <SheduleTable dark={dark} table={table} />}
+                {!sheduleView && <SheduleTable dark={dark} table={table} date={date}/>}
             </div>
         </div>
     )

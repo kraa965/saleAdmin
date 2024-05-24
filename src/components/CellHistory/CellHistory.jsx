@@ -9,6 +9,7 @@ import { dateForModal } from '../../utils/dates';
 import { historyTime } from '../../utils/dates';
 import { deleteEvent } from '../../Api/Api';
 import { setUpdate } from '../../store/reducer/shedule/slice';
+import { handleDiffDates } from '../../utils/dates';
 
 function CellHistory({ setOpenModal, dark, date, eventsDay }) {
     const [anim, setAnim] = useState(false);
@@ -54,11 +55,11 @@ function CellHistory({ setOpenModal, dark, date, eventsDay }) {
 
     function handleDeleteEvent() {
         deleteEvent(idEventDelete)
-        .then((res) => {
-            dispatch(setUpdate());
-            handleCloseDelete();
-        })
-        .catch(err => console.log(err))
+            .then((res) => {
+                dispatch(setUpdate());
+                handleCloseDelete();
+            })
+            .catch(err => console.log(err))
     }
 
     function closeModal(e) {
@@ -196,9 +197,10 @@ function CellHistory({ setOpenModal, dark, date, eventsDay }) {
                                 <p>{historyTime(el.date_created)}</p>
                                 <p className={s.text_err}>{el.type.name}</p>
                             </div>
-                            <div id={el.id} title={el.type.name} onClick={openModalDelete} className={s.delete}>
+                            {handleDiffDates(el.date) <= 3 && < div id={el.id} title={el.type.name} onClick={openModalDelete} className={s.delete}>
                                 <IconClose />
                             </div>
+                            }
                         </div>
                     })}
 
@@ -223,7 +225,7 @@ function CellHistory({ setOpenModal, dark, date, eventsDay }) {
             </div>
 
 
-        </div>
+        </div >
     )
 };
 

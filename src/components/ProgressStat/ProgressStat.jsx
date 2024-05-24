@@ -65,7 +65,7 @@ function ProgressStat({ title, type, indicators, loader, day, activePoint }) {
                     <IndicatorDay title={'anketa'} activePoint={activePoint} quantity={indicators?.anketa?.num} total={indicators?.anketa?.plan} loader={loader} type={'expert'} />
                     <IndicatorDay title={'sales'} activePoint={activePoint} quantity={indicators?.sales?.num} total={indicators?.sales?.plan} loader={loader} type={'expert'} />
                     {activePoint == 0 && <div className={s.consultbp}>
-                        <p>Новые клиенты записанные к экспертам</p>
+                        <p>Новые клиенты открывшие БП</p>
                         <p>{indicators?.record?.num ? indicators?.record?.num : 0}</p>
                         {loader && <Loader />}
                     </div>
