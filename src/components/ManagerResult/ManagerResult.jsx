@@ -30,6 +30,7 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
     const [statusNow, setStatusNow] = useState('');
     const [openProfile, setOpenProfile] = useState(false);
     const [timer, setTimer] = useState(pauseDuration);
+    const [pauseUpdate, setPauseUpdate] = useState(pause || 0)
 
 
     useEffect(() => {
@@ -167,11 +168,11 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
                                 <div className={`${s.tooltip} ${dark && s.tooltip_dark} ${s.tooltip_pause}`}>Пауза</div>
                                 <div className={`${s.callsnum} ${dark && s.callsnum_dark}`}>
                                     <IconPauseSmall />
-                                    {statusNow === 'not_work' && <p>{Math.floor(pause / 60)} <sup>{Math.floor(pause / 60)}</sup></p>}
-                                    {statusNow !== 'not_work' && <p>{Math.floor(timer / 60)} <sup>{Math.floor(pause / 60)}</sup></p>}
+                                    {statusNow === 'not_work' && <p>{Math.floor(pauseUpdate / 60)} <sup>{Math.floor(pauseUpdate / 60)}</sup></p>}
+                                    {statusNow !== 'not_work' && <p>{Math.floor(timer / 60)} <sup>{Math.floor(pauseUpdate / 60)}</sup></p>}
                                 </div>
                                 <div className={`${s.callsprogress} ${dark && s.callsprogress_dark}`}>
-                                    <div style={{ width: `${timer / pause * 100}%` }} className={`${s.callinner}`}></div>
+                                    <div style={{ width: `${timer / pauseUpdate * 100}%` }} className={`${s.callinner}`}></div>
                                 </div>
                             </div>
                         </div>
@@ -294,7 +295,7 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
                     }
                 </div>
             </div >
-            {openProfile && <Profile setOpenProfile={setOpenProfile} name={name} surname={surname} avatar={avatar} level={level} dark={dark} type={type} />
+            {openProfile && <Profile setOpenProfile={setOpenProfile} name={name} surname={surname} avatar={avatar} level={level} dark={dark} type={type} id={id} setTimer={setTimer} setPauseUpdate={setPauseUpdate}/>
             }
         </>
 

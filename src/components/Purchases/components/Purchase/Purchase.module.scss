@@ -1,0 +1,144 @@
+.purchase {
+    display: flex;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    border-top: 1px solid #EAF0FA;
+    cursor: pointer;
+    transition: all 0.1s;
+
+
+    &:hover {
+        background-color: #F8FAFD;
+    }
+
+    &_hiden {
+        display: none;
+    }
+}
+
+.item {
+    padding: 16px 12px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    box-sizing: border-box;
+
+
+    &_date {
+        width: 118px;
+        text-wrap: nowrap;
+        flex-shrink: 0;
+        position: relative;
+    }
+
+    &_pos {
+        width: 100%;
+        max-width: 570px;
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        gap: 4px;
+    }
+
+    &_sum {
+        width: 111px;
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 32px;
+        flex-shrink: 0;
+    }
+
+    &_buyer {
+        width: 240px;
+        text-wrap: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex-shrink: 0;
+    }
+
+    &_seller {
+        width: 290px;
+        text-wrap: nowrap;
+        flex-shrink: 0;
+
+        p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        span {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 18px;
+            color: #8E9AA8;
+            margin-top: 4px;
+        }
+    }
+
+    &_status {
+        width: 173px;
+        display: flex;
+        gap: 4px;
+    }
+}
+
+.attention {
+    position: absolute;
+    top: 18px;
+    left: -24px;
+    transition: all 0.15s;
+
+    &_hiden {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+.status {
+    height: 6px;
+    border-radius: 100px;
+    background-color: #DFE5EF;
+    width: 36px;
+    transition: all 0.15s;
+
+    &_done {
+        background-color: #2EA96E;
+    }
+
+    &_red {
+        background-color: #E75A5A;
+    }
+
+    &_yellow {
+       background-color: #FFC227; 
+    }
+
+    &_blue {
+        background-color: var(--color-button-accent);
+        opacity: 0.7;
+    }
+}
+
+.pos {
+    display: flex;
+    text-wrap: nowrap;
+
+    p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 380px;
+    }
+
+    svg {
+        margin: 0 0 0 2px;
+    }
+
+    span {
+        color: #71869D;
+        margin-left:
+            /* 12px */
+            auto;
+        text-wrap: nowrap;
+    }
+}

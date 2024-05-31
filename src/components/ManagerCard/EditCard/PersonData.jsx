@@ -43,7 +43,6 @@ const PersonData = ({ name, setName, surName, setSurName,
             console.log(id)
             const regex = /[0-9]/g;
             const cleanValue = value?.match(regex)?.join('');
-            console.log('телефон', value, cleanValue, tel)
             value && setTel(cleanValue);
             return
         }

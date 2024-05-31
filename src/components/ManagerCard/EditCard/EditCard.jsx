@@ -60,9 +60,9 @@ const EditCard = ({ setAddWindow, setAnim, manager, restoreWindow }) => {
         setSave(false)
     }, []);
 
-    useEffect(() => {
+   /*  useEffect(() => {
         setPassword(manager.password_vis) 
-    }, [manager])
+    }, [manager]) */
 
     useEffect(() => {
         setError('')
@@ -79,6 +79,8 @@ const EditCard = ({ setAddWindow, setAnim, manager, restoreWindow }) => {
             setMango(managerUpdate.mango_phone);
         }
     }, [managerUpdate])
+
+    console.log(manager.work_schedule_graph)
 
     useEffect(() => {
         manager.work_schedule_graph.forEach((el, i) => {

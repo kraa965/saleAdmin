@@ -2,13 +2,18 @@ import { useEffect, useState } from 'react';
 import s from './ProfileModal.module.scss';
 import { ReactComponent as IconClose } from '../../image/iconCloseModal.svg';
 import { ReactComponent as IconArrowInput } from '../../image/iconArrowInput.svg';
+//API
+import { addPause } from '../../Api/Api';
+//component
+import LoaderButton from '../LoaderButton/LoaderButton';
 
-function ProfileModal({ modalRef, setOpenModal, type, dark }) {
+function ProfileModal({ id, modalRef, setOpenModal, type, dark, setTimer, setPauseUpdate }) {
     const [anim, setAnim] = useState(false);
     const [value, setValue] = useState('');
     const [timeValue, setTimeValue] = useState(0);
     const [openInput, setOpenInput] = useState(false);
- 
+    const [load, setLoad] = useState(false);
+
     useEffect(() => {
         setAnim(true)
     }, []);
@@ -28,7 +33,7 @@ function ProfileModal({ modalRef, setOpenModal, type, dark }) {
 
     function handleInputValue(e) {
         const id = e.currentTarget.id;
-    
+
         if (id === '1') {
             setValue('Опоздание на планерку');
             return
@@ -38,6 +43,18 @@ function ProfileModal({ modalRef, setOpenModal, type, dark }) {
     function handleTimeInput(e) {
         const id = e.currentTarget.id;
         setTimeValue(id * 10)
+    }
+
+    function handleAddPause() {
+        setLoad(true)
+        addPause(id, timeValue)
+            .then(res => {
+                setTimer(prevState => prevState + timeValue * 60)
+                setPauseUpdate(prevState => prevState + timeValue * 60)
+                setLoad(false);
+                setOpenModal(false)
+            })
+            .catch(err => console.log(err))
     }
 
     return (
@@ -76,7 +93,7 @@ function ProfileModal({ modalRef, setOpenModal, type, dark }) {
                 </div>
 
                 {type === 'event' && <button className={`${s.button} ${value == '' && !dark && s.button_dis} ${value == '' && dark && s.button_dis_dark}`}>Сохранить</button>}
-                {type === 'resort' && <button className={`${s.button} ${timeValue == '' && !dark && s.button_dis} ${timeValue == '' && dark && s.button_dis_dark}`}>Сохранить</button>}
+                {type === 'resort' && <button onClick={handleAddPause} className={`${s.button} ${timeValue == '' && !dark && s.button_dis} ${timeValue == '' && dark && s.button_dis_dark}`}>Сохранить {load && <LoaderButton color={'#ffff'} />}</button>}
             </div>
         </div>
 

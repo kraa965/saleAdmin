@@ -1,0 +1,155 @@
+.window {
+    grid-area: doc;
+    display: flex;
+    flex-direction: column;
+    padding: 28px;
+    box-sizing: border-box;
+    background-color: #FFF;
+    border-radius: 8px;
+    transition: all 0.3s;
+
+    &_disabled {
+        height: 0;
+        padding: 0 28px;
+        overflow: hidden;
+        opacity: 0;
+    }
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    margin: 0;
+    margin-bottom: 16px;
+}
+
+.files {
+    display: flex;
+    /* gap: 12px; */
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    height: 0;
+    transition: all 0.3s;
+}
+
+.file {
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    width: 0;
+    box-sizing: border-box;
+    border-radius: 8px;
+    border: 0px solid #ECF2FC;
+    background: #F8FAFD;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    transition: all 0.3s;
+    overflow: hidden;
+
+    &_anim {
+        border: 1px solid #ECF2FC;
+        height: 74px;
+        padding: 12px;
+        opacity: 1;
+        width: calc(50% - 6px);
+    }
+}
+
+.block_text {
+    width: 100%;
+    margin-left: 8px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+
+    p {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 18px;
+        margin-bottom: 2px;
+    }
+
+    span {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 14px;
+        color: #71869D;
+    }
+}
+
+.delete {
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    transition: all 0.2s;
+
+    svg {
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+
+    &_disabled {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+.link {
+    display: flex;
+    width: 100%;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--color-text-primary);
+
+    &:active {
+        color: inherit;
+    }
+
+    &:visited {
+        color: inherit;
+    }
+
+    img {
+        height: 52px;
+    }
+}
+
+.fileLoader {
+    opacity: 1;
+    visibility: visible;
+    max-height: 68px;
+    height: fit-content;
+    transition: all 0.2s;
+    overflow: hidden;
+
+    &_disabled {
+        opacity: 0;
+        visibility: hidden;
+        max-height: 0;
+        margin-top: -12px;
+    }
+}
+
+.picture {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+
+    img {
+        width: 56px;
+        height: 56px;
+    }
+}

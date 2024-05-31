@@ -26,8 +26,9 @@ import { ReactComponent as NavPartners } from '../../image/navPartners.svg';
 import { ReactComponent as NavAnalytics } from '../../image/navAnalytics.svg';
 import { ReactComponent as IconEvent } from '../../image/iconEvent.svg';
 import { ReactComponent as MobButton } from '../../image/mobButton.svg';
-import { ReactComponent as IconArrow } from '../../image/ArrowInput.svg';
+import { ReactComponent as IconArrow } from '../../image/ArrowInput.svg'; 
 import { ReactComponent as Stock } from '../../image/icon/sidebar/Stock.svg';
+import { ReactComponent as Stock2 } from '../../image/icon/sidebar/stock2.svg';
 import { useEffect, useState } from 'react';
 import { setMenuStatus } from '../../store/reducer/menu/slice';
 import { useDispatch } from 'react-redux';
@@ -151,6 +152,18 @@ function SideBar({ role, location }) {
             if (path === '/leader/dashboard/stock') {
                 setActivePoint(23);
                 localStorage.setItem('point', JSON.stringify(23))
+                return
+            }
+
+            if (path === '/leader/dashboard/purchases') {
+                setActivePoint(24);
+                localStorage.setItem('point', JSON.stringify(24))
+                return
+            }
+
+            if (path === '/leader/dashboard/clients') {
+                setActivePoint(25);
+                localStorage.setItem('point', JSON.stringify(25))
                 return
             }
         }
@@ -322,27 +335,30 @@ function SideBar({ role, location }) {
                     <Link to={'/leader/dashboard/metrics'}>
                         <li onClick={handleActivePoint} id='22' className={`${s.item} ${s.item_2} ${activePoint === 22 && s.item_2_active}`}><IconMetrics />Метрики</li>
                     </Link>
-                    <div className={`${s.list} ${(openList || activePoint === 23 || activePoint === 24) && s.list_open}`}>
-                        <li id='233' onClick={handleOpenList} className={`${s.item} ${(activePoint === 23 || activePoint === 24) && s.item_active}`}><Stock />Закупки <div className={`${s.arrow} ${(openList || activePoint === 23 || activePoint === 24) && s.arrow_open}`}><IconArrow /></div></li>
-                        <li onClick={handleActivePoint} id='24' className={`${s.item} ${s.item_small} ${s.item_dis} ${activePoint === 24 && s.item_small_active}`}>Список закупок</li>
-                        <Link to={'/leader/dashboard/stock'}>
-                            <li onClick={handleActivePoint} id='23' className={`${s.item} ${s.item_small} ${activePoint === 23 && s.item_small_active}`}>Склад</li>
-                        </Link>
-                    </div>
+                    {/*  <div className={`${s.list} ${(openList || activePoint === 23 || activePoint === 24) && s.list_open}`}>
+                        <li id='233' onClick={handleOpenList} className={`${s.item} ${(activePoint === 23 || activePoint === 24) && s.item_active}`}><Stock />Закупки <div className={`${s.arrow} ${(openList || activePoint === 23 || activePoint === 24) && s.arrow_open}`}><IconArrow /></div></li> */}
+                    <Link to={'/leader/dashboard/purchases'}>
+                        <li onClick={handleActivePoint} id='24' className={`${s.item}  ${activePoint === 24 && s.item_active}`}><Stock />Закупки</li>
+                    </Link>
+                    <Link to={'/leader/dashboard/stock'}>
+                        <li onClick={handleActivePoint} id='23' className={`${s.item}  ${activePoint === 23 && s.item_active}`}><Stock2 />Склад</li>
+                    </Link>
 
-                    <a href='https://lk.skilla.ru/frmanager/?type=all'><li onClick={handleActivePoint} id='3' className={`${s.item} ${s.item_3} ${activePoint === 3 && s.item_active}`}><IconOrders />Заявки</li></a>
+                    {/* </div> */}
+
+                    {/* <a href='https://lk.skilla.ru/frmanager/?type=all'><li onClick={handleActivePoint} id='3' className={`${s.item} ${s.item_3} ${activePoint === 3 && s.item_active}`}><IconOrders />Заявки</li></a> */}
                     {/* <a href='https://lk.skilla.ru/leader/report'><li onClick={handleActivePoint} id='4' className={`${s.item} ${s.item_3} ${activePoint === 4 && s.item_active}`}><IconSvod />Сводка</li></a> */}
                     {/* <a href='https://lk.skilla.ru/frmanager/bp/'><li onClick={handleActivePoint} id='5' className={`${s.item} ${s.item_3} ${activePoint === 5 && s.item_active}`}><IconOpenBp />Открытые БП</li></a> */}
                     {/* <a href='https://lk.skilla.ru/leader/quality'><li onClick={handleActivePoint} id='6' className={`${s.item} ${s.item_3} ${activePoint === 6 && s.item_active}`}><IconOpenBp />Качество работы</li></a> */}
                     {/* <a href='https://lk.skilla.ru/leader/contracts'><li onClick={handleActivePoint} id='7' className={`${s.item} ${s.item_3} ${activePoint === 7 && s.item_active}`}><IconOpenBp />Договоры</li></a> */}
                     {/* <a href='https://lk.skilla.ru/leader/sms/'><li onClick={handleActivePoint} id='8' className={`${s.item} ${s.item_3} ${activePoint === 8 && s.item_active}`}><IconSms />СМС</li></a> */}
-                    <a href='https://lk.skilla.ru/leader/speech-check'><li onClick={handleActivePoint} id='9' className={`${s.item} ${s.item_3} ${activePoint === 9 && s.item_active}`}><IconPhone />Звонки</li></a>
-                    <a href='https://lk.skilla.ru/leader/managers'><li onClick={handleActivePoint} id='10' className={`${s.item} ${s.item_3} ${activePoint === 10 && s.item_active}`}><IconManager />Менеджеры</li></a>
+                    {/* <a href='https://lk.skilla.ru/leader/speech-check'><li onClick={handleActivePoint} id='9' className={`${s.item} ${s.item_3} ${activePoint === 9 && s.item_active}`}><IconPhone />Звонки</li></a> */}
+                    {/* <a href='https://lk.skilla.ru/leader/managers'><li onClick={handleActivePoint} id='10' className={`${s.item} ${s.item_3} ${activePoint === 10 && s.item_active}`}><IconManager />Менеджеры</li></a> */}
                     <a href='https://lk.skilla.ru/frmanager/analytics'><li onClick={handleActivePoint} id='11' className={`${s.item} ${s.item_3} ${activePoint === 11 && s.item_active}`}><IconAnalitic />Аналитика</li></a>
                     {/* <a href='https://lk.skilla.ru/leader/change'><li onClick={handleActivePoint} id='12' className={`${s.item} ${s.item_3} ${activePoint === 12 && s.item_active}`}><IconStat />Статистика передач</li></a> */}
                     {/* <a href='https://lk.skilla.ru/controller/analytics'><li onClick={handleActivePoint} id='13' className={`${s.item} ${s.item_3} ${activePoint === 13 && s.item_active}`}><IconStat />Контроль и ошибки</li></a> */}
                     <a href='https://lk.skilla.ru/leader/skills'><li onClick={handleActivePoint} id='14' className={`${s.item} ${s.item_3} ${activePoint === 14 && s.item_active}`}><IconStat />Сдача навыков</li></a>
-                    <a href='https://lk.skilla.ru/purchases'><li onClick={handleActivePoint} id='15' className={`${s.item} ${s.item_3} ${activePoint === 15 && s.item_active}`}><IconStat />Закупки</li></a>
+                    {/* <a href='https://lk.skilla.ru/purchases'><li onClick={handleActivePoint} id='15' className={`${s.item} ${s.item_3} ${activePoint === 15 && s.item_active}`}><IconStat />Закупки</li></a> */}
                     <a href='https://lk.skilla.ru/moderator/calendar'><li onClick={handleActivePoint} id='16' className={`${s.item} ${s.item_3} ${activePoint === 16 && s.item_active}`}><IconCalenM />Календарь событий</li></a>
                     {/*  <a href='https://lk.skilla.ru/frmanager/ianalytics'><li onClick={handleActivePoint} id='17' className={`${s.item} ${s.item_3} ${activePoint === 17 && s.item_active}`}><IconStat />Аналитика стажеров</li></a> */}
                     {/*  <a href='https://lk.skilla.ru/leader/motivation'><li onClick={handleActivePoint} id='18' className={`${s.item} ${s.item_3} ${activePoint === 18 && s.item_active}`}><IconSetting />Настройки</li></a> */}
@@ -367,7 +383,7 @@ function SideBar({ role, location }) {
                         <li onClick={handleActivePoint} id='19' className={`${s.item}  ${activePoint === 19 && s.item_active}`}><IconTeam />Команда</li>
                     </Link>
 
-                    <a href='https://lk.skilla.ru/leader/managers'><li onClick={handleActivePoint} id='10' className={`${s.item} ${s.item_3} ${activePoint === 10 && s.item_active}`}><IconManager />Менеджеры</li></a>
+                    {/* <a href='https://lk.skilla.ru/leader/managers'><li onClick={handleActivePoint} id='10' className={`${s.item} ${s.item_3} ${activePoint === 10 && s.item_active}`}><IconManager />Менеджеры</li></a> */}
                     <a href='https://lk.skilla.ru/leader/skills'><li onClick={handleActivePoint} id='14' className={`${s.item} ${s.item_3} ${activePoint === 14 && s.item_active}`}><IconStat />Сдача навыков</li></a>
                     {/*  <a href='https://lk.skilla.ru/leader/managers/nowork'><li onClick={handleActivePoint} id='3' className={`${s.item} ${s.item_3} ${activePoint === 3 && s.item_active}`}><IconEvent />События</li></a> */}
                 </ul>
@@ -387,12 +403,33 @@ function SideBar({ role, location }) {
                     <Link to={'/leader/dashboard/team'}>
                         <li onClick={handleActivePoint} id='19' className={`${s.item}  ${activePoint === 19 && s.item_active}`}><IconTeam />Команда</li>
                     </Link>
-                    <a href='https://lk.skilla.ru/leader/managers'><li onClick={handleActivePoint} id='10' className={`${s.item} ${s.item_3} ${activePoint === 10 && s.item_active}`}><IconManager />Менеджеры</li></a>
+
+                    <Link to={'/leader/dashboard/clients'}>
+                        <li onClick={handleActivePoint} id='25' className={`${s.item}  ${activePoint === 25 && s.item_active}`}><IconTeam />Мои клиенты</li>
+                    </Link>
+
+                    <Link to={'/leader/dashboard/purchases'}>
+                        <li onClick={handleActivePoint} id='24' className={`${s.item}  ${activePoint === 24 && s.item_active}`}><Stock />Закупки</li>
+                    </Link>
+                    <Link to={'/leader/dashboard/stock'}>
+                        <li onClick={handleActivePoint} id='23' className={`${s.item}  ${activePoint === 23 && s.item_active}`}><Stock2 />Склад</li>
+                    </Link>
+
+                  {/*   <div className={`${s.list} ${(openList || activePoint === 23 || activePoint === 24) && s.list_open}`}>
+                        <li id='233' onClick={handleOpenList} className={`${s.item} ${(activePoint === 23 || activePoint === 24) && s.item_active}`}><Stock />Закупки <div className={`${s.arrow} ${(openList || activePoint === 23 || activePoint === 24) && s.arrow_open}`}><IconArrow /></div></li>
+                        <Link to={'/leader/dashboard/stock'}>
+                            <li onClick={handleActivePoint} id='23' className={`${s.item} ${s.item_small} ${activePoint === 23 && s.item_small_active}`}>Склад</li>
+                        </Link>
+                        <Link to={'/leader/dashboard/purchases'}>
+                            <li onClick={handleActivePoint} id='24' className={`${s.item} ${s.item_small} ${activePoint === 24 && s.item_small_active}`}>Список закупок</li>
+                        </Link>
+                    </div> */}
+                    {/* <a href='https://lk.skilla.ru/leader/managers'><li onClick={handleActivePoint} id='10' className={`${s.item} ${s.item_3} ${activePoint === 10 && s.item_active}`}><IconManager />Менеджеры</li></a> */}
                     <a href='https://lk.skilla.ru/frmanager/bp/'><li onClick={handleActivePoint} id='5' className={`${s.item} ${s.item_3} ${activePoint === 5 && s.item_active}`}><IconOpenBp />Открытые БП</li></a>
                     <a href='https://lk.skilla.ru/leader/quality'><li onClick={handleActivePoint} id='6' className={`${s.item} ${s.item_3} ${activePoint === 6 && s.item_active}`}><IconOpenBp />Качество работы</li></a>
-                    <a href='https://lk.skilla.ru/frmanager/?type=events'><li onClick={handleActivePoint} id='3' className={`${s.item} ${s.item_3} ${activePoint === 3 && s.item_active}`}><IconOrders />Мои клиенты</li></a>
-                    <a href='https://lk.skilla.ru/frmanager/?type=favorite'><li onClick={handleActivePoint} id='4' className={`${s.item} ${s.item_3} ${activePoint === 4 && s.item_active}`}><IconOrders />Избранные клиенты</li></a>
-                    <a href='https://lk.skilla.ru/mango/'><li onClick={handleActivePoint} id='9' className={`${s.item} ${s.item_3} ${activePoint === 9 && s.item_active}`}><IconPhone />Звонки</li></a>
+                   {/*  <a href='https://lk.skilla.ru/frmanager/?type=events'><li onClick={handleActivePoint} id='3' className={`${s.item} ${s.item_3} ${activePoint === 3 && s.item_active}`}><IconOrders />Мои клиенты</li></a> */}
+                    {/* <a href='https://lk.skilla.ru/frmanager/?type=favorite'><li onClick={handleActivePoint} id='4' className={`${s.item} ${s.item_3} ${activePoint === 4 && s.item_active}`}><IconOrders />Избранные клиенты</li></a> */}
+                    {/* <a href='https://lk.skilla.ru/mango/'><li onClick={handleActivePoint} id='9' className={`${s.item} ${s.item_3} ${activePoint === 9 && s.item_active}`}><IconPhone />Звонки</li></a> */}
                     <a href='https://lk.skilla.ru/frmanager/partners/'><li onClick={handleActivePoint} id='5' className={`${s.item} ${s.item_3} ${activePoint === 5 && s.item_active}`}><NavPartners />Партнеры</li></a>
                     {/* <a href='https://lk.skilla.ru/frmanager/analytics/'><li onClick={handleActivePoint} id='7' className={`${s.item} ${s.item_3} ${activePoint === 7 && s.item_active}`}><NavAnalytics />Аналитика</li></a> */}
                 </ul>

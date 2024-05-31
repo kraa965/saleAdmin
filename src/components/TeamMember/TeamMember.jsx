@@ -1,5 +1,4 @@
 import s from './TeamMember.module.scss';
-import penis from '../../image/penis.jpg';
 import { ReactComponent as IconLevel } from '../../image/iconLevel.svg';
 import { ReactComponent as IconAwards } from '../../image/iconAwards.svg';
 import { ReactComponent as IconSkill } from '../../image/iconSkill.svg';

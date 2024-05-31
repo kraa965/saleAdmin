@@ -1,0 +1,77 @@
+.list {
+    width: 100%;
+    padding: 0 28px;
+    box-sizing: border-box;
+    background-color: #FFF;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    opacity: 0;
+    transition: all 0.15s ease-in-out;
+    &_anim {
+        opacity: 1;
+    }
+
+    &_disabled {
+        pointer-events: none;
+        opacity: 0.8;
+    }
+}
+
+.header {
+    width: 100%;
+    height: 48px;
+    display: flex;
+}
+
+.item {
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    color: #8E9AA8;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+
+    svg {
+        margin-left: 4px;
+    }
+
+    &_date {
+        width: 118px;
+        flex-shrink: 0;
+    }
+
+    &_pos {
+        width: 100%;
+        max-width: 570px;
+    }
+
+    &_sum {
+        width: 111px;
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 32px;
+        flex-shrink: 0;
+    }
+
+    &_buyer {
+        width: 240px;
+        flex-shrink: 0;
+    }
+
+    &_seller {
+        width: 290px;
+        flex-shrink: 0;
+    }
+
+    &_status {
+        width: 173px;
+    }
+}
+
+.purchases {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}

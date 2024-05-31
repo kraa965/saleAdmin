@@ -47,6 +47,54 @@ export const TeamMemberProgress = (level, bp, skillsNum) => {
         const progressTotal = (bpXp + skillXp + 50000) / 120000 * 100;
         return { percent, progressTotal }
     }
+
+    if (level === 7) {
+        const bpXp = (bp - 528) * 91 > 10000 ? 10000 : (bp - 528) * 91;
+        const skillXp = 0;
+        const percent = (bpXp + skillXp) / 10000 * 100;
+        const progressTotal = (bpXp + skillXp + 60000) / 120000 * 100;
+        return { percent, progressTotal }
+    }
+
+    if (level === 8) {
+        const bpXp = (bp - 638) * 76 > 10000 ? 10000 : (bp - 638) * 76;
+        const skillXp = 0;
+        const percent = (bpXp + skillXp) / 10000 * 100;
+        const progressTotal = (bpXp + skillXp + 70000) / 120000 * 100;
+        return { percent, progressTotal }
+    }
+
+    if (level === 9) {
+        const bpXp = (bp - 770) * 76 > 10000 ? 10000 : (bp - 770) * 76;
+        const skillXp = 0;
+        const percent = (bpXp + skillXp) / 10000 * 100;
+        const progressTotal = (bpXp + skillXp + 80000) / 120000 * 100;
+        return { percent, progressTotal }
+    }
+
+    if (level === 10) {
+        const bpXp = (bp - 902) * 76 > 10000 ? 10000 : (bp - 902) * 76;
+        const skillXp = 0;
+        const percent = (bpXp + skillXp) / 10000 * 100;
+        const progressTotal = (bpXp + skillXp + 90000) / 120000 * 100;
+        return { percent, progressTotal }
+    }
+
+    if (level === 11) {
+        const bpXp = (bp - 1034) * 76 > 10000 ? 10000 : (bp - 1034) * 76;
+        const skillXp = 0;
+        const percent = (bpXp + skillXp) / 10000 * 100;
+        const progressTotal = (bpXp + skillXp + 100000) / 120000 * 100;
+        return { percent, progressTotal }
+    }
+
+    if (level === 12) {
+        const bpXp = (bp - 1166) * 76 > 10000 ? 10000 : (bp - 1166) * 76;
+        const skillXp = 0;
+        const percent = (bpXp + skillXp) / 10000 * 100;
+        const progressTotal = (bpXp + skillXp + 110000) / 120000 * 100;
+        return { percent, progressTotal }
+    }
 }
 
 export const handleReliability = (reliability) => {

@@ -32,6 +32,7 @@ function Team() {
     const [lengthList, setLengthList] = useState(15);
     const [query, setQuery] = useState('');
     const [load, setLoad] = useState(true);
+    const [loadFired, setLoadFired] = useState(true);
     const dark = useSelector(menuSelector).dark;
     const update = useSelector(mangerUpdateSelector).updateManagersList;
     const listRef = useRef()
@@ -41,33 +42,53 @@ function Team() {
     }, []);
 
     useEffect(() => {
-        Promise.all([getTeam(1), getTeam(0)])
-            .then(([res1, res2]) => {
-                const data1 = res1.data.team;
-                const data2 = res2.data.team;
-                setManagers(data1);
-                const level1 = data1.filter(el => el.level === 1);
-                const level2 = data1.filter(el => el.level === 2);
-                const level3 = data1.filter(el => el.level === 3);
-                const level4 = data1.filter(el => el.level === 4);
-                const level5 = data1.filter(el => el.level === 5);
-                const level6 = data1.filter(el => el.level === 6);
-                setTemList([level1, level2, level3, level4, level5, level6]);
+        getTeam(1)
+            .then(res => {
+                const data = res.data.team;
+                setManagers(data);
+                const level1 = data.filter(el => el.level === 1);
+                const level2 = data.filter(el => el.level === 2);
+                const level3 = data.filter(el => el.level === 3);
+                const level4 = data.filter(el => el.level === 4);
+                const level5 = data.filter(el => el.level === 5);
+                const level6 = data.filter(el => el.level === 6);
+                const level7 = data.filter(el => el.level === 7);
+                const level8 = data.filter(el => el.level === 8);
+                const level9 = data.filter(el => el.level === 9);
+                const level10 = data.filter(el => el.level === 10);
+                const level11 = data.filter(el => el.level === 11);
+                const level12 = data.filter(el => el.level === 12);
+                setTemList([level1, level2, level3, level4, level5, level6, level7, level8, level9, level10, level11, level12]);
 
-                setManagersFired(data2);
-                const level1remove = data2.filter(el => el.level === 1);
-                const level2remove = data2.filter(el => el.level === 2);
-                const level3remove = data2.filter(el => el.level === 3);
-                const level4remove = data2.filter(el => el.level === 4);
-                const level5remove = data2.filter(el => el.level === 5);
-                const level6remove = data2.filter(el => el.level === 6);
-                setTemListFired([level6remove, level5remove, level4remove, level3remove, level2remove, level1remove]);
                 setTimeout(() => {
                     setLoad(false);
                 }, 200)
-
             })
-            .catch(err => console.log(err));
+    }, [update]);
+
+    useEffect(() => {
+        getTeam(0)
+            .then(res => {
+                const data = res.data.team;
+                setManagersFired(data);
+                const level1remove = data.filter(el => el.level === 1);
+                const level2remove = data.filter(el => el.level === 2);
+                const level3remove = data.filter(el => el.level === 3);
+                const level4remove = data.filter(el => el.level === 4);
+                const level5remove = data.filter(el => el.level === 5);
+                const level6remove = data.filter(el => el.level === 6);
+                const level7remove = data.filter(el => el.level === 7);
+                const level8remove = data.filter(el => el.level === 8);
+                const level9remove = data.filter(el => el.level === 9);
+                const level10remove = data.filter(el => el.level === 10);
+                const level11remove = data.filter(el => el.level === 11);
+                const level12remove = data.filter(el => el.level === 12);
+                setTemListFired([level6remove, level5remove, level4remove, level3remove, level2remove, level1remove, level7remove, level8remove, level9remove, level10remove, level11remove, level12remove]);
+
+                setTimeout(() => {
+                    setLoadFired(false);
+                }, 200)
+            })
     }, [update])
 
     useEffect(() => {
@@ -88,7 +109,13 @@ function Team() {
         const level4 = managers.filter(el => el.level === 4);
         const level5 = managers.filter(el => el.level === 5);
         const level6 = managers.filter(el => el.level === 6);
-        setTemList([level1, level2, level3, level4, level5, level6]);
+        const level7 = managers.filter(el => el.level === 7);
+        const level8 = managers.filter(el => el.level === 8);
+        const level9 = managers.filter(el => el.level === 9);
+        const level10 = managers.filter(el => el.level === 10);
+        const level11 = managers.filter(el => el.level === 11);
+        const level12 = managers.filter(el => el.level === 12);
+        setTemList([level1, level2, level3, level4, level5, level6, level7, level8, level9, level10, level11, level12]);
 
         const level1remove = managersFired.filter(el => el.level === 1);
         const level2remove = managersFired.filter(el => el.level === 2);
@@ -96,18 +123,29 @@ function Team() {
         const level4remove = managersFired.filter(el => el.level === 4);
         const level5remove = managersFired.filter(el => el.level === 5);
         const level6remove = managersFired.filter(el => el.level === 6);
-        setTemListFired([level6remove, level5remove, level4remove, level3remove, level2remove, level1remove]);
+        const level7remove = managersFired.filter(el => el.level === 7);
+        const level8remove = managersFired.filter(el => el.level === 8);
+        const level9remove = managersFired.filter(el => el.level === 9);
+        const level10remove = managersFired.filter(el => el.level === 10);
+        const level11remove = managersFired.filter(el => el.level === 11);
+        const level12remove = managersFired.filter(el => el.level === 12);
+        setTemListFired([level12remove, level11remove, level10remove, level9remove, level8remove, level7remove, level6remove, level5remove, level4remove, level3remove, level2remove, level1remove]);
 
     }, [fired])
 
-    function handleSwitchFired() {
-        if (fired) {
+    function handleSwitchFired(e) {
+        const id = e.currentTarget.id;
+        if (id == 1) {
             setFired(false);
             setLengthList(15);
             setRestoreWindow(false)
-        } else {
+            return
+        }
+
+        if (id == 2) {
             setFired(true)
             setRestoreWindow(true)
+            return
         }
     }
 
@@ -128,7 +166,13 @@ function Team() {
         const level4 = searchResult.filter(el => el.level === 4);
         const level5 = searchResult.filter(el => el.level === 5);
         const level6 = searchResult.filter(el => el.level === 6);
-        setTemList([level1, level2, level3, level4, level5, level6]);
+        const level7 = searchResult.filter(el => el.level === 7);
+        const level8 = searchResult.filter(el => el.level === 8);
+        const level9 = searchResult.filter(el => el.level === 9);
+        const level10 = searchResult.filter(el => el.level === 10);
+        const level11 = searchResult.filter(el => el.level === 11);
+        const level12 = searchResult.filter(el => el.level === 12);
+        setTemList([level1, level2, level3, level4, level5, level6, level7, level8, level9, level10, level11, level12]);
 
         const level1remove = searchResult.filter(el => el.level === 1);
         const level2remove = searchResult.filter(el => el.level === 2);
@@ -136,7 +180,13 @@ function Team() {
         const level4remove = searchResult.filter(el => el.level === 4);
         const level5remove = searchResult.filter(el => el.level === 5);
         const level6remove = searchResult.filter(el => el.level === 6);
-        setTemListFired([level6remove, level5remove, level4remove, level3remove, level2remove, level1remove]);
+        const level7remove = searchResult.filter(el => el.level === 7);
+        const level8remove = searchResult.filter(el => el.level === 8);
+        const level9remove = searchResult.filter(el => el.level === 9);
+        const level10remove = searchResult.filter(el => el.level === 10);
+        const level11remove = searchResult.filter(el => el.level === 11);
+        const level12remove = searchResult.filter(el => el.level === 12);
+        setTemListFired([level12remove, level11remove, level10remove, level9remove, level8remove, level7remove, level6remove, level5remove, level4remove, level3remove, level2remove, level1remove]);
     }
 
 
@@ -150,8 +200,8 @@ function Team() {
                         <input onChange={handleSearch} value={query || ''} placeholder='Искать...'></input>
                     </div>
                     <div className={`${s.buttons} ${load && s.buttons_dis} ${dark && s.buttons_dark}`}>
-                        <button onClick={handleSwitchFired} className={`${s.button} ${s.button_workers} ${dark && s.button_workers_dark} ${!fired && dark && s.button_active_dark} ${!fired && s.button_active}`}>Работающие</button>
-                        <button onClick={handleSwitchFired} className={`${s.button} ${s.button_workers} ${dark && s.button_workers_dark} ${fired && dark && s.button_active_dark} ${fired && s.button_active}`}>Уволенные</button>
+                        <button id='1' onClick={handleSwitchFired} className={`${s.button} ${s.button_workers} ${dark && s.button_workers_dark} ${!fired && dark && s.button_active_dark} ${!fired && s.button_active}`}>Работающие</button>
+                        <button id='2' onClick={handleSwitchFired} className={`${s.button} ${s.button_workers} ${dark && s.button_workers_dark} ${fired && dark && s.button_active_dark} ${fired && s.button_active}`}>Уволенные</button>
                     </div>
                 </div>
                 <button onClick={handleOpenAddWindow} className={`${s.button} ${s.button_new}`}><IconPlus /><p>Добавить сотрудника</p></button>
@@ -202,6 +252,12 @@ function Team() {
                         {index === 3 && 'Джедай'}
                         {index === 4 && 'Мастер продаж'}
                         {index === 5 && 'Гуру продаж'}
+                        {index === 6 && 'Крепкий орешек'}
+                        {index === 7 && 'Баба Гануш'}
+                        {index === 8 && 'Магистр продаж'}
+                        {index === 9 && 'Бесспорный лидер'}
+                        {index === 10 && 'Волк с Энергетиков-стрит'}
+                        {index === 11 && 'Бог продаж'}
                         <sup> {el.length}</sup>
                     </p>
                     }
@@ -217,7 +273,34 @@ function Team() {
                 </div>
             })}
 
-            {load && [[...Array(10)], [...Array(8)], [...Array(6)]].map((el, index) => {
+            {load && !fired && [[...Array(10)], [...Array(8)], [...Array(6)]].map((el, index) => {
+                return <div ref={listRef} lassName={s.container}>
+                    {role !== 'frmanager' && <p className={s.text}>
+                        {index === 0 && 'Новичок-звонила'}
+                        {index === 1 && 'Подающий надежды'}
+                        {index === 2 && 'Ученик джедая'}
+                        {index === 3 && 'Джедай'}
+                        {index === 4 && 'Мастер продаж'}
+                        {index === 5 && 'Гуру продаж'}
+                        {index === 6 && 'Крепкий орешек'}
+                        {index === 7 && 'Баба Гануш'}
+                        {index === 8 && 'Магистр продаж'}
+                        {index === 9 && 'Бесспорный лидер'}
+                        {index === 10 && 'Волк с Энергетиков-стрит'}
+                        {index === 11 && 'Бог продаж'}
+                        <sup></sup>
+                    </p>
+                    }
+                    <div className={s.block}>
+                        {el?.map((el, i) => {
+                            return <TeamMemberSceleton />
+                        })}
+
+                    </div>
+                </div>
+            })}
+
+            {loadFired && fired && [[...Array(10)], [...Array(8)], [...Array(6)]].map((el, index) => {
                 return <div ref={listRef} lassName={s.container}>
                     {role !== 'frmanager' && <p className={s.text}>
                         {index == 0 && 'Новичок-звонила'}
@@ -238,12 +321,18 @@ function Team() {
             {fired && teamListFired.map((el, index) => {
                 return <div lassName={s.container} style={{ display: el.length < 1 ? 'none' : '' }}>
                     {role !== 'frmanager' && <p className={s.text}>
-                        {index === 0 && 'Гуру продаж'}
-                        {index === 1 && 'Мастер продаж'}
-                        {index === 2 && 'Джедай'}
-                        {index === 3 && 'Ученик джедая'}
-                        {index === 4 && 'Подающий надежды'}
-                        {index === 5 && 'Новичок-звонила'}
+                        {index === 0 && 'Бог продаж'}
+                        {index === 1 && 'Волк с Энергетиков-стрит'}
+                        {index === 2 && 'Бесспорный лидер'}
+                        {index === 3 && 'Магистр продаж'}
+                        {index === 4 && 'Баба Гануш'}
+                        {index === 5 && 'Крепкий орешек'}
+                        {index === 6 && 'Гуру продаж'}
+                        {index === 7 && 'Мастер продаж'}
+                        {index === 8 && 'Джедай'}
+                        {index === 9 && 'Ученик джедая'}
+                        {index === 10 && 'Подающий надежды'}
+                        {index === 11 && 'Новичок-звонила'}
                         <sup> {el.length}</sup>
                     </p>
                     }

@@ -6,7 +6,7 @@ import WorkTime from '../WorkTime/WorkTime';
 import ProfileModal from '../ProfileModal/ProfileModal';
 import { ReactComponent as IconPlus } from '../../image/iconPlus.svg';
 
-function Profile({ setOpenProfile, name, surname, avatar, level, dark, type }) {
+function Profile({ setOpenProfile, name, surname, id, avatar, level, dark, type, setTimer, setPauseUpdate }) {
     const [anim, setAnim] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [modalType, setModalType] = useState('');
@@ -107,7 +107,7 @@ function Profile({ setOpenProfile, name, surname, avatar, level, dark, type }) {
                 </div>
                 }
             </div>
-            {openModal && <ProfileModal modalRef={modalRef} setOpenModal={setOpenModal} type={modalType} dark={dark} />}
+            {openModal && <ProfileModal modalRef={modalRef} setOpenModal={setOpenModal} type={modalType} dark={dark} id={id} setTimer={setTimer} setPauseUpdate={setPauseUpdate}/>}
         </div>
 
     )

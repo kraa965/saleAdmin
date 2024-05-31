@@ -121,3 +121,8 @@ export const restoreManager = (data) => {
         data: data,
     })
 }
+
+export const addPause = (id, time) => {
+    return instanceWithToken.post(`https://api2.skilla.ru/api/leader/managers/pause?id=${id}&minutes=${time}`);
+}
+

@@ -344,7 +344,7 @@ export const handleDateLog = (n) => {
     case 2: fMonth2 = "марта"; break;
     case 3: fMonth2 = "апреля"; break;
     case 4: fMonth2 = "мая"; break;
-    case 5: fMonth2 = "июнья"; break;
+    case 5: fMonth2 = "июня"; break;
     case 6: fMonth2 = "июлья"; break;
     case 7: fMonth2 = "августа"; break;
     case 8: fMonth2 = "сентября"; break;
@@ -373,7 +373,7 @@ export const handleDateStudy = (n) => {
     case 2: fMonth2 = "марта"; break;
     case 3: fMonth2 = "апреля"; break;
     case 4: fMonth2 = "мая"; break;
-    case 5: fMonth2 = "июнья"; break;
+    case 5: fMonth2 = "июня"; break;
     case 6: fMonth2 = "июлья"; break;
     case 7: fMonth2 = "августа"; break;
     case 8: fMonth2 = "сентября"; break;

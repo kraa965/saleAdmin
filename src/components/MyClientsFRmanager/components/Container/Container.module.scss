@@ -1,0 +1,12 @@
+.container {
+
+    right: 0;
+    transition: all 0.2s ease-in-out;
+
+    box-sizing: border-box;
+
+    &_hidden {
+        width: calc(100% - 80px); 
+        margin-left: 80px; 
+    }
+}

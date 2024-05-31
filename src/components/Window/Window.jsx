@@ -4,11 +4,13 @@ import Sales from '../Sales/Sales';
 import Team from '../Team/Team';
 import Skills from '../Skills/Skills';
 import AppStock from '../Stock/components/AppStock/AppStock';
+import AppPurchase from '../Purchases/components/AppPurchase/AppPurchase';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { menuSelector } from '../../store/reducer/menu/selector';
 import Shedule from '../Schedule/Schedule';
 import Metrics from '../Metrics/Metrics';
+import AppMyCLients from '../MyClientsFRmanager/components/AppMyCLients/AppMyCLients';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function Window({role}) {
@@ -30,6 +32,8 @@ function Window({role}) {
                     <Route path="/leader/dashboard/shedule" element={<Shedule role={role}/>} />
                     <Route path="/leader/dashboard/metrics" element={<Metrics />} />
                     <Route path="/leader/dashboard/stock" element={<AppStock />} />
+                    <Route path="/leader/dashboard/purchases" element={<AppPurchase />} />
+                    <Route path="/leader/dashboard/clients" element={<AppMyCLients />} />
                     {/* {menu === 'result' && <Result />}
                         {menu === 'sales' && <Sales />} */}
                     {/* {menu === 'team' && <Team />}

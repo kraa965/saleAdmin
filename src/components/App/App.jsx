@@ -57,13 +57,18 @@ document.documentElement.dataset.theme = theme;
       return
     }
 
-    if (path == '/leader/dashboard/metrics' || path == '/leader/dashboard/metrics/   ') {
+    if (path == '/leader/dashboard/metrics' || path == '/leader/dashboard/metrics/') {
       document.title = `Метрики`;
       return
     }
 
-    if (path == '/leader/dashboard/stock' || path == '/leader/dashboard/stock/   ') {
+    if (path == '/leader/dashboard/stock' || path == '/leader/dashboard/stock/') {
       document.title = `Склад`;
+      return
+    }
+
+    if (path == '/leader/dashboard/clients' || path == '/leader/dashboard/clients/') {
+      document.title = `Мои клиенты`;
       return
     }
   }, [path]);
