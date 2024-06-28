@@ -2,9 +2,6 @@
     display: flex;
     border-bottom: 1px solid var(--color-line-border);
     box-sizing: border-box;
-    &:last-child {
-        border: none;
-    }
 }
 
 .field {

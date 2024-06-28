@@ -6,6 +6,7 @@
     "@babel/core": "^7.16.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
+    "@fancyapps/ui": "^5.0.36",
     "@lottiefiles/react-lottie-player": "^3.5.3",
     "@mui/x-date-pickers": "^6.19.8",
     "@mui/x-date-pickers-pro": "^6.19.5",

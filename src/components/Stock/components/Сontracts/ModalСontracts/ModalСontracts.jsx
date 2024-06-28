@@ -16,7 +16,7 @@ import LoaderButton from '../../LoaderButton/LoaderButton';
 //API 
 import { addContract, editContract, baseUrl } from '../../../Api/Api';
 //slice
-import { setUpdateContracts } from '../../../../../store/reducer/update/slice';
+import { setUpdateContracts } from '../../../store/reducer/update/slice';
 import { useDispatch } from 'react-redux';
 
 const File = ({ file, files, setFiles, setOldFiles, id, type, disabled }) => {
@@ -389,7 +389,6 @@ const ModalСontracts = ({ setModal, payers, vendors, vendor, payer, el, type, f
                     {!disabled && !load && !save && 'Сохранить'}
                     {!disabled && load && 'Сохраняем...'}
                     {save && <div>Изменения сохранены <IconDone /></div>}
-            
                 </button>}
             </div>
 

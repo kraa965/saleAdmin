@@ -195,3 +195,20 @@ export const handleComparisonDate = (f, s) => {
     return false
   }
 }
+
+export const handleCompareDateOrder = (f) => {
+  const date = new Date(f);
+  const dateSecond = new Date('2024-05-26');
+  const month = date.getMonth();
+  const year = date.getFullYear();
+  const day = date.getDate();
+  const monthSecond = dateSecond.getMonth();
+  const yearSecond = dateSecond.getFullYear();
+  const daySecond = dateSecond.getDate();
+
+  if (date > dateSecond) {
+    return true
+  } else {
+    return false
+  }
+}

@@ -26,10 +26,13 @@ import { ReactComponent as NavPartners } from '../../image/navPartners.svg';
 import { ReactComponent as NavAnalytics } from '../../image/navAnalytics.svg';
 import { ReactComponent as IconEvent } from '../../image/iconEvent.svg';
 import { ReactComponent as MobButton } from '../../image/mobButton.svg';
-import { ReactComponent as IconArrow } from '../../image/ArrowInput.svg'; 
+import { ReactComponent as IconArrow } from '../../image/ArrowInput.svg';
 import { ReactComponent as Stock } from '../../image/icon/sidebar/Stock.svg';
-import { ReactComponent as Stock2 } from '../../image/icon/sidebar/stock2.svg';
+import { ReactComponent as Stock2 } from '../../image/icon/sidebar/stock2.svg'; 
+import { ReactComponent as MenuWorkIcon } from '../../image/icon/sidebar/menuWork.svg';
+import { ReactComponent as Clients } from '../../image/icon/sidebar/clients.svg';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { setMenuStatus } from '../../store/reducer/menu/slice';
 import { useDispatch } from 'react-redux';
 import { menuSelector } from '../../store/reducer/menu/selector';
@@ -42,8 +45,15 @@ import { setDateDay } from '../../utils/dates';
 import { handleTimeNow, handleTimeNowExpert } from '../../utils/dates';
 import { Link } from 'react-router-dom';
 import { ReactComponent as IconClose } from '../../image/iconCloseModal.svg';
+//selector
+import { selectorClient } from '../FrClientWork/store/reducer/Client/selector';
+//slice
+import { setClientId } from '../FrClientWork/store/reducer/Client/slice';
 
 function SideBar({ role, location }) {
+    const client_id = useSelector(selectorClient).client_id;
+    const clientName = useSelector(selectorClient).client_name;
+    const clientCity = useSelector(selectorClient).client_city;
     const [activePoint, setActivePoint] = useState(JSON.parse(localStorage.getItem('point')) || 1);
     const [optionsOpen, setOptionsOpen] = useState(false);
     const [switchOn, setSwitchOn] = useState(false);
@@ -58,6 +68,7 @@ function SideBar({ role, location }) {
     const dark = useSelector(menuSelector).dark;
     const optionsRef = useRef();
     const buttonRef = useRef();
+    const navigate = useNavigate();
 
 
 
@@ -109,9 +120,32 @@ function SideBar({ role, location }) {
     }, [])
     useEffect(() => {
         const path = location?.pathname;
+        const currentUrl = window.location.href;
+        console.log(path, currentUrl.href, path.includes('client='))
         localStorage.removeItem('point');
-        dispatch(setMenuStatus(''))
+        dispatch(setMenuStatus('')) 
+      
         if (path) {
+            if (path.includes('/work/client=')) {
+                const idClientUrl = Number(path.split('/work/client=').pop());
+                console.log(idClientUrl)
+                dispatch(setClientId(idClientUrl));
+                navigate(`/leader/dashboard/experts/work/client=${idClientUrl}`); 
+                setActivePoint(26)
+                localStorage.setItem('point', JSON.stringify(26))
+                return
+            }
+
+            if (currentUrl.includes('/?id=')) {
+                const idClientUrl = Number(currentUrl.split('/?id=').pop());
+                console.log(idClientUrl)
+                dispatch(setClientId(idClientUrl));
+                navigate(`/leader/dashboard/experts/work/client=${idClientUrl}`); 
+                setActivePoint(26)
+                localStorage.setItem('point', JSON.stringify(26))
+                return
+            }
+
             if (path === '/leader/dashboard' || path === '/') {
                 setActivePoint(1)
                 localStorage.setItem('point', JSON.stringify(1))
@@ -159,11 +193,29 @@ function SideBar({ role, location }) {
                 setActivePoint(24);
                 localStorage.setItem('point', JSON.stringify(24))
                 return
+            } 
+
+            if (path === '/leader/dashboard/myclients') {
+                setActivePoint(25);
+                localStorage.setItem('point', JSON.stringify(25))
+                return
             }
 
             if (path === '/leader/dashboard/clients') {
-                setActivePoint(25);
-                localStorage.setItem('point', JSON.stringify(25))
+                setActivePoint(27);
+                localStorage.setItem('point', JSON.stringify(27))
+                return
+            }
+
+            if (path.slice(0, 13) == '/experts/work') {
+                setActivePoint(26);
+                localStorage.setItem('point', JSON.stringify(26))
+                document.title = `...`;
+
+                setTimeout(() => {
+                    document.title = `${clientName} ${clientCity}`;
+                }, 100)
+
                 return
             }
         }
@@ -390,6 +442,19 @@ function SideBar({ role, location }) {
                 }
 
                 {role === 'frmanager' && <ul className={s.items}>
+                    <div className={`${s.link} ${client_id == '' && s.link_disabled}`}>
+                        <Link to={`/experts/work/client=${client_id}`}>
+                            <li onClick={handleActivePoint} id='26' className={`${s.item} ${activePoint === 26 && s.item_active}`}><MenuWorkIcon />Работа с клиентами</li>
+                        </Link>
+                    </div>
+                    <Link to={'/leader/dashboard/myclients'}>
+                        <li onClick={handleActivePoint} id='25' className={`${s.item}  ${activePoint === 25 && s.item_active}`}><IconTeam />Мои клиенты</li>
+                    </Link>
+
+                    <Link to={'/leader/dashboard/clients'}>
+                        <li onClick={handleActivePoint} id='27' className={`${s.item}  ${activePoint === 27 && s.item_active}`}><Clients />Клиенты</li>
+                    </Link>
+
                     <Link to={'/leader/dashboard'}>
                         <li onClick={handleActivePoint} id='1' className={`${s.item} ${activePoint === 1 && s.item_active}`}><DashIcon />Дашборд</li>
                     </Link>
@@ -404,10 +469,6 @@ function SideBar({ role, location }) {
                         <li onClick={handleActivePoint} id='19' className={`${s.item}  ${activePoint === 19 && s.item_active}`}><IconTeam />Команда</li>
                     </Link>
 
-                    <Link to={'/leader/dashboard/clients'}>
-                        <li onClick={handleActivePoint} id='25' className={`${s.item}  ${activePoint === 25 && s.item_active}`}><IconTeam />Мои клиенты</li>
-                    </Link>
-
                     <Link to={'/leader/dashboard/purchases'}>
                         <li onClick={handleActivePoint} id='24' className={`${s.item}  ${activePoint === 24 && s.item_active}`}><Stock />Закупки</li>
                     </Link>
@@ -415,7 +476,7 @@ function SideBar({ role, location }) {
                         <li onClick={handleActivePoint} id='23' className={`${s.item}  ${activePoint === 23 && s.item_active}`}><Stock2 />Склад</li>
                     </Link>
 
-                  {/*   <div className={`${s.list} ${(openList || activePoint === 23 || activePoint === 24) && s.list_open}`}>
+                    {/*   <div className={`${s.list} ${(openList || activePoint === 23 || activePoint === 24) && s.list_open}`}>
                         <li id='233' onClick={handleOpenList} className={`${s.item} ${(activePoint === 23 || activePoint === 24) && s.item_active}`}><Stock />Закупки <div className={`${s.arrow} ${(openList || activePoint === 23 || activePoint === 24) && s.arrow_open}`}><IconArrow /></div></li>
                         <Link to={'/leader/dashboard/stock'}>
                             <li onClick={handleActivePoint} id='23' className={`${s.item} ${s.item_small} ${activePoint === 23 && s.item_small_active}`}>Склад</li>
@@ -427,7 +488,7 @@ function SideBar({ role, location }) {
                     {/* <a href='https://lk.skilla.ru/leader/managers'><li onClick={handleActivePoint} id='10' className={`${s.item} ${s.item_3} ${activePoint === 10 && s.item_active}`}><IconManager />Менеджеры</li></a> */}
                     <a href='https://lk.skilla.ru/frmanager/bp/'><li onClick={handleActivePoint} id='5' className={`${s.item} ${s.item_3} ${activePoint === 5 && s.item_active}`}><IconOpenBp />Открытые БП</li></a>
                     <a href='https://lk.skilla.ru/leader/quality'><li onClick={handleActivePoint} id='6' className={`${s.item} ${s.item_3} ${activePoint === 6 && s.item_active}`}><IconOpenBp />Качество работы</li></a>
-                   {/*  <a href='https://lk.skilla.ru/frmanager/?type=events'><li onClick={handleActivePoint} id='3' className={`${s.item} ${s.item_3} ${activePoint === 3 && s.item_active}`}><IconOrders />Мои клиенты</li></a> */}
+                    {/*  <a href='https://lk.skilla.ru/frmanager/?type=events'><li onClick={handleActivePoint} id='3' className={`${s.item} ${s.item_3} ${activePoint === 3 && s.item_active}`}><IconOrders />Мои клиенты</li></a> */}
                     {/* <a href='https://lk.skilla.ru/frmanager/?type=favorite'><li onClick={handleActivePoint} id='4' className={`${s.item} ${s.item_3} ${activePoint === 4 && s.item_active}`}><IconOrders />Избранные клиенты</li></a> */}
                     {/* <a href='https://lk.skilla.ru/mango/'><li onClick={handleActivePoint} id='9' className={`${s.item} ${s.item_3} ${activePoint === 9 && s.item_active}`}><IconPhone />Звонки</li></a> */}
                     <a href='https://lk.skilla.ru/frmanager/partners/'><li onClick={handleActivePoint} id='5' className={`${s.item} ${s.item_3} ${activePoint === 5 && s.item_active}`}><NavPartners />Партнеры</li></a>

@@ -197,10 +197,10 @@ function CellHistory({ setOpenModal, dark, date, eventsDay }) {
                                 <p>{historyTime(el.date_created)}</p>
                                 <p className={s.text_err}>{el.type.name}</p>
                             </div>
-                            {handleDiffDates(el.date) <= 3 && < div id={el.id} title={el.type.name} onClick={openModalDelete} className={s.delete}>
+                           {/*  {handleDiffDates(el.date) <= 3 && */} < div id={el.id} title={el.type.name} onClick={openModalDelete} className={s.delete}>
                                 <IconClose />
                             </div>
-                            }
+                          {/*   } */}
                         </div>
                     })}
 

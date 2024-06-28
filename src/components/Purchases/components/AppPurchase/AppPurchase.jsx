@@ -18,11 +18,12 @@ import { updateParametrsSelector } from '../../store/reducer/updateParametrs/sel
 import { purchaseSelector } from '../../store/reducer/purchase/selector';
 //API 
 import { getParameters, getItems, getPurchases, getPurchasesAction, getOrders, getSearchResult } from '../../Api/Api';
+//utils
+import { handleCompareDateOrder } from '../../utils/date';
 
 const rols = ['administrator', 'hr-assist', 'chief-accountant', 'leader', 'frmanager', 'moderator', 'event-manager']
 
 function AppPurchase() {
-  const [theme, setTheme] = useState('light');
   const [purchases, setPurchases] = useState([]);
   const [purchasesSearch, setPurchasesSearch] = useState([]);
   const [query, setQuery] = useState('');
@@ -55,6 +56,7 @@ function AppPurchase() {
   const purchase = useSelector(purchaseSelector).purchase;
   const order = useSelector(purchaseSelector).order;
   const role = document.getElementById('root_leader').getAttribute('role');
+
  
 
   useEffect(() => {
@@ -88,15 +90,6 @@ function AppPurchase() {
       return
     }
   }, [orderNew])
-
-  useEffect(() => {
-    if (theme == '') {
-      const userMedia = window.matchMedia('(prefers-color-scheme: light)')
-      if (userMedia.matches) return setTheme('light')
-      return setTheme('dark')
-    }
-  }, [theme])
-  document.documentElement.dataset.theme = theme;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -207,7 +200,8 @@ function AppPurchase() {
   useEffect(() => {
     getOrders()
       .then(res => {
-        const filterOrders = res.data.order.filter(el => el.status !== 1)
+        console.log(res)
+        const filterOrders = res.data.order.filter(el => el.status == 0 || (el.status == 1 && handleCompareDateOrder(el.date_create)))
         setOrders(filterOrders);
         setPersonIsView(res.data.person_view);
         console.log('обновились заявки', res);

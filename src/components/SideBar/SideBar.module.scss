@@ -458,6 +458,13 @@
     }
 }
 
+.link {
+    &_disabled {
+        pointer-events: none;
+        opacity: 0.8;
+    }
+}
+
 .items::-webkit-scrollbar {
     width: 6px;
 }

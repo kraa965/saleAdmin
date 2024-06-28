@@ -1,5 +1,6 @@
 import s from './Log.module.scss';
 import { ReactComponent as IconArrow } from '../../image/iconArrowSend.svg';
+import { ReactComponent as IconLoadFile } from '../../image/iconLoadFile.svg';
 import { useEffect, useRef, useState } from 'react';
 import avatar from '../../image/avatarDef2.png'
 import { dateNow, timeForLog, handleComparisonDate, dateForLog } from '../../utils/date';
@@ -7,25 +8,50 @@ import Message from './Message';
 import { sendLog, sendLogOrder } from '../../Api/Api';
 import { setOrderUpdate, setUpdateOrder } from '../../store/reducer/purchaseUpdate/slice';
 import { useDispatch } from 'react-redux';
-
+import uuid from 'react-uuid';
+//components
+import DocumentsLog from './DocumentsLog/DocumentsLog';
 
 function Log({ logs, setLogs, personView, id, role, windowRefImage, scrollTopHeight, type, send }) {
     const [text, setText] = useState('');
+    const [error, setError] = useState(false);
     const [heightComment, setHeightComment] = useState(40);
     const [messages, setMessages] = useState([{ text: 'Залупка одбренна', time: dateNow(), owner: 0, name: 'Админ' }, { text: 'Залупка одбренна', time: dateNow(), owner: 0, name: 'Админ' }]);
     const [timeNow, setTimeNow] = useState('');
     const [scrollVis, setScrollVis] = useState(false);
+    const [files, setFiles] = useState([]);
+    const [heihgtFiles, setHeihgtFiles] = useState(0);
     const dispatch = useDispatch();
     const textRef = useRef();
     const textAreaRef = useRef();
     const chatRef = useRef();
     const windowRef = useRef();
-    console.log(send)
+    const fileInputRef = useRef();
+
+    console.log(messages)
 
     useEffect(() => {
         setMessages(logs)
         setTimeout(() => { chatRef.current?.scrollIntoView({ behavior: 'smooth', block: "end" }) }, 100)
     }, [logs, chatRef])
+
+    useEffect(() => {
+        if (files.length > 3) {
+            setHeihgtFiles(268);
+            return
+        }
+        if (files.length > 0) {
+            setHeihgtFiles(144);
+            return
+        }
+
+        if (files.length == 0) {
+            setHeihgtFiles(0);
+            return
+        }
+    }, [files.length])
+
+
     function handleComment(e) {
         const comment = e.target.value;
         setText(comment);
@@ -39,7 +65,14 @@ function Log({ logs, setLogs, personView, id, role, windowRefImage, scrollTopHei
     }
 
     function handleSendMessage() {
-        type == 'purchase' && sendLog({ id: id, comment: text })
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('comment', text);
+        files.forEach((el, i) => {
+            formData.append(`files[${i}]`, el.file, el.name)
+        });
+
+        type == 'purchase' && sendLog(formData)
             .then(res => {
                 const data = res.data;
                 console.log(res);
@@ -47,16 +80,18 @@ function Log({ logs, setLogs, personView, id, role, windowRefImage, scrollTopHei
             })
             .catch(err => console.log(err))
 
-        type == 'order' && sendLogOrder({ id: id, comment: text })
+        type == 'order' && sendLogOrder(formData)
             .then(res => {
                 const data = res.data;
                 console.log(res);
                 setLogs([...logs, data.order.order_logs.at(-1)]);
+
             })
             .catch(err => console.log(err))
 
         setText('');
         textAreaRef.current.value = '';
+        setFiles([]);
         setHeightComment(40);
         setTimeout(() => {
             dispatch(setUpdateOrder());
@@ -74,6 +109,47 @@ function Log({ logs, setLogs, personView, id, role, windowRefImage, scrollTopHei
             textAreaRef.current.focus();
         }
     }
+
+    /*  const handleDeleteScreen = (id) => {
+         const newArray = screenShots.filter(el => el.id !== id);
+         setScreenShots(newArray);
+     } */
+
+
+    const handleWriteFile = (file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            setFiles((prevState) =>
+                [...prevState, { file: file, id: uuid(), name: file.name, size: file.size / 1048576, send: true }]
+            )
+        };
+    }
+
+
+    const handlePastFile = (e) => {
+        const file = e.clipboardData.files[0]
+        if (file /* && (file.type === "image/png" || file.type === "image/jpg" || file.type === "image/jpeg") */ && files.length < 3) {
+            handleWriteFile(file)
+        };
+    }
+
+    const handleFile = async (e) => {
+        const files = Object.values(e.currentTarget.files);
+        console.log(files)
+        files.forEach((file) => {
+            if (file.size > 15 * 1048576) {
+                console.log("большой файл");
+                setError(true);
+            }
+            else {
+                setError(false);
+                handleWriteFile(file)
+                fileInputRef.current && (fileInputRef.current.value = '');
+            }
+        })
+    }
+
 
 
     return (
@@ -103,8 +179,15 @@ function Log({ logs, setLogs, personView, id, role, windowRefImage, scrollTopHei
             </div>
 
             {send && <div className={s.container_text}>
-                <textarea onKeyDown={handleKeyEnter} ref={textAreaRef} style={{ height: `${heightComment}px` }} onChange={handleComment} placeholder='Написать комментарий'></textarea>
+
+                {/* <div className={s.textedit}><Editor editorState={editorState} onChange={setEditorState} /></div> */}
+                <div className={s.block_send}>
+                    <textarea onPaste={handlePastFile} onKeyDown={handleKeyEnter} ref={textAreaRef} style={{ height: `${heightComment}px` }} onChange={handleComment} placeholder='Написать комментарий'></textarea>
+                    <div style={{height: `${heihgtFiles}px`}} className={`${s.files} ${files.length > 0 && s.files_open}`}><DocumentsLog documents={files} windowRef={windowRefImage} scrollTopHeight={scrollTopHeight} setFiles={setFiles} /></div>
+                </div>
                 <div className={s.invis} ref={textRef}><p>{text}</p></div>
+                <input ref={fileInputRef} multiple id="file-send" type='file' accept=".png,.jpg,.jpeg,.pdf,.doc,.docx,.xlsx" onInput={handleFile}></input>
+                <label for="file-send"><IconLoadFile/></label>
                 <button onClick={handleSendMessage}><IconArrow /></button>
             </div>
             }

@@ -2,10 +2,16 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     today: [],
+    todayNum: 0,
+    todayNextPage: '',
     new: [],
+    newNum: 0,
+    newNextPage: '',
     no_task: [],
     archive: [],
     plan_meeting: [],
+    planNum: 0,
+    planNextPage: '',
     zoom: [],
     anketa: [],
     contract: [],
@@ -29,11 +35,34 @@ const MyClientsSlice = createSlice({
 
     reducers: {
         setClientsToday(state, action) {
-            state.today = action.payload/* [...state.today, ...action.payload] */;
+            state.today = action.payload;
+        },
+        setClientsTodayAdd(state, action) {
+            state.today = [...state.today, ...action.payload];
+        },
+
+        setClientsNum(state, action) {
+            state.todayNum = action.payload;
+        },
+
+        setTodayNextPage(state, action) {
+            state.todayNextPage = action.payload;
         },
 
         setClientsNew(state, action) {
-            state.new = action.payload /* [...state.new, ...action.payload] */;
+            state.new = action.payload;
+        },
+
+        setClientsNewAdd(state, action) {
+            state.new = [...state.new, ...action.payload];
+        },
+
+        setClientsNewNum(state, action) {
+            state.newNum = action.payload;
+        },
+
+        setNewNextPage(state, action) {
+            state.newNextPage = action.payload;
         },
 
         setClientsNoTask(state, action) {
@@ -45,7 +74,19 @@ const MyClientsSlice = createSlice({
         },
 
         setPlanMeeting(state, action) {
-            state.plan_meeting = action.payload /* [...state.plan_meeting, ...action.payload] */;
+            state.plan_meeting = action.payload;
+        },
+
+        setPlanMeetingAdd(state, action) {
+            state.plan_meeting = [...state.plan_meeting, ...action.payload];
+        },
+
+        setPlanNum(state, action) {
+            state.planNum = action.payload;
+        },
+
+        setPlanNextPage(state, action) {
+            state.planNextPage = action.payload;
         },
 
         setZoom(state, action) {
@@ -84,8 +125,8 @@ const MyClientsSlice = createSlice({
             state.loadToday = false;
         },
 
-        setLoadNew(state) {
-            state.loadNew = false;
+        setLoadNew(state, action) {
+            state.loadNew = action.payload;
         },
 
         setLoadNoTask(state) {
@@ -118,17 +159,26 @@ const MyClientsSlice = createSlice({
 
         setLoadFavorite(state) {
             state.loadFavorite = false;
-        }
+        },
     },
 });
 
 export const {
     setClientsToday,
+    setClientsTodayAdd,
+    setClientsNum,
+    setClientsNewAdd,
+    setTodayNextPage,
     setLoadNew,
     setClientsNew,
+    setClientsNewNum,
+    setNewNextPage,
     setClientsNoTask,
     setClientsArchive,
     setPlanMeeting,
+    setPlanMeetingAdd,
+    setPlanNum,
+    setPlanNextPage,
     setZoom,
     setAnketa,
     setContract,
@@ -144,7 +194,7 @@ export const {
     setLoadPrepaid,
     setLoadFavorite,
     setAddFavorite,
-    setRemoveFavorite
+    setRemoveFavorite,
 
 } = MyClientsSlice.actions;
 

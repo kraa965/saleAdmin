@@ -1,9 +1,9 @@
 .app {
     width: 100%;
     height: 100%;
-    max-width: 1550px;
-    min-width: 1550px;
-   /*  margin: 0 auto 40px 40px; */
+    max-width: 1558px;
+    min-width: 1558px;
+    margin: 0 auto;
 }
 
 .header {
@@ -17,6 +17,7 @@
     font-size: 24px;
     font-weight: 600;
     line-height: 28px;
+    color: var(--color-text-primary);
 
     sup {
         font-size: 14px;
@@ -47,7 +48,7 @@
     svg {
         margin-left: 8px;
     }
-    
+
     &_main {
         background-color: #002CFB;
         color: #FFFFFF;
@@ -58,13 +59,21 @@
     }
 
     &_add {
-        color: #002CFB;
-        border: 1px solid #002CFB;
+        color: var(--color-button-accent);
+        border: 1px solid var(--color-button-accent);
         box-sizing: border-box;
 
+        svg path {
+            fill: var(--color-button-accent);
+        }
+
         &:hover {
-            color: #0028E5;
-            border-color: #0028E5;
+            color: var(--color-button-accent-hover);
+            border-color: var(--color-button-accent-hover);
+
+            svg path {
+                fill: var(--color-button-accent-hover);
+            }
         }
     }
 

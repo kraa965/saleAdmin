@@ -3,6 +3,14 @@
     cursor: pointer;
     box-sizing: border-box;
     transition: all 0.15s;
+    height: 56px;
+    opacity: 1;
+    filter: blur(0.5px);
+
+    &_anim {
+        opacity: 1;
+        filter: none;
+    }
 
     &:hover {
         background-color: var(--color-bg-full);
@@ -15,13 +23,20 @@
         color: var(--color-text-primary);
     }
 
-    &_attention {
-        background: linear-gradient(0deg, rgba(225, 13, 13, 0.03) 0%, rgba(225, 13, 13, 0.03) 100%), #FFF;
-    }
+
 
     &_hover {
         background-color: var(--color-bg-full);
-    
+
+    }
+
+    &_attention {
+        background: var(--color-attention-client);
+
+        &:hover {
+            background: var(--color-attention-client);
+            opacity: 0.8;
+        }
     }
 
     &_dis {
@@ -34,12 +49,11 @@
 
 .empty {
     width: 37px;
-    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    padding: 12px;
+    padding-left: 12px;
     flex-shrink: 0;
 }
 
@@ -94,6 +108,7 @@
     gap: 12px;
     padding: 16px 12px;
     flex-shrink: 0;
+    text-wrap: nowrap;
 
     &_text {
         display: flex;
@@ -148,9 +163,20 @@
         fill: var(--color-text-secondary);
     }
 
+    &_fr {
+        width: 300px;
+    }
+
     &_link {
         width: 440px;
 
+        &_fr {
+            width: 300px;
+        }
+    }
+
+    svg {
+        flex-shrink: 0;
     }
 }
 
@@ -167,7 +193,7 @@
 
 .tooltip {
     position: absolute;
-    top: -42px;
+    bottom: 42px;
     max-width: 504px;
     width: fit-content;
     box-sizing: border-box;
@@ -200,17 +226,21 @@
 }
 
 .handover {
-    padding: 0 12px;
+    padding: 0 16px;
     display: flex;
     align-items: center;
     transition: all 0.15s;
     position: relative;
+    margin-left: auto;
+
 
     &_name {
         text-wrap: nowrap;
-        padding: 8px 32px;
+        padding: 8px 16px;
+        width: 170px;
         display: flex;
         align-items: center;
+        color: var(--color-text-secondary)
     }
 }
 
@@ -303,5 +333,5 @@
     z-index: 20;
     border-radius: 8px;
     cursor: default;
-   
+
 }

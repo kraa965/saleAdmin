@@ -42,7 +42,7 @@ const Сontract = ({ el, vendor, payer, payers, vendors }) => {
     }
     return (
         <>
-            <li onClick={handleOpenModal} className={s.contract}>
+            <div onClick={handleOpenModal} className={s.contract}>
                 <div className={s.supl}>
                     <p>{vendor?.name}</p>
                     <span>ИНН {vendor?.inn}  КПП {vendor?.kpp}</span>
@@ -51,7 +51,7 @@ const Сontract = ({ el, vendor, payer, payers, vendors }) => {
                     <p>{payer?.name}</p>
                 </div>
                 <div className={s.field}>
-                    <p>{el.contract_number}</p>
+                    <p>{el?.contract_number}</p>
                 </div>
                 <div className={`${s.field} ${s.field_2}`}>
                     <p>{el.start_date ? dateContract(el.start_date) : ''}</p>
@@ -64,13 +64,13 @@ const Сontract = ({ el, vendor, payer, payers, vendors }) => {
                 <div className={s.status}>
                     <Bage type={status} dayRemain={dayRemain}/>
                 </div>
-            </li>
+            </div>
             {openEdit ? <ModalСontracts setModal={setOpenEdit} payers={payers} vendors={vendors} vendor={vendor} payer={payer} el={el} type={'existing'}
                 filesArr={newArr} start_date={el.start_date ? dateContract2(el.start_date) : null} end_date={el.end_date ? dateContract2(el.end_date) : null} 
                 status={status} dayRemain={dayRemain}
                 />
                 :
-                ''}
+                <div></div>}
         </>
     )
 };

@@ -95,7 +95,7 @@ function WindowPurchase({ id, purchase, loadParametrs }) {
     const [owner, setOwner] = useState(purchase.personId || 0);
     const [personView, setPersonView] = useState(purchase.personId || 0);
     const [order, setOrder] = useState({});
-    console.log(vendorId)
+    console.log(categoryId, inStock)
     const dispatch = useDispatch();
     const windowRef = useRef();
 
@@ -148,12 +148,13 @@ function WindowPurchase({ id, purchase, loadParametrs }) {
                         type: 'add',
                         files: handleExistingFiles(data.order),
                     }
-                    
+                    console.log(data.logs)
+
                     data?.order_logs && data?.order_logs !== null ? setLogs([orderLog, ...data?.order_logs?.order_logs?.slice(1), ...data.logs]) : setLogs(data.logs);
 
                     setPersonView(data.person_view.id);
                     setPersonId(data.purchase.person_id);
-                    setOrder(data.order);
+                    data.order && setOrder(data.order);
                     dispatch(setPurchasesUpdate({ ...res.data.purchase, items: res.data.purchase_items, payer: res.data.payer, logs_view: [{ is_view: 1 }] }))
                 })
                 .catch(err => console.log(err))
@@ -166,7 +167,7 @@ function WindowPurchase({ id, purchase, loadParametrs }) {
         setIsNal(payment);
     }, [paymentType])
 
-
+  console.log(isPattern, isNormalPrice)
     //Определяем есть ли в закупке товары по шаблону и если ли среди них с превышенной максимальной ценой
     useEffect(() => {
         const el = positions.find(el => el.item_id == 0);
@@ -210,7 +211,14 @@ function WindowPurchase({ id, purchase, loadParametrs }) {
         } else {
             setInStock(purchase.inStock)
         }
-    }, [purchase, role])
+    }, [purchase, role]);
+
+    useEffect(() => {
+        if(categoryId == 12) {
+            setInStock(false);
+            return
+        }
+    }, [categoryId])
 
     const handleClosePurchase = () => {
         setAnim(false)
@@ -393,7 +401,7 @@ function WindowPurchase({ id, purchase, loadParametrs }) {
         return
     }
 
-  
+
     const handleConfirmAproval = () => {
         setLoadAproval(true);
         const formData = new FormData();
@@ -631,7 +639,11 @@ function WindowPurchase({ id, purchase, loadParametrs }) {
         <div ref={windowRef} onScroll={handleScrollTop} className={`${s.window} ${anim && s.window_anim}`}>
             <div className={s.container}>
                 <div className={s.header}>
-                    <h2><IconArrowBack onClick={handleClosePurchase} />{id ? `Закупка от ${HandledatePurchase(dateCreate)}` : `Создание закупки`} <StatusBage status={status} reject={reject} role={role} /></h2>
+                    <h2><IconArrowBack onClick={handleClosePurchase} />
+                        {id /* && !order.id */ && `Закупка от ${HandledatePurchase(dateCreate)}`}
+                       {/*  {id && order.id && `Закупка по заявке (${order.person.name} ${order.person.surname}) от ${HandledatePurchase(dateCreate)}`} */}
+                        {!id && `Создание закупки`}
+                        <StatusBage status={status} reject={reject} role={role} /></h2>
                     <div className={s.buttons}>
 
                         {role == 'administrator' && status !== -2 && <button onClick={handleDeleteAdmin} disabled={loadSave} className={`${s.button} ${s.button_cancle}`}>
@@ -657,7 +669,7 @@ function WindowPurchase({ id, purchase, loadParametrs }) {
                             {loadSave && <p>Сохраняем</p>}
                             {!loadSave && !saveSuccess && <p>Сохранить</p>}
                             {!loadSave && saveSuccess && <p>Сохранено</p>}
-                            {loadSave && <LoaderButton color={'#002CFB'} />}
+                            {loadSave && <LoaderButton color={'var(--color-button-accent)'} />}
                             {!loadSave && !saveSuccess && <IconButtonSave />}
                             {!loadSave && saveSuccess && <IconDone />}
                         </button>}
@@ -666,7 +678,7 @@ function WindowPurchase({ id, purchase, loadParametrs }) {
                             {loadSave && <p>Сохраняем</p>}
                             {!loadSave && !saveSuccess && <p>Сохранить</p>}
                             {!loadSave && saveSuccess && <p>Сохранено</p>}
-                            {loadSave && <LoaderButton color={'#002CFB'} />}
+                            {loadSave && <LoaderButton color={'var(--color-button-accent)'} />}
                             {!loadSave && !saveSuccess && <IconButtonSave />}
                             {!loadSave && saveSuccess && <IconDone />}
                         </button>}
@@ -675,7 +687,7 @@ function WindowPurchase({ id, purchase, loadParametrs }) {
                             {loadSave && <p>Сохраняем</p>}
                             {!loadSave && !saveSuccess && <p>Сохранить</p>}
                             {!loadSave && saveSuccess && <p>Сохранено</p>}
-                            {loadSave && <LoaderButton color={'#002CFB'} />}
+                            {loadSave && <LoaderButton color={'var(--color-button-accent)'} />}
                             {!loadSave && !saveSuccess && <IconButtonSave />}
                             {!loadSave && saveSuccess && <IconDone />}
                         </button>}
@@ -735,7 +747,7 @@ function WindowPurchase({ id, purchase, loadParametrs }) {
                             {!loadAproval && aprovalSuccess && <IconDone />}
                         </button>}
 
-                        {role == 'leader' && status == 2 && reject &&
+                        {role == 'leader' && status == 2 && !reject &&
                             <button onClick={handleConfirmAprovalLeader} disabled={loadSave || loadAproval || disabledButton} className={`${s.button} ${s.button_main} ${aprovalSuccess && s.button_success}`}>
                                 {loadAproval && <p>{'Отправляем на оплату'}</p>}
                                 {!loadAproval && !aprovalSuccess && <p>{'Согласовать и отправить на оплату'}</p>}
@@ -745,12 +757,6 @@ function WindowPurchase({ id, purchase, loadParametrs }) {
                                 {!loadAproval && aprovalSuccess && <IconDone />}
                             </button>
                         }
-
-
-
-
-
-
 
 
                         {role !== 'administrator' && role !== 'leader' && purchase.position !== 'administrator' && status == 0 && !reject && <button onClick={handleAproval} disabled={loadSave || loadAproval || disabledButton} className={`${s.button} ${s.button_main} ${aprovalSuccess && s.button_success}`}>
@@ -891,9 +897,9 @@ function WindowPurchase({ id, purchase, loadParametrs }) {
                         <h3 className={s.title}>Параметры</h3>
                         <Options type={'categories'} sub={'Тип закупки'} categoryId={Number(categoryId)} setCategoryId={setCategoryId} purchaseId={id} disabled={disabled /* || loadSave */} />
                         <Options type={'payers'} sub={'Покупатель'} payerId={Number(payerId)} setPayerId={setPayerId} isNal={isNal} setPaymentType={setPaymentType} purchaseId={id} disabled={disabled /* || loadSave || loadAproval */} />
-                        <Vendors hiden={isNal} vendorId={vendorId} setVendorId={setVendorId} contractVendorId={contractVendorId} setContractVendorId={setContractVendorId} disabled={disabled/*  || loadSave || loadAproval */} loadParametrs={loadParametrs} windowRef={windowRef} />
-                        {role == 'administrator' && <div onClick={handleInStock} className={`${s.check} ${status !== 0 && status !== 1 && status !== 2 && status !== -2 && s.check_disabled}`}>
-                            <div className={`${s.checkbox} ${inStock && s.checkbox_check} ${status !== 0 && status !== 1 && status !== 2 && status !== -2 && s.checkbox_disabled}`}>
+                        <Vendors hiden={isNal} vendorId={vendorId} setVendorId={setVendorId} contractVendorId={contractVendorId} setContractVendorId={setContractVendorId} disabled={disabled/*  || loadSave || loadAproval */} loadParametrs={loadParametrs} windowRef={windowRef} scrollTopHeight={scrollTopHeight}/>
+                        {role == 'administrator' && <div onClick={handleInStock} className={`${s.check} ${(status !== 0 && status !== 1 && status !== 2 && status !== -2) || categoryId == 12 && s.check_disabled}`}>
+                            <div className={`${s.checkbox} ${inStock && s.checkbox_check} ${(status !== 0 && status !== 1 && status !== 2 && status !== -2) || categoryId == 12 && s.checkbox_disabled}`}>
                                 <div>
                                     <IconCheck />
                                 </div>

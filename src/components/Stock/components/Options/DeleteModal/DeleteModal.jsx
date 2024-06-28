@@ -4,7 +4,7 @@ import { ReactComponent as IconClose } from '../../../image/icon/iconClose.svg';
 import { payerDelete, сategoryDelete, patternDelete } from '../../../Api/Api';
 import { useDispatch } from 'react-redux';
 //slice 
-import { setUpdatePayers } from '../../../../../store/reducer/update/slice';
+import { setUpdatePayers } from '../../../store/reducer/update/slice';
 
 const DeleteModal = ({ setModal, elDelete, type, setError, setErrorText }) => {
     const [anim, setAnim] = useState(false);

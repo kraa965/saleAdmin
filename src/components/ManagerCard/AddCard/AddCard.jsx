@@ -160,8 +160,37 @@ function AddCard({ setAddWindow, setAnim, disabled, setDisabled }) {
         formData.append('password', workerInfo.password)
         formData.append('is_remote', workerInfo.format)
         formData.append('manager_start_date', workerInfo.startDate)
-        formData.append('work_schedule_id', workerInfo.shedule)
-        formData.append('next_work_schedule_id', workerInfo.shedule2)
+        workerInfo.shedule == 1 && formData.append('work_schedule_id', 1);
+        workerInfo.shedule == 2 && formData.append('work_schedule_id', 2);
+        workerInfo.shedule == 3 && formData.append('work_schedule_id', 1);
+        workerInfo.shedule == 4 && formData.append('work_schedule_id', 1);
+
+        workerInfo.shedule == 1 && formData.append('work_time_start', '10:00');
+        workerInfo.shedule == 2 && formData.append('work_time_start', '08:00');
+        workerInfo.shedule == 3 && formData.append('work_time_start', '09:00');
+        workerInfo.shedule == 4 && formData.append('work_time_start', '08:00');
+
+        workerInfo.shedule == 1 && formData.append('work_time_end', '19:00');
+        workerInfo.shedule == 2 && formData.append('work_time_end', '20:00');
+        workerInfo.shedule == 3 && formData.append('work_time_end', '18:00');
+        workerInfo.shedule == 4 && formData.append('work_time_end', '17:00');
+
+
+        workerInfo.shedule == 1 && formData.append('next_work_schedule_id', 1);
+        workerInfo.shedule == 2 && formData.append('next_work_schedule_id', 2);
+        workerInfo.shedule == 3 && formData.append('next_work_schedule_id', 1);
+        workerInfo.shedule == 4 && formData.append('next_work_schedule_id', 1);
+
+        workerInfo.shedule == 1 && formData.append('next_time_start', '10:00');
+        workerInfo.shedule == 2 && formData.append('next_time_start', '08:00');
+        workerInfo.shedule == 3 && formData.append('next_time_start', '09:00');
+        workerInfo.shedule == 4 && formData.append('next_time_start', '08:00');
+
+        workerInfo.shedule == 1 && formData.append('next_time_end', '19:00');
+        workerInfo.shedule == 2 && formData.append('next_time_end', '20:00');
+        workerInfo.shedule == 3 && formData.append('next_time_end', '18:00');
+        workerInfo.shedule == 4 && formData.append('next_time_end', '17:00');
+       /*  formData.append('next_work_schedule_id', workerInfo.shedule2) */
         workerInfo.photo.file && formData.append('avatar', workerInfo.photo.fileSend, workerInfo.photo.name)
 
         addManager(formData)

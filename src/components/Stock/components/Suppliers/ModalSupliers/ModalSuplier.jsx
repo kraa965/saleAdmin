@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { addVendor } from '../../../Api/Api';
 import { daData } from '../../../Api/ApiDaData';
 //slice
-import { setUpdateSuppliers } from '../../../../../store/reducer/update/slice';
+import { setUpdateSuppliers } from '../../../store/reducer/update/slice';
 
 const ModalSuplier = ({ setModal }) => {
     const [anim, setAnim] = useState(false);
@@ -55,7 +55,7 @@ const ModalSuplier = ({ setModal }) => {
 
     useEffect(() => {
         inputRefFocus.current && inputRefFocus.current.focus();
-    }, [inputRefFocus])
+    }, [inputRefFocus]);
 
     const handleCloseModal = () => {
         setAnim(false);

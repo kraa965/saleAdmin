@@ -6,13 +6,13 @@ import BalanceItemSceleton from './BalanceItemSceleton/BalanceItemSceleton';
 import { addSpaceNumber } from '../../utils/addSpaceNumber';
 import Loader from '../Loader/Loader';
 
-const Balance = ({ stockRemains, load, sumRemains }) => {
+const Balance = ({ stockRemains, load, sumRemains, outcoming }) => {
     const [anim, setAnim] = useState(false);
     const [listLength, setListLength] = useState(24);
     const [sort, setSort] = useState('');
     const [sortStatus, setSortStatus] = useState('');
     const listRef = useRef();
-   console.log(stockRemains)
+   console.log(stockRemains, )
     useEffect(() => {
         setTimeout(() => {
             setAnim(true)
@@ -133,7 +133,7 @@ const Balance = ({ stockRemains, load, sumRemains }) => {
                     <p>Расход за 30 дн</p>
                 </div>
                 <div className={`${s.total}`}>
-                <p>Всего товара на сумму <sup>{load ? <Loader/> : `${addSpaceNumber(sumRemains)} руб.`}</sup></p>
+                    <p>Всего товара на сумму {/* <sup>{load ? <Loader/> : `${addSpaceNumber(sumRemains)} руб.`}</sup> */}</p>
                 </div>
                 <div className={`${s.position}`}>
                     <div onClick={handleSortStatus} className={`${s.container_sort} ${sortStatus == 'up' && s.up} ${sortStatus == 'down' && s.down}`}>
@@ -148,7 +148,7 @@ const Balance = ({ stockRemains, load, sumRemains }) => {
             </div>
             {!load && <ul className={s.container}>
                 {stockRemains.slice(0, listLength).map((el, i) =>
-                    <BalanceItem key={el.stock_id} el={el} position={i + 1} percent={el.quantity / (el.rate * 3)} />
+                    <BalanceItem key={el.stock_id} el={el} position={i + 1} percent={el.quantity / (el.rate * 3)} outcoming={outcoming}/>
                 )}
             </ul>
             }

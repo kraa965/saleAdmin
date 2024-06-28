@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 //API 
 import { payerDefault, сategoryDefault } from '../../Api/Api';
 //slice 
-import { setUpdatePayers } from '../../../../store/reducer/update/slice';
+import { setUpdatePayers } from '../../store/reducer/update/slice';
 
 const AddDefault = ({ setModal, el, type }) => {
     const [anim, setAnim] = useState(false);

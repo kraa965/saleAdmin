@@ -32,7 +32,7 @@ const Options = ({ payers, patterns, categories, load }) => {
     const [elDelete3, setElDelete3] = useState({});
     const [error, setError] = useState(false);
     const [errorText, setErrorText] = useState('');
-
+    console.log(payers)
   
     useEffect(() => {
         setTimeout(() => {

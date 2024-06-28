@@ -325,7 +325,7 @@ export const sendLog = (data) => {
         method: 'post',
         mode: "cors",
         headers: {
-            "Content-type": "application/json",
+            "Content-type": "multipart/form-data",
             "Accept": "application/json"
         },
         url: `${baseUrl}api/purchases/send_comment`,
@@ -355,6 +355,7 @@ export const createOrder = (data) => {
     })
 }
 
+
 export const takeOrder = (data) => {
     return instanceWithToken({
         method: 'patch',
@@ -364,6 +365,19 @@ export const takeOrder = (data) => {
             "Accept": "application/json"
         },
         url: `${baseUrl}api/purchases/orders`,
+        data: data,
+    })
+}
+
+export const createPurchaseFromOrder = (data) => {
+    return instanceWithToken({
+        method: 'post',
+        mode: "cors",
+        headers: {
+            "Content-type": "application/json",
+            "Accept": "application/json"
+        },
+        url: `${baseUrl}api/purchases/orders/create_purchase`,
         data: data,
     })
 }
@@ -387,7 +401,7 @@ export const sendLogOrder = (data) => {
         method: 'post',
         mode: "cors",
         headers: {
-            "Content-type": "application/json",
+            "Content-type": "multipart/form-data",
             "Accept": "application/json"
         },
         url: `${baseUrl}api/purchases/orders/send_comment`,

@@ -39,7 +39,7 @@ const EditCard = ({ setAddWindow, setAnim, manager, restoreWindow }) => {
     const [name, setName] = useState(manager.name || '');
     const [surName, setSurName] = useState(manager.surname || '');
     const [avatar, setAvatar] = useState(manager.avatar_mini || '');
-    const [sex, setSex] = useState(1);
+    const [sex, setSex] = useState(manager.sex || 1);
     const [hbDate, setHbDate] = useState(manager.hb || '');
     const [tel, setTel] = useState(manager.phone || '');
     const [mango, setMango] = useState(manager.mango_phone || '');

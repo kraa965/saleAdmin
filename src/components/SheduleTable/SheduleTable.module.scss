@@ -21,7 +21,7 @@
 
 .header {
    display: flex;
-   font-size: 16px;
+   font-size: 14px;
    font-style: normal;
    font-weight: 400;
    line-height: 22px;
@@ -50,14 +50,15 @@
 
    &_manager {
       width: 100%;
+      min-width: 278px;
    }
 
    &_progress {
-      min-width: 228px;
+      min-width: 190px;
       position: relative;
       cursor: pointer;
       transition: all 0.15s;
-      margin-left: -16px;
+      margin-left: -12px;
 
       &:hover {
          opacity: 0.8;
@@ -74,20 +75,26 @@
    }
 
    &_plan {
-      min-width: 189px;
+      min-width: 77px;
+      margin-left: 12px;
+      display: flex;
+      box-sizing: border-box;
    }
 
    &_bonus {
-      min-width: 172px;
+      min-width: 190px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: flex-end;
    }
 
    &_shift {
-      min-width: 170px;
+      min-width: 140px;
       display: flex;
       justify-content: flex-end;
 
       &_half {
-         min-width: 154px;
+         min-width: 140px;
          display: flex;
          justify-content: flex-end;
       }
@@ -105,14 +112,17 @@
    }
 
    &_profit {
-      min-width: 150px;
+      min-width: 140px;
+      padding-right: 16px;
+      display: flex;
+      justify-content: flex-end;
    }
 }
 
 .tooltip {
    position: absolute;
-   top: -54px;
-   left: 34px;
+   top: -60px;
+   left: 18px;
    border-radius: 4px;
    background: #FFF;
    color: #71869D;

@@ -3,7 +3,7 @@ import { ReactComponent as IconClose } from '../../../image/icon/iconClose.svg';
 import { ReactComponent as IconSuccess } from '../../../image/icon/iconSuccess.svg';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUpdateBalance } from '../../../../../store/reducer/update/slice';
+import { setUpdateBalance } from '../../../store/reducer/update/slice';
 //API
 import { confirmOutcoming } from '../../../Api/Api';
 
@@ -33,7 +33,8 @@ const Modal = ({ setModalOpen, el }) => {
             document.body.style.overflow = "auto";
             document.body.style.paddingRight = "0";
         };
-    }, [])
+    }, []);
+
 
     const handleCloseModal = () => {
         setAnim(false);
@@ -73,7 +74,6 @@ const Modal = ({ setModalOpen, el }) => {
                     setLoad(false);
                 }, 200)
             })
-
     }
 
     const handleKeyEnter = (e) => {

@@ -106,8 +106,9 @@ function SheduleTable({ dark, table, date }) {
                         <div></div>
                     </div>
                 </div>
-                <div className={s.header_plan}>Плановый минимум</div>
-                <div className={s.header_bonus}>Плановая премия</div>
+                <div className={s.header_plan}>Оклад</div>
+                <div className={s.header_bonus}>Премия за надежность</div>
+                <div className={s.header_bonus}>Премия за экспертность</div>
                 <div className={s.header_shift}>Отработано смен</div>
                 <div className={s.header_shift_half}>Неполные смены</div>
                 <div className={s.header_shift_vacation}>Отпуск</div>

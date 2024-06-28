@@ -15,6 +15,8 @@ const WorkData = () => {
     const [workFormatPopup, setWorkFormatPopup] = useState(false);
     const [workShudelPopup, setWorkShudelPopup] = useState(false);
     const [workShudelPopup2, setWorkShudelPopup2] = useState(false);
+    const [valueShedule, setValueShedule] = useState(1);
+    const [valueShedule2, setValueShedule2] = useState(1);
     const workerInfo = useSelector(addWorkSelector)
     const dispatch = useDispatch();
     const modalRef = useRef();
@@ -24,6 +26,50 @@ const WorkData = () => {
     useEffect(() => {
         localStorage.setItem('startDateManager', JSON.stringify(workerInfo.startDate));
     }, [workerInfo.startDate]);
+
+    useEffect(() => {
+        if (workerInfo.shedule == 1) {
+            setValueShedule('5/2 (10:00-19:00)');
+            return
+        }
+
+        if (workerInfo.shedule == 2) {
+            setValueShedule('2/2 (8:00-20:00)');
+            return
+        }
+
+        if (workerInfo.shedule == 3) {
+            setValueShedule('5/2 (9:00-18:00)');
+            return
+        }
+
+        if (workerInfo.shedule == 4) {
+            setValueShedule('5/2 (8:00-17:00)');
+            return
+        }
+    }, [workerInfo.shedule])
+
+    useEffect(() => {
+        if (workerInfo.shedule2 == 1) {
+            setValueShedule2('5/2 (10:00-19:00)');
+            return
+        }
+
+        if (workerInfo.shedule2 == 2) {
+            setValueShedule2('2/2 (8:00-20:00)');
+            return
+        }
+
+        if (workerInfo.shedule2 == 3) {
+            setValueShedule2('5/2 (9:00-18:00)');
+            return
+        }
+
+        if (workerInfo.shedule2 == 4) {
+            setValueShedule2('5/2 (8:00-17:00)');
+            return
+        }
+    }, [workerInfo.shedule2])
 
     const handleOpenPopup = (e) => {
         const id = e.currentTarget.id;
@@ -85,8 +131,8 @@ const WorkData = () => {
 
     const closeModal = (e) => {
         e.stopPropagation()
-        if (modalRef.current && modalRef2.current &&  modalRef3.current && !modalRef.current.contains(e.target)
-         && !modalRef2.current.contains(e.target) && !modalRef3.current.contains(e.target)) {
+        if (modalRef.current && modalRef2.current && modalRef3.current && !modalRef.current.contains(e.target)
+            && !modalRef2.current.contains(e.target) && !modalRef3.current.contains(e.target)) {
             setWorkFormatPopup(false)
             setWorkShudelPopup(false)
             setWorkShudelPopup2(false)
@@ -118,11 +164,14 @@ const WorkData = () => {
                 <div className={s.block}>
                     <p className={s.sub}>График работы на {handleMonth(0)}</p>
                     <div ref={modalRef2} onClick={handleOpenPopup} id={'shedule'} className={`${s.select} ${workShudelPopup && s.select_open}`}>
-                        <input value={workerInfo.shedule == 2 ? '2/2' : '5/2'} className={`${s.input} ${s.input_select}`} placeholder='график' type='text'></input>
+                        <input value={valueShedule} className={`${s.input} ${s.input_select}`} placeholder='график' type='text'></input>
                         <ArrowInput />
                         <div className={`${s.list} ${workShudelPopup && s.list_open}`}>
-                            <div id='1' onClick={handleShedule} className={`${s.item} ${workerInfo.shedule == 1 && s.item_active}`}><p>5/2</p></div>
-                            <div id='2' onClick={handleShedule} className={`${s.item} ${workerInfo.shedule == 2 && s.item_active}`}><p>2/2</p></div>
+                            <div id='1' onClick={handleShedule} className={`${s.item} ${workerInfo.shedule == 1 && s.item_active}`}><p>5/2 (10:00-19:00)</p></div>
+                            <div id='3' onClick={handleShedule} className={`${s.item} ${workerInfo.shedule == 3 && s.item_active}`}><p>5/2 (9:00-18:00)</p></div>
+                            <div id='4' onClick={handleShedule} className={`${s.item} ${workerInfo.shedule == 4 && s.item_active}`}><p>5/2 (8:00-17:00)</p></div>
+                            <div id='2' onClick={handleShedule} className={`${s.item} ${workerInfo.shedule == 2 && s.item_active}`}><p>2/2 (8:00-20:00)</p></div>
+
                         </div>
                     </div>
                 </div>
@@ -130,11 +179,13 @@ const WorkData = () => {
                 <div className={s.block}>
                     <p className={s.sub}>График работы на {handleMonth(1)}</p>
                     <div ref={modalRef3} onClick={handleOpenPopup} id={'shedule2'} className={`${s.select} ${workShudelPopup2 && s.select_open}`}>
-                        <input value={workerInfo.shedule2 == 2 ? '2/2' : '5/2'} className={`${s.input} ${s.input_select}`} placeholder='график' type='text'></input>
+                        <input value={valueShedule2} className={`${s.input} ${s.input_select}`} placeholder='график' type='text'></input>
                         <ArrowInput />
                         <div className={`${s.list} ${workShudelPopup2 && s.list_open}`}>
-                            <div id='1' onClick={handleShedule2} className={`${s.item} ${workerInfo.shedule2 == 1 && s.item_active}`}><p>5/2</p></div>
-                            <div id='2' onClick={handleShedule2} className={`${s.item} ${workerInfo.shedule2 == 2 && s.item_active}`}><p>2/2</p></div>
+                            <div id='1' onClick={handleShedule2} className={`${s.item} ${workerInfo.shedule2 == 1 && s.item_active}`}><p>5/2 (10:00-19:00)</p></div>
+                            <div id='3' onClick={handleShedule2} className={`${s.item} ${workerInfo.shedule2 == 3 && s.item_active}`}><p>5/2 (9:00-18:00)</p></div>
+                            <div id='4' onClick={handleShedule2} className={`${s.item} ${workerInfo.shedule2 == 4 && s.item_active}`}><p>5/2 (8:00-17:00)</p></div>
+                            <div id='2' onClick={handleShedule2} className={`${s.item} ${workerInfo.shedule2 == 2 && s.item_active}`}><p>2/2 (8:00-20:00)</p></div>
                         </div>
                     </div>
                 </div>

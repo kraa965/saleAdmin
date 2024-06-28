@@ -8,10 +8,80 @@ import { handleMonth, handleRangeDateYear } from '../../../utils/dates';
 const WorkData = ({ shedule1, shedule2, shedule3, setShedule2, setShedule3, ip, dateStart, offense }) => {
     const [list1, setList1] = useState(false);
     const [list2, setList2] = useState(false);
+    const [valueShedule, setValueShedule] = useState('5/2 (10:00-19:00)');
+    const [valueShedule2, setValueShedule2] = useState('5/2 (10:00-19:00)');
+    const [valueShedule3, setValueShedule3] = useState('5/2 (10:00-19:00)');
     const modalRef = useRef();
     const modalRef2 = useRef();
     const role = document.getElementById('root_leader').getAttribute('role');
     console.log(offense)
+
+    useEffect(() => {
+        if (shedule1 == 1) {
+            setValueShedule('5/2 (10:00-19:00)');
+            return
+        }
+
+        if (shedule1 == 2) {
+            setValueShedule('2/2 (8:00-20:00)');
+            return
+        }
+
+        if (shedule1 == 3) {
+            setValueShedule('5/2 (9:00-18:00)');
+            return
+        }
+
+        if (shedule1 == 4) {
+            setValueShedule('5/2 (8:00-17:00)');
+            return
+        }
+    }, [shedule1]);
+
+    useEffect(() => {
+        if (shedule2 == 1) {
+            setValueShedule2('5/2 (10:00-19:00)');
+            return
+        }
+
+        if (shedule2 == 2) {
+            setValueShedule2('2/2 (8:00-20:00)');
+            return
+        }
+
+        if (shedule2 == 3) {
+            setValueShedule2('5/2 (9:00-18:00)');
+            return
+        }
+
+        if (shedule2 == 4) {
+            setValueShedule2('5/2 (8:00-17:00)');
+            return
+        }
+    }, [shedule2]);
+
+
+    useEffect(() => {
+        if (shedule3 == 1) {
+            setValueShedule3('5/2 (10:00-19:00)');
+            return
+        }
+
+        if (shedule3 == 2) {
+            setValueShedule3('2/2 (8:00-20:00)');
+            return
+        }
+
+        if (shedule3 == 3) {
+            setValueShedule3('5/2 (9:00-18:00)');
+            return
+        }
+
+        if (shedule3 == 4) {
+            setValueShedule3('5/2 (8:00-17:00)');
+            return
+        }
+    }, [shedule3]);
 
     const handleOpenList = () => {
         if (list1) {
@@ -65,7 +135,7 @@ const WorkData = ({ shedule1, shedule2, shedule3, setShedule2, setShedule3, ip, 
                 <div className={s.block}>
                     <p className={s.sub}>{handleMonth(0)}</p>
                     <div id='1' className={`${s.select} ${s.select_dis}`}>
-                        <input value={shedule1 == 1 ? '5/2' : '2/2' || ''} className={`${s.input} ${s.input_select}`} placeholder='' type='text'></input>
+                        <input value={valueShedule || ''} className={`${s.input} ${s.input_select}`} placeholder='' type='text'></input>
                         <ArrowInput />
                     </div>
                 </div>
@@ -73,11 +143,13 @@ const WorkData = ({ shedule1, shedule2, shedule3, setShedule2, setShedule3, ip, 
                 <div className={s.block}>
                     <p className={s.sub}>{handleMonth(1)}</p>
                     <div ref={modalRef} id='2' onClick={handleOpenList} className={`${s.select} ${list1 && s.select_open}`}>
-                        <input onClick={handleOpenList} value={shedule2 == 1 ? '5/2' : '2/2' || ''} className={`${s.input} ${s.input_select}`} placeholder='' type='text'></input>
+                        <input onClick={handleOpenList} value={valueShedule2 || ''} className={`${s.input} ${s.input_select}`} placeholder='' type='text'></input>
                         <ArrowInput />
                         <div className={`${s.list} ${list1 && s.list_open}`}>
-                            <div id='1' onClick={handleSelectSheduel} className={`${s.itemlist} ${shedule2 == 1 && s.itemlist_active}`}><p>5/2</p></div>
-                            <div id='2' onClick={handleSelectSheduel} className={`${s.itemlist} ${shedule2 == 2 && s.itemlist_active}`}><p>2/2</p></div>
+                            <div id='1' onClick={handleSelectSheduel} className={`${s.itemlist} ${shedule2 == 1 && s.itemlist_active}`}><p>5/2 (10:00-19:00)</p></div>
+                            <div id='3' onClick={handleSelectSheduel} className={`${s.itemlist} ${shedule2 == 3 && s.itemlist_active}`}><p>5/2 (9:00-18:00)</p></div>
+                            <div id='4' onClick={handleSelectSheduel} className={`${s.itemlist} ${shedule2 == 4 && s.itemlist_active}`}><p>5/2 (8:00-17:00)</p></div>
+                            <div id='2' onClick={handleSelectSheduel} className={`${s.itemlist} ${shedule2 == 2 && s.itemlist_active}`}><p>2/2 (8:00-20:00)</p></div>
                         </div>
                     </div>
                 </div>
@@ -85,11 +157,13 @@ const WorkData = ({ shedule1, shedule2, shedule3, setShedule2, setShedule3, ip, 
                 <div className={s.block}>
                     <p className={s.sub}>{handleMonth(2)}</p>
                     <div ref={modalRef2} id='3' onClick={handleOpenList2} className={`${s.select} ${list2 && s.select_open}`}>
-                        <input onClick={handleOpenList2} value={shedule3 == 1 ? '5/2' : '2/2' || ''} className={`${s.input} ${s.input_select}`} placeholder='' type='text'></input>
+                        <input onClick={handleOpenList2} value={valueShedule3 || ''} className={`${s.input} ${s.input_select}`} placeholder='' type='text'></input>
                         <ArrowInput />
                         <div className={`${s.list} ${list2 && s.list_open}`}>
-                            <div id='1' onClick={handleSelectSheduel2} className={`${s.itemlist} ${shedule3 == 1 && s.itemlist_active}`}><p>5/2</p></div>
-                            <div id='2' onClick={handleSelectSheduel2} className={`${s.itemlist} ${shedule3 == 2 && s.itemlist_active}`}><p>2/2</p></div>
+                            <div id='1' onClick={handleSelectSheduel2} className={`${s.itemlist} ${shedule3 == 1 && s.itemlist_active}`}><p>5/2 (10:00-19:00)</p></div>
+                            <div id='3' onClick={handleSelectSheduel2} className={`${s.itemlist} ${shedule3 == 3 && s.itemlist_active}`}><p>5/2 (9:00-18:00)</p></div>
+                            <div id='4' onClick={handleSelectSheduel2} className={`${s.itemlist} ${shedule3 == 4 && s.itemlist_active}`}><p>5/2 (8:00-17:00)</p></div>
+                            <div id='2' onClick={handleSelectSheduel2} className={`${s.itemlist} ${shedule3 == 2 && s.itemlist_active}`}><p>2/2 (8:00-20:00)</p></div>
                         </div>
                     </div>
                 </div>
@@ -141,7 +215,7 @@ const WorkData = ({ shedule1, shedule2, shedule3, setShedule2, setShedule3, ip, 
                     </div>
                 </div>
 
-               {/*  <p className={`${s.sub} ${s.sub_work}`}>Сотрудник добавлен 21 декабря 2023</p> */}
+                {/*  <p className={`${s.sub} ${s.sub_work}`}>Сотрудник добавлен 21 декабря 2023</p> */}
             </div>
         </div>
     )

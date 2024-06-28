@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import { ReactComponent as IconSort2 } from '../../image/icon/IconSort.svg';
 import { useSelector } from 'react-redux';
 //selector
-import { updateSelector } from '../../../../store/reducer/update/selector';
+import { updateSelector } from '../../store/reducer/update/selector';
 //components
 import Сontract from './Сontract/Сontract';
 import ModalСontracts from './ModalСontracts/ModalСontracts';
@@ -304,11 +304,11 @@ const Сontracts = ({ modalType, setModalType, contracts, load, vendors, payers 
                     </div>
                 </div>
             </div>
-            {!load && <ul className={s.container}>
+            {!load && <div className={s.container}>
                 {[...contracts].reverse().slice(0, listLength).map(el =>
                     <Сontract key={el.id} el={el} vendor={el.vendor} payer={el.payer} payers={payers} vendors={vendors} />
                 )}
-            </ul>
+            </div>
             }
 
             {load && <div className={s.container}>

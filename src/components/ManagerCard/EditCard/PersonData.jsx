@@ -102,7 +102,7 @@ const PersonData = ({ name, setName, surName, setSurName,
                 <div className={s.block}>
                     <p className={s.sub}>Пол</p>
                     <div ref={modalRef} onClick={handleOpenSexList} className={`${s.select} ${sexList && s.select_open} ${restoreWindow && s.select_dis}`}>
-                        <input disabled={restoreWindow} onClick={handleOpenSexList} value={sex == '1' ? 'Мужской' : sex == '0' ? 'Женский' : '' || ''} className={`${s.input} ${s.input_select}`} placeholder='Укажите пол' type='text'></input>
+                        <input disabled={restoreWindow} onClick={handleOpenSexList} value={sex == '1' ? 'Мужской' : 'Женский'} className={`${s.input} ${s.input_select}`} placeholder='Укажите пол' type='text'></input>
                         <ArrowInput />
                         <div className={`${s.list} ${sexList && s.list_open}`}>
                             <div id='1' onClick={handleSelectSex} className={`${s.itemlist} ${sex == '1' && s.itemlist_active}`}><p>Мужской</p></div>

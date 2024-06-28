@@ -42,7 +42,7 @@ const PurchaseReject = ({ setModal, windowRef, id, setStatus, loadAccept, setLoa
         windowRef.current.style.overflow = "hidden";
 
         return () => {
-            windowRef.current.style.overflow = "scroll";
+            windowRef.current.style.overflow = "auto";
             windowRef.current.style.left = "0";
         };
     }, [windowRef]);

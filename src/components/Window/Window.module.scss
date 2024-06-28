@@ -1,7 +1,7 @@
 .window {
     grid-area: work;
-    width: calc(100vw - 290px);
-    height: 100%;
+    /* width: calc(100vw - 290px); */
+    height: 100% !important;
     min-height: 100vh;
     min-width: 1600px;
     box-sizing: border-box;

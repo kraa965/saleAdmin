@@ -17,6 +17,7 @@
 
 .manager {
     width: 100%;
+    min-width: 278px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -32,6 +33,7 @@
     justify-content: center;
     border-radius: 50%;
     overflow: hidden;
+    flex-shrink: 0;
 
     img {
         width: 52px;
@@ -90,12 +92,12 @@
 }
 
 .progress {
-    min-width: 228px;
+    min-width: 190px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 8px;
-    padding: 16px;
+    padding: 16px 8px;
     box-sizing: border-box;
 }
 
@@ -130,15 +132,14 @@
 }
 
 .plan {
-    min-width: 189px;
+    min-width: 89px;
     padding: 16px;
     box-sizing: border-box;
-    justify-content: flex-end;
     align-items: center;
 }
 
 .bonus {
-    min-width: 172px;
+    min-width: 190px;
     padding: 16px;
     box-sizing: border-box;
     justify-content: flex-end;
@@ -156,24 +157,21 @@
 }
 
 .shift {
-    min-width: 170px;
+    min-width: 140px;
     padding: 16px;
     box-sizing: border-box;
     align-items: center;
     display: flex;
     justify-content: flex-end;
     position: relative;
-    padding: 0;
-   
 
     &_half {
-        min-width: 154px;
-        justify-content: center;
+        min-width: 140px;
+      
     }
 
     &_vacation {
         min-width: 90px;
-        margin-right: 16px;
         justify-content: center;
     }
 
@@ -197,7 +195,7 @@
 }
 
 .profit {
-    min-width: 150px;
+    min-width: 140px;
     padding: 16px;
     box-sizing: border-box;
     justify-content: flex-end;

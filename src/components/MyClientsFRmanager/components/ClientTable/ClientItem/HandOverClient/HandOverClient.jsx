@@ -54,7 +54,7 @@ const HandOverClient = ({ id, setHandOver }) => {
     }
 
     const handleOpenList = () => {
-        openList ? setOpenList(false) : setOpenList(true);
+        openList ?  setOpenList(false) : setOpenList(true);
     }
 
     const handleChooseExpert = (e) => {
@@ -68,14 +68,14 @@ const HandOverClient = ({ id, setHandOver }) => {
         setLoader(true)
         dispatch(setHandOverClients({ id, name: `${expert.name} ${expert.surname}` }))
         handleCloseModal();
-        /* transferClient({ id, manager: expert.id })
+        transferClient({ id, manager: expert.id })
             .then(res => {
                 console.log(res);
                 setLoader(false);
                 dispatch(setHandOverClients({ id, name: `${expert.name} ${expert.surname}` }))
                 handleCloseModal();
             })
-            .catch(err => console.log(err)) */
+            .catch(err => console.log(err))
     }
 
     const handleCloseModal = () => {
@@ -90,7 +90,7 @@ const HandOverClient = ({ id, setHandOver }) => {
     return (
         <div ref={modalRef} className={`${s.modal} ${anim && s.modal_open}`}>
             <h3>Передача эксперту</h3>
-            <div onClick={handleOpenList} className={s.expert}>
+            <div ref={listRef} onClick={handleOpenList} className={s.expert}>
                 <div className={s.block}>
                     <div className={s.avatar}>
                         <img src={expert.avatar_mini ? expert.avatar_mini : avatar}></img>
@@ -98,7 +98,7 @@ const HandOverClient = ({ id, setHandOver }) => {
                     <p className={s.name}>{expert.name} {expert.surname}</p>
                 </div>
 
-                <ul ref={listRef} className={`${s.experts} ${openList && s.experts_open}`}>
+                <ul  className={`${s.experts} ${openList && s.experts_open}`}>
                     {experts.map(el => {
                         return el.id !== 3686 && <li onClick={handleChooseExpert} id={el.id} key={el.id}>
                             <div className={s.avatar}>

@@ -23,7 +23,7 @@ const Item = ({ el, i, setModal, setElDelete, type, setModalAddDefault, setType 
     useEffect(() => {
         const num = i * 60;
         setPosition(num)
-    }, [i])
+    }, [i, el])
 
     useEffect(() => {
         setCheck(el.active)

@@ -1,12 +1,16 @@
 import s from './App.module.scss';
 import SideBar from '../SideBar/SideBar';
 import Window from '../Window/Window';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { menuSelector } from '../../store/reducer/menu/selector';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import icon from '../../image/iconCalendar.svg';
 import { setDark } from '../../store/reducer/menu/slice';
+//Api
+import { getTeam } from '../../Api/Api';
+//slice
+import { setExperts } from '../MyClientsFRmanager/store/reducer/Experts/slice';
 
 function App() {
   window.ondrop = (e) => {
@@ -16,19 +20,22 @@ function App() {
   const role = document.getElementById('root_leader').getAttribute('role');
   const menu = useSelector(menuSelector).menu;
   const dark = useSelector(menuSelector).dark;
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState(JSON.parse(localStorage.getItem('theme')) || 'light');
   const location = useLocation();
   const path = location?.pathname;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (dark) {
       setTheme('dark')
+      localStorage.setItem('theme', JSON.stringify('dark'))
     } else {
       setTheme('light')
+      localStorage.setItem('theme', JSON.stringify('light'))
     }
   }, [dark])
 
-document.documentElement.dataset.theme = theme;
+  document.documentElement.dataset.theme = theme;
 
   useEffect(() => {
 
@@ -36,8 +43,8 @@ document.documentElement.dataset.theme = theme;
       document.title = 'Дашборд';
       return
     }
-   
-    if (path == '/leader/dashboard' || path == '/leader/dashboard/' ) {
+
+    if (path == '/leader/dashboard' || path == '/leader/dashboard/') {
       document.title = 'Дашборд';
       return
     }
@@ -67,11 +74,26 @@ document.documentElement.dataset.theme = theme;
       return
     }
 
-    if (path == '/leader/dashboard/clients' || path == '/leader/dashboard/clients/') {
+    if (path == '/leader/dashboard/myclients' || path == '/leader/dashboard/myclients/') {
       document.title = `Мои клиенты`;
       return
     }
+
+    if (path == '/leader/dashboard/clients' || path == '/leader/dashboard/clients/') {
+      document.title = `Клиенты`;
+      return
+    }
   }, [path]);
+
+  //получаем список экспертов
+  useEffect(() => {
+    role == 'frmanager' && getTeam(1)
+      .then(res => {
+        const experts = res.data.team;
+        dispatch(setExperts(experts))
+      })
+      .catch(err => console.log(err))
+  }, [role])
 
   return (
     <div className={s.main}>

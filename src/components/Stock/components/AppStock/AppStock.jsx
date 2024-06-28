@@ -2,13 +2,13 @@ import s from './AppStock.module.scss';
 import { useState, useEffect } from 'react';
 import { ReactComponent as IconPlus } from '../../image/icon/iconPlus.svg';
 import { useSelector } from 'react-redux';
-import { updateSelector } from '../../../../store/reducer/update/selector';
+import { updateSelector } from '../../store/reducer/update/selector';
 //components
 import Search from '../Search/Search';
 import Tabs from '../Tabs/Tabs';
 import Balance from '../Balance/Balance';
 import Outcoming from '../Outcoming/Outcoming';
-import Withdraw from '../Withdraw/Withdraw';
+import Withdraw from '../​Withdraw/​Withdraw';
 import Suppliers from '../Suppliers/Suppliers';
 import Сontracts from '../Сontracts/Сontracts';
 import Options from '../Options/Options';
@@ -36,6 +36,7 @@ const Button = ({ type, setModalType, disabled }) => {
 }
 
 const AppStock = () => {
+  const [theme, setTheme] = useState('light');
   const [modalType, setModalType] = useState(0);
   const [activeTab, setActiveTab] = useState('1');
   const [stockRemainsFirstLoad, setStockRemainsFirstLoad] = useState([])
@@ -64,6 +65,7 @@ const AppStock = () => {
   const updateContracts = useSelector(updateSelector).updateContracts;
   const updatePayers = useSelector(updateSelector).updatePayers;
   const role = document.getElementById('root_leader').getAttribute('role');
+  console.log(vendors)
   //прокрутка страницы наверх 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -78,6 +80,16 @@ const AppStock = () => {
       })
     }
   }, [])
+
+  //установка системной темы
+ /*  useEffect(() => {
+    if (theme == '') {
+      const userMedia = window.matchMedia('(prefers-color-scheme: light)')
+      if (userMedia.matches) return setTheme('light')
+      return setTheme('dark')
+    }
+  }, [theme])
+  document.documentElement.dataset.theme = theme; */
 
   //Установка Тайтла
   useEffect(() => {
@@ -118,9 +130,10 @@ const AppStock = () => {
   useEffect(() => {
     getStockRemains()
       .then(res => {
+        console.log(res)
         const remains = res.data;
         const sum = remains.reduce((acc, el) => acc + Number(el.sum), 0);
-        setSumRemains(sum);
+        setSumRemains(sum)
 
         remains.sort((a, b) => {
           const first = a.rate == 0 ? -1 : a.quantity / a.rate;
@@ -143,8 +156,8 @@ const AppStock = () => {
           }
         })
 
-        setStockRemainsFirstLoad(remains);
-        setStockRemains(remains);
+        setStockRemainsFirstLoad(res.data);
+        setStockRemains(res.data);
         setTimeout(() => {
           setLoad(false);
         }, 200)
@@ -155,7 +168,7 @@ const AppStock = () => {
       })
   }, [updateRemains]);
 
-  //Получаю список списаний
+  //Получаю список изьятий
   useEffect(() => {
     getOutcoming()
       .then(res => {
@@ -169,7 +182,7 @@ const AppStock = () => {
       })
   }, [updateRemains]);
 
-  //Получаю список изъятий
+  //Получаю список списаний
   useEffect(() => {
     getWithdraw()
       .then(res => {
@@ -187,8 +200,11 @@ const AppStock = () => {
   useEffect(() => {
     getVendors()
       .then(res => {
-        setVendorsFirstLoad([...res.data]);
-        setVendors(res.data);
+        const vendorsOnlyWithInn = res.data.filter(el => el.inn !== '' && el.inn !== null);
+        const vendors = role == 'administrator' ? res.data : vendorsOnlyWithInn;
+        console.log(vendors)
+        setVendorsFirstLoad([...vendors]);
+        setVendors(vendors);
         setTimeout(() => {
           setLoad5(false);
         }, 200)
@@ -290,13 +306,14 @@ const AppStock = () => {
       })
   }, [updateContracts])
 
+
   return (
     <div className={s.app}>
       <h2 className={s.title}>Склад</h2>
       <div className={s.header}>
         {activeTab == 1 && <Search setList={setStockRemains} list={stockRemainsFirstLoad} load={load} activeTab={activeTab} />}
         {activeTab == 2 && <Search setList={setOutcoming} list={outcomingFirstLoad} load={load2} activeTab={activeTab} />}
-        {activeTab == 3 && <Search setList={setWithdraw} list={withdrawFirstLoad} load={load3} />}
+        {activeTab == 3 && <Search setList={setWithdraw} list={withdrawFirstLoad} load={load3} activeTab={activeTab} />}
         {activeTab == 4 && <Search setList={setContracts} list={contractsFirstLoad} type={4} load={load4} activeTab={activeTab} />}
         {activeTab == 5 && <Search setList={setVendors} list={vendorsFirstLoad} load={load5} activeTab={activeTab} />}
         {activeTab == 6 && <Search type={6} activeTab={activeTab} />}
@@ -305,7 +322,7 @@ const AppStock = () => {
         {activeTab == 5 && <Button type={5} setModalType={setModalType} disabled={load5} />}
 
       </div>
-      {activeTab == 1 && <Balance stockRemains={stockRemains} sumRemains={sumRemains} load={load} />}
+      {activeTab == 1 && <Balance stockRemains={stockRemains} outcoming={outcoming} load={load} sumRemains={sumRemains}/>}
       {activeTab == 2 && <Outcoming outcoming={[...outcoming].reverse()} load={load2} />}
       {activeTab == 3 && <Withdraw withdraw={[...withdraw].reverse()} load={load3} />}
       {activeTab == 4 && <Сontracts modalType={modalType} setModalType={setModalType} contracts={contracts} load={load4} vendors={vendorsFirstLoad} payers={payers} />}

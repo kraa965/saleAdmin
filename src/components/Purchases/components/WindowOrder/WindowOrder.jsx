@@ -19,7 +19,7 @@ import { ReactComponent as IconButtonClose } from '../../image/icon/purchase/ico
 import { ReactComponent as IconButtonCloseDoc } from '../../image/icon/purchase/iconButtonCloseDoc.svg';
 import { ReactComponent as IconCheck } from '../../image/icon/purchase/iconCheck.svg';
 //API
-import { createOrder, takeOrder, getOrder } from '../../Api/Api';
+import { createOrder, takeOrder, getOrder, createPurchaseFromOrder } from '../../Api/Api';
 //components
 import Log from '../Log/Log';
 import Options from '../Options/Options';
@@ -80,6 +80,7 @@ function WindowOrder({ id, order, personIsView, loadParametrs }) {
     const [personView, setPersonView] = useState(personIsView.id || 0)
     const dispatch = useDispatch();
     const windowRef = useRef();
+    console.log(owner, personView, order)
 
 
     useEffect(() => {
@@ -272,6 +273,57 @@ function WindowOrder({ id, order, personIsView, loadParametrs }) {
                     files: handleExistingFiles(order)
                 }
 
+                /*   const purchaseForOpen = {
+                      isOrder: true,
+                      id: purchase.id,
+                      open: true,
+                      payerId: purchase?.payer_id,
+                      categoryId: purchase?.cat_id,
+                      dateCreate: purchase?.date_create,
+                      isNal: purchase?.is_nal,
+                      logs: [orderLog, ...purchase?.logs],
+                      status: purchase?.status,
+                      position: purchase?.person?.position,
+                      personId: purchase?.person_id,
+                      dateCreate: dateNow2(),
+                  }
+                  console.log(purchase)
+                  dispatch(setPurchaseNew(purchase))
+                  dispatch(setPurchase(purchaseForOpen)); */
+                dispatch(setUpdateOrder())
+                /*  setTimeout(() => {
+                     handleCloseOrder();
+                 }, 200) */
+
+                /* const documents = handleExistingFiles(purchase);
+                setDocuments(documents); */
+                /*    setTimeout(() => {handleClosePurchase()}, 600); */
+            })
+            .catch(err => console.log(err))
+    }
+
+    const handleCreatePurchaseFromOrder = () => {
+        setLoadCreate(true);
+        createPurchaseFromOrder({ id: idCreate })
+            .then(res => {
+                const order = res.data.order;
+                const purchase = res.data.purchase;
+                dispatch(setOrderUpdate(order));
+                console.log(res)
+                setStatus(2);
+                setLoadCreate(false);
+
+                const orderLog = {
+                    comment: 'Создана заявка на закупку',
+                    date: order.date_create,
+                    id: order.id,
+                    person: order.person,
+                    person_id: order.person_id,
+                    sub_comment: order.comment,
+                    type: 'add',
+                    files: handleExistingFiles(order)
+                }
+
                 const purchaseForOpen = {
                     isOrder: true,
                     id: purchase.id,
@@ -299,7 +351,6 @@ function WindowOrder({ id, order, personIsView, loadParametrs }) {
                 /*    setTimeout(() => {handleClosePurchase()}, 600); */
             })
             .catch(err => console.log(err))
-
     }
 
     const handleDelete = () => {
@@ -338,6 +389,13 @@ function WindowOrder({ id, order, personIsView, loadParametrs }) {
                             {!loadCreate && <IconTakeWork />}
                         </button>}
 
+                        {status == 1 && role == 'hr-assist' && <button disabled={false} onClick={handleCreatePurchaseFromOrder} className={`${s.button} ${s.button_main}`}>
+                            {loadCreate && <p>Создаем закупку</p>}
+                            {!loadCreate && <p>Создать закупку</p>}
+                            {loadCreate && <LoaderButton color={'#FFFFFF'} />}
+                            {!loadCreate && <IconTakeWork />}
+                        </button>}
+
 
 
                     </div>
@@ -351,7 +409,7 @@ function WindowOrder({ id, order, personIsView, loadParametrs }) {
                     </div>
                     <div className={s.comment}>
                         <h3 className={s.title}>Позиции к закупке</h3>
-                        <textarea onChange={handleComment} value={comment || ''} placeholder='Напиши здесь позиции и описание к ним'></textarea>
+                        <textarea disabled={disabled} onChange={handleComment} value={comment || ''} placeholder='Напиши здесь позиции и описание к ним'></textarea>
                     </div>
                     <Documents documents={documents} setDocuments={setDocuments} disabled={disabled} setDeleteFiles={setDeleteFiles} setSaveSuccess={setCreateSuccess} windowRef={windowRef} scrollTopHeight={scrollTopHeight} />
                     <Log logs={logs} setLogs={setLogs} personView={personView} role={order.position} windowRefImage={windowRef} scrollTopHeight={scrollTopHeight} send={status !== -2} id={idCreate} type={'order'} />

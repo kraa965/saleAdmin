@@ -14,9 +14,18 @@ instanceWithToken.interceptors.request.use(config => {
     return config
 });
 
-export const getMyClients = (type) => {
-    return instanceWithToken.get(`${baseUrl}api/frmanager/clients?type=${type}`);
+export const getMyClients = (type, category) => {
+    return instanceWithToken.get(`${baseUrl}api/frmanager/clients?type=${type}&category=${category}`);
 }
+
+export const SearchMyClients = (type, category, search) => {
+    return instanceWithToken.get(`${baseUrl}api/frmanager/clients?type=${type}&category=${category}&search=${search}`);
+}
+
+export const getMyClientsPagination = (path, type, category) => {
+    return instanceWithToken.get(`${path}&type=${type}&category=${category}`);
+}
+
 
 export const addFavorite = (data) => {
     return instanceWithToken({

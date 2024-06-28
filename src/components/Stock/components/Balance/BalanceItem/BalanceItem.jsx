@@ -6,7 +6,7 @@ import { addSpaceNumber } from '../../../utils/addSpaceNumber';
 //components
 import Modal from '../Modal/Modal';
 
-const BalanceItem = ({ el, position, percent }) => {
+const BalanceItem = ({ el, position, percent, outcoming }) => {
     const [idModal, setIdModal] = useState(0);
     const [heightEl, setHeightEl] = useState(64);
     const [mouseEnter, setMouseEnter] = useState(false);
@@ -32,7 +32,8 @@ const BalanceItem = ({ el, position, percent }) => {
         <>
             <li style={{ height: `${heightEl}px` }} onMouseEnter={handleHover} onMouseLeave={handleLeave} className={`${s.item}`}>
                 <div className={`${s.number}`}>
-                    <p>{position < 10 ? '00' : position < 100 ? '0' : ''}{position}</p>
+                    {/* <p>{position < 10 ? '00' : position < 100 ? '0' : ''}{position}</p> */}
+                    <p>{el.stock_id}</p>
                 </div>
                 <div className={`${s.name} ${heightEl > 64 && s.name_wrap}`}>
                     <p>{el.name}</p>
@@ -42,10 +43,10 @@ const BalanceItem = ({ el, position, percent }) => {
                 </div>
 
                 <div className={`${s.outgo}`}>
-                    <p>{addSpaceNumber(el.total_quantity)} {el.unit}</p>
+                    {el.total_quantity !== 0 && <p>{addSpaceNumber(el.total_quantity)} {el.unit}</p>}
                 </div>
                 <div className={`${s.total}`}>
-                    <p>{addSpaceNumber(el.sum)}</p>
+                    {el.sum !== 0 && <p>{addSpaceNumber(Math.ceil(el.sum))}</p>}
                 </div>
 
                 {el.rate !== 0 && <div className={`${s.position}`}>
@@ -81,7 +82,7 @@ const BalanceItem = ({ el, position, percent }) => {
 
             </li>
             {idModal == 1 && <Modal type={1} setIdModal={setIdModal} el={el} />}
-            {idModal == 2 && <Modal type={2} setIdModal={setIdModal} el={el} />}
+            {idModal == 2 && <Modal type={2} setIdModal={setIdModal} el={el} outcoming={outcoming}/>}
         </>
     )
 };

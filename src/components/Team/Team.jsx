@@ -243,9 +243,9 @@ function Team() {
                 </div>
             </div> */}
 
-            {!fired && !load && teamList.map((el, index) => {
+            {role !== 'frmanager' && !fired && !load && teamList.map((el, index) => {
                 return <div ref={listRef} lassName={s.container} style={{ display: el.length < 1 ? 'none' : '' }}>
-                    {role !== 'frmanager' && <p className={s.text}>
+                    {<p className={s.text}>
                         {index === 0 && 'Новичок-звонила'}
                         {index === 1 && 'Подающий надежды'}
                         {index === 2 && 'Ученик джедая'}
@@ -273,7 +273,20 @@ function Team() {
                 </div>
             })}
 
-            {load && !fired && [[...Array(10)], [...Array(8)], [...Array(6)]].map((el, index) => {
+            {role == 'frmanager' && !fired && !load && <div lassName={s.container} style={{ display: managers.length < 1 ? 'none' : '' }}>
+                <div ref={listRef} className={s.block}>
+                    {managers?.map((el, i) => {
+                        return i < lengthList && <TeamMember key={el.id} id={el.id} el={el} name={el.name} surname={el.surname} avatar={el.avatar} hb={el.hb}
+                            index={i + 1} level={el.level} progress={el.achivments.progress}
+                            reliability={el.achivments.reliability} reliabilityModal={el.achivments.reliability_modal} setAddWindow={setAddWindow} setEditWindow={setEditWindow}
+                            setTypeEdit={setTypeEdit} setManager={setManager} teamwork={el.achivments.teamwork} type={'fired'} setRestoreWindow={setRestoreWindow} />
+                    })}
+
+                </div>
+            </div>
+            }
+
+            {role !== 'frmanager' && load && !fired && [[...Array(10)], [...Array(8)], [...Array(6)]].map((el, index) => {
                 return <div ref={listRef} lassName={s.container}>
                     {role !== 'frmanager' && <p className={s.text}>
                         {index === 0 && 'Новичок-звонила'}
@@ -291,6 +304,18 @@ function Team() {
                         <sup></sup>
                     </p>
                     }
+                    <div className={s.block}>
+                        {el?.map((el, i) => {
+                            return <TeamMemberSceleton />
+                        })}
+
+                    </div>
+                </div>
+            })}
+
+            {role == 'frmanager' && load && !fired && [[...Array(10)]].map((el, index) => {
+                return <div ref={listRef} lassName={s.container}>
+
                     <div className={s.block}>
                         {el?.map((el, i) => {
                             return <TeamMemberSceleton />
@@ -318,7 +343,7 @@ function Team() {
                 </div>
             })}
 
-            {fired && teamListFired.map((el, index) => {
+            {role !== 'frmanager' && fired && teamListFired.map((el, index) => {
                 return <div lassName={s.container} style={{ display: el.length < 1 ? 'none' : '' }}>
                     {role !== 'frmanager' && <p className={s.text}>
                         {index === 0 && 'Бог продаж'}
@@ -347,6 +372,19 @@ function Team() {
                     </div>
                 </div>
             })}
+
+            {role == 'frmanager' && fired && <div lassName={s.container} style={{ display: managersFired.length < 1 ? 'none' : '' }}>
+                <div ref={listRef} className={s.block}>
+                    {managersFired?.map((el, i) => {
+                        return i < lengthList && <TeamMember key={el.id} id={el.id} el={el} name={el.name} surname={el.surname} avatar={el.avatar} hb={el.hb}
+                            index={i + 1} level={el.level} progress={el.achivments.progress}
+                            reliability={el.achivments.reliability} reliabilityModal={el.achivments.reliability_modal} setAddWindow={setAddWindow} setEditWindow={setEditWindow}
+                            setTypeEdit={setTypeEdit} setManager={setManager} teamwork={el.achivments.teamwork} type={'fired'} setRestoreWindow={setRestoreWindow} />
+                    })}
+
+                </div>
+            </div>
+            }
 
 
 

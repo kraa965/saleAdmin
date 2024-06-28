@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 //API 
 import { editPattern } from '../../Api/Api';
 //slice 
-import { setUpdatePayers } from '../../../../store/reducer/update/slice';
+import { setUpdatePayers } from '../../store/reducer/update/slice';
 
 const units = ['кг', 'г', 'л', 'мл', 'шт', 'уп']
 

@@ -10,9 +10,11 @@ function SheduleTableItem({ dark, manager, sheet, date }) {
     const [tooltipFail, setTooltipFail] = useState(false);
     const [tooltip, setTooltip] = useState(false);
     const [colorLine, setColorLine] = useState('');
+    const [sum, setSum] = useState(sheet?.earnings_actual || 0);
     const earnings = sheet.bp_num;
     const plan = sheet.bp_plan;
-
+    const bonus = sheet.expert_bonus;
+   console.log(sum)
     useEffect(() => {
         if (earnings / plan <= 0) {
             setColorLine('');
@@ -31,6 +33,11 @@ function SheduleTableItem({ dark, manager, sheet, date }) {
             return
         }
     }, [earnings, plan]);
+
+    useEffect(() => {
+        const sum = Number(sheet.earnings_actual) + Number(bonus);
+        setSum(sum)
+    }, [sheet])
 
     function handleOpenTooltip() {
         if (tooltip) {
@@ -67,7 +74,7 @@ function SheduleTableItem({ dark, manager, sheet, date }) {
             <div className={s.progress}>
                 <p className={s.text}>{sheet.bp_num} из {sheet.bp_plan} БП / {sheet.bp_num == 0 ? Math.round(sheet.earnings_total) : addSpaceNumber(Math.round(sheet.earnings_total / sheet.bp_num))} руб</p>
                 <div className={`${s.line} ${dark && s.line_dark}`}>
-                   {/*  <div style={{ width: `${sheet.earnings_actual / sheet.plan * 100}%` }} className={`${s.line_plan} ${dark && s.line_plan_dark}`}></div> */}
+                    {/*  <div style={{ width: `${sheet.earnings_actual / sheet.plan * 100}%` }} className={`${s.line_plan} ${dark && s.line_plan_dark}`}></div> */}
                     <div style={{ width: (sheet.bp_num == 0 || !sheet.bp_num) ? '0%' : `${sheet.bp_num / sheet.bp_plan * 100}%` }} className={`${s.inner} ${colorLine === 'yellow' && s.yellow} 
                                                                                                 ${colorLine === 'green' && s.green} ${colorLine === 'red' && s.red}`}>
                     </div>
@@ -91,6 +98,11 @@ function SheduleTableItem({ dark, manager, sheet, date }) {
 
                 </div>
             </div>
+
+            <div className={s.bonus}>
+                <p>{bonus > 0 ?addSpaceNumber(bonus) : ''}</p>
+            </div>
+
             <div className={s.shift}>
                 <div className={s.shifts}>
                     <p className={s.text}>{sheet.shift_worked - (sheet.shift_half * 0.5)} из {sheet.shift_number}</p>
@@ -131,7 +143,7 @@ function SheduleTableItem({ dark, manager, sheet, date }) {
                 <p className={s.text}>{addSpaceNumber(sheet.earnings_actual)}</p>
             </div> */}
             <div className={s.profit}>
-                <p>{addSpaceNumber(sheet.earnings_actual)}</p>
+                <p>{addSpaceNumber(sum)}</p>
             </div>
         </div>
     )
