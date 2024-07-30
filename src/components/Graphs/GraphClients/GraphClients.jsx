@@ -40,7 +40,7 @@ const CustomTooltip = ({ active, payload, label }) => {
     return null;
 };
 
-function GraphClient({ data, title, ind1, ind2 }) {
+function GraphClient({ data, title, ind1, ind2, unit }) {
     const dark = useSelector(menuSelector).dark;
     const max = 100;
     const stepY = max / 4;
@@ -50,7 +50,7 @@ function GraphClient({ data, title, ind1, ind2 }) {
     return (
         <div className={`${s.window} ${dark && s.window_dark}`}>
             <div className={s.header}>
-                <p className={s.title}>{title}<sup>шт</sup></p>
+                <p className={s.title}>{title}<sup>{unit}</sup></p>
                 <div className={s.bages}>
                     <div className={`${s.bage} ${dark && s.bage_dark}`}>
                         <div></div>

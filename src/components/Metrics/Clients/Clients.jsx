@@ -10,7 +10,7 @@ const blue = [30, 20, 65, 70, 15, 35, 60, 85, 34, 25, 30, 65, 20, 35, 85, 30, 75
 const consullist = ['Анна Шу', 'Фархат Мус', 'Матвей Неге', 'Анна Шу', 'Фархат Мус', 'Матвей Неге']
 const expertList = ['Анна Шуляк', 'Фархат Муси', 'Матвей Негеев']
 
-function Clients({ active }) {
+function Clients({ active, stepsStat }) {
     const [datGraph, setDataGraph] = useState([]);
     const [openListDate, setOpenListDate] = useState(false);
     const [openListManager, setOpenListManager] = useState(false);
@@ -142,23 +142,23 @@ function Clients({ active }) {
                 </div>
             </div>
             {active === 2 && <div className={s.graphs}>
-                <GraphClient data={datGraph} title={'Входы в личный кабинет'} ind1={{ name: 'Новые входы', num: 1777 }} ind2={{ name: 'Отправлено смс приглашений', num: 3245 }} />
-                <GraphClient data={datGraph} title={'Открые бизнес-планы'} ind1={{ name: 'Открыто бизнес-планов', num: 1777 }} ind2={{ name: 'Сформировано бизнес-планов', num: 3245 }} />
-                <GraphClient data={datGraph} title={'Zoom-встречи'} ind1={{ name: 'Состоявшиеся Zoom-встречи', num: 1777 }} ind2={{ name: 'Запланировано встреч', num: 3245 }} />
+                <GraphClient data={datGraph} title={'Входы в личный кабинет'} unit={'шт'} ind1={{ name: 'Новые входы', num: 1777 }} ind2={{ name: 'Отправлено смс приглашений', num: 3245 }} />
+                <GraphClient data={datGraph} title={'Открые бизнес-планы'} unit={'шт'} ind1={{ name: 'Открыто бизнес-планов', num: 1777 }} ind2={{ name: 'Сформировано бизнес-планов', num: 3245 }} />
+                <GraphClient data={datGraph} title={'Zoom-встречи'} unit={'шт'} ind1={{ name: 'Состоявшиеся Zoom-встречи', num: 1777 }} ind2={{ name: 'Запланировано встреч', num: 3245 }} />
             </div>
             }
 
             {active === 3 && <div className={s.graphs}>
-                <GraphClient data={datGraph} title={'Новые лиды в базе'} ind1={{ name: 'Новые входы', num: 1777 }} ind2={{ name: 'Отправлено смс приглашений', num: 3245 }} />
-                <GraphClient data={datGraph} title={'Разговоры'} ind1={{ name: 'Открыто бизнес-планов', num: 1777 }} ind2={{ name: 'Сформировано бизнес-планов', num: 3245 }} />
-                <GraphClient data={datGraph} title={'Дозвоны'} ind1={{ name: 'Состоявшиеся Zoom-встречи', num: 1777 }} ind2={{ name: 'Запланировано встреч', num: 3245 }} />
+                <GraphClient data={datGraph} title={'Новые лиды в базе'} unit={'шт'} ind1={{ name: 'Новые входы', num: 1777 }} ind2={{ name: 'Отправлено смс приглашений', num: 3245 }} />
+                <GraphClient data={datGraph} title={'Разговоры'} unit={'шт'} ind1={{ name: 'Открыто бизнес-планов', num: 1777 }} ind2={{ name: 'Сформировано бизнес-планов', num: 3245 }} />
+                <GraphClient data={datGraph} title={'Дозвоны'} unit={'шт'} ind1={{ name: 'Состоявшиеся Zoom-встречи', num: 1777 }} ind2={{ name: 'Запланировано встреч', num: 3245 }} />
             </div>
             }
 
             {active === 4 && <div className={s.graphs}>
-                <GraphClient data={datGraph} title={'Дневной штат бизнес-консультантов'} ind1={{ name: 'Новые входы', num: 1777 }} ind2={{ name: 'Отправлено смс приглашений', num: 3245 }} />
-                <GraphClient data={datGraph} title={'Дневной штат экспертов'} ind1={{ name: 'Открыто бизнес-планов', num: 1777 }} ind2={{ name: 'Сформировано бизнес-планов', num: 3245 }} />
-                <GraphClient data={datGraph} title={'Работающие по дням стажеры'} ind1={{ name: 'Состоявшиеся Zoom-встречи', num: 1777 }} ind2={{ name: 'Запланировано встреч', num: 3245 }} />
+                <GraphClient data={datGraph} title={'Дневной штат бизнес-консультантов'} unit={'шт'} ind1={{ name: 'Новые входы', num: 1777 }} ind2={{ name: 'Отправлено смс приглашений', num: 3245 }} />
+                <GraphClient data={datGraph} title={'Дневной штат экспертов'} unit={'шт'} ind1={{ name: 'Открыто бизнес-планов', num: 1777 }} ind2={{ name: 'Сформировано бизнес-планов', num: 3245 }} />
+                <GraphClient data={datGraph} title={'Работающие по дням стажеры'} unit={'шт'} ind1={{ name: 'Состоявшиеся Zoom-встречи', num: 1777 }} ind2={{ name: 'Запланировано встреч', num: 3245 }} />
             </div>
             }
         </div>

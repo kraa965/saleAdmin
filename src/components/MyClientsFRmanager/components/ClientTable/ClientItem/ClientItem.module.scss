@@ -16,15 +16,6 @@
         background-color: var(--color-bg-full);
     }
 
-    a:active,
-    a:hover,
-    a {
-        text-decoration: none;
-        color: var(--color-text-primary);
-    }
-
-
-
     &_hover {
         background-color: var(--color-bg-full);
 
@@ -32,11 +23,10 @@
 
     &_attention {
         background: var(--color-attention-client);
+    }
 
-        &:hover {
-            background: var(--color-attention-client);
-            opacity: 0.8;
-        }
+    &_req {
+        background-color: var(--color-attentionreq-client);
     }
 
     &_dis {
@@ -55,6 +45,11 @@
     box-sizing: border-box;
     padding-left: 12px;
     flex-shrink: 0;
+
+    &_all {
+        width: 24px;
+        padding-left: 8px;
+    }
 }
 
 .client {
@@ -74,15 +69,31 @@
         text-overflow: ellipsis;
         color: var(--color-text-secondary);
     }
+
+    &_all {
+        width: 220px;
+    }
 }
 
 .task {
-    width: 150px;
+    width: 156px;
     display: flex;
     align-items: center;
     padding: 16px 12px;
     flex-shrink: 0;
     gap: 8px;
+
+    &_all {
+        width: 130px;
+    }
+}
+
+.stage {
+    width: 116px;
+    display: flex;
+    align-items: center;
+    padding: 16px 12px;
+    flex-shrink: 0;
 }
 
 .zoom {
@@ -158,6 +169,18 @@
     gap: 4px;
     position: relative;
     flex-shrink: 500;
+    max-width: 514px;
+    width: 100%;
+    flex-shrink: 0;
+    /* transition: all 0.2s ease-in-out; */
+
+    &_small {
+        width: 260px;
+    }
+
+   
+
+    text-overflow: ellipsis;
 
     svg path {
         fill: var(--color-text-secondary);
@@ -165,10 +188,11 @@
 
     &_fr {
         width: 300px;
+        flex-shrink: 0;
     }
 
     &_link {
-        width: 440px;
+       /*  width: 440px; */
 
         &_fr {
             width: 300px;
@@ -177,6 +201,27 @@
 
     svg {
         flex-shrink: 0;
+    }
+
+    &_small2 {
+        width: 220px;
+        flex-shrink: 0;
+    }
+}
+
+.source {
+    width: 0;
+    overflow: hidden;
+    padding: 0 !important;
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    transition: opacity 1.2s ease-in-out;
+
+    &_open {
+
+        width: 100px;
+        opacity: 1;
     }
 }
 
@@ -236,9 +281,26 @@
 
     &_name {
         text-wrap: nowrap;
-        padding: 8px 16px;
-        width: 170px;
-        display: flex;
+        padding: 8px 12px;
+        width: 100%;
+        max-width: 240px;
+        flex-shrink: 0;
+        box-sizing: border-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        align-items: center;
+        color: var(--color-text-secondary)
+    }
+
+    
+    &_name2 {
+        text-wrap: nowrap;
+        padding: 8px 12px;
+        width: 200px;
+        flex-shrink: 0;
+        box-sizing: border-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
         align-items: center;
         color: var(--color-text-secondary)
     }
@@ -325,7 +387,6 @@
 .modal {
     position: absolute;
     width: 100vw;
-    height: 100vh;
     display: flex;
     justify-content: flex-end;
     top: 0;

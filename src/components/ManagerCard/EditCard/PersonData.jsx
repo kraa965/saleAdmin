@@ -21,7 +21,6 @@ const PersonData = ({ name, setName, surName, setSurName,
 
     const handleSelectSex = (e) => {
         const sex = e.currentTarget.id;
-        console.log(sex)
         setSex(sex);
         setSexList(false);
     }
@@ -40,7 +39,6 @@ const PersonData = ({ name, setName, surName, setSurName,
         }
 
         if (id === 'tel') {
-            console.log(id)
             const regex = /[0-9]/g;
             const cleanValue = value?.match(regex)?.join('');
             value && setTel(cleanValue);
@@ -84,7 +82,6 @@ const PersonData = ({ name, setName, surName, setSurName,
         return () => document.removeEventListener('click', closeModal);
     }, []);
 
-    console.log(restoreWindow)
     return (
         <div className={s.data}>
             <div className={s.container_string}>

@@ -38,6 +38,8 @@ export const handleTime = (n) => {
 export const handleTaskTime = (d) => {
     const date = new Date(d);
     const date2 = new Date();
+    const year = date.getFullYear();
+    const year2 = date2.getFullYear();
     const month = date.getMonth();
     const month2 = date2.getMonth();
     const day = date.getDate();
@@ -70,8 +72,59 @@ export const handleTaskTime = (d) => {
         return `${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}`
     }
 
-    if(month !== month2 || day !== day2) {
+    if((month !== month2 || day !== day2) && year == year2) {
         return `${day} ${fMonth}`
+    }
+
+    if(year !== year2) {
+        return `${day < 10 ? `0${day}` : day}.${month < 9 ? `0${month + 1}` : month + 1}.${year}`
+    }
+  
+}
+
+export const handleStageTime = (d) => {
+    const date = new Date(d);
+    const date2 = new Date();
+    const year = date.getFullYear();
+    const year2 = date2.getFullYear();
+    const month = date.getMonth();
+    const month2 = date2.getMonth();
+    const day = date.getDate();
+    const day2 = date2.getDate();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+
+    let fMonth;
+    switch (month){
+      case 0: fMonth = "января"; break;
+      case 1: fMonth="февраля"; break;
+      case 2: fMonth="марта"; break;
+      case 3: fMonth="апреля"; break;
+      case 4: fMonth="мая"; break;
+      case 5: fMonth="июня"; break;
+      case 6: fMonth="июля"; break;
+      case 7: fMonth="августа"; break;
+      case 8: fMonth="сентября"; break;
+      case 9: fMonth="октября"; break;
+      case 10: fMonth="ноября"; break;
+      case 11: fMonth="декабря"; break;
+      default:
+  }
+
+    if(d == '0000-00-00 00:00:00') {
+        return ''
+    } 
+
+    if(month == month2 && day == day2 && year == year2 && month == month2) {
+       return `${day} ${fMonth}`
+    }
+
+    if((month !== month2 || day !== day2) && year == year2) {
+        return `${day} ${fMonth}`
+    }
+
+    if(year !== year2) {
+        return `${day < 10 ? `0${day}` : day}.${month < 9 ? `0${month + 1}` : month + 1}.${`${year}`.slice(-2)}`
     }
   
 }
@@ -103,3 +156,25 @@ export const handleDateDifference = (d) => {
         return `${diffDays} дн`
     }
 }
+
+export const handleDateZoomDiff = (d1, d2) => {
+    const date = new Date(d1);
+    const date2 = new Date(d2);
+    const day = date.getDate();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    const day2 = date2.getDate();
+    const month2 = date2.getMonth();
+    const year2 = date2.getFullYear();
+
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const hour2 = date2.getHours();
+    const minute2 = date2.getMinutes()
+
+    if ((day == day2 && month == month2 && year == year2)) {
+        return true
+    } else {
+        return false
+    }
+};

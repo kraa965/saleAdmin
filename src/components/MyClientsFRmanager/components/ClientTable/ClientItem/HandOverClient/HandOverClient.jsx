@@ -100,7 +100,7 @@ const HandOverClient = ({ id, setHandOver }) => {
 
                 <ul  className={`${s.experts} ${openList && s.experts_open}`}>
                     {experts.map(el => {
-                        return el.id !== 3686 && <li onClick={handleChooseExpert} id={el.id} key={el.id}>
+                        return <li onClick={handleChooseExpert} id={el.id} key={el.id}>
                             <div className={s.avatar}>
                                 <img src={el.avatar_mini ? el.avatar_mini : avatar}></img>
                             </div>

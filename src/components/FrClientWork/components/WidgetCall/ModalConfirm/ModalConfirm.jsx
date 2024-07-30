@@ -27,7 +27,6 @@ const ModalConfirm = ({ clientId, setModalCancel }) => {
         setLoad(true);
         cancelTraning(clientId)
             .then(res => {
-                console.log(res)
                 endLoad()
             })
             .catch(err => console.log(err))

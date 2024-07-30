@@ -7,9 +7,9 @@ import { ReactComponent as IconPersonAdding } from '../../image/work/widget/Icon
 import { ReactComponent as IconCalendar } from '../../image/work/widget/iconCalendar.svg';
 import { ReactComponent as IconZoom } from '../../image/work/widget/iconZoom.svg';
 import { ReactComponent as IconCancleZoom } from '../../image/work/widget/iconCancleZoom.svg';
-import { ReactComponent as IconAnketa } from '../../image/work/widget/iconAnketa.svg'; 
+import { ReactComponent as IconAnketa } from '../../image/work/widget/iconAnketa.svg';
 import { ReactComponent as IconClose } from '../../image/iconClose.svg';
-import { ReactComponent as IconCancel } from '../../image/work/widget/iconCancel.svg'; 
+import { ReactComponent as IconCancel } from '../../image/work/widget/iconCancel.svg';
 import { ReactComponent as IconComment } from '../../image/work/widget/iconComment.svg';
 //Api
 import { callClient } from '../../Api/Api';
@@ -23,19 +23,20 @@ import { setAnketaOpen } from '../../store/reducer/Work/slice';
 import WidgetCallSceleton from '../WidgetCallSceleton/WidgetCallSceleton';
 import ModalConfirm from './ModalConfirm/ModalConfirm';
 //utils
-import { handleDatePlan, handleDateZoomDiff2, handleDateAnketa } from '../../utils/dates';
+import { handleDatePlan, handleDateZoomDiff2, handleDateAnketa, handleDateDifference } from '../../utils/dates';
 
-const WidgetCall = ({ setWidget, setPrevWidget, stageZoom, zoomDate, stageSendAnketa, stageAnketa, stageTraining, empty, loadClose, setPlanWithoutCall }) => {
+const WidgetCall = ({ setWidget, setPrevWidget, stageZoom, zoomDate, stageSendAnketa, stageAnketa, stageTraining, empty, loadClose, setPlanWithoutCall, isNewClient, bpStep }) => {
     const next_connect = useSelector(selectorWork).next_connect;
     const zoom_date = useSelector(selectorWork).zoom_date;
+    const client_id = useSelector(selectorClient).client_id;
     const client_main_number = useSelector(selectorClient).client_main_number;
     const anketaAcceptDate = useSelector(selectorClient).anketaAcceptDate;
     const callStatus = useSelector(selectorApp).callStatus;
     const [anim, setAnim] = useState(false);
     const [modalCancel, setModalCancel] = useState(false);
     const [dialing, setDialing] = useState(false);
+
     const dispatch = useDispatch();
-    console.log(next_connect)
 
     useEffect(() => {
         setTimeout(() => {
@@ -43,6 +44,8 @@ const WidgetCall = ({ setWidget, setPrevWidget, stageZoom, zoomDate, stageSendAn
         })
 
     }, []);
+
+
 
     /*  useEffect(() => {
          message.action !== 'call_client' && setDialing(false);
@@ -56,9 +59,9 @@ const WidgetCall = ({ setWidget, setPrevWidget, stageZoom, zoomDate, stageSendAn
         localStorage.removeItem('tab');
         localStorage.removeItem('sms');
         setDialing(true);
-      /*   callClient(client_main_number)
+        callClient(client_main_number, client_id)
             .then(res => console.log(res))
-            .catch(err => console.log(err)); */
+            .catch(err => console.log(err));
         setWidget('call');
         setPrevWidget('call');
         localStorage.setItem('prevWidget', JSON.stringify('call'));
@@ -113,7 +116,9 @@ const WidgetCall = ({ setWidget, setPrevWidget, stageZoom, zoomDate, stageSendAn
 
     return (
         <div className={`${s.call} ${anim && s.call_anim}`}>
-            <div className={s.container}>
+            <button onClick={handleHandOver} className={`${s.button} ${(!isNewClient || handleDateDifference(bpStep?.date) == 'Сегодня') && s.button_hidden} ${s.button_manager}`}><p>Назначить эксперта</p></button>
+            {isNewClient && <div className={`${handleDateDifference(bpStep?.date) !== 'Сегодня' && s.button_hidden} ${s.button_manager}`}><p className={s.sub}>Нельзя отдать в работу клиента открывшего БП сегодня</p></div>}
+            <div className={`${s.container} ${isNewClient && s.container_hidden}`}>
                 {!empty && stageZoom && <p className={s.text}>{'Zoom запланирован'} {handleDatePlan(zoom_date)}</p>}
                 {!empty && !stageZoom && <p className={s.text}>{`Контакт запланирован`} {handleDatePlan(next_connect)}</p>}
                 {stageZoom && handleDateZoomDiff2(zoomDate) && <button onClick={handleZoom} className={s.button}><p>Начать Zoom-встречу</p><IconZoom /></button>}
@@ -125,7 +130,7 @@ const WidgetCall = ({ setWidget, setPrevWidget, stageZoom, zoomDate, stageSendAn
                 {stageTraining && <button onClick={handleOpenCancelModal} className={`${s.button} ${s.button_minor}`}><p>Отменить обучение</p><IconClose /></button>}
                 {stageAnketa && <button onClick={handleOpenAnketa} className={s.button_small}><p>{'Анкета'} {handleDateAnketa(anketaAcceptDate)}</p></button>}
             </div>
-            <div className={s.buttons}>
+            <div className={`${s.buttons} ${isNewClient && s.buttons_hidden}`}>
                 <div className={s.buttons_container}>
                     {stageZoom && <button onClick={handleCancelZoom} className={s.button_small}><p>Отменить Zoom</p> <IconCancleZoom /></button>}
                     {!stageZoom && <button onClick={handlePlanContact} className={s.button_small}><p>Запланировать контакт</p> <IconCalendar /></button>}

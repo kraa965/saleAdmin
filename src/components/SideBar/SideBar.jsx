@@ -70,7 +70,7 @@ function SideBar({ role, location }) {
     const buttonRef = useRef();
     const navigate = useNavigate();
 
-
+    const path = location?.pathname;
 
     useEffect(() => {
         function handleInfoDashbord() {
@@ -119,7 +119,7 @@ function SideBar({ role, location }) {
         handleInfoDashbord()
     }, [])
     useEffect(() => {
-        const path = location?.pathname;
+        
         const currentUrl = window.location.href;
         console.log(path, currentUrl.href, path.includes('client='))
         localStorage.removeItem('point');
@@ -220,7 +220,7 @@ function SideBar({ role, location }) {
             }
         }
 
-    }, [location.pathname])
+    }, [path])
 
     function handleOpenOptions() {
         if (optionsOpen) {
@@ -469,6 +469,10 @@ function SideBar({ role, location }) {
                         <li onClick={handleActivePoint} id='19' className={`${s.item}  ${activePoint === 19 && s.item_active}`}><IconTeam />Команда</li>
                     </Link>
 
+                    <Link to={'/leader/dashboard/metrics'}>
+                        <li onClick={handleActivePoint} id='22' className={`${s.item} ${s.item_2} ${activePoint === 22 && s.item_2_active}`}><IconMetrics />Метрики</li>
+                    </Link>
+
                     <Link to={'/leader/dashboard/purchases'}>
                         <li onClick={handleActivePoint} id='24' className={`${s.item}  ${activePoint === 24 && s.item_active}`}><Stock />Закупки</li>
                     </Link>
@@ -476,22 +480,13 @@ function SideBar({ role, location }) {
                         <li onClick={handleActivePoint} id='23' className={`${s.item}  ${activePoint === 23 && s.item_active}`}><Stock2 />Склад</li>
                     </Link>
 
-                    {/*   <div className={`${s.list} ${(openList || activePoint === 23 || activePoint === 24) && s.list_open}`}>
-                        <li id='233' onClick={handleOpenList} className={`${s.item} ${(activePoint === 23 || activePoint === 24) && s.item_active}`}><Stock />Закупки <div className={`${s.arrow} ${(openList || activePoint === 23 || activePoint === 24) && s.arrow_open}`}><IconArrow /></div></li>
-                        <Link to={'/leader/dashboard/stock'}>
-                            <li onClick={handleActivePoint} id='23' className={`${s.item} ${s.item_small} ${activePoint === 23 && s.item_small_active}`}>Склад</li>
-                        </Link>
-                        <Link to={'/leader/dashboard/purchases'}>
-                            <li onClick={handleActivePoint} id='24' className={`${s.item} ${s.item_small} ${activePoint === 24 && s.item_small_active}`}>Список закупок</li>
-                        </Link>
-                    </div> */}
                     {/* <a href='https://lk.skilla.ru/leader/managers'><li onClick={handleActivePoint} id='10' className={`${s.item} ${s.item_3} ${activePoint === 10 && s.item_active}`}><IconManager />Менеджеры</li></a> */}
-                    <a href='https://lk.skilla.ru/frmanager/bp/'><li onClick={handleActivePoint} id='5' className={`${s.item} ${s.item_3} ${activePoint === 5 && s.item_active}`}><IconOpenBp />Открытые БП</li></a>
-                    <a href='https://lk.skilla.ru/leader/quality'><li onClick={handleActivePoint} id='6' className={`${s.item} ${s.item_3} ${activePoint === 6 && s.item_active}`}><IconOpenBp />Качество работы</li></a>
+                    {/* <a href='https://lk.skilla.ru/frmanager/bp/'><li onClick={handleActivePoint} id='5' className={`${s.item} ${s.item_3} ${activePoint === 5 && s.item_active}`}><IconOpenBp />Открытые БП</li></a> */}
+                    {/* <a href='https://lk.skilla.ru/leader/quality'><li onClick={handleActivePoint} id='6' className={`${s.item} ${s.item_3} ${activePoint === 6 && s.item_active}`}><IconOpenBp />Качество работы</li></a> */}
                     {/*  <a href='https://lk.skilla.ru/frmanager/?type=events'><li onClick={handleActivePoint} id='3' className={`${s.item} ${s.item_3} ${activePoint === 3 && s.item_active}`}><IconOrders />Мои клиенты</li></a> */}
                     {/* <a href='https://lk.skilla.ru/frmanager/?type=favorite'><li onClick={handleActivePoint} id='4' className={`${s.item} ${s.item_3} ${activePoint === 4 && s.item_active}`}><IconOrders />Избранные клиенты</li></a> */}
                     {/* <a href='https://lk.skilla.ru/mango/'><li onClick={handleActivePoint} id='9' className={`${s.item} ${s.item_3} ${activePoint === 9 && s.item_active}`}><IconPhone />Звонки</li></a> */}
-                    <a href='https://lk.skilla.ru/frmanager/partners/'><li onClick={handleActivePoint} id='5' className={`${s.item} ${s.item_3} ${activePoint === 5 && s.item_active}`}><NavPartners />Партнеры</li></a>
+                   {/*  <a href='https://lk.skilla.ru/frmanager/partners/'><li onClick={handleActivePoint} id='5' className={`${s.item} ${s.item_3} ${activePoint === 5 && s.item_active}`}><NavPartners />Партнеры</li></a> */}
                     {/* <a href='https://lk.skilla.ru/frmanager/analytics/'><li onClick={handleActivePoint} id='7' className={`${s.item} ${s.item_3} ${activePoint === 7 && s.item_active}`}><NavAnalytics />Аналитика</li></a> */}
                 </ul>
                 }

@@ -11,7 +11,7 @@ function FileLoader({ file, setFile }) {
     const [anim, setAnim] = useState('loader');
     const fileInputRef = useRef();
     const dispatch = useDispatch();
-    console.log(stage)
+   
     useEffect(() => {
         if (!file?.file && !error) {
             setStage('loader');
@@ -99,7 +99,7 @@ function FileLoader({ file, setFile }) {
 
     }
 
-    console.log(stage, anim)
+  
     return (
         <div onDragOver={fonDragOver} onDragEnter={handleDrag} onDragLeave={handleDragLeave} className={`${s.files}`}>
             {stage == 'loader' &&

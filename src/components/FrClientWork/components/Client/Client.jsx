@@ -34,7 +34,6 @@ const Client = ({ loadClose, loadVisible }) => {
     const stage = useSelector(selectorClient).stage;
     const cities = useSelector(selectorWork).cities;
     const clientInfo = useSelector(selectorClient);
-    console.log(loadClose)
     const dispatch = useDispatch();
 
   //убрать - 36 когда вернешь добовление номера
@@ -138,7 +137,7 @@ const Client = ({ loadClose, loadVisible }) => {
                     </div>
 
                     <div className={s.loader}>
-                        <p className={`${s.name} ${loadClose && s.hiden}`}>{clientInfo?.client_name} {clientInfo?.client_surname}</p>
+                        <p className={`${s.name} ${loadClose && s.hiden}`}>{clientInfo?.client_name } {clientInfo?.client_surname}</p>
                         {/* <p className={s.time}>{handleTotalCallTime(clientInfo?.talkTime)}</p> */}
                         {loadClose && <LoaderTitle load={loadVisible} />}
                     </div>

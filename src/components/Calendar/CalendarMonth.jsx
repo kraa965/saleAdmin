@@ -19,7 +19,7 @@ function CalendarMonth({ loader, type, disCalendar, setDisCalendar, setDateStart
     const dispatch = useDispatch();
     const dark = useSelector(menuSelector).dark;
     const forward = date.day > 24 ? true : false;
-    console.log(month)
+   
     useEffect(() => {
         dispatch(setDateMonth(''));
         const date = setDateForCalendarMonth(month);
@@ -127,7 +127,6 @@ function CalendarMonth({ loader, type, disCalendar, setDisCalendar, setDateStart
         }
 
     }
-    console.log('дата календаря', date, month)
 
     return (
         <div className={`${s.month} ${dark && s.month_dark}`}>

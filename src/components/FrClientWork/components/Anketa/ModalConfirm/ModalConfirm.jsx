@@ -33,7 +33,6 @@ const ModalConfirm = ({ confirmType, clientId, setModalConfirm, setNewAnketaStat
         if(confirmType == 'ok') {
             acceptAnketa(clientId)
             .then(res => {
-                console.log(res);
                 dispatch(setClientUpdate(clientId));
                 endLoad();
 
@@ -45,7 +44,6 @@ const ModalConfirm = ({ confirmType, clientId, setModalConfirm, setNewAnketaStat
         if(confirmType == 'reject') {
             rejectAnketa(clientId)
             .then(res => {
-                console.log(res);
                 endLoad();
             })
             .catch(err => console.log(err));
@@ -55,7 +53,6 @@ const ModalConfirm = ({ confirmType, clientId, setModalConfirm, setNewAnketaStat
         if(confirmType == 'again') {
             retryAnketa(clientId)
             .then(res => {
-                console.log(res);
                 endLoad();
             })
             .catch(err => console.log(err));

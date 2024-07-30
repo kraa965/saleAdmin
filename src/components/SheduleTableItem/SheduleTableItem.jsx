@@ -14,7 +14,7 @@ function SheduleTableItem({ dark, manager, sheet, date }) {
     const earnings = sheet.bp_num;
     const plan = sheet.bp_plan;
     const bonus = sheet.expert_bonus;
-   console.log(sum)
+    console.log(sum)
     useEffect(() => {
         if (earnings / plan <= 0) {
             setColorLine('');
@@ -35,8 +35,34 @@ function SheduleTableItem({ dark, manager, sheet, date }) {
     }, [earnings, plan]);
 
     useEffect(() => {
-        const sum = Number(sheet.earnings_actual) + Number(bonus);
-        setSum(sum)
+        const price = 80000 / sheet.shift_number;
+        const mistakesNum = sheet?.mistakes?.filter((el) => el?.type?.name === 'Незапланированный выходной за свой счет' ||
+        el?.type?.name === 'Плановый выходной за свой счет').length;
+
+        if (sheet.shift_vacation > 0 && sheet.shift_half > 0) {
+            const sum = (sheet.shift_half * price / 2) + ((sheet.shift_number - sheet.shift_half) * price) + Number(bonus);
+            setSum(sum.toFixed(0));
+            return
+        }
+
+        if (sheet.shift_vacation > 0 && sheet.shift_half == 0 && mistakesNum == 0) {
+            const sum = ((sheet.shift_worked + sheet.shift_vacation) * price > 80000 ? 80000 : (sheet.shift_worked + sheet.shift_vacation) * price) + Number(bonus);
+            setSum(sum.toFixed(0));
+            return
+        }
+
+        if (sheet.shift_vacation > 0 && sheet.shift_half == 0 && mistakesNum > 0) {
+            const sum = ((sheet.shift_worked + sheet.shift_vacation) * price > (80000 - mistakesNum * price)  ? (80000 - mistakesNum * price) : (sheet.shift_worked + sheet.shift_vacation) * price) + Number(bonus);
+            setSum(sum.toFixed(0));
+            return
+        }
+
+        if (sheet.shift_vacation == 0) {
+            const sum = Number(sheet.earnings_actual) + Number(bonus);
+            setSum(sum);
+            return
+        }
+
     }, [sheet])
 
     function handleOpenTooltip() {
@@ -100,7 +126,7 @@ function SheduleTableItem({ dark, manager, sheet, date }) {
             </div>
 
             <div className={s.bonus}>
-                <p>{bonus > 0 ?addSpaceNumber(bonus) : ''}</p>
+                <p>{bonus > 0 ? addSpaceNumber(bonus) : ''}</p>
             </div>
 
             <div className={s.shift}>
@@ -108,14 +134,13 @@ function SheduleTableItem({ dark, manager, sheet, date }) {
                     <p className={s.text}>{sheet.shift_worked - (sheet.shift_half * 0.5)} из {sheet.shift_number}</p>
                 </div>
                 {sheet?.mistakes?.filter((el) => el?.type?.name === 'Незапланированный выходной за свой счет' ||
-                    el?.type?.name === 'Плановый выходной за свой счет' ||
-                    el?.type?.name === 'Оплачиваемый отпуск (по 7 дней с учетом выходных)').length > 0
+                    el?.type?.name === 'Плановый выходной за свой счет').length > 0
                     && <IconTooltip onMouseEnter={handleOpenTooltip} onMouseLeave={handleOpenTooltip} />}
 
                 {sheet?.mistakes?.length > 0 && <div className={`${s.tooltip} ${s.tooltip_2} ${tooltip && s.tooltip_open} ${dark && s.tooltip_dark}`}>
                     <div className={s.arrow}></div>
                     {sheet?.mistakes?.map((el) => {
-                        if (el?.type?.name === 'Незапланированный выходной за свой счет' || el?.type?.name === 'Плановый выходной за свой счет' || el?.type?.name === 'Оплачиваемый отпуск (по 7 дней с учетом выходных)')
+                        if (el?.type?.name === 'Незапланированный выходной за свой счет' || el?.type?.name === 'Плановый выходной за свой счет')
                             return <div className={s.block_tooltip}>
                                 <span>{setDayOfWeek(el.date_created.slice(0, 10)).day} {setDayOfWeek(el.date_created.slice(0, 10)).fMonth2}</span>
                                 <p>{el?.type?.name}</p>

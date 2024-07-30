@@ -1,15 +1,19 @@
 .container {
     display: flex;
     flex-direction: column;
-    max-height: 82px;
+    max-height: 74px;
     /*  padding: 20px; */
     box-sizing: border-box;
     height: max-content;
     background-color: var(--color-bg-daily);
     border-radius: 6px;
-    transition: all 0.35s;
+    transition: all 0.2s;
     overflow: hidden;
 
+    &_hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
 
 }
 

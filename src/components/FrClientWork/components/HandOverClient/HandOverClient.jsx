@@ -15,7 +15,7 @@ import { selectorExperts } from '../../../MyClientsFRmanager/store/reducer/Exper
 
 import LoaderButton from '../../components/LoaderButton/LoaderButton';
 
-const HandOverWidget = ({ setWidget, prevWidget, setEndType }) => {
+const HandOverWidget = ({ setWidget, prevWidget, setEndType, isNewClient }) => {
     const client_id = useSelector(selectorClient).client_id;
     const experts = useSelector(selectorExperts).experts;
     const [anim, setAnim] = useState(false);
@@ -25,7 +25,6 @@ const HandOverWidget = ({ setWidget, prevWidget, setEndType }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const listRef = useRef();
-    console.log(expert)
 
     useEffect(() => {
         setTimeout(() => {
@@ -48,12 +47,11 @@ const HandOverWidget = ({ setWidget, prevWidget, setEndType }) => {
         setLoader(true)
         transferClient({ id: client_id, manager: expert.id })
             .then(res => {
-                console.log(res);
                 setWidget('end');
                 setEndType('handOver');
                 setLoader(false);
                 dispatch(setClientId(''));
-                navigate('/leader/dashboard/clients');
+                navigate(-2/* '/leader/dashboard/myclients' */);
 
             })
             .catch(err => console.log(err))
@@ -86,7 +84,8 @@ const HandOverWidget = ({ setWidget, prevWidget, setEndType }) => {
 
     return (
         <div className={`${s.modal} ${anim && s.modal_anim}`}>
-            <h3>Передать клиента</h3>
+           {!isNewClient && <h3>Передать клиента</h3>}
+           {isNewClient && <h3>Назначить эксперта</h3>}
             <div ref={listRef} onClick={handleOpenList} className={s.expert}>
                 <div className={s.block}>
                     <div className={s.avatar}>
@@ -97,7 +96,7 @@ const HandOverWidget = ({ setWidget, prevWidget, setEndType }) => {
 
                 <ul className={`${s.experts} ${openList && s.experts_open}`}>
                     {experts.map(el => {
-                        return el.id !== 3686 && <li onClick={handleChooseExpert} id={el.id} key={el.id}>
+                        return <li onClick={handleChooseExpert} id={el.id} key={el.id}>
                             <div className={s.avatar}>
                                 <img src={el.avatar_mini ? el.avatar_mini : ''}></img>
                             </div>
@@ -111,7 +110,10 @@ const HandOverWidget = ({ setWidget, prevWidget, setEndType }) => {
             </div>
             <div className={s.buttons}>
                 <button onClick={handleBack} className={s.button_second}><IconBackForward /> Назад</button>
-                <button onClick={handleTransferClient} className={s.button}><p>Передать клиента</p>{loader && <LoaderButton color={'#fff'} />}</button>
+                <button onClick={handleTransferClient} className={s.button}>
+                    {!isNewClient &&  <p>Передать клиента</p>}
+                    {isNewClient &&  <p>Назначить эксперта</p>}
+                    {loader && <LoaderButton color={'#fff'} />}</button>
             </div>
         </div>
     )

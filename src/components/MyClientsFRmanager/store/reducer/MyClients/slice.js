@@ -121,8 +121,8 @@ const MyClientsSlice = createSlice({
             state.favorite = [...state.favorite].filter(el => el.id !== action.payload.id)/* [...state.zoom, ...action.payload] */;
         },
 
-        setLoadToday(state) {
-            state.loadToday = false;
+        setLoadToday(state, action) {
+            state.loadToday = action.payload;
         },
 
         setLoadNew(state, action) {

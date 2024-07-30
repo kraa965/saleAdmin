@@ -217,6 +217,12 @@
         gap: 16px;
         position: relative;
     }
+
+    &_shedule {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
 }
 
 .title {
@@ -335,6 +341,10 @@
     &_2 {
         width: 173.5px;
     }
+
+    &_3 {
+        width: 48%;
+    }
 }
 
 .main {
@@ -371,7 +381,7 @@
 
     &_work {
         position: absolute;
-        bottom: -24px;
+        bottom: 0;
         margin: 0;
         left: 0;
     }

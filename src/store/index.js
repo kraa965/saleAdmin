@@ -19,6 +19,7 @@ import ClientSlice from '../components/FrClientWork/store/reducer/Client/slice';
 import WidgetSlice from '../components/FrClientWork/store/reducer/Widget/slice';
 import WorkSlice from '../components/FrClientWork/store/reducer/Work/slice'; 
 import PartnersSlice from '../components/FrClientWork/store/reducer/Partners/slice';
+import MessengerSlice from '../components/FrClientWork/store/reducer/Messenger/slice';
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 export const rootReducer = combineReducers({
@@ -36,7 +37,7 @@ export const rootReducer = combineReducers({
   MyClientsFrSlice,
   UpdaterSlice,
   ExpertsSlice,
-
+  MessengerSlice,
   //работа с клиентом FR
   AppSlice,
   ClientSlice,

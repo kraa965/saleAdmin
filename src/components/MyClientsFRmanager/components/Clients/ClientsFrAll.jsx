@@ -55,106 +55,114 @@ const ClientsFrAll = () => {
     const [anketaFrNum, setAnketaFrNum] = useState([]);
     const [contractFrNum, setContractFrNum] = useState([]);
     const [prepaidFrNum, setPrepaidFrNum] = useState([]);
+    const [manager, setManager] = useState(0);
+    const [sortAll, setSortAll] = useState('bp_open');
     /*   const [planerLoader, setPlanerLoader] = useState(false); */
     /*    const planerLoad = useSelector(selectorPlaner).planerLoad; */
     const dispatch = useDispatch();
+
     //получение списка моих клиентов
-
-
     useEffect(() => {
-        getMyClients('no_tasks', 'leader_expert')
+        dispatch(setLoadNoTaskFr(true));
+        dispatch(setLoadArchiveFr(true));
+        dispatch(setLoadPlanFr(true));
+        dispatch(setLoadZoomFr(true));
+        dispatch(setLoadAnketaFr(true));
+        dispatch(setLoadContractFr(true));
+        dispatch(setLoadPrepaidFr(true));
+        getMyClients('no_tasks', 'leader_expert', manager)
             .then(res => {
-                dispatch(setLoadNoTaskFr(true));
-                const clients = res.data.data;
-                const clientsNum = res.data.total;
+                console.log(res)
+                const clients = res.data.data.data;
+                const clientsNum = res.data.data.total;
                 setnNoTaskFr(clients);
                 setNoTaskFrNum(clientsNum);
-                dispatch(setNoTaskFrNextPage(res.data.next_page_url))
+                dispatch(setNoTaskFrNextPage(res.data.data.next_page_url))
                 setTimeout(() => {
                     dispatch(setLoadNoTaskFr(false));
-                }, 100)
+                }, 50)
             })
             .catch(err => console.log(err))
 
-        getMyClients('archive', 'leader_expert')
+        getMyClients('all', 'leader_expert', manager, sortAll)
             .then(res => {
-                const clients = res.data.data;
-                const clientsNum = res.data.total;
+                const clients = res.data.data.data;
+                const clientsNum = res.data.data.total;
                 setArchiveFr(clients);
                 setArchiveFrNum(clientsNum);
-                dispatch(setArchiveFrNextPage(res.data.next_page_url))
+                dispatch(setArchiveFrNextPage(res.data.data.next_page_url))
                 setTimeout(() => {
-                    dispatch(setLoadArchiveFr());
-                }, 100)
+                    dispatch(setLoadArchiveFr(false));
+                }, 50)
             })
             .catch(err => console.log(err))
 
-        getMyClients('plan_meeting', 'leader_expert')
+        getMyClients('plan_meeting', 'leader_expert', manager)
             .then(res => {
-                const clients = res.data.data;
-                const clientsNum = res.data.total;
+                const clients = res.data.data.data;
+                const clientsNum = res.data.data.total;
                 setPlanFr(clients);
                 setPlanFrNum(clientsNum);
-                dispatch(setPlanFrNextPage(res.data.next_page_url))
+                dispatch(setPlanFrNextPage(res.data.data.next_page_url))
                 setTimeout(() => {
-                    dispatch(setLoadPlanFr());
+                    dispatch(setLoadPlanFr(false));
                 }, 100)
             })
             .catch(err => console.log(err));
 
-        getMyClients('zoom', 'leader_expert')
+        getMyClients('zoom', 'leader_expert', manager)
             .then(res => {
-                const clients = res.data.data;
-                const clientsNum = res.data.total;
+                const clients = res.data.data.data;
+                const clientsNum = res.data.data.total;
                 setZoomFr(clients);
                 setZoomFrNum(clientsNum);
-                dispatch(setZoomFrNextPage(res.data.next_page_url))
+                dispatch(setZoomFrNextPage(res.data.data.next_page_url))
                 setTimeout(() => {
-                    dispatch(setLoadZoomFr());
+                    dispatch(setLoadZoomFr(false));
                 }, 100)
             })
             .catch(err => console.log(err))
 
-        getMyClients('anketa', 'leader_expert')
+        getMyClients('anketa', 'leader_expert', manager)
             .then(res => {
-                const clients = res.data.data;
-                const clientsNum = res.data.total;
+                const clients = res.data.data.data;
+                const clientsNum = res.data.data.total;
                 setAnketaFr(clients);
                 setAnketaFrNum(clientsNum);
-                dispatch(setAnketaFrNextPage(res.data.next_page_url))
+                dispatch(setAnketaFrNextPage(res.data.data.next_page_url))
                 setTimeout(() => {
-                    dispatch(setLoadAnketaFr());
+                    dispatch(setLoadAnketaFr(false));
                 }, 100)
             })
             .catch(err => console.log(err))
 
-        getMyClients('contract', 'leader_expert')
+        getMyClients('contract', 'leader_expert', manager)
             .then(res => {
-                const clients = res.data.data;
-                const clientsNum = res.data.total;
+                const clients = res.data.data.data;
+                const clientsNum = res.data.data.total;
                 console.log(res)
                 setContractFr(clients);
                 setContractFrNum(clientsNum);
-                dispatch(setСontractFrNextPage(res.data.next_page_url))
+                dispatch(setСontractFrNextPage(res.data.data.next_page_url))
                 setTimeout(() => {
-                    dispatch(setLoadContractFr());
+                    dispatch(setLoadContractFr(false));
                 }, 100)
             })
             .catch(err => console.log(err))
 
-        getMyClients('prepaid', 'leader_expert')
+        getMyClients('prepaid', 'leader_expert', manager)
             .then(res => {
-                const clients = res.data.data;
-                const clientsNum = res.data.total;
+                const clients = res.data.data.data;
+                const clientsNum = res.data.data.total;
                 setPrepaidFr(clients);
                 setPrepaidFrNum(clientsNum);
-                dispatch(setPrepaidFrNextPage(res.data.next_page_url))
+                dispatch(setPrepaidFrNextPage(res.data.data.next_page_url))
                 setTimeout(() => {
-                    dispatch(setLoadPrepaidFr());
+                    dispatch(setLoadPrepaidFr(false));
                 }, 100)
             })
             .catch(err => console.log(err))
-    }, []);
+    }, [manager]);
 
 
 
@@ -198,7 +206,8 @@ const ClientsFrAll = () => {
             </div>
             {(activeTab == 2 || activeTab == 3) && <ClientsListFr activeTab={activeTab} noTaskFr={noTaskFr} archiveFr={archiveFr} planFr={planFr} zoomFr={zoomFr} anketaFr={anketaFr} contractFr={contractFr} prepaidFr={prepaidFr}
                 setnNoTaskFr={setnNoTaskFr} setArchiveFr={setArchiveFr} setPlanFr={setPlanFr} setZoomFr={setZoomFr} setAnketaFr={setAnketaFr} setContractFr={setContractFr} setPrepaidFr={setPrepaidFr}
-                planFrNum={planFrNum} zoomFrNum={zoomFrNum} anketaFrNum={anketaFrNum} contractFrNum={contractFrNum} prepaidFrNum={prepaidFrNum} noTaskFrNum={noTaskFrNum} archiveFrNum={archiveFrNum}
+                planFrNum={planFrNum} zoomFrNum={zoomFrNum} anketaFrNum={anketaFrNum} contractFrNum={contractFrNum} prepaidFrNum={prepaidFrNum} noTaskFrNum={noTaskFrNum} archiveFrNum={archiveFrNum} manager={manager} setManager={setManager}
+                sortAll={sortAll}
             />}
             {/* {activeTab == 1 && <Planer />} */}
             {/* {activeTab == 1 && planerLoader && <PlanerSceleton load={planerLoad} />} */}

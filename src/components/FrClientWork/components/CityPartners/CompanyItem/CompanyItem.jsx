@@ -1,6 +1,7 @@
 import s from './CompanyItem.module.scss';
 import { ReactComponent as IconChewron } from '../../../image/clients/iconChewron.svg';
 import { ReactComponent as IconWeb } from '../../../image/work/iconWeb.svg';
+import logoDefault from '../../../image/work/logoDefault.png';
 import { useEffect, useState } from 'react';
 //api 
 import { handleOkved, handleInnInfo } from '../../../Api/ApiDaData';
@@ -29,8 +30,11 @@ const CompanyItem = ({ company, openCompany, setOpenCompany }) => {
         <div className={`${s.container} ${company.id == openCompany && s.container_open}`}>
             <div id={company.id} onClick={handleOpen} className={s.header}>
                 <div className={s.logo}>
-                    <img src={`https://lk.skilla.ru/images/companies/logo/${company?.description?.logo}`}></img>
+                <img src={company?.description?.logo == '' ? logoDefault : `https://lk.skilla.ru/images/companies/logo/${company?.description?.logo}`}></img>
                 </div>
+
+                    <p>{company?.name}</p>
+                  
 
                 <div className={`${s.arrow} ${company.id == openCompany && s.arrow_open}`}>
                     <IconChewron />

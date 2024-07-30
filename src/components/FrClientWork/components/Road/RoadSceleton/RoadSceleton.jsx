@@ -2,7 +2,7 @@ import s from './RoadSceleton.module.scss';
 import LoaderSceleton from '../../Loader/LoaderSceleton';
 
 function RoadSceleton({load}) {
-    console.log(load)
+
     return (
         <div className={`${s.road} ${load && s.road_vis}`}>
             <ul className={`${s.list}`}>

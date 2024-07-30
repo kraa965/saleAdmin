@@ -21,7 +21,8 @@ import Profile from '../Profile/Profile';
 
 function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPlan,
     level, mistakes, timeEnd, loader, id, managerStatus, rate, newClients, typeManager,
-    schedule, pause, pauseDuration, type, loginNum, loginPlan, lids, lidsPlan, activePoint, callTime }) {
+    schedule, pause, pauseDuration, type, loginNum, loginPlan, lids, lidsPlan, activePoint, callTime,
+    zoom, anketa, shedule }) {
 
     const dark = useSelector(menuSelector).dark;
     const [tooltip, setTooltip] = useState(false);
@@ -88,14 +89,14 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
                     <div className={s.avatar}>
                         <img src={avatar === '' ? avatarDef : avatar}></img>
                     </div>
-                    <div className={s.container_result}>
-                        <div className={s.text}>
+                    <div className={`${s.container_result} ${s.container_result_expert}`}>
+                    {typeManager !== 'expert' && <div className={s.text}>
                             {typeManager === 'expert' && <p>{name} {surname} <sup>{'5/2'}</sup></p>}
                             {typeManager !== 'expert' && <p>{name} {surname} <sup>{schedule === 1 ? '5/2' : '2/2'}</sup></p>}
                             {/*  {rate === -1 && <ArrowDown/>}
                             {rate === 0 && <ArrowNarrow/>} */}
 
-                            <div style={{ display: status === 'holiday' && 'none' }} className={s.bp}>
+                            <div style={{ display: status === 'holiday' && 'none' }} className={`${s.bp} ${typeManager == 'expert' && s.bp_expert}`}>
                                 {mistakes.length > 0 &&
                                     <div onMouseEnter={handleOpenTooltip} onMouseLeave={handleCloseTooltip}>
                                         <WarningRed />
@@ -103,12 +104,37 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
                                 }
 
                                 {tooltip && <Tooltip type={'fault'} mistakes={mistakes} />}
-                                {bp} из {bpPlan}
+                                {typeManager !== 'expert' && <p>{bp} из {bpPlan}</p>}
                             </div>
-                        </div>
-                        <div style={{ display: status === 'holiday' && 'none' }} className={`${s.progress} ${dark && s.progress_dark}`}>
+                        </div>}
+
+                        {typeManager !== 'expert' && <div style={{ display: status === 'holiday' && 'none' }} className={`${s.progress} ${dark && s.progress_dark}`}>
                             <div style={{ width: `${bpPlan === 0 ? 0 : bp / bpPlan * 100}%` }} className={`${s.inner} ${colorLine === 'yellow' && s.yellow} ${colorLine === 'green' && s.green}`}></div>
-                        </div>
+                        </div>}
+
+                        {typeManager == 'expert' && <div style={{ display: status === 'holiday' && 'none' }} className={s.progress_expert}>
+                            <div className={s.block_expert}>
+                                <p>Zoom <span>{zoom}/3</span></p>
+                                <div className={`${s.progress} ${dark && s.progress_dark}`}>
+                                    <div style={{ width: `${zoom === 0 ? 0 : zoom / 3 * 100}%` }} className={`${s.inner} ${zoom == 2 && s.yellow} ${zoom >= 3 && s.green}`}></div>
+                                </div>
+                            </div>
+                            <div className={s.block_expert}>
+                                <p>Анкеты <span>{anketa}/2</span></p>
+                                <div className={`${s.progress} ${dark && s.progress_dark}`}>
+                                    <div style={{ width: `${anketa === 0 ? 0 : anketa / 2 * 100}%` }} className={`${s.inner} ${anketa >= 2 && s.green}`}></div>
+                                </div>
+                            </div>
+
+                            {/*  <div className={s.block_expert}>
+                                <p>Предоплаты <span>2/1</span></p>
+                                <div className={`${s.progress} ${dark && s.progress_dark}`}>
+                                    <div style={{ width: `${bpPlan === 0 ? 0 : bp / bpPlan * 100}%` }} className={`${s.inner} ${colorLine === 'yellow' && s.yellow} ${colorLine === 'green' && s.green}`}></div>
+                                </div>
+                            </div> */}
+
+                        </div>}
+
                     </div>
                 </div>
 
@@ -175,12 +201,14 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
                                     <div style={{ width: `${timer / pauseUpdate * 100}%` }} className={`${s.callinner}`}></div>
                                 </div>
                             </div>
+
+
                         </div>
 
                     }
 
-                    {typeManager === 'expert' && < div className={s.block_progress}>
-                        <div style={{ display: status === 'holiday' && 'none', width: '50px' }} className={`${s.calls} ${activePoint == 0 && s.calls_lid}`}>
+                    {typeManager === 'expert' && < div className={`${s.block_progress} ${s.block_expert}`}>
+                        <div style={{ display: status === 'holiday' && 'none', width: '50px', marginRight: '8px' }} className={`${s.calls} ${activePoint == 0 && s.calls_lid}`}>
                             <div className={`${s.tooltip} ${dark && s.tooltip_dark} ${s.tooltip_lid}`}>
                                 средняя длительность разговоров за 3 дня
                             </div>
@@ -192,7 +220,7 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
                             </div>
                         </div>
                         <div style={{ display: status === 'holiday' && 'none' }} className={`${s.calls} ${s.calls_call}`}>
-                            <div className={`${s.tooltip} ${dark && s.tooltip_dark} ${s.tooltip_call}`}>Звонки от 1 минуты</div>
+                            <div className={`${s.tooltip} ${dark && s.tooltip_dark} ${s.tooltip_call}`}>Звонки от 1.5 минут</div>
                             <div className={`${s.callsnum} ${dark && s.callsnum_dark}`}>
                                 {typeManager === 'expert' ? <IconCallExpert /> : <CallIcon />}
                                 <p>{call}</p>
@@ -211,6 +239,18 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
                             </div>
                             <div className={`${s.callsprogress} ${dark && s.callsprogress_dark}`}>
                                 <div style={{ width: `${typeManager === 'expert' ? newClients / 15 * 100 : loginNum / loginPlan * 100}%` }} className={`${s.callinner}`}></div>
+                            </div>
+                        </div>
+
+                        <div style={{ display: status === 'holiday' && 'none' }} className={`${s.calls} ${s.calls_pause}`}>
+                            <div className={`${s.tooltip} ${dark && s.tooltip_dark} ${s.tooltip_pause}`}>Пауза</div>
+                            <div className={`${s.callsnum} ${dark && s.callsnum_dark}`}>
+                                <IconPauseSmall />
+                                {statusNow === 'not_work' && <p>{Math.floor(pauseUpdate / 60)} <sup>{Math.floor(pauseUpdate / 60)}</sup></p>}
+                                {statusNow !== 'not_work' && <p>{Math.floor(timer / 60)} <sup>{Math.floor(pauseUpdate / 60)}</sup></p>}
+                            </div>
+                            <div className={`${s.callsprogress} ${dark && s.callsprogress_dark}`}>
+                                <div style={{ width: `${timer / pauseUpdate * 100}%` }} className={`${s.callinner}`}></div>
                             </div>
                         </div>
                     </div>}
@@ -295,7 +335,7 @@ function ManagerResult({ name, surname, avatar, status, bp, bpPlan, call, callPl
                     }
                 </div>
             </div >
-            {openProfile && <Profile setOpenProfile={setOpenProfile} name={name} surname={surname} avatar={avatar} level={level} dark={dark} type={type} id={id} setTimer={setTimer} setPauseUpdate={setPauseUpdate}/>
+            {openProfile && <Profile setOpenProfile={setOpenProfile} name={name} surname={surname} avatar={avatar} level={level} dark={dark} type={type} id={id} setTimer={setTimer} setPauseUpdate={setPauseUpdate} bpPlan={bpPlan} shedule={shedule}/>
             }
         </>
 

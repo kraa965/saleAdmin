@@ -279,7 +279,7 @@ function Team() {
                         return i < lengthList && <TeamMember key={el.id} id={el.id} el={el} name={el.name} surname={el.surname} avatar={el.avatar} hb={el.hb}
                             index={i + 1} level={el.level} progress={el.achivments.progress}
                             reliability={el.achivments.reliability} reliabilityModal={el.achivments.reliability_modal} setAddWindow={setAddWindow} setEditWindow={setEditWindow}
-                            setTypeEdit={setTypeEdit} setManager={setManager} teamwork={el.achivments.teamwork} type={'fired'} setRestoreWindow={setRestoreWindow} />
+                            setTypeEdit={setTypeEdit} setManager={setManager} teamwork={el.achivments.teamwork} type={''} setRestoreWindow={setRestoreWindow} />
                     })}
 
                 </div>

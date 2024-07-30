@@ -197,7 +197,8 @@ function ManagersDay({ leaders, loader, managerStatus, mobLeaders, experts, role
               bp={el.bp_num} bpPlan={el.bp_plan} call={el.call_num} callPlan={el.call_plan}
               level={el.level} mistakes={el.mistakes} timeEnd={el.time_end_work} loader={loader} managerStatus={managerStatus} rate={el.rate}
               schedule={el.schedule.id} pause={el.pause_time} pauseDuration={el.pause_duration} type={'leader'}
-              loginNum={el.login_num} loginPlan={el.login_plan} lids={el.base_day_clients} lidsPlan={el.base_day_limit} activePoint={activePoint} callTime={el.average_call_time} />
+              loginNum={el.login_num} loginPlan={el.login_plan} lids={el.base_day_clients} lidsPlan={el.base_day_limit} activePoint={activePoint} callTime={el.average_call_time} 
+              shedule={el.schedule_work}/>
           })}
         </ul>
        {/*  {!viewWeekend && managersFilter.length !== managerFilterWeekend.length && <p className={s.button_weekend} onClick={handleViewWeekend}>Показать больше</p>}
@@ -224,9 +225,9 @@ function ManagersDay({ leaders, loader, managerStatus, mobLeaders, experts, role
         <ul className={s.list}>
           {expertManagers?.map((el, index) => {
             return <ManagerResult avatar={el.avatar} key={el.id} id={el.id} name={el.name} surname={el.surname} status={el.work_status}
-              bp={el.zoom_num} bpPlan={2/* el.zoom_plan */} call={el.call_num} callPlan={el.call_plan} newClients={el.new_clients_num}
+             /*  bp={el.zoom_num} */ zoom={el.zoom_num} anketa={el.anketa_send}  /* bpPlan={el.zoom_plan} */ call={el.call_num} callPlan={el.call_plan} newClients={el.new_clients_num}
               level={el.level} mistakes={el.mistakes} timeEnd={el.time_end_work} loader={loader} managerStatus={managerStatus} rate={el.rate}
-              typeManager={'expert'} pause={el.pause_time} pauseDuration={el.pause_duration} type={'frmanager'} activePoint={activePoint} callTime={el.average_call_time} />
+              typeManager={'expert'} pause={el.pause_time} pauseDuration={el.pause_duration} type={'frmanager'} activePoint={activePoint} callTime={el.average_call_time} shedule={el.schedule_work}/>
           })}
         </ul>
       </div>

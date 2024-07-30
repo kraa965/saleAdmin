@@ -3,6 +3,15 @@
     background-color: var(--color-bg-card);
     border-radius: 8px;
     min-height: 58px;
+
+    a:active,
+    a:hover,
+    a {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: var(--color-text-primary);
+    }
 }
 
 .header {
@@ -31,23 +40,67 @@
 
 .empty {
     width: 34px;
+
+    &_all {
+        width: 24px;
+    }
 }
 
 .client {
     width: 260px;
+
+    &_all {
+        width: 220px;
+    }
 }
 
 .task {
-    width: 150px;
+    width: 156px;
+}
+
+.task_all {
+    width: 130px;
 }
 
 .step {
     width: 384px;
 }
 
+.stage {
+    width: 116px;
+}
+
+.expert {
+    width: 200px;
+}
+
 .comment {
     max-width: 514px;
     width: 100%;
+ /*    transition: all 0.2s ease-in-out; */
+
+    &_small {
+        max-width: 260px;
+    }
+
+    &_small2 {
+        max-width: 220px;
+    }
+}
+
+.source {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+/*     transition: opacity 0.2s ease-in-out; */
+    padding: 0 !important;
+    opacity: 0;
+
+    &_open {
+        width: 200px;
+        height: 100%;
+        opacity: 1;
+    }
 }
 
 .favorite {

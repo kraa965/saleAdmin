@@ -47,7 +47,6 @@ function AddCard({ setAddWindow, setAnim, disabled, setDisabled }) {
         hasNumbers: false,
     });
 
-    console.log(workerInfo)
     useEffect(() => {
         if (workerInfo.password.length == 0) {
             dispatch(setPassword(passwordRandom));
@@ -115,7 +114,7 @@ function AddCard({ setAddWindow, setAnim, disabled, setDisabled }) {
         }
 
         if (stage1 && stage2 && stage3) {
-            console.log('последний шаг')
+
             dispatch(setFilledStage(3));
             return
         }
@@ -145,7 +144,6 @@ function AddCard({ setAddWindow, setAnim, disabled, setDisabled }) {
         }
     }
 
-    console.log(workerInfo)
 
     const handleCreateCard = () => {
         setLoad(true)
@@ -176,26 +174,25 @@ function AddCard({ setAddWindow, setAnim, disabled, setDisabled }) {
         workerInfo.shedule == 4 && formData.append('work_time_end', '17:00');
 
 
-        workerInfo.shedule == 1 && formData.append('next_work_schedule_id', 1);
-        workerInfo.shedule == 2 && formData.append('next_work_schedule_id', 2);
-        workerInfo.shedule == 3 && formData.append('next_work_schedule_id', 1);
-        workerInfo.shedule == 4 && formData.append('next_work_schedule_id', 1);
+        workerInfo.shedule2 == 1 && formData.append('next_work_schedule_id', 1);
+        workerInfo.shedule2 == 2 && formData.append('next_work_schedule_id', 2);
+        workerInfo.shedule2 == 3 && formData.append('next_work_schedule_id', 1);
+        workerInfo.shedule2 == 4 && formData.append('next_work_schedule_id', 1);
 
-        workerInfo.shedule == 1 && formData.append('next_time_start', '10:00');
-        workerInfo.shedule == 2 && formData.append('next_time_start', '08:00');
-        workerInfo.shedule == 3 && formData.append('next_time_start', '09:00');
-        workerInfo.shedule == 4 && formData.append('next_time_start', '08:00');
+        workerInfo.shedule2 == 1 && formData.append('next_time_start', '10:00');
+        workerInfo.shedule2 == 2 && formData.append('next_time_start', '08:00');
+        workerInfo.shedule2 == 3 && formData.append('next_time_start', '09:00');
+        workerInfo.shedule2 == 4 && formData.append('next_time_start', '08:00');
 
-        workerInfo.shedule == 1 && formData.append('next_time_end', '19:00');
-        workerInfo.shedule == 2 && formData.append('next_time_end', '20:00');
-        workerInfo.shedule == 3 && formData.append('next_time_end', '18:00');
-        workerInfo.shedule == 4 && formData.append('next_time_end', '17:00');
+        workerInfo.shedule2 == 1 && formData.append('next_time_end', '19:00');
+        workerInfo.shedule2 == 2 && formData.append('next_time_end', '20:00');
+        workerInfo.shedule2 == 3 && formData.append('next_time_end', '18:00');
+        workerInfo.shedule2 == 4 && formData.append('next_time_end', '17:00');
        /*  formData.append('next_work_schedule_id', workerInfo.shedule2) */
-        workerInfo.photo.file && formData.append('avatar', workerInfo.photo.fileSend, workerInfo.photo.name)
+        workerInfo.photo.file && formData.append('avatar_mini', workerInfo.photo.fileSend, workerInfo.photo.name)
 
         addManager(formData)
             .then(res => {
-                console.log(res)
                 localStorage.removeItem('addName');
                 localStorage.removeItem('addSecondName');
                 localStorage.removeItem('addSex');

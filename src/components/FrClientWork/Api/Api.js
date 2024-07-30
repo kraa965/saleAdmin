@@ -58,8 +58,8 @@ export const editClient = (data) => {
 } 
 
 //звонок клиенту и последующая работа
-export const callClient = (phone) => {
-    return instanceWithToken.post(`${baseUrl}api/frmanager/clients/call_mango?phone=${phone}`);
+export const callClient = (phone, id) => {
+    return instanceWithToken.post(`${baseUrl}api/frmanager/clients/call_mango?phone=${phone}&id=${id}`);
 }
 
 export const sendComment = (data) => {
@@ -199,8 +199,8 @@ export const cancelTraning = (id) => {
     })
 }
 
-export const getPartners = (client_id) => {
-    return instanceWithToken.get(`${baseUrl}api/frmanager/clients/info_companies/${client_id}`);
+export const getPartners = (client_id, city) => {
+    return instanceWithToken.get(`${baseUrl}api/frmanager/clients/info_companies?${client_id !== '' ? `id=${client_id}` : ''}${city !== '' ? `city=${city}` : ''}`);
 }
 
 export const getScenario = () => {
@@ -208,6 +208,77 @@ export const getScenario = () => {
 }
  
 
+//whats up
+export const getCurrentStateInstance = () => {
+    return instanceWithToken.get(`${baseUrl}api/frmanager/chat/instance/state`);
+}
+
+export const getRebootInstance = () => {
+    return instanceWithToken.get(`${baseUrl}api/frmanager/chat/instance/reboot`);
+}
+
+export const getMessageHistory = (phone, count) => {
+    return instanceWithToken.get(`${baseUrl}api/frmanager/chat/history?phone=${phone}&count=${count}`);
+}
+
+//отправка сообщения
+
+export const sendMessage = (phone, message) => {
+    return instanceWithToken({
+        method: 'post',
+        mode: "cors",
+        headers: {
+            "Content-type": "application/json",
+            "Accept": "application/json"
+        },
+        url: `${baseUrl}api/frmanager/chat/send/message`,
+        data: {phone, message},
+    })
+}
+
+
+//Проверка номера на наличие whatsup
+export const chatCheck = (phone) => {
+    return instanceWithToken({
+        method: 'post',
+        mode: "cors",
+        headers: {
+            "Content-type": "application/json",
+            "Accept": "application/json"
+        },
+        url: `${baseUrl}api/frmanager/chat/check`,
+        data: {phone},
+    })
+}
+
+//Прочитать чат
+export const chatRead = (phone, id) => {
+    return instanceWithToken({
+        method: 'post',
+        mode: "cors",
+        headers: {
+            "Content-type": "application/json",
+            "Accept": "application/json"
+        },
+        url: `${baseUrl}api/frmanager/chat/read`,
+        data: {phone, message_id: null, client_id: String(id)},
+    })
+}
+
+//отправить файлы
+
+export const sendFile = (data) => {
+    return instanceWithToken({
+        method: 'post',
+        mode: "cors",
+        headers: {
+            "Content-type": "multipart/form-data",
+            "Accept": "application/json"
+        },
+        url: `${baseUrl}api/frmanager/chat/send/file/upload`,
+        data: data,
+    })
+}
 
 
 

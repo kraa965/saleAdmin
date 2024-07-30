@@ -49,7 +49,7 @@ const WidgetWorkZoom = ({ setWidget, setPrevWidget, setPlanWithoutCall }) => {
     const [comment, setComment] = useState(JSON.parse(localStorage.getItem('comment')) || '');
     const dispatch = useDispatch();
     const textRef = useRef();
-    console.log(screenShots, comment)
+
     useEffect(() => {
         if (screenShots.length > 0) {
             dispatch(setHeight(436))

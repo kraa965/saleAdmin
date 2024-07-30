@@ -3,12 +3,12 @@ import LoaderSceleton from '../../../Loader/LoaderSceleton';
 
 
 
-const OfficeItemSceleton = () => {
+const OfficeItemSceleton = ({loadPartners}) => {
 
 
 
     return (
-        <div className={`${s.container}`}>
+        <div className={`${s.container} ${!loadPartners && s.container_hidden}`}>
             <div className={s.header}>
                 <div className={s.logo}>
                     <LoaderSceleton />

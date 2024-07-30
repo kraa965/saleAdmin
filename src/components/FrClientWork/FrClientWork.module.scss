@@ -1,5 +1,10 @@
 .app {
     background-color: var(--color-bg);
     min-height: 100vh;
+    opacity: 0;
+    transition: all 0.15s;
 }
 
+.anim {
+    opacity: 1;
+}

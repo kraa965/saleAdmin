@@ -21,7 +21,6 @@ const WidgetEndWork = ({ planTime, planZoom, setWidget, endType, setEndType }) =
     const navigate = useNavigate();
     const time = new Date();
     time.setSeconds(time.getSeconds() + 2);
-    console.log(timer)
 
     useEffect(() => {
         setAnim(true)

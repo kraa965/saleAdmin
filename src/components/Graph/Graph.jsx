@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import { setDayOfWeek } from '../../utils/dates';
 import { addSpaceNumber } from '../../utils/addSpaceNumber';
 import Loader from '../Loader/Loader';
+//utils
+import { handleWeekend } from '../../utils/dates';
 
 function Graph({ dayMonth, graphData, loader }) {
     const dark = useSelector(menuSelector).dark;

@@ -37,12 +37,8 @@ const Comment = ({ loadClose, loadVisible, el, id }) => {
                             {requestCall && 'Клиент запросил звонок'}
                         </p>
                     </div>
-                    <div className={s.loader}>
-                        <span className={`${loadClose && s.hiden}`}>{handleDateForComment(el?.date)}</span>
-                    </div>
-                </div>
 
-                <div className={`${s.images} ${(el?.files?.length > 0 || (el.fileForView?.length > 0 && el.fileForView?.[0])) && s.images_open}`}>
+                    <div className={`${s.images} ${(el?.files?.length > 0 || (el.fileForView?.length > 0 && el.fileForView?.[0])) && s.images_open}`}>
                     {(el.fileForView?.[0] ? el.fileForView : el?.files)?.map((el) => {
 
                         return <div onClick={handleOpenImg} className={s.image}>
@@ -51,6 +47,14 @@ const Comment = ({ loadClose, loadVisible, el, id }) => {
                         </div>
                     })}
                 </div>
+
+                
+                    <div className={s.loader}>
+                        <span className={`${loadClose && s.hiden}`}>{handleDateForComment(el?.date)}</span>
+                    </div>
+                </div>
+
+             
             </li>
             }
 

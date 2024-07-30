@@ -111,7 +111,6 @@ function Client({ progress, name, surname, sum, city, source, expert, interne, d
             setLoader(true)
             postSum(id, sumValue)
                 .then((res) => {
-                    console.log(res);
                     setStep(3);
                     setUpdate(prevState => prevState + 1);
                     setTimeout(() => {
@@ -165,7 +164,6 @@ function Client({ progress, name, surname, sum, city, source, expert, interne, d
         setLoader(true)
         postSumRecived(id, queryDate)
             .then((res) => {
-                console.log(res)
                 setUpdate(prevState => prevState + 1);
                 setStep(5);
                 setTimeout(() => {

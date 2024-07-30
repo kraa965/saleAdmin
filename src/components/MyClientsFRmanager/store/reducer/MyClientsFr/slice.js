@@ -75,8 +75,8 @@ const MyClientsFrSlice = createSlice({
             state.archiveFrNextPage = action.payload;
         },
 
-        setLoadArchiveFr(state) {
-            state.loadArchiveFr = false;
+        setLoadArchiveFr(state, action) {
+            state.loadArchiveFr = action.payload;
         },
 
 
@@ -97,8 +97,8 @@ const MyClientsFrSlice = createSlice({
             state.planFrNextPage = action.payload;
         },
 
-        setLoadPlanFr(state) {
-            state.loadPlanFr = false;
+        setLoadPlanFr(state, action) {
+            state.loadPlanFr = action.payload;
         },
 
         //Zoom
@@ -118,8 +118,8 @@ const MyClientsFrSlice = createSlice({
             state.zoomFrNextPage = action.payload;
         },
 
-        setLoadZoomFr(state) {
-            state.loadZoomFr = false;
+        setLoadZoomFr(state, action) {
+            state.loadZoomFr = action.payload;
         },
 
         //Анкета
@@ -139,8 +139,8 @@ const MyClientsFrSlice = createSlice({
             state.anketaFrNextPage = action.payload;
         },
 
-        setLoadAnketaFr(state) {
-            state.loadAnketaFr = false;
+        setLoadAnketaFr(state, action) {
+            state.loadAnketaFr = action.payload;
         },
 
         //Договор
@@ -160,8 +160,8 @@ const MyClientsFrSlice = createSlice({
             state.contractFrNextPage = action.payload;
         },
 
-        setLoadContractFr(state) {
-            state.loadContractFr = false;
+        setLoadContractFr(state, action) {
+            state.loadContractFr = action.payload;
         },
 
         //Предоплата
@@ -182,8 +182,8 @@ const MyClientsFrSlice = createSlice({
             state.prepaidFrNextPage = action.payload;
         },
 
-        setLoadPrepaidFr(state) {
-            state.loadPrepaidFr = false;
+        setLoadPrepaidFr(state, action) {
+            state.loadPrepaidFr = action.payload;
         },
         
 

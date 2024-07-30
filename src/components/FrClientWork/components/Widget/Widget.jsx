@@ -19,8 +19,7 @@ import WidgetEndWork from '../WidgetEndWork/WidgetEndWork';
 import WidgetReject from '../WidgetReject/WidgetReject';
 import HandOverWidget from '../HandOverClient/HandOverClient';
 import WidgetWorkComment from '../WidgetWork/WidgetWorkComment';
-//utils
-import { handleEmptyTask } from '../../utils/dates';
+
 
 /* stages =[bp, viewBp (ознакомился с БП, road status == finished), ReqZoom (запросил zoom последний лог type == ReqZoom), setZoom (записался на Zoom road status == finished), 
 finishZoom (road status == finished)] , noZoom (зумм не состоялся setZoom road status == finished берем последний лог и смотрим что время лога меньше чем текущего времени на пол часа ), 
@@ -35,6 +34,7 @@ const Widget = ({ loadClose }) => {
     const last_connect = useSelector(selectorWork).last_connect;
     const zoom_date = useSelector(selectorWork).zoom_date;
     const stageRoad = useSelector(selectorClient).stage;
+    const clientManager = useSelector(selectorClient).clientManager;
     const [stageZoom, setStageZoom] = useState(false);
     const [stageSendAnketa, setStageSendAnketa] = useState(false);
     const [stageAnketa, setStageAnketa] = useState(false);
@@ -46,17 +46,29 @@ const Widget = ({ loadClose }) => {
     const [planTime, setPlanTime] = useState('');
     const [planZoom, setPlanZoom] = useState(false);
     const [endType, setEndType] = useState('');
+    const [isNewClient, setIsNewClient] = useState(false)
     const widgetHeight = useSelector(selectorWidget).height;
     const dispatch = useDispatch();
     const callStatus = useSelector(selectorApp).callStatus;
 
 
+
     useEffect(() => {
-        if (widget == '') {
+        if (widget == '' && !isNewClient) {
             setPrevWidget('')
             dispatch(setHeight(316))
+            return
         }
-    }, [widget]);
+
+        if(isNewClient) {
+            dispatch(setHeight(208));
+            return
+        }
+    }, [widget, isNewClient]);
+
+    useEffect(() => {
+        clientManager?.id ? setIsNewClient(false) : setIsNewClient(true);
+    }, [clientManager])
 
 
 
@@ -71,7 +83,6 @@ const Widget = ({ loadClose }) => {
         }
     }, [callStatus]);
 
-    console.log(widget)
 
     useEffect(() => {
         setWidget('');
@@ -137,9 +148,10 @@ const Widget = ({ loadClose }) => {
     }, [last_connect, next_connect]);
 
     return (
-        <div style={{ height: `${widgetHeight}px` }} className={`${s.widget}`}>
+        <div style={{ height: `${widgetHeight}px`}} className={`${s.widget}`}>
             {widget === '' && <WidgetCall setWidget={setWidget} setPrevWidget={setPrevWidget} stageZoom={stageZoom} zoomDate={zoom_date} stageSendAnketa={stageSendAnketa}
-                stageAnketa={stageAnketa} stageTraining={stageTraining} empty={empty} loadClose={loadClose} setPlanWithoutCall={setPlanWithoutCall}
+                stageAnketa={stageAnketa} stageTraining={stageTraining} empty={empty} loadClose={loadClose} setPlanWithoutCall={setPlanWithoutCall} isNewClient={isNewClient}
+                bpStep={road[0]}
             />}
             {widget === 'call' && <WidgetWork setWidget={setWidget} setPrevWidget={setPrevWidget} setPlanWithoutCall={setPlanWithoutCall}/>} 
             {widget === 'comment' && <WidgetWorkComment setWidget={setWidget} setPrevWidget={setPrevWidget} setPlanWithoutCall={setPlanWithoutCall}/>}
@@ -149,7 +161,7 @@ const Widget = ({ loadClose }) => {
             {widget == 'end' && <WidgetEndWork planTime={planTime} planZoom={planZoom} setWidget={setWidget} endType={endType} setEndType={setEndType} />}
             {widget == 'cancelZoom' && <WidgetReject setWidget={setWidget} type={'zoom'} setStageZoom={setStageZoom} setEndType={setEndType} />}
             {widget == 'reject' && <WidgetReject setWidget={setWidget} setPrevWidget={setPrevWidget} prevWidget={prevWidget} type={'reject'} setStageZoom={setStageZoom} setEndType={setEndType} />}
-            {widget == 'handOver' && <HandOverWidget setWidget={setWidget} prevWidget={prevWidget} setEndType={setEndType} />}
+            {widget == 'handOver' && <HandOverWidget setWidget={setWidget} prevWidget={prevWidget} setEndType={setEndType} isNewClient={isNewClient}/>}
         </div>
     )
 };

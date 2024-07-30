@@ -1,3 +1,39 @@
+
+
+export const handleDateDifferenceLeader = (d) => {
+    const date = new Date();
+    const date2 = new Date(d);
+    const day = date.getDate();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    const day2 = date2.getDate();
+    const month2 = date2.getMonth();
+    const year2 = date2.getFullYear();
+    const diffDays = Math.ceil((date - date2) / (1000 * 60 * 60 * 24));
+    const hour = date2.getHours();
+    const minute = date2.getMinutes();
+
+    if (!d || d == '0000-00-00 00:00:00') {
+        return ''
+    }
+
+    if (day == day2 && month == month2 && year == year2) {
+        return `${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}`;
+    }
+
+    if ((day - day2 == 1 && month == month2 && year == year2)) {
+        return `Вчера в ${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}`;
+    }
+
+    if ((year !== year2)) {
+        return `${day2}.${month2 < 10 ? `0${month2}` : month2}.${year2} ${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}`
+    }
+
+    if ((day - day2 > 1 && year == year2) || (month !== month2)) {
+        return `${day2}.${month2 < 10 ? `0${month2}` : month2} ${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}`
+    }
+}
+
 export const timeNow = () => {
     const date = new Date();
     const hours = date.getHours();
@@ -106,35 +142,23 @@ export const handleDateDifference = (d) => {
     }
 }
 
-export const handleDateDifferenceLeader = (d) => {
+export const handleDifDate = (d) => {
     const date = new Date();
     const date2 = new Date(d);
-    const day = date.getDate();
-    const month = date.getMonth();
-    const year = date.getFullYear();
-    const day2 = date2.getDate();
-    const month2 = date2.getMonth();
-    const year2 = date2.getFullYear();
     const diffDays = Math.ceil((date - date2) / (1000 * 60 * 60 * 24));
-    const hour = date2.getHours();
-    const minute = date2.getMinutes();
+    return diffDays
+}
 
-    if (!d || d == '0000-00-00 00:00:00') {
-        return ''
-    }
-
-    if (day == day2 && month == month2 && year == year2) {
-        return `Сегодня в ${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}`;
-    }
-
-    if ((day - day2 == 1 && month == month2 && year == year2)) {
-        return `Вчера в ${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}`;
-    }
-
-    if ((day - day2 > 1) || (month !== month2) || (year !== year2)) {
-        return `${day}.${month < 10 ? `0${month}` : month} ${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}`
+export const handleDiffDate = (d1, d2) => {
+    const date = new Date(d1);
+    const date2 = new Date(d2);
+    if (date > date2) {
+        return true
+    } else {
+        return false
     }
 }
+
 
 export const handleDatePlaner = (d) => {
     const date = new Date(d);
@@ -211,6 +235,87 @@ export const handleTimeText = (d) => {
     return `${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}`
 }
 
+export const handleTimeMessage = (d) => {
+    const date = new Date(d * 1000);
+    const day = date.getDate();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    return {
+        time: `${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}`,
+        date: `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}`
+    }
+}
+export const handleDateMessage = (d) => {
+    const date = new Date(d * 1000);
+    const dateNow = new Date();
+    const day = date.getDate();
+    const dayNow = dateNow.getDate();
+    const month = date.getMonth();
+    const monthNow = dateNow.getMonth();
+    const year = date.getFullYear();
+    const yearNow = dateNow.getFullYear();
+  
+
+    let fMonth;
+    switch (month) {
+        case 0: fMonth = "января"; break;
+        case 1: fMonth = "февраля"; break;
+        case 2: fMonth = "марта"; break;
+        case 3: fMonth = "апреля"; break;
+        case 4: fMonth = "мая"; break;
+        case 5: fMonth = "июня"; break;
+        case 6: fMonth = "июля"; break;
+        case 7: fMonth = "августа"; break;
+        case 8: fMonth = "сентября"; break;
+        case 9: fMonth = "октября"; break;
+        case 10: fMonth = "ноября"; break;
+        case 11: fMonth = "декабря"; break;
+        default:
+    }
+
+    if (dayNow - day == 0 && month == monthNow && year == yearNow) {
+        return `Сегодня`
+    }
+
+    if (dayNow - day == 1 && month == monthNow && year == yearNow) {
+        return `Вчера`
+    }
+
+    if (dayNow - day  > 1 && month == monthNow && year == yearNow) {
+        return `${day} ${fMonth}`
+    }
+
+    if (month !== monthNow && year == yearNow) {
+        return `${day} ${fMonth}`
+    }
+
+    if (year !== yearNow) {
+        return `${day < 10 ? `0${day}` : day}.${month < 10 ? `0${month}` : month}.${year}`
+    }
+
+   
+}
+
+export const handleComparisonDate = (f, s) => {
+    const date = new Date(f * 1000);
+    const dateSecond = new Date(s * 1000);
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    const day = date.getDate();
+    const daySecond = dateSecond.getDate();
+    const monthSecond = dateSecond.getMonth();
+    const yearSecond = dateSecond.getFullYear();
+    
+  
+    if (year == yearSecond && day == daySecond && month == monthSecond) {
+      return true
+    } else {
+      return false
+    }
+  }
+
 export const handleDateZoomDiff = (d1, d2) => {
     const date = new Date(d1);
     const date2 = new Date(d2);
@@ -250,6 +355,23 @@ export const handleDateZoomDiff2 = (d2) => {
     }
 };
 
+export const handleDateToday = (d1, d2) => {
+    const date = new Date(d1);
+    const date2 = new Date(d2);
+    const day = date.getDate();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    const day2 = date2.getDate();
+    const month2 = date2.getMonth();
+    const year2 = date2.getFullYear();
+
+    if ((day == day2 && month == month2 && year == year2)) {
+        return true
+    } else {
+        return false
+    }
+};
+
 
 export const handleCurrentHour = (d) => {
     const date = new Date();
@@ -274,6 +396,14 @@ export const handleCurrentHour = (d) => {
 
 export const handleTimeForCity = (timezone) => {
     const date = new Date();
+    const hour = (date.getHours() - 3 + timezone) >= 24 ? (date.getHours() - 3 + timezone) - 24 : date.getHours() - 3 + timezone;
+    const minute = date.getMinutes();
+
+    return `${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}`
+}
+
+export const handleTimeForCity2 = (d, timezone) => {
+    const date = new Date(d);
     const hour = (date.getHours() - 3 + timezone) >= 24 ? (date.getHours() - 3 + timezone) - 24 : date.getHours() - 3 + timezone;
     const minute = date.getMinutes();
 
@@ -361,9 +491,6 @@ export const handleDatePlan = (d) => {
     const time = d?.slice(-8, -3);
     const day = date.getDate();
     const month = date.getMonth();
-    const monthNow = dateNow.getMonth();
-    const year = date.getFullYear();
-    const yearNow = dateNow.getFullYear();
     const dayNow = dateNow.getDate();
 
     let fMonth;
@@ -383,27 +510,19 @@ export const handleDatePlan = (d) => {
         default:
     }
 
-    if (dayNow - day == 0 && month == monthNow && year == yearNow) {
+    if (dayNow - day == 0) {
         return `сегодня в ${time}`
     }
 
-    if (day - dayNow == 1 && month == monthNow && year == yearNow) {
+    if (day - dayNow == 1) {
         return `завтра в ${time}`
     }
 
-    if (day - dayNow > 1 && month == monthNow && year == yearNow) {
+    if (day - dayNow > 1) {
         return `на ${day} ${fMonth} в ${time}`
     }
 
-    if (day - dayNow < 0 && month == monthNow && year == yearNow) {
-        return `на ${day} ${fMonth} в ${time}`
-    }
-
-    if (month !== monthNow && year !== yearNow) {
-        return `на ${day} ${fMonth} ${year} года`
-    }
-
-    if (month !== monthNow && year == yearNow) {
+    if (day - dayNow < 0) {
         return `на ${day} ${fMonth} в ${time}`
     }
 }
@@ -578,7 +697,7 @@ export const handleDatePartnerOffice = (month) => {
 }
 
 export const handleDayWeek = () => {
-  const date = new Date();
-  var dayNum = date.getDay();
-  return dayNum;
+    const date = new Date();
+    var dayNum = date.getDay();
+    return dayNum;
 }

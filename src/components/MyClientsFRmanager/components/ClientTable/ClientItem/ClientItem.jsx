@@ -1,8 +1,8 @@
 import s from './ClientItem.module.scss';
 import { ReactComponent as IconComment } from '../../../image/clients/iconComment.svg';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { ReactComponent as IconStar } from '../../../image/work/IconStar.svg';
 import { ReactComponent as IconStarActive } from '../../../image/work/IconStarActive.svg';
 import { ReactComponent as IconZoomSmall } from '../../../image/clients/iconZoomSmall.svg';
@@ -29,7 +29,7 @@ import { selectorClient } from '../../../../FrClientWork/store/reducer/Client/se
 //components
 import HandOverClient from './HandOverClient/HandOverClient';
 
-const ClientItem = ({ client, id, type }) => {
+const ClientItem = ({ client, id, type, activeTabList }) => {
     const [anim, setAnim] = useState(false);
     const [tooltip, setTooltip] = useState(false);
     const [favorite, setFavorite] = useState(false);
@@ -38,8 +38,8 @@ const ClientItem = ({ client, id, type }) => {
     const [lastComment, setLastComment] = useState('');
     const [status, setStatus] = useState(0);
     const [statusText, setStatusText] = useState('');
-    const [missedCall, setMissedCall] = useState(false);
-    const [callRequest, setCallRequest] = useState(false);
+    const [missedCall, setMissedCall] = useState(client.events_call !== 0 ? true : false);
+    const [reqCall, setReqCall] = useState(client.is_call_me !== 0 ? true : false);
     const [handOver, setHandOver] = useState(false);
     const [handOverExpert, setHandOverExpert] = useState('');
     const dispatch = useDispatch();
@@ -62,20 +62,21 @@ const ClientItem = ({ client, id, type }) => {
     }, []);
 
     useEffect(() => {
-        if (client.events_call == 1) {
-            setMissedCall(true)
-        } else {
+        if (client.events_call == 0 || reqCall) {
             setMissedCall(false)
+        } else {
+            setMissedCall(true)
         }
     }, [client])
 
     useEffect(() => {
-        if (client.partnership_client_logs.at(-1).auto_important == 1) {
-            setCallRequest(true)
+        if (client.is_call_me == 0) {
+            setReqCall(false)
         } else {
-            setCallRequest(false)
+            setReqCall(true)
         }
     }, [client])
+
 
     useEffect(() => {
         const comment = client.partnership_client_logs?.filter(el => el.is_manual == 1 && el.person_id !== 0 && el.comment !== '' && el.newsletter_id == 0 && el.is_sms == 0).at(-1)?.comment;
@@ -201,8 +202,6 @@ const ClientItem = ({ client, id, type }) => {
         }
     }, [client, updater]);
 
-    console.log(updater)
-
     const handleOpenTooltip = () => {
         setTooltip(true)
     }
@@ -255,7 +254,7 @@ const ClientItem = ({ client, id, type }) => {
 
     const handleOpenClient = () => {
         dispatch(setClientId(id));
-        localStorage.setItem('client_id', JSON.stringify(id));
+        console.log('нажал на строчку')
         navigate(`/leader/dashboard/experts/work/client=${id}`);
         if (client_id !== id) {
             localStorage.removeItem('widget');
@@ -269,59 +268,74 @@ const ClientItem = ({ client, id, type }) => {
     }
 
     return (
-        <div id={id} onMouseEnter={handleViewFavorite} onMouseLeave={handleHidenFavorite} className={`${s.item} ${anim && s.item_anim} ${(missedCall || callRequest) && s.item_attention} ${handOver && s.item_hover} ${handOverExpert !== '' && type !== 'fr' && s.item_dis}`}>
 
-            <div className={s.empty}>
-                {missedCall && <IconMissingCall />}
-                {callRequest && <Attention />}
-            </div>
-
-            <div onClick={handleOpenClient} className={s.client}>
-                <p>{client.name}</p> <span>{client.city}</span>
-            </div>
-
-
-            <div onClick={handleOpenClient} className={s.task}>
-                <p>{handleTaskTime(client.next_connect)}</p>
-                {client.next_connect == client.zoom_date && <div className={s.zoom}>
-                    <IconZoomSmall />
-                </div>}
-            </div>
-
-            <div onClick={handleOpenClient} className={s.task}>
-                <p>{handleDateDifference(client.last_connect)}</p> <span></span>
-            </div>
-
-            <div onClick={handleOpenClient} className={s.step}>
-                <div className={s.bars}>
-                    <div className={`${s.bar} ${status == 2.1 && s.bar_yellow} ${status >= 2.2 && s.bar_green}`}></div>
-                    <div className={`${s.bar}  ${status >= 3.2 && s.bar_green}`}></div>
-                    <div className={`${s.bar} ${status == 4.1 && s.bar_yellow} ${status == 4.2 && s.bar_red} ${status >= 4.3 && s.bar_green}`}></div>
-                    <div className={`${s.bar}  ${status == 6.1 && s.bar_red} ${status >= 6.2 && s.bar_green}`}></div>
-                    <div className={`${s.bar} ${status == 7.1 && s.bar_red} ${status >= 7.2 && s.bar_green}`}></div>
+        <div id={id} onMouseEnter={handleViewFavorite} onMouseLeave={handleHidenFavorite} className={`${s.item} ${anim && s.item_anim} ${reqCall && s.item_req} ${missedCall && s.item_attention} ${handOver && s.item_hover} ${handOverExpert !== '' && type !== 'fr' && s.item_dis}`}>
+            <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
+                <div className={s.empty}>
+                    {missedCall && <IconMissingCall />}
+                    {reqCall && <Attention />}
                 </div>
+            </Link>
 
-                <div className={s.step_text}>
-                    <p>{statusText}</p>
-
-                    <sup>{handleDateDifference(lastRoadDate)}</sup>
+            <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
+                <div onClick={handleOpenClient} className={s.client}>
+                    <p>{client.name}</p> <span>{client.city}</span>
                 </div>
+            </Link>
 
-            </div>
+            <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
+                <div className={s.task}>
+                    <p>{handleTaskTime(client.next_connect)}</p>
+                    {client.next_connect == client.zoom_date && client.next_connect !== '0000-00-00 00:00:00' && <div className={s.zoom}>
+                        <IconZoomSmall />
+                    </div>}
+                </div>
+            </Link>
+
+            <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
+                <div onClick={handleOpenClient} className={s.task}>
+                    <p>{handleDateDifference(client.last_connect)}</p> <span></span>
+                </div>
+            </Link>
+
+            <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
+                <div onClick={handleOpenClient} className={s.step}>
+                    <div className={s.bars}>
+                        <div className={`${s.bar} ${status == 2.1 && s.bar_yellow} ${status >= 2.2 && s.bar_green}`}></div>
+                        <div className={`${s.bar}  ${status >= 3.2 && s.bar_green}`}></div>
+                        <div className={`${s.bar} ${status == 4.1 && s.bar_yellow} ${status == 4.2 && s.bar_red} ${status >= 4.3 && s.bar_green}`}></div>
+                        <div className={`${s.bar}  ${status == 6.1 && s.bar_red} ${status >= 6.2 && s.bar_green}`}></div>
+                        <div className={`${s.bar} ${status == 7.1 && s.bar_red} ${status >= 7.2 && s.bar_green}`}></div>
+                    </div>
+
+                    <div className={s.step_text}>
+                        <p>{statusText}</p>
+
+                        <sup>{handleDateDifference(lastRoadDate)}</sup>
+                    </div>
+
+                </div>
+            </Link>
 
 
-            <a className={`${s.comment_link} ${type == 'fr' && s.comment_link_fr}`} href={`https://lk.skilla.ru/frmanager/req/?id=${id}`}>
-                {handOverExpert == '' && <div className={`${s.comment} ${type == 'fr' && s.comment_fr}`} onMouseEnter={handleOpenTooltip} onMouseLeave={handleCloseTooltip}>
+            <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`} className={`${s.comment_link} ${activeTabList == 1 && type !== 'fr' && s.comment_small} ${type == 'fr' && s.comment_link_fr}`}>
+                {handOverExpert == '' && <div className={`${s.comment} ${activeTabList == 1 && type !== 'fr' && s.comment_small} ${type == 'fr' && s.comment_fr}`} onMouseEnter={handleOpenTooltip} onMouseLeave={handleCloseTooltip}>
                     {lastComment !== '' && <IconComment />}
                     <p className={s.text}>{lastComment}</p>
-                    {lastComment.length > (type == 'fr' ? 25 : 45) && <div className={`${s.tooltip} ${tooltip && s.tooltip_open}`}>
+                    {lastComment.length > ((type == 'fr' || activeTabList == 1) ? 25 : 45) && <div className={`${s.tooltip} ${tooltip && s.tooltip_open}`}>
                         <p>{lastComment}</p>
                         <div></div>
                     </div>
                     }
                 </div>
                 }
-            </a>
+            </Link>
+
+            <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
+                <div className={`${s.source} ${activeTabList == 1 && type !== 'fr' && s.source_open}`}>
+                    <p>{client.from_site}</p>
+                </div>
+            </Link>
 
             {type !== 'fr' && <div className={`${s.favorite} ${!viewFavorite && !favorite && s.favorite_hiden}`}>
                 <IconStar onClick={handleFavorite} className={`${s.icon} ${!favorite && s.icon_active}`} />
@@ -329,16 +343,20 @@ const ClientItem = ({ client, id, type }) => {
             </div>
             }
 
-            {type == 'fr' && (client.manager !== 0 || handOverExpert !== '') && <p className={s.handover_name}>{handOverExpert !== '' ? handOverExpert : `${client?.has_manager?.name} ${client?.has_manager?.surname}`}</p>}
+            {type == 'fr' && (client.manager !== 0 || handOverExpert !== '') && <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
+                <p className={s.handover_name}>{handOverExpert !== '' ? handOverExpert : `${client?.has_manager?.name} ${client?.has_manager?.surname}`}</p>
+            </Link>
+            }
 
-            {(handOverExpert == '' || type == 'fr') && <div className={`${s.handover}`}>{/* <p>передать</p> */}<button onClick={handleOpenModal} className={`${s.button} ${!viewFavorite && s.button_hiden}`}><IconHandOver /></button>
+            {(handOverExpert == '' || type == 'fr') && handleDateDifference(lastRoadDate) !== 'Сегодня' && <div className={`${s.handover}`}>{/* <p>передать</p> */}<button onClick={handleOpenModal} className={`${s.button} ${!viewFavorite && s.button_hiden}`}><IconHandOver /></button>
                 {handOver && <div className={`${s.modal} ${handOver && s.modal_open}`}><HandOverClient id={id} setHandOver={setHandOver} /></div>}
             </div>
             }
 
             {handOverExpert !== '' && type !== 'fr' && <p className={s.handover_name}>{`${handOverExpert}`}</p>}
-        </div >
+        </div>
+
     )
 };
 
-export default ClientItem;
+export default memo(ClientItem);

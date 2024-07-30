@@ -33,7 +33,6 @@ const InputTel = ({ id, selectTel, setSelectTel, el }) => {
         const value = e.currentTarget.value;
         const regex = /[0-9]/g;
         const cleanValue = value?.match(regex)?.join('');
-        console.log(cleanValue)
         value && setValueTel(cleanValue);
     }
 

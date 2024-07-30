@@ -79,6 +79,15 @@ export function setDate() {
   return dateText;
 };
 
+
+export function dayToday() {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  return `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}`
+}
 export function setDateDay(dayr) {
   const date = new Date();
   const dayNum = date.getDate();
@@ -137,7 +146,7 @@ export function setDayOfWeek(data) {
     default:
   }
 
-  return { day, fMonth2, fDay, fDay2 };
+  return { day, fMonth2, fDay, fDay2, date: `${day < 10 ? `0${day}` : day}.${month + 1 < 10 ? `0${month + 1}` : month + 1}` };
 };
 
 export function monthAndWeek(num) {
@@ -233,6 +242,17 @@ export function сompareDateStart(el1, el2) {
   }
   return status;
 };
+
+export const handleWeekend = (d) => {
+  const date = new Date(d);
+  const dayWeek = date.getDay();
+  
+  if (dayWeek == 6 || dayWeek == 0) {
+    return true
+  } else {
+    return false
+  }
+}
 
 export function dateForModal(n) {
   const date = new Date(n);

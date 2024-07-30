@@ -126,3 +126,25 @@ export const addPause = (id, time) => {
     return instanceWithToken.post(`https://api2.skilla.ru/api/leader/managers/pause?id=${id}&minutes=${time}`);
 }
 
+
+//метрики 
+export const getMetricsSales = () => {
+    return instanceWithToken.get(`https://api2.skilla.ru/api/frmanager/metrics/sales`); 
+}
+
+export const getMetricsSteps = () => {
+    return instanceWithToken.get(`https://api2.skilla.ru/api/frmanager/metrics/steps`); 
+}
+
+//график качество оброботки трафика
+export const getTraficStatistics = (date, managerId) => {
+    return instanceWithToken.get(`https://api2.skilla.ru/api/frmanager/metrics/experts/traffic_quality?date=${date}&manager_id=${managerId}`); 
+}
+
+export const getProfileStatistics = (id) => {
+    return instanceWithToken.get(`https://api2.skilla.ru/api/leader/dashboard/statistics?manager_id=${id}`); 
+}
+
+
+
+

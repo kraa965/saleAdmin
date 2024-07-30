@@ -185,7 +185,6 @@ const WidgetPlan = ({ setWidget, setPrevWidget, type, planWithoutCall, setPlanTi
     }
 
     const handleEndWork = () => {
-        console.log(type, time, commentsForSend);
         const formData = new FormData();
         !planWithoutCall && formData.append('id', client_id);
         !planWithoutCall && formData.append('comment', commentsForSend.comment);

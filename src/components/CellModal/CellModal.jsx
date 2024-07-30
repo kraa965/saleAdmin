@@ -32,7 +32,9 @@ function CellModal({ type, setOpenModal, dark, id, name, surname, date, eventsLi
     const eventVacation = eventsDay.find(el => el.event_id === 12);
     const eventUnplanWeekend = eventsDay.find(el => el.event_id === 1);
     const role = document.getElementById('root_leader').getAttribute('role');
+
     console.log(eventsList)
+
     useEffect(() => {
         const allIdDay = eventsDay.map((el) => {
             return el.event_id

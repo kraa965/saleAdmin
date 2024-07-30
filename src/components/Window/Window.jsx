@@ -29,7 +29,8 @@ function Window({ role }) {
                 <Routes>
                 <Route path="/experts/work/*" element={<FrClientWork />} />
                     <Route path="/leader/dashboard/experts/work/*" element={<FrClientWork />} />
-                    <Route path="*" element={<ResultOverlay />} />
+                    <Route path="/leader/dashboard/myclients" element={<Clients />} />
+                    <Route path="/leader/dashboard/clients" element={<ClientsFrAll />} />
                     <Route path="/leader/dashboard/" element={<ResultOverlay />} />
                     <Route path="/leader/dashboard/sales" element={<Sales />} />
                     <Route path="/leader/dashboard/team" element={<Team />} />
@@ -38,8 +39,8 @@ function Window({ role }) {
                     <Route path="/leader/dashboard/metrics" element={<Metrics />} />
                     <Route path="/leader/dashboard/stock" element={<AppStock />} />
                     <Route path="/leader/dashboard/purchases" element={<AppPurchase />} />
-                    <Route path="/leader/dashboard/myclients" element={<Clients />} />
-                    <Route path="/leader/dashboard/clients" element={<ClientsFrAll />} />
+                  
+                    <Route path="*" element={<ResultOverlay />} />
 
                     {/* {menu === 'result' && <Result />}
                         {menu === 'sales' && <Sales />} */}

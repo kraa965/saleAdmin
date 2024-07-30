@@ -73,7 +73,6 @@ const WorkData = () => {
 
     const handleOpenPopup = (e) => {
         const id = e.currentTarget.id;
-        console.log(id)
         if (id == 'format' && !workFormatPopup) {
             setWorkFormatPopup(true);
             setWorkShudelPopup(false);

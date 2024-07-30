@@ -22,11 +22,10 @@ function FunnelSection({ number, next, planLine, nextPlanLine, currentPlanLine, 
             setAnim(true)
         }, 50 * (index + 1))
     }, [])
-    console.log(elWidth, elHeight, mark)
+
     useEffect(() => {
         const height = refSection.current.getBoundingClientRect().height;
         const width = refSection.current.getBoundingClientRect().width;
-        console.log(height, number)
         setElWidth(width);
         setElHeight(height)
         setSectionMark(height - number * height / 100);
@@ -58,7 +57,7 @@ function FunnelSection({ number, next, planLine, nextPlanLine, currentPlanLine, 
 
     useEffect(() => {
         const percent = number / currentPlanLine * 100;
-        console.log(percent)
+
         if (countList == 1) {
 
             if (percent <= 20) {
@@ -109,9 +108,7 @@ function FunnelSection({ number, next, planLine, nextPlanLine, currentPlanLine, 
 
     }, [number, currentPlanLine, countList, index]);
 
-    console.log(countList)
     function draw() {
-        console.log(canvasRef.current.current)
         if (canvasRef.current.getContext) {
             const ctx = canvasRef.current.getContext("2d");
             const ctxDotted = canvasRef.current.getContext("2d");
@@ -179,7 +176,6 @@ function FunnelSection({ number, next, planLine, nextPlanLine, currentPlanLine, 
     }
 
     function draw3() {
-        console.log(canvasRef.current.current)
         if (canvasRef.current.getContext) {
             const ctx = canvasRef.current.getContext("2d");
             const ctxDotted = canvasRef.current.getContext("2d");
@@ -247,7 +243,6 @@ function FunnelSection({ number, next, planLine, nextPlanLine, currentPlanLine, 
     }
 
     function draw2() {
-        console.log(canvasRef.current.current)
         if (canvasRef.current.getContext) {
             const ctx = canvasRef.current.getContext("2d");
 

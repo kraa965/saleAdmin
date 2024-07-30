@@ -4,13 +4,15 @@ import Window from '../Window/Window';
 import { useDispatch, useSelector } from 'react-redux';
 import { menuSelector } from '../../store/reducer/menu/selector';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import icon from '../../image/iconCalendar.svg';
 import { setDark } from '../../store/reducer/menu/slice';
 //Api
 import { getTeam } from '../../Api/Api';
 //slice
 import { setExperts } from '../MyClientsFRmanager/store/reducer/Experts/slice';
+//selector
+import { selectorClient } from '../FrClientWork/store/reducer/Client/selector';
 
 function App() {
   window.ondrop = (e) => {
@@ -20,10 +22,14 @@ function App() {
   const role = document.getElementById('root_leader').getAttribute('role');
   const menu = useSelector(menuSelector).menu;
   const dark = useSelector(menuSelector).dark;
+  const nameClient = useSelector(selectorClient).client_name;
+  const cityClient = useSelector(selectorClient).client_city;
   const [theme, setTheme] = useState(JSON.parse(localStorage.getItem('theme')) || 'light');
   const location = useLocation();
   const path = location?.pathname;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     if (dark) {
@@ -38,9 +44,27 @@ function App() {
   document.documentElement.dataset.theme = theme;
 
   useEffect(() => {
-
+    const currentUrl = window.location.href;
     if (path == '/') {
       document.title = 'Дашборд';
+      return
+    }
+
+    if (path == '') {
+      document.title = '...';
+      return
+    }
+
+    if (path.includes('/work/client=')) {
+      document.title = `...`;
+      setTimeout(() => {
+        document.title = `${nameClient} ${cityClient}`;
+      }, 100)
+      return
+    }
+
+    if (currentUrl.includes('/?id=')) {
+      document.title = `${nameClient} ${cityClient}`;
       return
     }
 
@@ -83,7 +107,7 @@ function App() {
       document.title = `Клиенты`;
       return
     }
-  }, [path]);
+  }, [path, nameClient]);
 
   //получаем список экспертов
   useEffect(() => {

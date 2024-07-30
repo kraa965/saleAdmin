@@ -50,6 +50,10 @@
     flex-shrink: 0;
     overflow: hidden;
 
+    p {
+        transition: all 0.2s;
+    }
+
     sup {
         font-size: 12px;
         font-weight: 400;
@@ -58,7 +62,10 @@
         opacity: 0.5;
         margin-left: 4px;
         margin-top: 6px;
-        transition: all 0.2s;
+        transition: all 0.5s;
+        max-width: 30px;
+        width: fit-content;
+        opacity: 1;
     }
 
     &:hover {
@@ -68,6 +75,7 @@
     &_active {
         color: var(--color-text-primary);
         background-color: var(--color-bg-daily);
+        ;
 
         sup {
             opacity: 0.8;
@@ -83,6 +91,13 @@
 
         p {
             opacity: 0.6;
+        }
+
+        sup {
+            width: 0;
+            max-width: 0;
+            opacity: 0;
+            margin-left: 0;
         }
     }
 
@@ -180,4 +195,108 @@
             visibility: visible;
         }
     }
+}
+
+.managers {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 8px;
+    min-height: 28px;
+}
+
+.expert {
+    padding: 0 12px 0 0;
+    border-radius: 16px;
+    background-color: var(--color-bg-card);
+    height: 28px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    /*  box-shadow: var(--box-shadow3); */
+    user-select: none;
+
+    cursor: pointer;
+    transition: all 0.15s;
+
+    &:hover {
+        box-shadow: var(--box-shadow2);
+    }
+
+    p {
+        font-size: 14px;
+        color: var(--color-text-secondary);
+    }
+
+    &_active {
+        box-shadow: var(--box-shadow2);
+        background-color: var(--color-bg-card-new);
+
+        p {
+            color: var(--color-text-primary);
+        }
+    }
+
+    &_disabled {
+        pointer-events: none;
+    }
+}
+
+.avatar {
+    width: auto;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        margin-left: -1px;
+        margin-right: -1px;
+        width: 110%;
+        height: 110%;
+    }
+}
+
+.button {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-button-accent);
+    cursor: pointer;
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.15s;
+
+    svg {
+        margin-top: 2px;
+        height: 14px;
+        width: 14px;
+
+        path {
+            fill: var(--color-button-accent);
+            transition: all 0.15s;
+        }
+    }
+
+    &:hover {
+        color: var(--color-button-accent-hover);
+
+        svg path {
+            fill: var(--color-button-accent-hover);
+        }
+    }
+
+    &_hiden {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+.loader {
+    position: absolute;
+    bottom: -56px;
+    left: 48%;
 }

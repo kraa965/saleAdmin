@@ -46,23 +46,26 @@ const EditCard = ({ setAddWindow, setAnim, manager, restoreWindow }) => {
     const [login, setLogin] = useState(manager.login || '');
     const [password, setPassword] = useState('');
     const [comment, setComment] = useState(manager.comment || '');
-    const [shedule1, setShedule1] = useState(1);
-    const [shedule2, setShedule2] = useState(JSON.parse(localStorage.getItem('shedule2')) || 1);
-    const [shedule3, setShedule3] = useState(JSON.parse(localStorage.getItem('shedule3')) || 1);
+    const [shedule1, setShedule1] = useState({});
+    const [shedule2, setShedule2] = useState({});
+    const [shedule3, setShedule3] = useState({});
     const [offense, setOffense] = useState(0);
     const [error, setError] = useState('');
     const managerUpdate = useSelector(mangerUpdateSelector).managerUpdate;
     const managerUpdateAvatar = useSelector(mangerUpdateSelector).managerUpdateAvatar;
     const dispatch = useDispatch()
-    console.log(manager)
 
     useEffect(() => {
         setSave(false)
     }, []);
 
-   /*  useEffect(() => {
-        setPassword(manager.password_vis) 
-    }, [manager]) */
+    useEffect(() => {
+        setSex(manager.sex)
+    }, [manager])
+
+    /*  useEffect(() => {
+         setPassword(manager.password_vis) 
+     }, [manager]) */
 
     useEffect(() => {
         setError('')
@@ -80,36 +83,41 @@ const EditCard = ({ setAddWindow, setAnim, manager, restoreWindow }) => {
         }
     }, [managerUpdate])
 
-    console.log(manager.work_schedule_graph)
 
     useEffect(() => {
         manager.work_schedule_graph.forEach((el, i) => {
 
             if (manager.work_schedule_graph.length == 1) {
-                setShedule1(el.work_schedule_id)
-                setShedule2(el.work_schedule_id)
-                setShedule3(el.work_schedule_id)
+                setShedule1(el)
+                setShedule2(el)
+                setShedule3(el)
+                return
             }
             if (manager.work_schedule_graph.length == 2 && i == 0) {
-                setShedule1(el.work_schedule_id)
+                setShedule1(el)
+                return
             }
 
             if (manager.work_schedule_graph.length == 2 && i == 1) {
-                setShedule2(el.work_schedule_id)
-                setShedule3(el.work_schedule_id)
+                setShedule2(el)
+                setShedule3(el)
+                return
             }
 
             if (manager.work_schedule_graph.length == 3 && i == 0) {
-                setShedule1(el.work_schedule_id)
+                setShedule1(el)
+                return
             }
 
             if (manager.work_schedule_graph.length == 3 && i == 1) {
-                setShedule2(el.work_schedule_id)
+                setShedule2(el)
+                return
             }
 
 
             if (manager.work_schedule_graph.length == 3 && i == 2) {
-                setShedule3(el.work_schedule_id)
+                setShedule3(el)
+                return
             }
         })
     }, [manager])
@@ -133,7 +141,6 @@ const EditCard = ({ setAddWindow, setAnim, manager, restoreWindow }) => {
         }
 
         if (id == '2') {
-            console.log(id)
             setPositionMain(-482);
             return
         }
@@ -203,14 +210,23 @@ const EditCard = ({ setAddWindow, setAnim, manager, restoreWindow }) => {
         comment !== '' && formData.append('comment', comment)
         /* formData.append('is_remote', workerInfo.format) */
         /*   formData.append('manager_start_date', workerInfo.startDate) */
-        formData.append('work_schedule_id', shedule2)
-        formData.append('next_work_schedule_id', shedule3)
+     /*    formData.append('work_schedule_id', shedule2)
+        formData.append('next_work_schedule_id', shedule3) */
+
+        shedule2.work_schedule_id == 1 && formData.append('work_schedule_id', 1);
+        shedule2.work_schedule_id == 2 && formData.append('work_schedule_id', 2);
+        shedule2.time_start && formData.append('work_time_start', shedule2.time_start.slice(0, 5));
+        shedule2.time_end && formData.append('work_time_end', shedule2.time_end.slice(0, 5));
+
+        shedule3.work_schedule_id == 1 && formData.append('next_work_schedule_id', 1);
+        shedule3.work_schedule_id == 2 && formData.append('next_work_schedule_id', 2);
+        shedule3.time_start && formData.append('next_time_start', shedule3.time_start.slice(0, 5));
+        shedule3.time_end && formData.append('next_time_end', shedule3.time_end.slice(0, 5));
+
         avatarFile.file && formData.append('avatar_mini', avatarFile.fileSend, avatarFile.name)
-        console.log(name, surName, sex, tel, hbDate, mango, login, password, shedule2, shedule3, avatarFile, comment)
 
         editManager(formData)
             .then(res => {
-                console.log(res)
                 const manager = res.data.manager;
                 dispatch(setManagerUpdate(manager));
                 dispatch(setManagerUpdateAvatar(avatarFile.file ? avatarFile.file : avatar));
@@ -234,7 +250,6 @@ const EditCard = ({ setAddWindow, setAnim, manager, restoreWindow }) => {
         setLoad(true)
         restoreManager({ id: manager.id, manager_start_date: manager.manager_start_date, from_base: true })
             .then(res => {
-                console.log(res);
                 handleClose();
 
                 setTimeout(() => {

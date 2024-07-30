@@ -7,7 +7,7 @@ const Bar = ({ id, el, step, dark }) => {
     const [tooltip, setTooltip] = useState(false);
     const lastStudyLog = step == 2 ? id == 2 && el.data.logs?.slice(0, 1)[0] : false;
    const trainingRegistrReq = lastStudyLog && !handleCompareDate(lastStudyLog.comment.slice(-11)) ? true : false;
-  console.log(lastStudyLog && lastStudyLog.comment.slice(-11))
+
 
     const handleOpenTooltip = () => {
         setTooltip(true);

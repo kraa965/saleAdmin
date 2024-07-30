@@ -136,6 +136,7 @@
     transition: all 0.3s;
     overflow: hidden;
     z-index: 2;
+    overflow: auto;
 
     &_open {
         max-height: 400px;

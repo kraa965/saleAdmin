@@ -3,16 +3,23 @@ import s from './ProfileModal.module.scss';
 import { ReactComponent as IconClose } from '../../image/iconCloseModal.svg';
 import { ReactComponent as IconArrowInput } from '../../image/iconArrowInput.svg';
 //API
-import { addPause } from '../../Api/Api';
+import { addPause, addEvent } from '../../Api/Api';
 //component
 import LoaderButton from '../LoaderButton/LoaderButton';
+//constants
+import { evenstList } from '../../constants/eventsList';
+//utils
+import { dayToday } from '../../utils/dates';
 
 function ProfileModal({ id, modalRef, setOpenModal, type, dark, setTimer, setPauseUpdate }) {
     const [anim, setAnim] = useState(false);
     const [value, setValue] = useState('');
+    const [eventId, setEventId] = useState(0);
     const [timeValue, setTimeValue] = useState(0);
     const [openInput, setOpenInput] = useState(false);
     const [load, setLoad] = useState(false);
+    const dateToday = dayToday();
+    console.log(dateToday)
 
     useEffect(() => {
         setAnim(true)
@@ -33,16 +40,25 @@ function ProfileModal({ id, modalRef, setOpenModal, type, dark, setTimer, setPau
 
     function handleInputValue(e) {
         const id = e.currentTarget.id;
+        setEventId(id)
+        const value = evenstList.find(el => el.id == id).name;
+        setValue(value)
 
-        if (id === '1') {
-            setValue('Опоздание на планерку');
-            return
-        }
     }
 
     function handleTimeInput(e) {
         const id = e.currentTarget.id;
         setTimeValue(id * 10)
+    }
+
+    function handleAddEvent() {
+        setLoad(true)
+        addEvent(dateToday, id, eventId)
+        .then(res => {
+            setLoad(false);
+            setOpenModal(false)
+        })
+        .catch(err => console.log(err))
     }
 
     function handleAddPause() {
@@ -59,7 +75,7 @@ function ProfileModal({ id, modalRef, setOpenModal, type, dark, setTimer, setPau
 
     return (
         <div className={s.window}>
-            <div ref={modalRef} className={`${s.modal} ${dark && s.modal_dark} ${anim && s.modal_anim}`}>
+            <div ref={modalRef} className={`${s.modal} ${type === 'event' && s.modal_event} ${dark && s.modal_dark} ${anim && s.modal_anim}`}>
                 <div className={s.header}>
                     {type === 'resort' && <p className={s.title}>Время отдыха</p>}
                     {type === 'event' && <p className={s.title}>Новое событие</p>}
@@ -75,9 +91,12 @@ function ProfileModal({ id, modalRef, setOpenModal, type, dark, setTimer, setPau
                             <input value={value || ''} placeholder='Выберите событие' type='text' disabled></input>
                             <IconArrowInput />
                             <div className={`${s.list} ${dark && s.list_dark} ${openInput && s.list_open}`}>
-                                <div onClick={handleInputValue} id='1' className={`${s.item} ${dark && s.item_dark}`}>
-                                    <p>Опоздание на планерку</p>
-                                </div>
+                                {evenstList.map(el => {
+                                    return <div key={el.id} onClick={handleInputValue} id={el.id} className={`${s.item} ${dark && s.item_dark}`}>
+                                        <p>{el.name}</p>
+                                    </div>
+                                })}
+
                             </div>
                         </div>
                     }
@@ -92,7 +111,7 @@ function ProfileModal({ id, modalRef, setOpenModal, type, dark, setTimer, setPau
 
                 </div>
 
-                {type === 'event' && <button className={`${s.button} ${value == '' && !dark && s.button_dis} ${value == '' && dark && s.button_dis_dark}`}>Сохранить</button>}
+                {type === 'event' && <button onClick={handleAddEvent} className={`${s.button} ${value == '' && !dark && s.button_dis} ${value == '' && dark && s.button_dis_dark}`}>Сохранить {load && <LoaderButton color={'#ffff'} />}</button>}
                 {type === 'resort' && <button onClick={handleAddPause} className={`${s.button} ${timeValue == '' && !dark && s.button_dis} ${timeValue == '' && dark && s.button_dis_dark}`}>Сохранить {load && <LoaderButton color={'#ffff'} />}</button>}
             </div>
         </div>

@@ -10,6 +10,7 @@ import Widget from '../Widget/Widget';
 import Anketa from '../Anketa/Anketa';
 import CityPartners from '../CityPartners/CityPartners';
 import Scenario from '../Scenario/Scenario';
+import Messenger from '../Messenger/Messenger';
 //selector 
 import { selectorApp } from '../../store/reducer/App/selector';
 import { selectorClient } from '../../store/reducer/Client/selector';
@@ -21,7 +22,6 @@ const Work = ({ scenario }) => {
     const [loadVisible, setLoadVisible] = useState(true);
     const loadClient = useSelector(selectorApp).loadClient;
     const openAnketa = useSelector(selectorWork).anketaOpen;
-    console.log(loadClient)
 
     useEffect(() => {
         setTimeout(() => {
@@ -59,7 +59,10 @@ const Work = ({ scenario }) => {
             </div>
             <div className={`${s.block} ${s.block_right}`}>
                 <CallPlan loadClose={loadClose} loadVisible={loadVisible} />
-                <Widget loadClose={loadClose} />
+                <div className={s.conteiner}>
+                    <Widget loadClose={loadClose} />
+                    <Messenger loadClose={loadClose} theme={JSON.parse(localStorage.getItem('theme'))} callButtonAdd={false} />
+                </div>
             </div>
             <div className={`${s.block} ${s.block_city}`}>
                 <CityPartners />

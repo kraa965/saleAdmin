@@ -102,7 +102,6 @@ const ClientEdit = ({ handleOpenList, openList, setOpenList, setEditOpen, stage 
     const handleSave = () => {
         const phones = client_numbers.filter(el => el !== client_main_number);
         
-        console.log(phones)
         setLoad(true)
         const data = {
             id: client_id,
@@ -113,11 +112,8 @@ const ClientEdit = ({ handleOpenList, openList, setOpenList, setEditOpen, stage 
             phone2: phones[0] ? phones[0] : '',
             phone3: phones[1] ? phones[1] : '',
         }
-        console.log(data)
         editClient(data)
             .then(res => {
-                console.log(res);
-
                 setTimeout(() => {
                     setLoad(false);
                 }, 200)

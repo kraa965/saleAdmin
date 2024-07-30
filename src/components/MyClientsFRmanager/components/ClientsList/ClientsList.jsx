@@ -129,10 +129,10 @@ const ClientsList = ({ activeTab }) => {
         if (activeTabList == 2 && clientsTodayPath && clientsTodayPath !== '') {
             console.log('условие выполнилось')
             setLoad(true);
-            getMyClientsPagination(clientsTodayPath, 'today', 'leader_expert')
+            getMyClientsPagination(clientsTodayPath, 'today', 'default')
                 .then(res => {
                     console.log(res);
-                    const data = res.data;
+                    const data = res.data.data;
 
                     dispatch(setTodayNextPage(data.next_page_url));
                     setTimeout(() => {
@@ -148,10 +148,10 @@ const ClientsList = ({ activeTab }) => {
         if (activeTabList == 1 && clientsNewPath && clientsNewPath !== '') {
             console.log('условие выполнилось')
             setLoad(true);
-            getMyClientsPagination(clientsNewPath, 'new', 'default')
+            getMyClientsPagination(clientsNewPath, 'new', 'leader_expert')
                 .then(res => {
                     console.log(res);
-                    const data = res.data;
+                    const data = res.data.data;
 
                     dispatch(setNewNextPage(data.next_page_url));
                     setTimeout(() => {
@@ -170,13 +170,13 @@ const ClientsList = ({ activeTab }) => {
             getMyClientsPagination(planNextPage, 'plan_meeting', 'default')
                 .then(res => {
                     console.log(res);
-                    const data = res.data;
+                    const data = res.data.data;
 
                     dispatch(setPlanNextPage(data.next_page_url));
                     setTimeout(() => {
                         dispatch(setPlanMeetingAdd(data.data));
                         setLoad(false);
-                    }, 400)
+                    }/* , 400 */)
 
                 })
                 .catch(err => console.log(err));
@@ -186,7 +186,6 @@ const ClientsList = ({ activeTab }) => {
 
     const scrollLoad = () => {
         const load = listRef?.current?.getBoundingClientRect()?.bottom - window.innerHeight < 800;
-        console.log(load)
         load && handleNextPageLoad();
     }
 
@@ -248,7 +247,7 @@ const ClientsList = ({ activeTab }) => {
                         </div>
                     </div>
                 </div>
-                <ClientTable clients={clients} activeTab={activeTab} activeTabList={activeTabList} />
+                <ClientTable clients={clients} activeTab={activeTab} activeTabList={activeTabList}/>
                 {load && <AnimEnd />}
             </div>
             {activeTabList == 1 && <ClientTableSceleton load={myClients.loadNew} />}

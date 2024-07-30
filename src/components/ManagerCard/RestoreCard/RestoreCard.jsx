@@ -38,7 +38,7 @@ const EditCard = ({ setAddWindow, setAnim, manager }) => {
     const managerUpdate = useSelector(addWorkSelector).managerUpdate;
     const managerUpdateAvatar = useSelector(addWorkSelector).managerUpdateAvatar;
     const dispatch = useDispatch()
-    console.log(avatar, avatarFile.file)
+
 
     useEffect(() => {
         setSave(false)
@@ -111,7 +111,6 @@ const EditCard = ({ setAddWindow, setAnim, manager }) => {
         }
 
         if (id == '2') {
-            console.log(id)
             setPositionMain(-482);
             return
         }

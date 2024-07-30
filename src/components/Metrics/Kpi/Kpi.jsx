@@ -52,7 +52,6 @@ function Kpi() {
         const value = e.target.value;
         if (id === 'bp' && value <= 10000) {
             setBpValue(value);
-            console.log(value)
             return
         }
 

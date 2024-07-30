@@ -14,7 +14,7 @@ const initialState = {
 	startDate: JSON.parse(localStorage.getItem('startDateManager')) || '',
 	shedule: JSON.parse(localStorage.getItem('shedule')) || 1,
 	shedule2: JSON.parse(localStorage.getItem('shedule2')) || 1,
-	photo: JSON.parse(localStorage.getItem('photo')) || {},
+	photo: /* JSON.parse(localStorage.getItem('photo')) || */ {},
 };
 
 const addWorkSlice = createSlice({

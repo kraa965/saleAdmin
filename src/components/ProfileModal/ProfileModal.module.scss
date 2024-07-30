@@ -33,6 +33,10 @@
     &_dark {
         background-color: #091525;
     }
+
+    &_event {
+        width: 560px;
+    }
 }
 
 .header {
@@ -132,10 +136,13 @@
     margin-top: -13px;
     height: 0;
     overflow: hidden;
-    transition: all 0.15s;
+    max-height: 0;
+    height: fit-content;
+    transition: all 0.25s;
 
     &_open {
-        height: 100px;
+        overflow: auto;
+        max-height: 400px;
     }
 
     &_dark {

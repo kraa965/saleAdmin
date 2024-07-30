@@ -62,7 +62,7 @@ const OfficeItem = ({ office, openOffice, setOpenOffice }) => {
         setTooltip(false)
     }
 
-    
+
 
     return (
         <div id={office.id} className={`${s.container} ${office.id == openOffice && s.container_open}`}>
@@ -74,7 +74,7 @@ const OfficeItem = ({ office, openOffice, setOpenOffice }) => {
                     </div>
                 </div>
                 <div className={s.adress}>
-                    <p>{office?.office_adress}</p>
+                    <p>{office.name}</p>
                     <span>с {handleDatePartnerOffice(office.start_month)} {office.start_year}</span>
                 </div>
                 <div className={`${s.arrow} ${office.id == openOffice && s.arrow_open}`}>
@@ -83,16 +83,25 @@ const OfficeItem = ({ office, openOffice, setOpenOffice }) => {
             </div>
 
             <div className={s.content}>
+
+                {office?.office_adress !== '' && <div className={s.block}>
+                    <p className={s.sub}>Адрес офиса</p>
+                    <p className={s.text}>{office?.office_adress}</p>
+                </div>
+                }
                 <div className={s.block}>
                     <div className={s.block_sub}>
                         <p className={s.sub}>Данные партнера</p>
                         {/* <a><p>Кейс на skilla.ru</p> <IconAttach /></a> */}
                     </div>
                     <p className={s.text}>{office.signature}</p>
-                    <p className={s.text}>{office.name} ИНН {office.inn}</p>
+                    <p className={s.text}>{office.name} <br></br><span className={s.text_small}>ИНН {office.inn}</span></p>
+                    {office.additionals.map((el) => {
+                        return <p className={s.text}>{el.name}<br></br><span className={s.text_small}>ИНН {el.inn}</span></p>
+                    })}
                 </div>
                 {office?.companies?.length > 0 && <div className={s.block}>
-                    <p className={s.sub}>Ключевые заказчики</p>
+                    <p className={s.sub}>Крупнейшие заказчики</p>
                     <ul className={`${s.list} ${s.list_company}`}>
                         {company.map((el) => {
                             return <Company el={el} />

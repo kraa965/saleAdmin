@@ -14,71 +14,73 @@ const WorkData = ({ shedule1, shedule2, shedule3, setShedule2, setShedule3, ip, 
     const modalRef = useRef();
     const modalRef2 = useRef();
     const role = document.getElementById('root_leader').getAttribute('role');
-    console.log(offense)
+    console.log(shedule1, shedule2, shedule3)
 
     useEffect(() => {
-        if (shedule1 == 1) {
+        if (shedule1.work_schedule_id == 1 && shedule1.time_start.slice(0, 5) == '10:00') {
             setValueShedule('5/2 (10:00-19:00)');
             return
         }
 
-        if (shedule1 == 2) {
-            setValueShedule('2/2 (8:00-20:00)');
-            return
-        }
-
-        if (shedule1 == 3) {
+        if (shedule1.work_schedule_id == 1 && shedule1.time_start.slice(0, 5) == '09:00') {
             setValueShedule('5/2 (9:00-18:00)');
             return
         }
 
-        if (shedule1 == 4) {
+        if (shedule1.work_schedule_id == 1 && shedule1.time_start.slice(0, 5) == '08:00') {
             setValueShedule('5/2 (8:00-17:00)');
             return
         }
+
+        if (shedule1.work_schedule_id == 2) {
+            setValueShedule('2/2 (8:00-20:00)');
+            return
+        }
+
+
     }, [shedule1]);
 
     useEffect(() => {
-        if (shedule2 == 1) {
+        if (shedule2.work_schedule_id == 1 && shedule2.time_start.slice(0, 5) == '10:00') {
             setValueShedule2('5/2 (10:00-19:00)');
             return
         }
 
-        if (shedule2 == 2) {
-            setValueShedule2('2/2 (8:00-20:00)');
-            return
-        }
-
-        if (shedule2 == 3) {
+        if (shedule2.work_schedule_id == 1 && shedule2.time_start.slice(0, 5) == '09:00') {
             setValueShedule2('5/2 (9:00-18:00)');
             return
         }
 
-        if (shedule2 == 4) {
+        if (shedule2.work_schedule_id == 1 && shedule2.time_start.slice(0, 5) == '08:00') {
             setValueShedule2('5/2 (8:00-17:00)');
+            return
+        }
+
+        if (shedule2.work_schedule_id == 2) {
+            setValueShedule2('2/2 (8:00-20:00)');
             return
         }
     }, [shedule2]);
 
 
     useEffect(() => {
-        if (shedule3 == 1) {
+        if (shedule3.work_schedule_id == 1 && shedule3.time_start.slice(0, 5) == '10:00') {
             setValueShedule3('5/2 (10:00-19:00)');
             return
         }
 
-        if (shedule3 == 2) {
-            setValueShedule3('2/2 (8:00-20:00)');
-            return
-        }
-
-        if (shedule3 == 3) {
+        if (shedule3.work_schedule_id == 1 && shedule3.time_start.slice(0, 5) == '09:00') {
             setValueShedule3('5/2 (9:00-18:00)');
             return
         }
 
-        if (shedule3 == 4) {
+        if (shedule3.work_schedule_id == 1 && shedule3.time_start.slice(0, 5) == '08:00') {
             setValueShedule3('5/2 (8:00-17:00)');
+            return
+        }
+
+        if (shedule3.work_schedule_id == 2) {
+            setValueShedule3('2/2 (8:00-20:00)');
             return
         }
     }, [shedule3]);
@@ -104,14 +106,83 @@ const WorkData = ({ shedule1, shedule2, shedule3, setShedule2, setShedule3, ip, 
     const handleSelectSheduel = (e) => {
         const id = e.currentTarget.id;
         localStorage.setItem('shedule2', JSON.stringify(id));
-        setShedule2(id);
+        if (id == 1) {
+            setShedule2({
+                time_end: "19:00",
+                time_start: "10:00",
+                work_schedule_id: 1
+            });
+            return
+        }
+
+        if (id == 2) {
+            setShedule2({
+                time_end: "08:00",
+                time_start: "20:00",
+                work_schedule_id: 2
+            });
+            return
+        }
+
+        if (id == 3) {
+            setShedule2({
+                time_end: "18:00",
+                time_start: "09:00",
+                work_schedule_id: 1
+            });
+            return
+        }
+
+        if (id == 4) {
+            setShedule2({
+                time_end: "17:00",
+                time_start: "08:00",
+                work_schedule_id: 1
+            });
+            return
+        }
         setList1(false);
     }
 
     const handleSelectSheduel2 = (e) => {
         const id = e.currentTarget.id;
         localStorage.setItem('shedule3', JSON.stringify(id));
-        setShedule3(id);
+
+        if (id == 1) {
+            setShedule3({
+                time_end: "19:00",
+                time_start: "10:00",
+                work_schedule_id: 1
+            });
+            return
+        }
+
+        if (id == 2) {
+            setShedule3({
+                time_end: "08:00",
+                time_start: "20:00",
+                work_schedule_id: 2
+            });
+            return
+        }
+
+        if (id == 3) {
+            setShedule3({
+                time_end: "18:00",
+                time_start: "09:00",
+                work_schedule_id: 1
+            });
+            return
+        }
+
+        if (id == 4) {
+            setShedule3({
+                time_end: "17:00",
+                time_start: "08:00",
+                work_schedule_id: 1
+            });
+            return
+        }
         setList2(false);
     }
 
@@ -131,8 +202,8 @@ const WorkData = ({ shedule1, shedule2, shedule3, setShedule2, setShedule3, ip, 
     }, []);
     return (
         <div className={s.data}>
-            <div style={{ marginBottom: '30px' }} className={s.container_string}>
-                <div className={s.block}>
+            <div style={{ marginBottom: '30px' }} className={s.container_shedule}>
+                <div className={s.block_3}>
                     <p className={s.sub}>{handleMonth(0)}</p>
                     <div id='1' className={`${s.select} ${s.select_dis}`}>
                         <input value={valueShedule || ''} className={`${s.input} ${s.input_select}`} placeholder='' type='text'></input>
@@ -140,7 +211,7 @@ const WorkData = ({ shedule1, shedule2, shedule3, setShedule2, setShedule3, ip, 
                     </div>
                 </div>
 
-                <div className={s.block}>
+                <div className={s.block_3}>
                     <p className={s.sub}>{handleMonth(1)}</p>
                     <div ref={modalRef} id='2' onClick={handleOpenList} className={`${s.select} ${list1 && s.select_open}`}>
                         <input onClick={handleOpenList} value={valueShedule2 || ''} className={`${s.input} ${s.input_select}`} placeholder='' type='text'></input>
@@ -154,7 +225,7 @@ const WorkData = ({ shedule1, shedule2, shedule3, setShedule2, setShedule3, ip, 
                     </div>
                 </div>
 
-                <div className={s.block}>
+                <div className={s.block_3}>
                     <p className={s.sub}>{handleMonth(2)}</p>
                     <div ref={modalRef2} id='3' onClick={handleOpenList2} className={`${s.select} ${list2 && s.select_open}`}>
                         <input onClick={handleOpenList2} value={valueShedule3 || ''} className={`${s.input} ${s.input_select}`} placeholder='' type='text'></input>

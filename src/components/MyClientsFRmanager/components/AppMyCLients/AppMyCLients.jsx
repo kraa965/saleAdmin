@@ -5,10 +5,6 @@ import { useLocation } from 'react-router-dom';
 import Container from '../Container/Container';
 import { useDispatch } from 'react-redux';
 
-import { getTeam } from '../../../../Api/Api'
-
-
-import { setExperts } from '../../store/reducer/Experts/slice';
 
 const AppMyCLients = () => {
     const [sidebarHiden, setSideBarHiden] = useState(false);

@@ -103,7 +103,7 @@ function FileLoaderCircle({ file, setFile, type }) {
        
     }
 
-  console.log(stage, anim)
+
     return (
         <div onDragOver={fonDragOver} onDragEnter={handleDrag} onDragLeave={handleDragLeave} className={`${s.files} ${type == 'edit' && s.files_edit}`}>
             {stage == 'loader' &&

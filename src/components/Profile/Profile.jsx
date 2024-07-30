@@ -1,17 +1,39 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, memo } from 'react';
 import s from './Profile.module.scss';
 import { ReactComponent as IconClose } from '../../image/iconCloseModal.svg';
 import GraphProfile from '../GraphProfile/GraphProfile';
 import WorkTime from '../WorkTime/WorkTime';
 import ProfileModal from '../ProfileModal/ProfileModal';
 import { ReactComponent as IconPlus } from '../../image/iconPlus.svg';
+//API
+import { getProfileStatistics } from '../../Api/Api';
 
-function Profile({ setOpenProfile, name, surname, id, avatar, level, dark, type, setTimer, setPauseUpdate }) {
+
+
+function Profile({ setOpenProfile, name, surname, id, avatar, level, dark, type, setTimer, setPauseUpdate, bpPlan, shedule }) {
     const [anim, setAnim] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [modalType, setModalType] = useState('');
-    const role = document.getElementById('root_leader').getAttribute('role');
+    const [load, setLoad] = useState(true);
+    const [newClient, setNewClient] = useState({});
+    const [newClientTotal, setNewClientTotal] = useState([]);
+    const [call, setCall] = useState({});
+    const [callTotal, setCallTotal] = useState([]);
+    const [zoom, setZoom] = useState({});
+    const [zoomTotal, setZoomTotal] = useState([]);
+    const [anketa, setAnketa] = useState({});
+    const [anketaTotal, setAnketaTotal] = useState([]);
+    const [reject, setReject] = useState([]);
+    const [rejectTotal, setRejectTotal] = useState([]);
+    const [event, setEvent] = useState([]);
+    const [eventTotal, setEventTotal] = useState([]);
+    const [lk, setLk] = useState([]);
+    const [lkTotal, setLkTotal] = useState([]);
+    const [bp, setBp] = useState([]);
+    const [bpTotal, setBpTotal] = useState([]);
 
+    const role = document.getElementById('root_leader').getAttribute('role');
+   console.log(event)
     const profileRef = useRef();
     const modalRef = useRef();
 
@@ -20,6 +42,52 @@ function Profile({ setOpenProfile, name, surname, id, avatar, level, dark, type,
             setAnim(true)
         }, 100);
     }, []);
+
+    useEffect(() => {
+        document.body.style.overflow = "hidden";
+        document.body.style.paddingRight = "8px";
+        return () => {
+            document.body.style.overflow = "auto";
+            document.body.style.paddingRight = "0";
+        };
+    }, []);
+
+
+    useEffect(() => {
+        setLoad(true)
+        getProfileStatistics(id)
+            .then(res => {
+                console.log(res)
+                const data = res.data.data;
+                const expert = data.experts;
+                const consultant = data.consultants;
+                setNewClient(expert.receive_new_clients.dates);
+                setNewClientTotal(expert.receive_new_clients.total);
+                setCall(expert.calls.dates);
+                setCallTotal(expert.calls.total);
+                setZoom(expert.zoom_finish.dates);
+                setZoomTotal(expert.zoom_finish.total);
+                setAnketa(expert.anketa_send.dates);
+                setAnketaTotal(expert.anketa_send.total);
+
+                setReject(expert.clients_reject.dates);
+                setRejectTotal(expert.clients_reject.total);
+
+                setEvent(expert.discipline.dates);
+                setEventTotal(expert.discipline.total);
+
+                setLk(consultant.login_lk.dates);
+                setLkTotal(consultant.login_lk.total);
+
+                setBp(consultant.open_bp.dates);
+                setBpTotal(consultant.open_bp.total);
+
+                setTimeout(() => {
+                    setLoad(false)
+                }, 100)
+            })
+            .catch(err => console.log(err))
+    }, [type, id]);
 
     function handleClose() {
         setAnim(false)
@@ -95,22 +163,29 @@ function Profile({ setOpenProfile, name, surname, id, avatar, level, dark, type,
                     </div>
                 </div>
                 <div className={s.container_graph}>
+                    <GraphProfile dark={dark} type={'new'} indicator={newClient} indicatorTotal={newClientTotal} load={load} planDay={-10} shedule={shedule}/>
+                    <GraphProfile dark={dark} type={'call'} indicator={call} indicatorTotal={callTotal} load={load} planDay={30} shedule={shedule}/>
+                    {type == 'leader' && <GraphProfile dark={dark} type={'lk'} indicator={lk} indicatorTotal={lkTotal} load={load} planDay={15} shedule={shedule}/>}
+                    {type == 'leader' && <GraphProfile dark={dark} type={'bp'} indicator={bp} indicatorTotal={bpTotal} load={load} planDay={bpPlan} shedule={shedule}/>}
+                    {type == 'frmanager' && <GraphProfile dark={dark} type={'zoom'} indicator={zoom} indicatorTotal={zoomTotal} load={load} planDay={3} shedule={shedule}/>}
+                    {type == 'frmanager' && <GraphProfile dark={dark} type={'anketa'} indicator={anketa} indicatorTotal={anketaTotal} load={load} planDay={2} shedule={shedule}/>}
+                    <GraphProfile dark={dark} type={'reject'} indicator={reject} indicatorTotal={rejectTotal} load={load} planDay={-10} shedule={shedule}/>
+                    <GraphProfile dark={dark} type={'event'} indicator={event} indicatorTotal={eventTotal} load={load} planDay={-10} shedule={shedule}/>
+                   {/*  <GraphProfile dark={dark} />
                     <GraphProfile dark={dark} />
-                    <GraphProfile dark={dark} />
-                    <GraphProfile dark={dark} />
-                    <GraphProfile dark={dark} />
+                    <GraphProfile dark={dark} /> */}
                 </div>
-                <WorkTime dark={dark} />
+                {/*   <WorkTime dark={dark} /> */}
                 {type === role && <div className={s.buttons}>
                     <button id='resort' onClick={handleOpenModal} className={`${s.resort} ${dark && s.resort_dark}`}>Время отдыха</button>
                     <button id='event' onClick={handleOpenModal} className={s.event}><IconPlus /> Создать событие</button>
                 </div>
                 }
             </div>
-            {openModal && <ProfileModal modalRef={modalRef} setOpenModal={setOpenModal} type={modalType} dark={dark} id={id} setTimer={setTimer} setPauseUpdate={setPauseUpdate}/>}
+            {openModal && <ProfileModal modalRef={modalRef} setOpenModal={setOpenModal} type={modalType} dark={dark} id={id} setTimer={setTimer} setPauseUpdate={setPauseUpdate} />}
         </div>
 
     )
 };
 
-export default Profile;
+export default memo(Profile);

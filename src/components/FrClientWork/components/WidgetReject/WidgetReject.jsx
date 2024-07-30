@@ -82,7 +82,6 @@ const WidgetReject = ({ setWidget, setPrevWidget, prevWidget, type, setStageZoom
     const handleRejectZoom = () => {
         rejectZoom({ id: client_id, comment })
             .then(res => {
-                console.log(res);
                 setStageZoom(false);
                 dispatch(setClientUpdate(client_id));
                 setWidget('');
@@ -96,7 +95,6 @@ const WidgetReject = ({ setWidget, setPrevWidget, prevWidget, type, setStageZoom
     const handleRejectClient = () => {
         rejectClient({ id: client_id, comment, is_bad: switchOn })
             .then(res => {
-                console.log(res);
                 setWidget('end');
                 setEndType('reject');
 

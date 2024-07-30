@@ -9,8 +9,6 @@ function ManagerCard({ setAddWindow, typeEdit, manager, restoreWindow, setRestor
     const [disabled, setDisabled] = useState(false);
     const modalRef = useRef();
 
-    console.log(restoreWindow)
-
     const handleCloseModal = (e) => {
         const target = e.target;
         if(modalRef?.current && !modalRef?.current?.contains(target) && !e.target.closest('.base-Popper-root') && !disabled) {

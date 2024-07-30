@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 
 function Clients({clients, loader, setUpdate}) {
     const dark = useSelector(menuSelector).dark;
-    console.log(clients)
+  
    /*  useEffect(() => {
         if(clients) {
           clients.sort((a, b) => {

@@ -23,19 +23,26 @@ import {
     setFavorite,
     setClientUpdate,
     setTalkTime,
-    setClientSource
+    setClientSource,
+    setMissCall,
+    setCallMe,
+    setClientStatus,
+    setDayWithoutMove,
+    setClientManager
 } from './store/reducer/Client/slice';
 import { setLoadClient, setLoadPartners } from './store/reducer/App/slice';
 import { setComments, setDialog, setRoad, setNextConnect, setZoomStatus, setZoomConnect, setLastConnect } from './store/reducer/Work/slice';
-import { setOffices, setCompanies } from './store/reducer/Partners/slice';
+import { setOffices, setCompanies, setCompaniesNum } from './store/reducer/Partners/slice';
 import { setCallStatus } from './store/reducer/App/slice';
 //compontns
 import Work from './components/Work/Work';
+//utils
+import { handleDifDate } from './utils/dates';
  
 const FrClientWork = () => {
-    const mangoToken = document.getElementById('root_leader').getAttribute('mango-token');
-    const workInfoUpdate = useSelector(selectorWork).workInfoUpdate;
+    const [anim, setAnim] = useState(false);
     const [scenario, setScenario] = useState([]);
+    const workInfoUpdate = useSelector(selectorWork).workInfoUpdate;
     const client_id = useSelector(selectorClient).client_id; 
     const clientUpdate = useSelector(selectorClient).clientUpdate;
     const menuIdUpdate = useSelector(selectorClient).menuIdUpdate;
@@ -44,7 +51,9 @@ const FrClientWork = () => {
     const navigate = useNavigate();
     const path = location.pathname;
 
-    console.log(client_id)
+    useEffect(() => {
+        setAnim(true);
+    }, []);
 
     useEffect(() => {
         setTimeout(() => {
@@ -59,31 +68,25 @@ const FrClientWork = () => {
         };
 
         wsCall.addEventListener('message', (e) => {
-            console.log(e.data)
             const data = JSON.parse(e.data);
             dispatch(setCallStatus(data));
             if (data.action == 'new_call_out') {
                 const id = Number(data.client_id)
                 dispatch(setClientId(id));
-                localStorage.setItem('client_id', JSON.stringify(id))
+
                 return
             }
         });
     }, []);
 
-
-
-
     //Получаем список подходящих городов
     useEffect(() => {
         getCities()
             .then(res => {
-                console.log(res);
                 dispatch(setCities(res.data.data));
             })
             .catch(err => console.log(err))
     }, []);
-
 
     //загружаем данные клиента
     useEffect(() => {
@@ -104,6 +107,15 @@ const FrClientWork = () => {
                 const dialog = res.data.dialog;
                 const road = res.data.road;
                 const phone = [client.phone, client.phone2, client.phone3].filter(el => el !== '');
+                dispatch(setClientName(''));
+                dispatch(setClientSurname(''));
+                dispatch(setClientCity(''));
+                dispatch(setNumbersDefault(''));
+                dispatch(setClientMain(''));
+                dispatch(setFavorite(''));
+                dispatch(setTalkTime(''));
+                dispatch(setClientSource(''));
+                dispatch(setClientManager({}))
                 //записыываем данные клиента
                 dispatch(setClientName(client.name));
                 dispatch(setClientSurname(client.surname));
@@ -113,9 +125,13 @@ const FrClientWork = () => {
                 dispatch(setFavorite(client.favorite));
                 dispatch(setTalkTime(client.talk_time));
                 dispatch(setClientSource(client.from_site));
+                dispatch(setClientManager(client.has_manager))
+                client.events_call !== 0 ? dispatch(setMissCall(true)) : dispatch(setMissCall(false));
+                client.is_call_me !== 0 ? dispatch(setCallMe(true)) : dispatch(setCallMe(false));
+                dispatch(setClientStatus(client.status))
                 //записываем комментарии клиента
               /*   const lastComment = client.at(-1).auto_important == 1 ? client.at(-1) : false; */
-                const comments = client?.partnership_client_logs?.filter(el => (el.is_manual == 1 && el.person_id !== 0 && el.comment !== '' && el.newsletter_id == 0 && el.is_sms == 0) || (el.type == 'change_manager')).reverse();
+                const comments = client?.partnership_client_logs/* ?.filter(el => (el.is_manual == 1 && el.person_id !== 0 && el.comment !== '' && el.newsletter_id == 0 && el.is_sms == 0) || (el.type == 'change_manager')) */.reverse();
                 /* lastComment ? dispatch(setComments([lastComment, ...comments])) : */ dispatch(setComments(comments));
                 //Записываем скрипт
                 dispatch(setDialog(dialog));
@@ -126,9 +142,12 @@ const FrClientWork = () => {
                 dispatch(setZoomStatus(client.zoom_status));
                 dispatch(setZoomConnect(client.zoom_date));
 
+                const lastMoves = Object.values(road).findLast((el, i) => el.status == 'finished' && i < 10);
+                dispatch(setDayWithoutMove(handleDifDate(lastMoves.date)))
+
                 setTimeout(() => {
                     dispatch(setLoadClient(false));
-                }, 250);
+                });
             })
             .catch(err => console.log(err));
     }, [client_id]);
@@ -166,38 +185,28 @@ const FrClientWork = () => {
                 setTimeout(() => {
 
                     dispatch(setLoadClient(false));
-                }, 150);
+                });
             })
             .catch(err => console.log(err))
     }, [clientUpdate]);
 
-    //Получение данных планера
-    /* useEffect(() => {
-        getPlaner()
-            .then(res => {
-                const data = res.data;
-                dispatch(setPlaner(data));
-                setTimeout(() => {
-                    dispatch(setPlanerLoad(false))
-                }, 100)
-            })
-            .catch(err => console.log(err))
-    }, [clientUpdate]); */
-
-    //Получаем данные партнерских офисов
-    useEffect(() => {
+     //Получаем данные партнерских офисов
+     useEffect(() => {
         dispatch(setLoadPartners(true))
-        getPartners(client_id)
+        client_id !== '' && getPartners(client_id, '')
             .then(res => {
-                const offices = res.data.partner_offices;
-                const companies = res.data.companies;
+                console.log(res)
+                const data = res.data;
+                const offices = data.partner_offices;
+                const companies = data.companies_info.companies;
+                const companiesNum = data.companies_info.total;
                 //записываем информацию о партнерских оффисах и заказчиках
                 dispatch(setOffices(offices));
                 dispatch(setCompanies(companies));
-                console.log(res);
+                dispatch(setCompaniesNum(companiesNum));
                 setTimeout(() => {
                     dispatch(setLoadPartners(false));
-                }, 150);
+                }, 50);
             })
             .catch(err => console.log(err))
     }, [client_id, workInfoUpdate]);
@@ -214,7 +223,7 @@ const FrClientWork = () => {
     }, [])
 
     return (
-        <div className={s.app}>
+        <div className={`${s.app} ${anim && s.anim}`}>
             <Work scenario={scenario} />
         </div>
     )

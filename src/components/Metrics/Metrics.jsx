@@ -3,16 +3,31 @@ import s from './Metrics.module.scss';
 import SalesFunnel from './SalesFunnel/SalesFunnel';
 import Kpi from './Kpi/Kpi';
 import Clients from './Clients/Clients';
+import Experts from './Experts/Experts';
 import { useSelector } from 'react-redux';
 import { menuSelector } from '../../store/reducer/menu/selector';
+//API
+import { getMetricsSales, getMetricsSteps } from '../../Api/Api';
 
 function Metrics() {
     const [activeButton, setActiveButton] = useState(1);
     const [anim, setAnim] = useState(false);
+    const [stepsStat, setStepsStat] = useState({});
     const dark = useSelector(menuSelector).dark;
 
     useEffect(() => {
-            setAnim(true);
+        setAnim(true);
+        getMetricsSales()
+            .then(res => {
+            })
+            .catch(err => console.log(err))
+
+        getMetricsSteps()
+            .then(res => {
+                const data = res.data;
+                setStepsStat(data);
+            })
+            .catch(err => console.log(err))
         window.scrollTo(0, 0);
     }, []);
 
@@ -39,6 +54,10 @@ function Metrics() {
                     <button id='4' onClick={handleMenu} className={`${s.button} ${dark && s.button_dark} 
                                                                     ${activeButton === 4 && !dark && s.button_active} 
                                                                     ${activeButton === 4 && dark && s.button_dark_active}`}>Сотрудники</button>
+
+                    <button id='5' onClick={handleMenu} className={`${s.button} ${dark && s.button_dark} 
+                                                                    ${activeButton === 5 && !dark && s.button_active} 
+                                                                    ${activeButton === 5 && dark && s.button_dark_active}`}>Эксперты</button>
                 </div>
             </div>
             {activeButton === 1 &&
@@ -48,9 +67,15 @@ function Metrics() {
                 </div>
             }
 
-            {activeButton !== 1 &&
+            {activeButton !== 1 && activeButton !== 5 &&
                 <div className={`${s.container} ${dark && s.container_dark}`}>
-                    <Clients active={activeButton}/>
+                    <Clients active={activeButton} stepsStat={stepsStat} />
+                </div>
+            }
+
+            {activeButton == 5 &&
+                <div className={`${s.container} ${dark && s.container_dark}`}>
+                    <Experts/>
                 </div>
             }
         </div>

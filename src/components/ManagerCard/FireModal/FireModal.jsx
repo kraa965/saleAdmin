@@ -44,7 +44,7 @@ const FireModal = ({ fireModalAnim, setFireModalAnim, setFireModal, handleClose2
         setLoad(true)
         firedManager({ id, manager_end_date: date, to_base: true })
             .then(res => {
-                console.log(res);
+        
                 handleClose();
 
                 setTimeout(() => {

@@ -14,16 +14,16 @@ instanceWithToken.interceptors.request.use(config => {
     return config
 });
 
-export const getMyClients = (type, category) => {
-    return instanceWithToken.get(`${baseUrl}api/frmanager/clients?type=${type}&category=${category}`);
+export const getMyClients = (type, category, manager, sort) => {
+    return instanceWithToken.get(`${baseUrl}api/frmanager/clients?type=${type}&category=${category}${manager > 0 ? `&filter[manager]=${manager}` :''}${sort ? `&sort=${sort}&sort_rev=1` :''}`);
 }
 
-export const SearchMyClients = (type, category, search) => {
-    return instanceWithToken.get(`${baseUrl}api/frmanager/clients?type=${type}&category=${category}&search=${search}`);
+export const SearchMyClients = (type, category, search, manager, sort) => {
+    return instanceWithToken.get(`${baseUrl}api/frmanager/clients?type=${type}&category=${category}&search=${search}${manager > 0 ? `&filter[manager]=${manager}` :''}${sort ? `&sort=${sort}&sort_rev=1` :''}`);
 }
 
-export const getMyClientsPagination = (path, type, category) => {
-    return instanceWithToken.get(`${path}&type=${type}&category=${category}`);
+export const getMyClientsPagination = (path, type, category, manager, sort) => {
+    return instanceWithToken.get(`${path}&type=${type}&category=${category}${manager > 0 ? `&filter[manager]=${manager}` :''}${sort ? `&sort=${sort}&sort_rev=1` :''}`);
 }
 
 
@@ -51,6 +51,10 @@ export const transferClient = (data) => {
         url: `${baseUrl}api/frmanager/clients/transfer`,
         data: data,
     })
+}
+
+export const getPlaner = () => {
+    return instanceWithToken.get(`${baseUrl}api/frmanager/clients/planner`);
 }
 
 

@@ -57,7 +57,6 @@ const WidgetWorkComment = ({ setWidget, setPrevWidget, setPlanWithoutCall, callS
     const [dialing, setDialing] = useState(false);
     const dispatch = useDispatch();
     const textRef = useRef();
-    console.log(screenShots)
 
     useEffect(() => {
         if (tab !== '') {
@@ -190,7 +189,7 @@ const WidgetWorkComment = ({ setWidget, setPrevWidget, setPlanWithoutCall, callS
         message?.file?.file && formData.append('screenshot', message.file?.file);
         sendComment(formData)
             .then(res => {
-                console.log(res);
+
                 setTimeout(() => {
                     dispatch(setClientUpdate(client_id));
                 }, 300)
