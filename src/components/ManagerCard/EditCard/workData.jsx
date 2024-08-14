@@ -17,17 +17,17 @@ const WorkData = ({ shedule1, shedule2, shedule3, setShedule2, setShedule3, ip, 
     console.log(shedule1, shedule2, shedule3)
 
     useEffect(() => {
-        if (shedule1.work_schedule_id == 1 && shedule1.time_start.slice(0, 5) == '10:00') {
+        if (shedule1.work_schedule_id == 1 && shedule1.time_start?.slice(0, 5) == '10:00') {
             setValueShedule('5/2 (10:00-19:00)');
             return
         }
 
-        if (shedule1.work_schedule_id == 1 && shedule1.time_start.slice(0, 5) == '09:00') {
+        if (shedule1.work_schedule_id == 1 && shedule1.time_start?.slice(0, 5) == '09:00') {
             setValueShedule('5/2 (9:00-18:00)');
             return
         }
 
-        if (shedule1.work_schedule_id == 1 && shedule1.time_start.slice(0, 5) == '08:00') {
+        if (shedule1.work_schedule_id == 1 && shedule1.time_start?.slice(0, 5) == '08:00') {
             setValueShedule('5/2 (8:00-17:00)');
             return
         }
@@ -41,17 +41,17 @@ const WorkData = ({ shedule1, shedule2, shedule3, setShedule2, setShedule3, ip, 
     }, [shedule1]);
 
     useEffect(() => {
-        if (shedule2.work_schedule_id == 1 && shedule2.time_start.slice(0, 5) == '10:00') {
+        if (shedule2.work_schedule_id == 1 && shedule2.time_start?.slice(0, 5) == '10:00') {
             setValueShedule2('5/2 (10:00-19:00)');
             return
         }
 
-        if (shedule2.work_schedule_id == 1 && shedule2.time_start.slice(0, 5) == '09:00') {
+        if (shedule2.work_schedule_id == 1 && shedule2.time_start?.slice(0, 5) == '09:00') {
             setValueShedule2('5/2 (9:00-18:00)');
             return
         }
 
-        if (shedule2.work_schedule_id == 1 && shedule2.time_start.slice(0, 5) == '08:00') {
+        if (shedule2.work_schedule_id == 1 && shedule2.time_start?.slice(0, 5) == '08:00') {
             setValueShedule2('5/2 (8:00-17:00)');
             return
         }
@@ -64,17 +64,17 @@ const WorkData = ({ shedule1, shedule2, shedule3, setShedule2, setShedule3, ip, 
 
 
     useEffect(() => {
-        if (shedule3.work_schedule_id == 1 && shedule3.time_start.slice(0, 5) == '10:00') {
+        if (shedule3.work_schedule_id == 1 && shedule3.time_start?.slice(0, 5) == '10:00') {
             setValueShedule3('5/2 (10:00-19:00)');
             return
         }
 
-        if (shedule3.work_schedule_id == 1 && shedule3.time_start.slice(0, 5) == '09:00') {
+        if (shedule3.work_schedule_id == 1 && shedule3.time_start?.slice(0, 5) == '09:00') {
             setValueShedule3('5/2 (9:00-18:00)');
             return
         }
 
-        if (shedule3.work_schedule_id == 1 && shedule3.time_start.slice(0, 5) == '08:00') {
+        if (shedule3.work_schedule_id == 1 && shedule3.time_start?.slice(0, 5) == '08:00') {
             setValueShedule3('5/2 (8:00-17:00)');
             return
         }

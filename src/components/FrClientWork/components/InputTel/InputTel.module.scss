@@ -6,10 +6,10 @@
     background-color: var(--color-bg-card);
     display: flex;
     transition: all 0.4s ease-in-out;
-    overflow: hidden;
     margin-bottom: 0;
     opacity: 0;
     transform: scale(0);
+    position: relative;
 
     &_anim {
         height: 46px;
@@ -24,6 +24,10 @@
 
     input {
         width: 100%;
+    }
+
+    &_error {
+        border: 1px solid #E75A5A;
     }
 }
 
@@ -126,4 +130,24 @@
         transform: scale(0.2);
         pointer-events: none;
     }
+}
+
+.error {
+    position: absolute;
+    bottom: -18px;
+   color: #E75A5A;
+   opacity: 0;
+   visibility: hidden;
+   transition: all 0.15s;
+   z-index: 3;
+
+   p {
+    font-size: 12px;
+   }
+
+   &_open {
+    opacity: 1;
+    visibility: visible;
+   }
+   
 }

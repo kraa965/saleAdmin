@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { selectorMessenger } from '../../store/reducer/Messenger/selector';
 import { selectorClient } from '../../store/reducer/Client/selector';
 //slice 
-import { setNotifications } from '../../store/reducer/Messenger/slice';
+import { setNotification } from '../../store/reducer/Messenger/slice';
 //components
 import Timer from '../../utils/Timer';
 
@@ -60,7 +60,7 @@ const Message = ({ text, clientId, clientName, clientCity, setTimer, setOpen, ty
                 {type == "documentMessage" && <p className={s.text}>Документ</p>}
                 {type == "imageMessage" && <p className={s.text}>Изображение</p>}
                 {type == "audioMessage" && <p className={s.text}>Аудио сообщение</p>}
-                {type == "videoMessage" && <p className={s.text}>Видео</p>}"reactionMessage"
+                {type == "videoMessage" && <p className={s.text}>Видео</p>}
                 {type == "stickerMessage" && <p className={s.text}>Стикер</p>}
                 {type == "reactionMessage" && <p className={s.text}>Реакция на ваше сообщение</p>}
             </Link>
@@ -71,7 +71,7 @@ const Message = ({ text, clientId, clientName, clientCity, setTimer, setOpen, ty
 
 
 const Notifications = () => {
-    const messageFromSocket = useSelector(selectorMessenger).notifications;
+    const messageFromSocket = useSelector(selectorMessenger).notification;
     const clientInfo = useSelector(selectorClient);
     const dispatch = useDispatch();
     const [newMessage, setNewMessage] = useState({});
@@ -80,7 +80,7 @@ const Notifications = () => {
     const [open, setOpen] = useState(false);
     const time = new Date();
     time.setSeconds(time.getSeconds() + 5)
-
+console.log(messageFromSocket)
     useEffect(() => {
         if (messageFromSocket?.client?.id) {
             setRebut(prevState => prevState + 1)
@@ -89,7 +89,7 @@ const Notifications = () => {
                 clientName: messageFromSocket?.client.name,
                 clientCity: messageFromSocket?.client.city,
                 messageText: messageFromSocket?.data?.messageData?.textMessageData?.textMessage,
-                type: messageFromSocket?.data.messageData.typeMessage,
+                type: messageFromSocket?.data?.messageData?.typeMessage,
             })
             return
         }
@@ -105,6 +105,8 @@ const Notifications = () => {
             setOpen(true)
         }
     }, [timer])
+
+    console.log(timer)
 
 
     return (

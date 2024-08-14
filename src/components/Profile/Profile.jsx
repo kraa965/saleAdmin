@@ -1,7 +1,9 @@
 import { useEffect, useState, useRef, memo } from 'react';
 import s from './Profile.module.scss';
 import { ReactComponent as IconClose } from '../../image/iconCloseModal.svg';
+import { ReactComponent as IconChewronBig } from '../../image/iconChewronBig.svg';
 import GraphProfile from '../GraphProfile/GraphProfile';
+import GraphProfile2 from '../GraphProfile2/GraphProfile2';
 import WorkTime from '../WorkTime/WorkTime';
 import ProfileModal from '../ProfileModal/ProfileModal';
 import { ReactComponent as IconPlus } from '../../image/iconPlus.svg';
@@ -31,9 +33,8 @@ function Profile({ setOpenProfile, name, surname, id, avatar, level, dark, type,
     const [lkTotal, setLkTotal] = useState([]);
     const [bp, setBp] = useState([]);
     const [bpTotal, setBpTotal] = useState([]);
-
     const role = document.getElementById('root_leader').getAttribute('role');
-   console.log(event)
+    console.log(event)
     const profileRef = useRef();
     const modalRef = useRef();
 
@@ -81,10 +82,7 @@ function Profile({ setOpenProfile, name, surname, id, avatar, level, dark, type,
 
                 setBp(consultant.open_bp.dates);
                 setBpTotal(consultant.open_bp.total);
-
-                setTimeout(() => {
                     setLoad(false)
-                }, 100)
             })
             .catch(err => console.log(err))
     }, [type, id]);
@@ -162,19 +160,20 @@ function Profile({ setOpenProfile, name, surname, id, avatar, level, dark, type,
                         <p></p>
                     </div>
                 </div>
-                <div className={s.container_graph}>
-                    <GraphProfile dark={dark} type={'new'} indicator={newClient} indicatorTotal={newClientTotal} load={load} planDay={-10} shedule={shedule}/>
-                    <GraphProfile dark={dark} type={'call'} indicator={call} indicatorTotal={callTotal} load={load} planDay={30} shedule={shedule}/>
-                    {type == 'leader' && <GraphProfile dark={dark} type={'lk'} indicator={lk} indicatorTotal={lkTotal} load={load} planDay={15} shedule={shedule}/>}
-                    {type == 'leader' && <GraphProfile dark={dark} type={'bp'} indicator={bp} indicatorTotal={bpTotal} load={load} planDay={bpPlan} shedule={shedule}/>}
-                    {type == 'frmanager' && <GraphProfile dark={dark} type={'zoom'} indicator={zoom} indicatorTotal={zoomTotal} load={load} planDay={3} shedule={shedule}/>}
-                    {type == 'frmanager' && <GraphProfile dark={dark} type={'anketa'} indicator={anketa} indicatorTotal={anketaTotal} load={load} planDay={2} shedule={shedule}/>}
-                    <GraphProfile dark={dark} type={'reject'} indicator={reject} indicatorTotal={rejectTotal} load={load} planDay={-10} shedule={shedule}/>
-                    <GraphProfile dark={dark} type={'event'} indicator={event} indicatorTotal={eventTotal} load={load} planDay={-10} shedule={shedule}/>
-                   {/*  <GraphProfile dark={dark} />
-                    <GraphProfile dark={dark} />
-                    <GraphProfile dark={dark} /> */}
-                </div>
+
+
+
+                    <div className={`${s.container_graph}`}>
+                        <GraphProfile2 dark={dark} type={'new'} indicator={newClient} indicatorTotal={newClientTotal} load={load} planDay={-10} shedule={shedule} />
+                        <GraphProfile2 dark={dark} type={'call'} indicator={call} indicatorTotal={callTotal} load={load} planDay={30} shedule={shedule} />
+                        {type == 'leader' && <GraphProfile2 dark={dark} type={'lk'} indicator={lk} indicatorTotal={lkTotal} load={load} planDay={15} shedule={shedule} />}
+                        {type == 'leader' && <GraphProfile2 dark={dark} type={'bp'} indicator={bp} indicatorTotal={bpTotal} load={load} planDay={bpPlan} shedule={shedule} />}
+                        {type == 'frmanager' && <GraphProfile2 dark={dark} type={'zoom'} indicator={zoom} indicatorTotal={zoomTotal} load={load} planDay={3} shedule={shedule} />}
+                        {type == 'frmanager' && <GraphProfile2 dark={dark} type={'anketa'} indicator={anketa} indicatorTotal={anketaTotal} load={load} planDay={2} shedule={shedule} />}
+                        <GraphProfile2 dark={dark} type={'reject'} indicator={reject} indicatorTotal={rejectTotal} load={load} planDay={-10} shedule={shedule} />
+                        <GraphProfile2 dark={dark} type={'event'} indicator={event} indicatorTotal={eventTotal} load={load} planDay={-10} shedule={shedule} />
+                    </div>
+
                 {/*   <WorkTime dark={dark} /> */}
                 {type === role && <div className={s.buttons}>
                     <button id='resort' onClick={handleOpenModal} className={`${s.resort} ${dark && s.resort_dark}`}>Время отдыха</button>

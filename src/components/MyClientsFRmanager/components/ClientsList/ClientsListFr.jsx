@@ -12,22 +12,24 @@ import {
     setNoTaskFrNextPage, setArchiveFrNextPage, setPlanFrNextPage, setZoomFrNextPage,
     setAnketaFrNextPage, setСontractFrNextPage, setPrepaidFrNextPage, setAddNoTaskFr,
     setAddArchiveFr, setAddPlanFr, setAddZoomFr, setAddAnketaFr, setAddСontractFr,
-    setAddPrepaidFr, setLoadNoTaskFr
+    setAddPrepaidFr, setLoadNoTaskFr, setNewNextPage,
 } from '../../store/reducer/MyClientsFr/slice';
 //components
 import ClientTable from '../ClientTable/ClientsTable';
 import ClientTableSceleton from '../ClientTableSceleton/ClientTableSceleton';
 import AnimEnd from '../../../FrClientWork/components/AnimEnd/AnimEnd';
 import MonthSelect from '../MonthSelect/MonthSelect';
+import SwitchDark from './Switch/SwitchDark';
 //utils
 import { handleFilterObject } from '../../utils/filter';
+import { handleEndDayMonth } from '../../utils/dates';
 //API 
 import { getMyClientsPagination, SearchMyClients } from '../../Api/Api';
 
 const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaFr, contractFr, prepaidFr,
     setnNoTaskFr, setArchiveFr, setPlanFr, setZoomFr, setAnketaFr, setContractFr, setPrepaidFr,
     planFrNum, zoomFrNum, anketaFrNum, contractFrNum, prepaidFrNum, noTaskFrNum, archiveFrNum, manager,
-    setManager, sortAll
+    setManager, sortAll, date, setDate, clientsNew, setClientsNew, clientsNewNum, setRejectFilter, rejectFilter
 }) => {
     const myClients = useSelector(selectorMyClientsFr);
     const noTaskFrNextPage = myClients.noTaskFrNextPage;
@@ -38,12 +40,14 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
     const loadAnketaFr = myClients.loadAnketaFr;
     const loadContractFr = myClients.loadContractFr;
     const loadPrepaidFr = myClients.loadPrepaidFr;
+    const loadNewFr = myClients.loadNew;
     const archiveFrNextPage = myClients.archiveFrNextPage;
     const planFrNextPage = myClients.planFrNextPage;
     const zoomFrNextPage = myClients.zoomFrNextPage;
     const anketaFrNextPage = myClients.anketaFrNextPage;
     const contractFrNextPage = myClients.contractFrNextPage;
     const prepaidFrNextPage = myClients.prepaidFrNextPage;
+    const newFrNextPage = myClients.newNextPage;
     const experts = useSelector(selectorExperts).experts;
     const [anim, setAnim] = useState(false);
     const [clients, setClients] = useState(noTaskFr || []);
@@ -51,18 +55,17 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
     const [clientsSearch, setClientsSearch] = useState([]);
     const [loadSearch, setLoadSearch] = useState(false);
     const [clientsPrev, setClientsPrev] = useState([]);
-    const [activeTabList, setActiveTabList] = useState(2);
+    const [activeTabList, setActiveTabList] = useState(3);
     const [disabledButton, setDisabledButton] = useState(false);
     const [load, setLoad] = useState(false);
-
-    console.log(manager)
-
     const [query, setQuery] = useState('');
+    const [searchOpen, setSearchOpen] = useState(false);
     const timerDebounceRef = useRef();
     const listRef = useRef();
     const dispatch = useDispatch();
     const refInput = useRef();
-    console.log(planFr, planFr, activeTabList)
+    const modalRef = useRef();
+    console.log(archiveFr, planFr, activeTabList)
 
 
 
@@ -73,13 +76,13 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
         })
     }, [])
 
-/*     useEffect(() => {
-        if(loadNoTaskFr || loadPlanFr || loadZoomFr || loadAnketaFr || loadContractFr || loadPrepaidFr || loadArchiveFr) {
-            setDisabledButton(true)
-        } else {
-            setDisabledButton(false);
-        }
-    }, [loadNoTaskFr, loadPlanFr, loadZoomFr, loadAnketaFr, loadContractFr, loadPrepaidFr, loadArchiveFr, activeTabList]) */
+    /*     useEffect(() => {
+            if(loadNoTaskFr || loadPlanFr || loadZoomFr || loadAnketaFr || loadContractFr || loadPrepaidFr || loadArchiveFr) {
+                setDisabledButton(true)
+            } else {
+                setDisabledButton(false);
+            }
+        }, [loadNoTaskFr, loadPlanFr, loadZoomFr, loadAnketaFr, loadContractFr, loadPrepaidFr, loadArchiveFr, activeTabList]) */
 
 
     useEffect(() => {
@@ -118,12 +121,17 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
             return
         }
 
+        if (activeTabList == 8 && !isSearch) {
+            setClients(clientsNew);
+            return
+        }
+
         if (isSearch) {
             setClients(clientsSearch);
             return
         }
 
-    }, [activeTabList, noTaskFr, archiveFr, planFr, zoomFr, anketaFr, contractFr, prepaidFr, clientsSearch, isSearch]);
+    }, [activeTabList, noTaskFr, archiveFr, planFr, zoomFr, anketaFr, contractFr, prepaidFr, clientsSearch, clientsNew, isSearch]);
 
     useEffect(() => {
         setIsSearch(false);
@@ -152,7 +160,7 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
 
     const handleFetchSearch = (type, search, sort) => {
         setClientsSearch([]);
-        SearchMyClients(type, 'leader_expert', search, manager, sort)
+        SearchMyClients(type, 'leader_expert', search, manager, date, handleEndDayMonth(date), sortAll, rejectFilter)
             .then(res => {
                 console.log(res)
                 const result = res.data.data.data;
@@ -173,7 +181,7 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
         }
 
         if (activeTabList == 2) {
-            handleFetchSearch('all', query, sortAll);
+            handleFetchSearch('all', query);
             return
         }
 
@@ -201,6 +209,19 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
             handleFetchSearch('prepaid', query);
             return
         }
+
+        if (activeTabList == 8) {
+
+            SearchMyClients('new', 'leader_expert', query)
+            .then(res => {
+                console.log(res)
+                const result = res.data.data.data;
+                setClientsSearch(result);
+                setLoadSearch(false);
+            })
+            .catch(err => console.log(err))
+            return
+        }
     }
 
     const handleSearchEnter = (e) => {
@@ -213,6 +234,7 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
     const handleCleanSearch = () => {
         setQuery('');
         setIsSearch(false);
+        setSearchOpen(false)
         setClientsSearch([]);
     }
 
@@ -226,7 +248,7 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
         if (activeTabList == 1 && noTaskFrNextPage && noTaskFrNextPage !== '' && !isSearch) {
             console.log('функция отработал')
             setLoad(true);
-            getMyClientsPagination(noTaskFrNextPage, 'no_tasks', 'leader_expert', manager)
+            getMyClientsPagination(noTaskFrNextPage, 'no_tasks', 'leader_expert', manager, date, handleEndDayMonth(date), sortAll, rejectFilter)
                 .then(res => {
                     console.log(res);
                     const data = res.data.data;
@@ -243,7 +265,7 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
 
         if (activeTabList == 2 && archiveFrNextPage && archiveFrNextPage !== '' && !isSearch) {
             setLoad(true);
-            getMyClientsPagination(archiveFrNextPage, 'all', 'leader_expert', manager, sortAll)
+            getMyClientsPagination(archiveFrNextPage, 'all', 'leader_expert', manager, date, handleEndDayMonth(date), sortAll, rejectFilter)
                 .then(res => {
                     console.log(res);
                     const data = res.data.data;
@@ -261,7 +283,7 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
         if (activeTabList == 3 && planFrNextPage && planFrNextPage !== '' && !isSearch) {
             console.log(activeTabList, planFrNextPage)
             setLoad(true);
-            getMyClientsPagination(planFrNextPage, 'plan_meeting', 'leader_expert', manager)
+            getMyClientsPagination(planFrNextPage, 'plan_meeting', 'leader_expert', manager, date, handleEndDayMonth(date), sortAll, rejectFilter)
                 .then(res => {
                     console.log(res);
                     const data = res.data.data;
@@ -278,7 +300,7 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
 
         if (activeTabList == 4 && zoomFrNextPage && zoomFrNextPage !== '' && !isSearch) {
             setLoad(true);
-            getMyClientsPagination(zoomFrNextPage, 'zoom', 'leader_expert', manager)
+            getMyClientsPagination(zoomFrNextPage, 'zoom', 'leader_expert', manager, date, handleEndDayMonth(date), sortAll, rejectFilter)
                 .then(res => {
                     console.log(res);
                     const data = res.data.data;
@@ -295,7 +317,7 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
 
         if (activeTabList == 5 && anketaFrNextPage && anketaFrNextPage !== '' && !isSearch) {
             setLoad(true);
-            getMyClientsPagination(anketaFrNextPage, 'anketa', 'leader_expert', manager)
+            getMyClientsPagination(anketaFrNextPage, 'anketa', 'leader_expert', manager, date, handleEndDayMonth(date), sortAll, rejectFilter)
                 .then(res => {
                     console.log(res);
                     const data = res.data.data;
@@ -312,7 +334,7 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
 
         if (activeTabList == 6 && contractFrNextPage && contractFrNextPage !== '' && !isSearch) {
             setLoad(true);
-            getMyClientsPagination(contractFrNextPage, 'contract', 'leader_expert', manager)
+            getMyClientsPagination(contractFrNextPage, 'contract', 'leader_expert', manager, date, handleEndDayMonth(date), sortAll, rejectFilter)
                 .then(res => {
                     console.log(res);
                     const data = res.data.data;
@@ -329,13 +351,30 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
 
         if (activeTabList == 7 && prepaidFrNextPage && prepaidFrNextPage !== '' && !isSearch) {
             setLoad(true);
-            getMyClientsPagination(prepaidFrNextPage, 'prepaid', 'leader_expert', manager)
+            getMyClientsPagination(prepaidFrNextPage, 'prepaid', 'leader_expert', manager, date, handleEndDayMonth(date), sortAll, rejectFilter)
                 .then(res => {
                     console.log(res);
                     const data = res.data.data;
                     dispatch(setPrepaidFrNextPage(data.next_page_url));
                     setTimeout(() => {
                         setPrepaidFr(prevState => [...prevState, ...data.data]);
+                        setLoad(false);
+                    }, 100)
+
+                })
+                .catch(err => console.log(err));
+            return
+        }
+
+        if (activeTabList == 8 && newFrNextPage && newFrNextPage !== '' && !isSearch) {
+            setLoad(true);
+            getMyClientsPagination(newFrNextPage, 'new', 'leader_expert')
+                .then(res => {
+                    console.log(res);
+                    const data = res.data.data;
+                    dispatch(setNewNextPage(data.next_page_url));
+                    setTimeout(() => {
+                        setClientsNew(prevState => [...prevState, ...data.data]);
                         setLoad(false);
                     }, 100)
 
@@ -375,7 +414,7 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
         }
         timerDebounceRef.current = setTimeout(() => {
             scrollLoad()
-        }, 500);
+        }, 200);
     }
 
     useEffect(() => {
@@ -394,34 +433,65 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
         localStorage.setItem('expert', JSON.stringify(0))
     }
 
+    const handleOpenSearch = () => {
+        setSearchOpen(true)
+    }
+
+    function closeModal(e) {
+        e.stopPropagation()
+        if (modalRef.current && !modalRef.current.contains(e.target)) {
+            setSearchOpen(false)
+            return
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('mouseup', closeModal);
+
+        return () => document.removeEventListener('mouseup', closeModal);
+    }, []);
+
     return (
         <>
             <div ref={listRef} className={`${s.clientsList} ${anim && s.clientsList_anim}`}>
 
                 <div className={`${s.header} ${activeTab == 3 && s.header_hiden}`}>
-                    <div className={s.search}>
-                        <div onClick={handleSearch} className={`${s.icon_search}`}>
+
+                    <div onClick={handleOpenSearch} ref={modalRef} className={`${s.searchfr} ${searchOpen && s.searchfr_open}`}>
+                        {searchOpen ? <div onClick={handleSearch} className={`${s.icon_search}`}>
                             <IconSearch />
-                        </div>
+                        </div> :
+                            <div className={`${s.icon_search}`}>
+                                <IconSearch />
+                            </div>
+                        }
+
+
                         <input onKeyDown={handleSearchEnter} ref={refInput} onFocus={handleWritePrevState} onChange={handleQuery} type='text' value={query || ''} placeholder='Искать...'></input>
 
-                        <div className={`${s.icon_clean}  ${query.length > 0 && s.icon_clean_vis}`}>
+                        <div className={`${s.icon_clean}  ${(query.length > 0 && searchOpen) && s.icon_clean_vis}`}>
                             <IconSearchClose onClick={handleCleanSearch} />
                         </div>
                     </div>
-                    <div className={s.tabs}>
+
+
+                    <div style={{marginLeft: `60px`}} className={s.tabs}>
+
+                        <div onClick={handleActiveTab} id='8' className={`${s.tab} ${activeTabList == 8 && s.tab_active} ${clientsNewNum == 0 && s.tab_disabled}`}>
+                            <p>Новые</p><sup>{clientsNewNum == 0 ? '' : clientsNewNum}</sup>
+                        </div>
                         <div onClick={handleActiveTab} id='1' className={`${s.tab} ${activeTabList == 1 && s.tab_active} ${noTaskFrNum == 0 && s.tab_disabled}`}>
                             <p>Без задач</p><sup>{noTaskFrNum == 0 ? '' : noTaskFrNum}</sup>
                         </div>
 
-                        <div onClick={handleActiveTab} id='2' className={`${s.tab} ${activeTabList == 2 && s.tab_active} ${archiveFrNum == 0 && s.tab_disabled}`}>
-                            <p>Все клиенты</p><sup>{archiveFrNum == 0 ? '' : archiveFrNum}</sup>
-                        </div>
+                     {/*    <div onClick={handleActiveTab} id='2' className={`${s.tab} ${activeTabList == 2 && s.tab_active} ${archiveFrNum == 0 && s.tab_disabled}`}>
+                            <p>Все шаги</p><sup>{archiveFrNum == 0 ? '' : archiveFrNum}</sup>
+                        </div> */}
 
                         <div onClick={handleActiveTab} id='3' className={`${s.tab} ${activeTabList == 3 && s.tab_active} ${planFrNum == 0 && s.tab_disabled}`}>
                             <p>Планирование встречи</p><sup>{planFrNum == 0 ? '' : planFrNum}</sup>
                         </div>
-                        
+
                         <div onClick={handleActiveTab} id='4' className={`${s.tab} ${activeTabList == 4 && s.tab_active} ${zoomFrNum == 0 && s.tab_disabled}`}>
                             <p>Проведен Zoom</p><sup>{zoomFrNum == 0 ? '' : zoomFrNum}</sup>
                         </div>
@@ -438,24 +508,36 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
                             <p>Предоплата</p><sup>{prepaidFrNum == 0 ? '' : prepaidFrNum}</sup>
                         </div>
 
-                      
+
                     </div>
 
-                    <MonthSelect/>
+                    <MonthSelect date={date} setDate={setDate} hidden={activeTabList !== '2' ? true : false} />
                 </div>
 
-                <div className={s.managers}>
-                    {experts.map(el => {
-                        return <div id={el.id} key={el.id} onClick={handleChoseManager} className={`${s.expert} ${el.id == manager && s.expert_active} ${disabledButton && s.expert_disabled}`}>
-                            <div className={s.avatar}>
-                                <img src={el.avatar_mini}></img>
+                <div className={s.header_bottom}>
+
+
+                    <div className={s.managers}>
+                        {experts.map(el => {
+                            return <div id={el.id} key={el.id} onClick={handleChoseManager} className={`${s.expert} ${el.id == manager && s.expert_active} ${disabledButton && s.expert_disabled}`}>
+                                <div className={s.avatar}>
+                                    <img src={el.avatar_mini}></img>
+                                </div>
+                                <p>{el.name} {el.surname}</p>
                             </div>
-                            <p>{el.name} {el.surname}</p>
-                        </div>
-                    })}
+                        })}
 
-                    <button onClick={handleReset} className={`${s.button} ${manager == 0 && s.button_hiden}`}><p>Сбросить</p> <IconCloseSmall /></button>
+                        <button onClick={handleReset} className={`${s.button} ${manager == 0 && s.button_hiden}`}><p>Сбросить</p> <IconCloseSmall /></button>
+                    </div>
+                    <div className={s.reject}>
+                        <p>Скрыть отказы</p>
+                        <SwitchDark setRejectFilter={setRejectFilter} rejectFilter={rejectFilter} />
+                    </div>
+
+
                 </div>
+
+
                 <ClientTable clients={clients} activeTab={activeTab} activeTabList={activeTabList} type={'fr'} />
                 {load && <div className={s.loader}><AnimEnd /></div>}
             </div>
@@ -466,6 +548,7 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
             {activeTabList == 6 && <ClientTableSceleton load={loadContractFr} type={'all'} />}
             {activeTabList == 7 && <ClientTableSceleton load={loadPrepaidFr} type={'all'} />}
             {activeTabList == 2 && <ClientTableSceleton load={loadArchiveFr} type={'all'} />}
+            {activeTabList == 8 && <ClientTableSceleton load={loadNewFr} type={'all'} />}
             {isSearch && <ClientTableSceleton load={loadSearch} type={'search'} />}
             {isSearch && clientsSearch.length == 0 && <p className={s.sub}>Ничего не найдено</p>}
 

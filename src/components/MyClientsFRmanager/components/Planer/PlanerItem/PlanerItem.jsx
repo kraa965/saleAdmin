@@ -118,7 +118,7 @@ const PlanerItem = ({ state, el, date }) => {
 
     return (
 
-        <div style={{display: !handleDateToday(el.next_connect, date) && state > -1  ? 'none' : ''}} onClick={handleOpenClient} className={`${s.container} ${now && s.container_now} ${type == 'call' && state == -1 && s.container_miss} ${type == 'zoom' && state == -1 && el.zoom_status == 2 && s.container_miss}`}>
+        <div style={{display: !handleDateToday(el.next_connect, date) && state > -1  ? 'none' : ''}} onClick={handleOpenClient} className={`${s.container} ${now && s.container_now}`}>
             <div className={s.block}>
                 <div className={s.time}>
                     {type == 'call' && state == -1 && <p>{handleTimeText(el.next_connect)}</p>}

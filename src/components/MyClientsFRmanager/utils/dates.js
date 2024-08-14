@@ -48,38 +48,38 @@ export const handleTaskTime = (d) => {
     const minute = date.getMinutes();
 
     let fMonth;
-    switch (month){
-      case 0: fMonth = "января"; break;
-      case 1: fMonth="февраля"; break;
-      case 2: fMonth="марта"; break;
-      case 3: fMonth="апреля"; break;
-      case 4: fMonth="мая"; break;
-      case 5: fMonth="июня"; break;
-      case 6: fMonth="июля"; break;
-      case 7: fMonth="августа"; break;
-      case 8: fMonth="сентября"; break;
-      case 9: fMonth="октября"; break;
-      case 10: fMonth="ноября"; break;
-      case 11: fMonth="декабря"; break;
-      default:
-  }
+    switch (month) {
+        case 0: fMonth = "января"; break;
+        case 1: fMonth = "февраля"; break;
+        case 2: fMonth = "марта"; break;
+        case 3: fMonth = "апреля"; break;
+        case 4: fMonth = "мая"; break;
+        case 5: fMonth = "июня"; break;
+        case 6: fMonth = "июля"; break;
+        case 7: fMonth = "августа"; break;
+        case 8: fMonth = "сентября"; break;
+        case 9: fMonth = "октября"; break;
+        case 10: fMonth = "ноября"; break;
+        case 11: fMonth = "декабря"; break;
+        default:
+    }
 
-    if(d == '0000-00-00 00:00:00') {
+    if (d == '0000-00-00 00:00:00') {
         return ''
-    } 
+    }
 
-    if(month == month2 && day == day2) {
+    if (month == month2 && day == day2) {
         return `${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}`
     }
 
-    if((month !== month2 || day !== day2) && year == year2) {
+    if ((month !== month2 || day !== day2) && year == year2) {
         return `${day} ${fMonth}`
     }
 
-    if(year !== year2) {
+    if (year !== year2) {
         return `${day < 10 ? `0${day}` : day}.${month < 9 ? `0${month + 1}` : month + 1}.${year}`
     }
-  
+
 }
 
 export const handleStageTime = (d) => {
@@ -95,38 +95,38 @@ export const handleStageTime = (d) => {
     const minute = date.getMinutes();
 
     let fMonth;
-    switch (month){
-      case 0: fMonth = "января"; break;
-      case 1: fMonth="февраля"; break;
-      case 2: fMonth="марта"; break;
-      case 3: fMonth="апреля"; break;
-      case 4: fMonth="мая"; break;
-      case 5: fMonth="июня"; break;
-      case 6: fMonth="июля"; break;
-      case 7: fMonth="августа"; break;
-      case 8: fMonth="сентября"; break;
-      case 9: fMonth="октября"; break;
-      case 10: fMonth="ноября"; break;
-      case 11: fMonth="декабря"; break;
-      default:
-  }
-
-    if(d == '0000-00-00 00:00:00') {
-        return ''
-    } 
-
-    if(month == month2 && day == day2 && year == year2 && month == month2) {
-       return `${day} ${fMonth}`
+    switch (month) {
+        case 0: fMonth = "января"; break;
+        case 1: fMonth = "февраля"; break;
+        case 2: fMonth = "марта"; break;
+        case 3: fMonth = "апреля"; break;
+        case 4: fMonth = "мая"; break;
+        case 5: fMonth = "июня"; break;
+        case 6: fMonth = "июля"; break;
+        case 7: fMonth = "августа"; break;
+        case 8: fMonth = "сентября"; break;
+        case 9: fMonth = "октября"; break;
+        case 10: fMonth = "ноября"; break;
+        case 11: fMonth = "декабря"; break;
+        default:
     }
 
-    if((month !== month2 || day !== day2) && year == year2) {
+    if (d == '0000-00-00 00:00:00' || d == '0000-00-00') {
+        return ''
+    }
+
+    if (month == month2 && day == day2 && year == year2 && month == month2) {
         return `${day} ${fMonth}`
     }
 
-    if(year !== year2) {
+    if ((month !== month2 || day !== day2) && year == year2) {
+        return `${day} ${fMonth}`
+    }
+
+    if (year !== year2) {
         return `${day < 10 ? `0${day}` : day}.${month < 9 ? `0${month + 1}` : month + 1}.${`${year}`.slice(-2)}`
     }
-  
+
 }
 
 export const handleDateDifference = (d) => {
@@ -140,7 +140,7 @@ export const handleDateDifference = (d) => {
     const year2 = date2.getFullYear();
     const diffDays = Math.ceil((date - date2) / (1000 * 60 * 60 * 24));
 
-    if(!d || d == '0000-00-00 00:00:00') {
+    if (!d || d == '0000-00-00 00:00:00') {
         return ''
     }
 
@@ -152,7 +152,7 @@ export const handleDateDifference = (d) => {
         return 'Вчера'
     }
 
-    if ((day - day2  > 1) || (month !== month2) || (year !== year2)) {
+    if ((day - day2 > 1) || (month !== month2) || (year !== year2)) {
         return `${diffDays} дн`
     }
 }
@@ -178,3 +178,86 @@ export const handleDateZoomDiff = (d1, d2) => {
         return false
     }
 };
+
+
+
+
+export const handleMonthList = () => {
+    const date1 = new Date(`2023-05-01`);
+    const date2 = new Date();
+    const month = date1.getMonth() + 1;
+    const year = date1.getFullYear();
+    const monthNow = date2.getMonth() + 1;
+    const yearNow = date2.getFullYear();
+    const monthNum = ((yearNow - year - 1) * 12) + 8 + monthNow;
+
+    const monthList = [...Array(monthNum)].map((el, index) => {
+        const newMonth = index + month;
+        if (newMonth <= 12) {
+            const m = newMonth
+            const y = year
+            const dayNum = (new Date(y, m, 0)).getDate()
+
+            let fMonth;
+            switch (m) {
+                case 1: fMonth = "январь"; break;
+                case 2: fMonth = "февраль"; break;
+                case 3: fMonth = "март"; break;
+                case 4: fMonth = "апрель"; break;
+                case 5: fMonth = "май"; break;
+                case 6: fMonth = "июнь"; break;
+                case 7: fMonth = "июль"; break;
+                case 8: fMonth = "август"; break;
+                case 9: fMonth = "сентябрь"; break;
+                case 10: fMonth = "октябрь"; break;
+                case 11: fMonth = "ноябрь"; break;
+                case 12: fMonth = "декабрь"; break;
+                default:
+            }
+            return {
+                date: `${y}-${m < 10 ? `0${m}` : m}-01`,
+                dateEnd: `${y}-${m < 10 ? `0${m}` : m}-${dayNum < 10 ? `0${dayNum}` : dayNum}`,
+                dateText: `${fMonth} ${y}`
+            }
+        } else {
+            const m = newMonth % 12
+            const y = year + Math.floor(newMonth / 12)
+            const dayNum = (new Date(y, m, 0)).getDate()
+
+            let fMonth;
+            switch (m) {
+                case 1: fMonth = "январь"; break;
+                case 2: fMonth = "февраль"; break;
+                case 3: fMonth = "март"; break;
+                case 4: fMonth = "апрель"; break;
+                case 5: fMonth = "май"; break;
+                case 6: fMonth = "июнь"; break;
+                case 7: fMonth = "июль"; break;
+                case 8: fMonth = "август"; break;
+                case 9: fMonth = "сентябрь"; break;
+                case 10: fMonth = "октябрь"; break;
+                case 11: fMonth = "ноябрь"; break;
+                case 12: fMonth = "декабрь"; break;
+                default:
+            }
+            return {
+                date: `${y}-${m < 10 ? `0${m}` : m}-01`,
+                dateEnd: `${y}-${m < 10 ? `0${m}` : m}-${dayNum < 10 ? `0${dayNum}` : dayNum}`,
+                dateText: `${fMonth} ${y}`
+            }
+
+        }
+    })
+    return monthList
+}
+
+export const handleEndDayMonth = (s) => {;
+    const date = new Date(s);
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const dayNum = (new Date(year, month, 0)).getDate();
+
+    return `${year}-${month < 10 ? `0${month}` : month}-${dayNum < 10 ? `0${dayNum}` : dayNum}`
+}
+
+/* const dateFromString = new Date("mm/dd/yyyy"); */

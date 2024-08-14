@@ -57,6 +57,32 @@ export const editClient = (data) => {
     })
 } 
 
+export const deleteNumber = (phone) => {
+    return instanceWithToken({
+        method: 'delete',
+        mode: "cors",
+        headers: {
+            "Content-type": "application/json",
+            "Accept": "application/json"
+        },
+        url: `${baseUrl}api/frmanager/clients/phone`,
+        data: {phone},
+    })
+}
+
+export const checkPhone = (phone) => {
+    return instanceWithToken({
+        method: 'post',
+        mode: "cors",
+        headers: {
+            "Content-type": "application/json",
+            "Accept": "application/json"
+        },
+        url: `${baseUrl}api/frmanager/clients/phone/check`,
+        data: {phone},
+    })
+}
+
 //звонок клиенту и последующая работа
 export const callClient = (phone, id) => {
     return instanceWithToken.post(`${baseUrl}api/frmanager/clients/call_mango?phone=${phone}&id=${id}`);
@@ -280,6 +306,10 @@ export const sendFile = (data) => {
     })
 }
 
+//получить запись звонка
+export const getCallRecord = (logId) => {
+    return instanceWithToken.get(`${baseUrl}api/frmanager/clients/record_log?log_id=${logId}`);
+}
 
 
 

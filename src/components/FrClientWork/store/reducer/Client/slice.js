@@ -20,6 +20,8 @@ const initialState = {
     clientStatus: 1,
     dayWithoutMove: 0,
     clientManager: {},
+    managerLast: 0,
+    rejectComment: '',
 };
 /* stages =[bp, viewBp (ознакомился с БП, road status == finished), ReqZoom (запросил zoom последний лог type == ReqZoom), setZoom (записался на Zoom road status == finished), 
 finishZoom (road status == finished)] , noZoom (зумм не состоялся setZoom road status == finished берем последний лог и смотрим что время лога меньше чем текущего времени на пол часа ), 
@@ -115,6 +117,14 @@ const ClientSlice = createSlice({
             state.clientManager = action.payload;
         },
 
+        setManagerLast(state, action) {
+            state.managerLast = action.payload;
+        },
+
+        setRejectComment(state, action) {
+            state.rejectComment = action.payload;
+        },
+
     },
 });
 
@@ -139,7 +149,9 @@ export const {
     setCallMe,
     setClientStatus,
     setDayWithoutMove,
-    setClientManager
+    setClientManager,
+    setManagerLast,
+    setRejectComment
 } = ClientSlice.actions;
 
 export default ClientSlice.reducer;

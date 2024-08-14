@@ -32,7 +32,7 @@ function Experts({ active, stepsStat }) {
     const listRef2 = useRef();
     const managerRef = useRef();
 
-    console.log(experts)
+    console.log(traficStatic)
 
     useEffect(() => {
         setAnim(true);

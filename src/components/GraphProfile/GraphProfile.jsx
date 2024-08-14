@@ -15,7 +15,7 @@ function GraphProfile({ dark, type, indicator, indicatorTotal, load, planDay, sh
     const [dates, setDates] = useState([]);
     const [max, setMax] = useState(0);
     const graphRef = useRef();
-    console.log(type, plan)
+    console.log(type, planPercent)
 
     useEffect(() => {
 
@@ -50,7 +50,7 @@ function GraphProfile({ dark, type, indicator, indicatorTotal, load, planDay, sh
 
         setPoints(data);
         setPlan(planData);
-        const sumPlan = planData.reduce(function (a, b) {
+        const sumPlan = planData.slice(0, 28).reduce(function (a, b) {
             return a + b;
         }, 0);
         setTotalPlan(sumPlan)
@@ -65,7 +65,7 @@ function GraphProfile({ dark, type, indicator, indicatorTotal, load, planDay, sh
 
     useEffect(() => {
 
-        if (planPercent < 0 && dark) {
+        if (planPercent < 0 && dark && type !== 'event') {
             setColor({
                 add1: 'rgba(135, 162, 255, 0.52)',
                 add2: 'rgba(135, 162, 255, 0.1)',
@@ -74,7 +74,7 @@ function GraphProfile({ dark, type, indicator, indicatorTotal, load, planDay, sh
             return
         }
 
-        if (planPercent < 0 && !dark) {
+        if (planPercent < 0 && !dark && type !== 'event') {
             setColor({
                 add1: 'rgba(0, 44, 251, 0.52)',
                 add2: 'rgba(0, 44, 251, 0.1)',
@@ -83,7 +83,7 @@ function GraphProfile({ dark, type, indicator, indicatorTotal, load, planDay, sh
             return
         }
 
-        if (planPercent < 70 && planPercent > 0) {
+        if (planPercent < 70 && planPercent > 0 && type !== 'event') {
             setColor({
                 add1: 'rgba(255, 51, 51, 0.52)',
                 add2: 'rgba(255, 255, 255, 0.1)',
@@ -92,7 +92,7 @@ function GraphProfile({ dark, type, indicator, indicatorTotal, load, planDay, sh
             return
         }
 
-        if (planPercent < 90 && planPercent >= 70) {
+        if (planPercent < 90 && planPercent >= 70 && type !== 'event') {
             setColor({
                 add1: 'rgba(255, 222, 51, 0.52)',
                 add2: 'rgba(248, 250, 253, 0.1)',
@@ -101,7 +101,7 @@ function GraphProfile({ dark, type, indicator, indicatorTotal, load, planDay, sh
             return
         }
 
-        if (planPercent >= 90) {
+        if (planPercent >= 90 && type !== 'event') {
             setColor({
                 add1: 'rgba(51, 255, 71, 0.52)',
                 add2: 'rgba(248, 250, 253, 0.1)',
@@ -109,7 +109,34 @@ function GraphProfile({ dark, type, indicator, indicatorTotal, load, planDay, sh
             })
             return
         }
-    }, [planPercent, dark])
+
+        if (indicatorTotal == 0 && type == 'event') {
+            setColor({
+                add1: 'rgba(135, 162, 255, 0.52)',
+                add2: 'rgba(135, 162, 255, 0.1)',
+                stroke: 'rgba(135, 162, 255)'
+            })
+            return
+        }
+
+        if (indicatorTotal == 1 && type == 'event') {
+            setColor({
+                add1: 'rgba(255, 222, 51, 0.52)',
+                add2: 'rgba(248, 250, 253, 0.1)',
+                stroke: '#FFDE35'
+            })
+            return
+        }
+
+        if (indicatorTotal > 1 && type == 'event') {
+            setColor({
+                add1: 'rgba(255, 51, 51, 0.52)',
+                add2: 'rgba(255, 255, 255, 0.1)',
+                stroke: '#E75A5A'
+            })
+            return
+        }
+    }, [planPercent, dark, indicatorTotal])
 
 
     function draw() {

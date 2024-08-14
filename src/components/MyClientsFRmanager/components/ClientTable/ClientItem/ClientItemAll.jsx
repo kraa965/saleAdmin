@@ -26,15 +26,16 @@ import { setClientId } from '../../../../FrClientWork/store/reducer/Client/slice
 //selector
 import { selectorUpdater } from '../../../store/reducer/Updater/selector';
 import { selectorClient } from '../../../../FrClientWork/store/reducer/Client/selector';
+import { selectorExperts } from '../../../store/reducer/Experts/selector';
 //components
 import HandOverClient from './HandOverClient/HandOverClient';
 
 const ClientItemAll = ({ client, id, type, activeTabList }) => {
+    const experts = useSelector(selectorExperts).experts;
     const [anim, setAnim] = useState(false);
     const [tooltip, setTooltip] = useState(false);
     const [favorite, setFavorite] = useState(false);
     const [viewFavorite, setViewFavorite] = useState(false);
-    const [lastRoadDate, setLastRoadDate] = useState('');
     const [lastComment, setLastComment] = useState('');
     const [status, setStatus] = useState(0);
     const [statusText, setStatusText] = useState('');
@@ -47,11 +48,11 @@ const ClientItemAll = ({ client, id, type, activeTabList }) => {
     const [anketaDate, setAnketaDate] = useState('');
     const [contractDate, setContractDate] = useState('');
     const [prepayDate, setPrepayDate] = useState('');
+    const [managerReject, setManagerReject] = useState('');
     const dispatch = useDispatch();
     const updater = useSelector(selectorUpdater);
     const client_id = useSelector(selectorClient).client_id;
     const navigate = useNavigate();
-    console.log(client)
 
     //Бизнес-план (1): - Сформирован бизнес-план (1) ClientOpenPlan
     //запись на ZOOM (2): - Клиент запросил Zoom(2.1) ReqZoom,  Запись на Zoom-встречу (2.2) ClientZoomSet
@@ -95,12 +96,15 @@ const ClientItemAll = ({ client, id, type, activeTabList }) => {
         const anketa = client?.lk_road_logs?.find(el => el.type == 'ClientAnketaAccept');
         const contract = client?.lk_road_logs?.find(el => el.type == 'ClientContractSign');
         const prepay = client?.lk_road_logs?.find(el => el.type == 'ClientPrepaid');
-    console.log(prepay?.date)
-        setBpDate(bp ? handleStageTime(bp.date_change) : '')
+        /*  const rejectLog = client?.lk_road_logs?.find(el => el.type == 'ClientStatusReject');
+         const rejectManager = experts.findLast(el => el.id == rejectLog?.person_id); */
+        console.log(prepay?.date)
+        setBpDate(bp ? bp.date_change : '')
         setZoomDate(zoom ? handleStageTime(zoom.date) : '')
         setAnketaDate(anketa ? handleStageTime(anketa.date) : '')
         setContractDate(contract ? handleStageTime(contract.date) : '')
         setPrepayDate(prepay ? handleStageTime(prepay.date) : '')
+        /*   setManagerReject(rejectManager ? `${rejectManager.name} ${rejectManager.surname}` : '') */
 
 
     }, [client])
@@ -113,6 +117,11 @@ const ClientItemAll = ({ client, id, type, activeTabList }) => {
             return
         }
     }, [client, updater]);
+
+    useEffect(() => {
+        const result = experts.find(el => el.id == client?.manager_last);
+        setManagerReject(result ? `${result.name} ${result.surname}` : '')
+    }, [experts, client])
 
     const handleOpenTooltip = () => {
         setTooltip(true)
@@ -181,7 +190,7 @@ const ClientItemAll = ({ client, id, type, activeTabList }) => {
 
     return (
 
-        <div id={id} onMouseEnter={handleViewFavorite} onMouseLeave={handleHidenFavorite} className={`${s.item} ${handOver && s.item_hover} ${handOverExpert !== '' && type !== 'fr' && s.item_dis}`}>
+        <div id={id} onMouseEnter={handleViewFavorite} onMouseLeave={handleHidenFavorite} className={`${s.item} ${handOver && s.item_hover} ${anim && s.item_anim} ${handOverExpert !== '' && type !== 'fr' && s.item_dis}`}>
             <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
                 <div className={`${s.empty} ${s.empty_all}`}>
                     {missedCall && <IconMissingCall />}
@@ -191,28 +200,13 @@ const ClientItemAll = ({ client, id, type, activeTabList }) => {
 
             <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
                 <div onClick={handleOpenClient} className={s.stage}>
-                    <p>{statusText} {bpDate}</p>
+                    <p>{statusText} {handleStageTime(bpDate)}</p>
                 </div>
             </Link>
 
             <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
                 <div onClick={handleOpenClient} className={`${s.client} ${s.client_all}`}>
                     <p>{client.name}</p> <span>{client.city}</span>
-                </div>
-            </Link>
-
-            <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
-                <div className={`${s.task} ${s.task_all}`}>
-                    <p>{handleTaskTime(client.next_connect)}</p>
-                    {client.next_connect == client.zoom_date && client.next_connect !== '0000-00-00 00:00:00' && <div className={s.zoom}>
-                        <IconZoomSmall />
-                    </div>}
-                </div>
-            </Link>
-
-            <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
-                <div onClick={handleOpenClient} className={s.stage}>
-                    <p>{handleDateDifference(client.last_connect)}</p>
                 </div>
             </Link>
 
@@ -240,6 +234,21 @@ const ClientItemAll = ({ client, id, type, activeTabList }) => {
                 </div>
             </Link>
 
+            <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
+                <div className={`${s.task} ${s.task_all}`}>
+                    <p>{handleTaskTime(client.next_connect)}</p>
+                    {client.next_connect == client.zoom_date && client.next_connect !== '0000-00-00 00:00:00' && <div className={s.zoom}>
+                        <IconZoomSmall />
+                    </div>}
+                </div>
+            </Link>
+
+            <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
+                <div onClick={handleOpenClient} className={s.stage}>
+                    <p>{handleDateDifference(client.last_connect)}</p>
+                </div>
+            </Link>
+
 
             <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`} className={`${s.comment_link} ${s.comment_small2} ${type == 'fr' && s.comment_link_fr}`}>
                 {handOverExpert == '' && <div className={`${s.comment} ${s.comment_small2} ${type == 'fr' && s.comment_fr}`} onMouseEnter={handleOpenTooltip} onMouseLeave={handleCloseTooltip}>
@@ -257,7 +266,8 @@ const ClientItemAll = ({ client, id, type, activeTabList }) => {
 
 
             <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
-                <p className={s.handover_name2}>{handOverExpert !== '' ? handOverExpert : `${client?.has_manager?.name ? client?.has_manager?.name : ''} ${client?.has_manager?.surname ? client?.has_manager?.surname : ''}`}</p>
+                {client.status !== 3 && <p className={s.handover_name2}>{handOverExpert !== '' ? handOverExpert : `${client?.has_manager?.name ? client?.has_manager?.name : ''} ${client?.has_manager?.surname ? client?.has_manager?.surname : ''}`}</p>}
+                {client.status == 3 && <p className={s.handover_name2}>{handOverExpert !== '' ? handOverExpert : `${managerReject}`}</p>}
             </Link>
 
 
@@ -268,7 +278,7 @@ const ClientItemAll = ({ client, id, type, activeTabList }) => {
             </Link>
 
 
-            {(handOverExpert == '' || type == 'fr') && handleDateDifference(lastRoadDate) !== 'Сегодня' && <div className={`${s.handover}`}>{/* <p>передать</p> */}<button onClick={handleOpenModal} className={`${s.button} ${!viewFavorite && s.button_hiden}`}><IconHandOver /></button>
+            {(handOverExpert == '' || type == 'fr') && handleDateDifference(bpDate) !== 'Сегодня' && <div className={`${s.handover}`}>{/* <p>передать</p> */}<button onClick={handleOpenModal} className={`${s.button} ${!viewFavorite && s.button_hiden}`}><IconHandOver /></button>
                 {handOver && <div className={`${s.modal} ${handOver && s.modal_open}`}><HandOverClient id={id} setHandOver={setHandOver} /></div>}
             </div>
             }

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    experts: [],
+    experts: JSON.parse(localStorage.getItem('expertsList')) || [],
 };
 
 const ExpertsSlice = createSlice({

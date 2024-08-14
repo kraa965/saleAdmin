@@ -2,8 +2,8 @@ import s from './GraphDiagram.module.scss';
 //components
 import Column from './Column/Column';
 import { useEffect, useState } from 'react';
-const indicators = [{name: 'Всего клиентов', num: 200}, {name: 'Передано экспертам', num: 180}, {name: 'Состоялась встреча', num: 90}, {name: 'Заполнена анкета', num: 40}, ];
-const colors = ['#ED8181','#FFD966', '#63E08D', '#5CD8F0']
+const indicators = [{ name: 'Всего клиентов', num: 200 }, { name: 'Передано экспертам', num: 180 }, { name: 'Состоялась встреча', num: 90 }, { name: 'Заполнена анкета', num: 40 },];
+const colors = ['#ED8181', '#FFD966', '#63E08D', '#5CD8F0']
 
 const Bage = ({ data, color }) => {
     return (
@@ -15,8 +15,17 @@ const Bage = ({ data, color }) => {
     )
 }
 
-const GraphDiagram = ({traficStatic}) => {
+const GraphDiagram = ({ traficStatic }) => {
     const [maximumValue, setMaximumValue] = useState(200);
+    console.log(maximumValue)
+
+    useEffect(() => {
+        if (traficStatic.length > 0) {
+            const max = traficStatic?.reduce((acc, curr) => acc.clients_open_BP > curr.clients_open_BP ? acc : curr);
+            setMaximumValue(max.clients_open_BP);
+            return
+        }
+    }, [traficStatic])
 
     return (
         <div className={s.diagram}>
@@ -33,12 +42,13 @@ const GraphDiagram = ({traficStatic}) => {
             </div>
             <div className={s.graph}>
                 {traficStatic.map(el => {
-                    return <Column colors={colors} indicators={indicators} maximumValue={maximumValue} el={el}/>
+                    const metrics = [{ name: 'Всего клиентов', num: el.clients_open_BP }, { name: 'Передано экспертам', num: el.new_clients }, { name: 'Состоялась встреча', num: el.zoom_meet }, { name: 'Заполнена анкета', num: el.anketa_send }]
+                    return <Column colors={colors} indicators={metrics} maximumValue={maximumValue} el={el} />
                 })}
 
                 <div className={s.grid}>
                     {[...Array(5)].map((el, i) => {
-                        return <div style={{height: `${i * 25}%`}} className={s.line}>
+                        return <div style={{ height: `${i * 25}%` }} className={s.line}>
                             <p>{i * 25}</p>
                             <div></div>
                         </div>

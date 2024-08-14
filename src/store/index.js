@@ -20,6 +20,7 @@ import WidgetSlice from '../components/FrClientWork/store/reducer/Widget/slice';
 import WorkSlice from '../components/FrClientWork/store/reducer/Work/slice'; 
 import PartnersSlice from '../components/FrClientWork/store/reducer/Partners/slice';
 import MessengerSlice from '../components/FrClientWork/store/reducer/Messenger/slice';
+import lkCalendarSlice from '../components/CalendarEvent/CalendarEvent/store/reducer/lk/calendar/slice';
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 export const rootReducer = combineReducers({
@@ -43,7 +44,8 @@ export const rootReducer = combineReducers({
   ClientSlice,
   WidgetSlice,
   WorkSlice,
-  PartnersSlice
+  PartnersSlice,
+  lkCalendarSlice
 });
 
 export const store = configureStore({

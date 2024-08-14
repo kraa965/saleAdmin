@@ -231,6 +231,7 @@ function AddCard({ setAddWindow, setAnim, disabled, setDisabled }) {
             })
             .catch(err => {
                 const status = err.response.status;
+                console.log(err.response)
                 status == 422 ? setError('Введены некоректные данные') : setError('Ошибка сервера');
                 setLoad(false)
             })

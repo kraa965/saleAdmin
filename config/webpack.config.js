@@ -229,6 +229,13 @@ module.exports = function (webpackEnv) {
         : isEnvDevelopment &&
           (info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')),
     },
+
+    externalsType: 'script',
+
+    externals: {
+      // Вместо YOUR_API_KEY подставить значение настоящего ключа
+      ymaps3: ['https://api-maps.yandex.ru/v3/?apikey=76ade9cc-95ac-4852-a20f-6e53fefa307c&lang=ru_RU', 'ymaps3']
+  },
     cache: {
       type: 'filesystem',
       version: createEnvironmentHash(env.raw),

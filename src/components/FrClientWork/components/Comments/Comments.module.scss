@@ -9,6 +9,8 @@
     position: relative;
     opacity: 1;
     transition: all 0.2s;
+    max-height: 2816px;
+
 
     &_hiden {
         min-height: 0;
@@ -63,14 +65,15 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
-    transition: all 0.35s ease-in-out;
 
+    transition: all 0.35s ease-in-out;
 
     /*  &_anim {
         max-height: 700px;
     } */
 
     &_hiden {
+        overflow: hidden;
         width: 100%;
         box-sizing: border-box;
         left: 0;
@@ -85,10 +88,10 @@
 
     }
 
-    /*    &_open {
+    &_open {
         overflow-y: auto;
         overflow-x: hidden;
-    } */
+    }
 }
 
 .comment {
@@ -221,7 +224,7 @@
     padding: 0;
     display: flex;
     align-items: center;
-    height: 0;
+    max-height: 0;
     overflow: hidden;
     transition: all 0.2s ease-in-out;
     margin-top: -16px;
@@ -234,6 +237,7 @@
     &_vis {
         margin-top: 0;
         height: 54px;
+        max-height: 200px;
         padding: 16px 12px;
         margin-top: 0;
         gap: 8px;
@@ -246,4 +250,175 @@
     &_green {
         background-color: var(--color-bage-green);
     }
+
+    &_reject {
+        align-items: flex-start;
+        height: fit-content;
+
+        div {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        span {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+        }
+    }
+}
+
+.block {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    &_audio {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    svg {
+        margin-top: 2px;
+    }
+}
+
+.text_from {
+    color: var(--color-text-secondary);
+    font-size: 14px;
+}
+
+//стили аудио сообщения
+
+.audio {
+    width: 360px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 10px;
+    /*   height: 60px; */
+    margin-bottom: 8px;
+}
+
+.button {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    svg path {
+        fill: var(--color-message-span);
+    }
+
+    &_hidden {
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(0);
+    }
+}
+
+.progress {
+    width: 266px;
+    height: 3px;
+    background-color: var(--color-progress-voice);
+    position: relative;
+    cursor: pointer;
+}
+
+.inner {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background-color: var(--color-button-voice);
+    z-index: 2;
+    transition: all 0.2s;
+}
+
+.point {
+    /*  position: absolute; */
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-button-voice);
+
+
+
+    &_anim {
+        transition: all 0.2s;
+    }
+}
+
+.timer {
+    min-width: 40px;
+    left: 0;
+    font-size: 14px !important;
+    margin-bottom: 4px;
+}
+
+.voice {
+    opacity: 0;
+    height: 0;
+    transition: all 0.2s;
+
+    &_open {
+        opacity: 1;
+        height: 30px;
+    }
+}
+
+.number {
+    width: 100%;
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.2s;
+
+    &_hidden {
+        opacity: 0;
+        transform: scale(0);
+        width: 0;
+    }
+}
+
+.load {
+    opacity: 0;
+    transition: all 0.15s;
+    position: absolute;
+    visibility: hidden;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0);
+
+    div {
+        margin-right: 0;
+    }
+
+
+    &_vis {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+    }
+}
+
+
+.list::-webkit-scrollbar-track {
+    /*  background: var(--color-bg-card); */
+}
+
+.list::-webkit-scrollbar-thumb {
+    background-color: #ffc22700;
+    border-radius: 4px;
+
 }

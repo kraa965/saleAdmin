@@ -1,0 +1,199 @@
+.map-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.my-marker {
+  position: absolute;
+  top: 25px;
+  left: 17px;
+  margin: -2.2em 0 0 -1.3em;
+}
+
+.new g path {
+  fill: #ce32d1;
+}
+
+.active g path {
+  fill: #1b8860;
+}
+
+.average_active g path {
+  fill: #ffd500;
+}
+
+.low_active g path {
+  fill: #cc0101;
+}
+
+.not_work g path {
+  fill: #71869d;
+}
+
+.black_list g path {
+  fill: #121922;
+}
+
+.marker-order {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 30px;
+  left: -31px;
+
+  margin: -2.2em 0 0 -1.3em;
+  /* padding: 0 3px 3px 0; */
+  /* z-index: 1; */
+}
+
+.marker-order__icon {
+  width: 42px;
+  height: 41px;
+}
+
+.marker-order__text {
+  width: max-content;
+  color: #000;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.39px;
+}
+
+.my-marker__pin {
+  overflow: hidden;
+
+  background: #f1f4f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 30px;
+  left: 20px;
+
+  width: 42px;
+  height: 41px;
+  cursor: pointer;
+
+  margin: -2.2em 0 0 -1.3em;
+  padding: 0 3px 3px 0;
+
+  border-radius: 50% 50% 50% 0;
+  box-shadow: -1px 1px 4px rgba(0, 0, 0, 0.5);
+
+  transform: perspective(40px) rotateX(20deg) rotateZ(-45deg);
+}
+
+.my-marker__icon {
+  /* transform: translateX(2px) rotate(45deg); */
+  /* transform: translateX(13px) rotate(44deg) translateY(3px);
+  width: 28px;
+  height: 28px; */
+}
+
+.icon-avatar {
+  transform: translateX(2px) rotate(45deg) translateY(9px);
+}
+
+.not-avatar {
+  transform: translateX(2px) rotate(45deg) translateY(3px);
+}
+
+.popup {
+  z-index: 111;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  /* max-height: 164px; */
+  width: 249px;
+  box-sizing: border-box;
+  padding: 16px;
+  position: absolute;
+  top: -111px;
+  left: -131px;
+  opacity: 0.9;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 4px 16px 50px 0px rgba(129, 135, 163, 0.24);
+
+  /* transform: translate(20px, calc(-100% - 55px)); */
+}
+
+.popup-text {
+  color: #121922;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.popup__alert-btn {
+  margin-top: 10px;
+
+  font-family: inherit;
+  cursor: pointer;
+
+  border: none;
+  border-radius: 5px;
+}
+
+.popup__close {
+  position: absolute;
+  top: -15px;
+  right: -25px;
+
+  width: 24px;
+}
+
+.popup__close:hover {
+  cursor: pointer;
+}
+
+.avatar {
+  /* height: 65px;
+  width: 44px;
+  object-fit: cover; */
+  position: absolute;
+  top: 7px;
+  left: 8px;
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+}
+
+.not-avatarIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f4f9;
+  position: absolute;
+  top: 7px;
+  left: 8px;
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+}
+
+.my-marker div svg g path {
+  /* fill: red; */
+}
+
+.generalMarker {
+  width: 30px;
+  height: 30px;
+  background: #002cfb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.generalMarker p {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #fff;
+}

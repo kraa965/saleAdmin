@@ -3,6 +3,7 @@
     background-color: var(--color-bg-card);
     border-radius: 8px;
     min-height: 58px;
+/*     position: static; */
 
     a:active,
     a:hover,
@@ -22,6 +23,10 @@
     font-weight: 400;
     line-height: 16px;
     color: var(--color-text-secondary);
+    background-color: var(--color-bg-card);
+    position: sticky;
+    z-index: 2;
+    top: 0;
     /*    margin-bottom: 12px; */
 
     div {
@@ -50,7 +55,7 @@
     width: 260px;
 
     &_all {
-        width: 220px;
+        width: 180px;
     }
 }
 
@@ -59,7 +64,7 @@
 }
 
 .task_all {
-    width: 130px;
+    width: 116px;
 }
 
 .step {
@@ -67,7 +72,7 @@
 }
 
 .stage {
-    width: 116px;
+    width: 110px;
 }
 
 .expert {
@@ -84,7 +89,7 @@
     }
 
     &_small2 {
-        max-width: 220px;
+        max-width: 200px;
     }
 }
 

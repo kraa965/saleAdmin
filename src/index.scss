@@ -100,7 +100,7 @@ ul::-webkit-scrollbar {
 }
 
 ul::-webkit-scrollbar-track {
-  background: var(--color-bg-card);
+ /*  background: var(--color-bg-card); */
 }
 
 ul::-webkit-scrollbar-thumb {
@@ -122,11 +122,35 @@ div::-webkit-scrollbar {
 }
 
 div::-webkit-scrollbar-track {
-  background: var(--color-bg-card);
+  /* background: var(--color-bg-card); */
 }
 
 div::-webkit-scrollbar-thumb {
   background-color: var(--color-button-disabled);
   border-radius: 4px;
 
+}
+
+.red2 {
+  background: linear-gradient(270deg, #E55656 0%, #E55656 100%);
+}
+
+.orange2 {
+  background: linear-gradient(270deg, #F8C158 0.54%, #F8C158 100%);
+}
+
+.yellow {
+  background: linear-gradient(270deg, #FCED64 0%, #FCED64 100%)
+}
+
+.green {
+  background: linear-gradient(270deg, #B3F95B 0%, #B3F95B 100%);
+}
+
+.green3 {
+  background: linear-gradient(270deg, #67E78B 0%, #67E78B 100%);
+}
+
+.blue {
+  background: linear-gradient(270deg, #87A2FF 0%, #87A2FF 100%);
 }

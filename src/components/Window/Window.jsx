@@ -14,6 +14,8 @@ import AppMyCLients from '../MyClientsFRmanager/components/AppMyCLients/AppMyCLi
 import Clients from '../MyClientsFRmanager/components/Clients/Clients';
 import ClientsFrAll from '../MyClientsFRmanager/components/Clients/ClientsFrAll';
 import FrClientWork from '../FrClientWork/FrClientWork';
+import Calendar from '../CalendarEvent/CalendarEvent/Calendar';
+import Notifications from '../FrClientWork/components/Notifications/Notifications';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -27,7 +29,7 @@ function Window({ role }) {
         <div className={`${s.window} ${path == '/leader/dashboard' && s.window_dash} ${dark && s.dark}`}>
             <div className={s.container}>
                 <Routes>
-                <Route path="/experts/work/*" element={<FrClientWork />} />
+                    <Route path="/experts/work/*" element={<FrClientWork />} />
                     <Route path="/leader/dashboard/experts/work/*" element={<FrClientWork />} />
                     <Route path="/leader/dashboard/myclients" element={<Clients />} />
                     <Route path="/leader/dashboard/clients" element={<ClientsFrAll />} />
@@ -39,9 +41,9 @@ function Window({ role }) {
                     <Route path="/leader/dashboard/metrics" element={<Metrics />} />
                     <Route path="/leader/dashboard/stock" element={<AppStock />} />
                     <Route path="/leader/dashboard/purchases" element={<AppPurchase />} />
-                  
+                    <Route path="/leader/dashboard/event" element={<Calendar />} />
                     <Route path="*" element={<ResultOverlay />} />
-
+           
                     {/* {menu === 'result' && <Result />}
                         {menu === 'sales' && <Sales />} */}
                     {/* {menu === 'team' && <Team />}
@@ -49,7 +51,7 @@ function Window({ role }) {
                     {menu === 'shedule' && <Shedule />}
                     {menu === 'metrics' && <Metrics />} */}
                 </Routes>
-
+                <Notifications />
             </div>
         </div>
     )

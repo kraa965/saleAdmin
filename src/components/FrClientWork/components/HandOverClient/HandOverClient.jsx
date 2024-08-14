@@ -51,7 +51,7 @@ const HandOverWidget = ({ setWidget, prevWidget, setEndType, isNewClient }) => {
                 setEndType('handOver');
                 setLoader(false);
                 dispatch(setClientId(''));
-                navigate(-2/* '/leader/dashboard/myclients' */);
+                navigate('leader/dashboard/clients');
 
             })
             .catch(err => console.log(err))

@@ -75,7 +75,7 @@ const ClientsTable = ({ clients, activeTab, activeTabList, type }) => {
     return (
         <>
             <div className={s.table}>
-                {type == 'fr' && activeTabList == 2 ?
+                {type == 'fr' && activeTabList !== '8' ?
                     <div className={s.header}>
                         <div className={`${s.empty} ${s.empty_all}`}></div>
                         <div className={s.stage}>
@@ -83,12 +83,6 @@ const ClientsTable = ({ clients, activeTab, activeTabList, type }) => {
                         </div>
                         <div className={`${s.client} ${s.client_all}`}>
                             <p>Клиент</p>
-                        </div>
-                        <div className={s.task_all}>
-                            <p>Задача</p>
-                        </div>
-                        <div className={s.stage}>
-                            <p>Коммуникация</p>
                         </div>
                         <div className={s.stage}>
                             <p>Зум</p>
@@ -102,6 +96,13 @@ const ClientsTable = ({ clients, activeTab, activeTabList, type }) => {
 
                         <div className={s.stage}>
                             <p>Предоплата</p>
+                        </div>
+
+                        <div className={s.task_all}>
+                            <p>Задача</p>
+                        </div>
+                        <div className={s.stage}>
+                            <p>Коммуникация</p>
                         </div>
 
                         <div className={`${s.comment} ${s.comment_small2}`}>
@@ -134,12 +135,12 @@ const ClientsTable = ({ clients, activeTab, activeTabList, type }) => {
                         <div className={s.step}>
                             <p>Шаг</p>
                         </div>
-                        {activeTabList == 1 && type !== 'fr' && <div className={`${s.comment} ${s.comment_small}`}>
+                        {activeTabList == 8 && type == 'fr' && <div className={`${s.comment} ${s.comment_small}`}>
                             <p>Комментарий</p>
                         </div>
                         }
 
-                        {activeTabList == 1 && type !== 'fr' && <div className={`${s.source} ${s.source_open}`}>
+                        {activeTabList == 8 && type == 'fr' && <div className={`${s.source} ${s.source_open}`}>
                             <p>Источник</p>
                         </div>
                         }
@@ -150,7 +151,7 @@ const ClientsTable = ({ clients, activeTab, activeTabList, type }) => {
 
                 <ul ref={listRef} className={s.list}>
                     {sortClients.slice(0, endCursor).map(el => {
-                        return (type == 'fr' && activeTabList == 2) ?
+                        return (type == 'fr' && activeTabList !== '8') ?
                             <ClientItemAll key={el.id} id={el.id} client={el} clients={clients} activeTab={activeTab} activeTabList={activeTabList} type={type} />
                             :
                             <ClientItem key={el.id} id={el.id} client={el} clients={clients} activeTab={activeTab} activeTabList={activeTabList} type={type} />

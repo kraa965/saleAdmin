@@ -19,7 +19,7 @@
 .block {
     display: flex;
     gap: 20px;
-    min-height: 66px;
+    /* min-height: 66px; */
 }
 
 .container {
@@ -114,6 +114,10 @@
     font-weight: 600;
     line-height: 24px;
     letter-spacing: 0.15px;
+    text-wrap: nowrap;
+    max-width: 270px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .favorite {
@@ -174,4 +178,5 @@
     font-size: 14px;
     margin-top: 2px;
     color: var(--color-text-secondary);
+    text-wrap: nowrap;
 }

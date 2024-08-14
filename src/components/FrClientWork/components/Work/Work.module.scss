@@ -2,8 +2,9 @@
     width: 100%;
     display: grid;
     grid-template-areas: 'left right'
+        'left map'
         'left city'
-        'left scenario'; 
+        'left scenario';
     grid-template-columns: 468px 1fr;
     grid-template-rows: min-content auto;
     gap: 20px;
@@ -11,6 +12,7 @@
     transition: all 0.3s ease-in-out;
     position: relative;
     overflow: hidden;
+    align-items: start;
 
     &_anim {
     /*     filter: blur(0); */
@@ -48,12 +50,14 @@
         align-self: flex-start;
         display: flex;
         gap: 20px;
+        align-self: start;
     }
 
     &_city {
         grid-area: city;
         display: flex;
         justify-content: center;
+        align-self: start;
     }
 
     &_scenario {
@@ -61,6 +65,20 @@
         align-self: flex-start;
         display: flex;
         justify-content: center;
+        align-self: start;
+    }
+
+    
+    &_map {
+        grid-area: map;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        align-self: start;
+
+        h3 {
+            margin: 0;
+        }
     }
 }
 

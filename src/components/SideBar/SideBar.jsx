@@ -24,13 +24,14 @@ import { ReactComponent as IconShedule } from '../../image/iconShedule.svg';
 import { ReactComponent as IconMetrics } from '../../image/iconMetrics.svg';
 import { ReactComponent as NavPartners } from '../../image/navPartners.svg';
 import { ReactComponent as NavAnalytics } from '../../image/navAnalytics.svg';
-import { ReactComponent as IconEvent } from '../../image/iconEvent.svg';
+/* import { ReactComponent as IconEvent } from '../../image/iconEvent.svg'; */
 import { ReactComponent as MobButton } from '../../image/mobButton.svg';
 import { ReactComponent as IconArrow } from '../../image/ArrowInput.svg';
 import { ReactComponent as Stock } from '../../image/icon/sidebar/Stock.svg';
-import { ReactComponent as Stock2 } from '../../image/icon/sidebar/stock2.svg'; 
+import { ReactComponent as Stock2 } from '../../image/icon/sidebar/stock2.svg';
 import { ReactComponent as MenuWorkIcon } from '../../image/icon/sidebar/menuWork.svg';
-import { ReactComponent as Clients } from '../../image/icon/sidebar/clients.svg';
+import { ReactComponent as Clients } from '../../image/icon/sidebar/clients.svg'; 
+import { ReactComponent as IconEvent } from '../../image/icon/sidebar/iconEvent.svg';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { setMenuStatus } from '../../store/reducer/menu/slice';
@@ -119,19 +120,19 @@ function SideBar({ role, location }) {
         handleInfoDashbord()
     }, [])
     useEffect(() => {
-        
+
         const currentUrl = window.location.href;
         console.log(path, currentUrl.href, path.includes('client='))
         localStorage.removeItem('point');
-        dispatch(setMenuStatus('')) 
-      
+        dispatch(setMenuStatus(''))
+
         if (path) {
             if (path.includes('/work/client=')) {
                 const idClientUrl = Number(path.split('/work/client=').pop());
                 console.log(idClientUrl)
                 dispatch(setClientId(idClientUrl));
-                navigate(`/leader/dashboard/experts/work/client=${idClientUrl}`); 
-                setActivePoint(26)
+                navigate(`/leader/dashboard/experts/work/client=${idClientUrl}`);
+                activePoint == 25 ? setActivePoint(25) : setActivePoint(27);
                 localStorage.setItem('point', JSON.stringify(26))
                 return
             }
@@ -140,8 +141,8 @@ function SideBar({ role, location }) {
                 const idClientUrl = Number(currentUrl.split('/?id=').pop());
                 console.log(idClientUrl)
                 dispatch(setClientId(idClientUrl));
-                navigate(`/leader/dashboard/experts/work/client=${idClientUrl}`); 
-                setActivePoint(26)
+                navigate(`/leader/dashboard/experts/work/client=${idClientUrl}`);
+                activePoint == 25 ? setActivePoint(25) : setActivePoint(27);
                 localStorage.setItem('point', JSON.stringify(26))
                 return
             }
@@ -156,6 +157,12 @@ function SideBar({ role, location }) {
 
                 setActivePoint(2);
                 localStorage.setItem('point', JSON.stringify(2))
+                return
+            }
+
+            if (path === '/leader/dashboard/event') {
+                setActivePoint(3);
+                localStorage.setItem('point', JSON.stringify(3))
                 return
             }
 
@@ -193,7 +200,7 @@ function SideBar({ role, location }) {
                 setActivePoint(24);
                 localStorage.setItem('point', JSON.stringify(24))
                 return
-            } 
+            }
 
             if (path === '/leader/dashboard/myclients') {
                 setActivePoint(25);
@@ -396,6 +403,10 @@ function SideBar({ role, location }) {
                         <li onClick={handleActivePoint} id='23' className={`${s.item}  ${activePoint === 23 && s.item_active}`}><Stock2 />Склад</li>
                     </Link>
 
+                    <Link to={'/leader/dashboard/event'}>
+                        <li onClick={handleActivePoint} id='3' className={`${s.item}  ${activePoint === 3 && s.item_active}`}><IconEvent />Календарь событий</li>
+                    </Link>
+
                     {/* </div> */}
 
                     {/* <a href='https://lk.skilla.ru/frmanager/?type=all'><li onClick={handleActivePoint} id='3' className={`${s.item} ${s.item_3} ${activePoint === 3 && s.item_active}`}><IconOrders />Заявки</li></a> */}
@@ -440,13 +451,17 @@ function SideBar({ role, location }) {
                     {/*  <a href='https://lk.skilla.ru/leader/managers/nowork'><li onClick={handleActivePoint} id='3' className={`${s.item} ${s.item_3} ${activePoint === 3 && s.item_active}`}><IconEvent />События</li></a> */}
                 </ul>
                 }
-
-                {role === 'frmanager' && <ul className={s.items}>
-                    <div className={`${s.link} ${client_id == '' && s.link_disabled}`}>
+                {/* 
+<div className={`${s.link} ${client_id == '' && s.link_disabled}`}>
                         <Link to={`/experts/work/client=${client_id}`}>
                             <li onClick={handleActivePoint} id='26' className={`${s.item} ${activePoint === 26 && s.item_active}`}><MenuWorkIcon />Работа с клиентами</li>
                         </Link>
-                    </div>
+                    </div> */}
+
+                {role === 'frmanager' && <ul className={s.items}>
+
+
+
                     <Link to={'/leader/dashboard/myclients'}>
                         <li onClick={handleActivePoint} id='25' className={`${s.item}  ${activePoint === 25 && s.item_active}`}><IconTeam />Мои клиенты</li>
                     </Link>
@@ -480,13 +495,17 @@ function SideBar({ role, location }) {
                         <li onClick={handleActivePoint} id='23' className={`${s.item}  ${activePoint === 23 && s.item_active}`}><Stock2 />Склад</li>
                     </Link>
 
+                    <Link to={'/leader/dashboard/event'}>
+                        <li onClick={handleActivePoint} id='3' className={`${s.item}  ${activePoint === 3 && s.item_active}`}><IconEvent />Календарь событий</li>
+                    </Link>
+
                     {/* <a href='https://lk.skilla.ru/leader/managers'><li onClick={handleActivePoint} id='10' className={`${s.item} ${s.item_3} ${activePoint === 10 && s.item_active}`}><IconManager />Менеджеры</li></a> */}
                     {/* <a href='https://lk.skilla.ru/frmanager/bp/'><li onClick={handleActivePoint} id='5' className={`${s.item} ${s.item_3} ${activePoint === 5 && s.item_active}`}><IconOpenBp />Открытые БП</li></a> */}
                     {/* <a href='https://lk.skilla.ru/leader/quality'><li onClick={handleActivePoint} id='6' className={`${s.item} ${s.item_3} ${activePoint === 6 && s.item_active}`}><IconOpenBp />Качество работы</li></a> */}
                     {/*  <a href='https://lk.skilla.ru/frmanager/?type=events'><li onClick={handleActivePoint} id='3' className={`${s.item} ${s.item_3} ${activePoint === 3 && s.item_active}`}><IconOrders />Мои клиенты</li></a> */}
                     {/* <a href='https://lk.skilla.ru/frmanager/?type=favorite'><li onClick={handleActivePoint} id='4' className={`${s.item} ${s.item_3} ${activePoint === 4 && s.item_active}`}><IconOrders />Избранные клиенты</li></a> */}
                     {/* <a href='https://lk.skilla.ru/mango/'><li onClick={handleActivePoint} id='9' className={`${s.item} ${s.item_3} ${activePoint === 9 && s.item_active}`}><IconPhone />Звонки</li></a> */}
-                   {/*  <a href='https://lk.skilla.ru/frmanager/partners/'><li onClick={handleActivePoint} id='5' className={`${s.item} ${s.item_3} ${activePoint === 5 && s.item_active}`}><NavPartners />Партнеры</li></a> */}
+                    {/*  <a href='https://lk.skilla.ru/frmanager/partners/'><li onClick={handleActivePoint} id='5' className={`${s.item} ${s.item_3} ${activePoint === 5 && s.item_active}`}><NavPartners />Партнеры</li></a> */}
                     {/* <a href='https://lk.skilla.ru/frmanager/analytics/'><li onClick={handleActivePoint} id='7' className={`${s.item} ${s.item_3} ${activePoint === 7 && s.item_active}`}><NavAnalytics />Аналитика</li></a> */}
                 </ul>
                 }

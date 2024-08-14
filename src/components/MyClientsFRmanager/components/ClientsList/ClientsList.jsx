@@ -36,7 +36,7 @@ const ClientsList = ({ activeTab }) => {
     const [anim, setAnim] = useState(false);
     const [clients, setClients] = useState(clientsToday || []);
     const [clientsPrev, setClientsPrev] = useState([]);
-    const [activeTabList, setActiveTabList] = useState(1);
+    const [activeTabList, setActiveTabList] = useState(2);
     const [load, setLoad] = useState(false);
     const [query, setQuery] = useState('');
     const timerDebounceRef = useRef();
@@ -218,9 +218,9 @@ const ClientsList = ({ activeTab }) => {
                         <input onFocus={handleWritePrevState} onChange={handleQuery} type='text' value={query || ''} placeholder='Искать...'></input>
                     </div>
                     <div className={s.tabs}>
-                        <div onClick={handleActiveTab} id='1' className={`${s.tab} ${activeTabList == 1 && s.tab_active} ${clientsNewNum == 0 && s.tab_disabled}`}>
+                       {/*  <div onClick={handleActiveTab} id='1' className={`${s.tab} ${activeTabList == 1 && s.tab_active} ${clientsNewNum == 0 && s.tab_disabled}`}>
                             <p>Новые</p><sup>{clientsNew.length == 0 ? '' : clientsNewNum}</sup>
-                        </div>
+                        </div> */}
                         <div onClick={handleActiveTab} id='2' className={`${s.tab} ${activeTabList == 2 && s.tab_active} ${clientsTodayNum == 0 && s.tab_disabled}`}>
                             <p>Сегодня</p><sup>{clientsTodayNum == 0 ? '' : clientsTodayNum}</sup>
                         </div>

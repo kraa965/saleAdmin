@@ -19,6 +19,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 12px;
+    position: relative;
 }
 
 .title {
@@ -87,6 +88,12 @@
     overflow: hidden;
     padding-top: 8px;
 
+    overflow: auto;
+
+    &_overflow {
+        overflow: hidden;
+    }
+
   
 
     h3 {
@@ -135,5 +142,27 @@
            /*  transition: all 0.2s ease-in-out; */
         }
 
+    }
+}
+
+.button {
+    position: absolute;
+    color: var(--color-text-secondary);
+    top: 2px;
+    cursor: pointer;
+    left: 150px;
+    transition: all 0.2s;
+
+    svg path {
+        fill: var(--color-text-secondary);
+    }
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    &_up {
+        transform: rotate(180deg);
+        top: 0;
     }
 }

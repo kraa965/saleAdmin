@@ -4,7 +4,7 @@
     box-sizing: border-box;
     transition: all 0.15s;
     height: 56px;
-    opacity: 1;
+    opacity: 0;
     filter: blur(0.5px);
 
     &_anim {
@@ -71,7 +71,7 @@
     }
 
     &_all {
-        width: 220px;
+        width: 180px;
     }
 }
 
@@ -81,19 +81,22 @@
     align-items: center;
     padding: 16px 12px;
     flex-shrink: 0;
+    text-wrap: nowrap;
     gap: 8px;
 
+
     &_all {
-        width: 130px;
+        width: 116px;
     }
 }
 
 .stage {
-    width: 116px;
+    width: 110px;
     display: flex;
     align-items: center;
     padding: 16px 12px;
     flex-shrink: 0;
+    text-wrap: nowrap;
 }
 
 .zoom {
@@ -104,6 +107,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 
     svg path {
         fill: var(--color-button-accent);
@@ -174,10 +178,6 @@
     flex-shrink: 0;
     /* transition: all 0.2s ease-in-out; */
 
-    &_small {
-        width: 260px;
-    }
-
    
 
     text-overflow: ellipsis;
@@ -192,19 +192,25 @@
     }
 
     &_link {
-       /*  width: 440px; */
+        width: 440px;
 
         &_fr {
             width: 300px;
         }
     }
 
+    
+    &_small {
+        width: 260px;
+    }
+
+
     svg {
         flex-shrink: 0;
     }
 
     &_small2 {
-        width: 220px;
+        width: 200px;
         flex-shrink: 0;
     }
 }
@@ -328,6 +334,7 @@
 
     &_hiden {
         opacity: 0;
+        visibility: hidden;
     }
 }
 

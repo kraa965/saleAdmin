@@ -22,6 +22,7 @@ const initialState = {
     prepaidFr: [],
     prepaidFrNum: 0,
     prepaidFrNextPage: '',
+    newNextPage: '',
     loadNoTaskFr: true,
     loadArchiveFr: true,
     loadPlanFr: true,
@@ -29,6 +30,8 @@ const initialState = {
     loadAnketaFr: true,
     loadContractFr: true,
     loadPrepaidFr: true,
+    loadNew: true
+    
 };
 
 const MyClientsFrSlice = createSlice({
@@ -185,6 +188,16 @@ const MyClientsFrSlice = createSlice({
         setLoadPrepaidFr(state, action) {
             state.loadPrepaidFr = action.payload;
         },
+
+        //новые клиенты 
+
+        setNewNextPage(state, action) {
+            state.newNextPage = action.payload;
+        },
+
+        setLoadNew(state, action) {
+            state.loadNew = action.payload;
+        }
         
 
 
@@ -226,7 +239,9 @@ export const {
     setAddPrepaidFr,
     setPrepaidFrNum,
     setPrepaidFrNextPage,
-    setLoadPrepaidFr
+    setLoadPrepaidFr,
+    setNewNextPage,
+    setLoadNew
 
 } = MyClientsFrSlice.actions;
 

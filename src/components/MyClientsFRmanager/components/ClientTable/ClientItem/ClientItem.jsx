@@ -9,6 +9,7 @@ import { ReactComponent as IconZoomSmall } from '../../../image/clients/iconZoom
 import { ReactComponent as IconMissingCall } from '../../../image/clients/iconMissingCall.svg';
 import { ReactComponent as Attention } from '../../../image/clients/attention.svg';
 import { ReactComponent as IconHandOver } from '../../../image/clients/iconHandOver.svg';
+import { ReactComponent as IconWhatsapp } from '../../../image/clients/iconWhatsapp.svg';
 //utils
 import { handleTaskTime, handleDateDifference } from '../../../utils/dates';
 import { addSpaceNumber } from '../../../utils/addSpaceNumber';
@@ -23,9 +24,11 @@ import {
     setDeleteUpdateNoFavorites
 } from '../../../store/reducer/Updater/slice';
 import { setClientId } from '../../../../FrClientWork/store/reducer/Client/slice';
+import { setNotification } from '../../../../FrClientWork/store/reducer/Messenger/slice';
 //selector
 import { selectorUpdater } from '../../../store/reducer/Updater/selector';
 import { selectorClient } from '../../../../FrClientWork/store/reducer/Client/selector';
+import { selectorMessenger } from '../../../../FrClientWork/store/reducer/Messenger/selector';
 //components
 import HandOverClient from './HandOverClient/HandOverClient';
 
@@ -40,11 +43,13 @@ const ClientItem = ({ client, id, type, activeTabList }) => {
     const [statusText, setStatusText] = useState('');
     const [missedCall, setMissedCall] = useState(client.events_call !== 0 ? true : false);
     const [reqCall, setReqCall] = useState(client.is_call_me !== 0 ? true : false);
+    const [newMessage, setNewMessage] = useState(client.is_new_msg !== 0 ? true : false)
     const [handOver, setHandOver] = useState(false);
     const [handOverExpert, setHandOverExpert] = useState('');
     const dispatch = useDispatch();
     const updater = useSelector(selectorUpdater);
     const client_id = useSelector(selectorClient).client_id;
+    const messageFromSocket = useSelector(selectorMessenger).notification;
     const navigate = useNavigate();
 
     //Бизнес-план (1): - Сформирован бизнес-план (1) ClientOpenPlan
@@ -76,6 +81,22 @@ const ClientItem = ({ client, id, type, activeTabList }) => {
             setReqCall(true)
         }
     }, [client])
+
+    useEffect(() => {
+        if (client.is_new_msg == 1) {
+            setNewMessage(true)
+        } else {
+            setNewMessage(false)
+        }
+    }, [client])
+
+    useEffect(() => {
+        if (messageFromSocket?.client?.id) {
+            messageFromSocket?.client?.id == id && setNewMessage(true)
+            return
+        }
+    }, [messageFromSocket])
+    console.log(messageFromSocket, client.is_new_msg, client.name)
 
 
     useEffect(() => {
@@ -253,7 +274,8 @@ const ClientItem = ({ client, id, type, activeTabList }) => {
     }
 
     const handleOpenClient = () => {
-        dispatch(setClientId(id));
+    /*     dispatch(setClientId(id)); */
+        messageFromSocket?.client?.id == id && dispatch(setNotification({}))
         console.log('нажал на строчку')
         navigate(`/leader/dashboard/experts/work/client=${id}`);
         if (client_id !== id) {
@@ -269,11 +291,12 @@ const ClientItem = ({ client, id, type, activeTabList }) => {
 
     return (
 
-        <div id={id} onMouseEnter={handleViewFavorite} onMouseLeave={handleHidenFavorite} className={`${s.item} ${anim && s.item_anim} ${reqCall && s.item_req} ${missedCall && s.item_attention} ${handOver && s.item_hover} ${handOverExpert !== '' && type !== 'fr' && s.item_dis}`}>
+        <div id={id} onMouseEnter={handleViewFavorite} onMouseLeave={handleHidenFavorite} className={`${s.item} ${anim && s.item_anim} ${reqCall && s.item_req} ${missedCall && s.item_attention} ${handOver && s.item_hover}`}>
             <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
                 <div className={s.empty}>
-                    {missedCall && <IconMissingCall />}
-                    {reqCall && <Attention />}
+                    {newMessage && <IconWhatsapp />}
+                    {missedCall && !newMessage && <IconMissingCall />}
+                    {reqCall && !newMessage && <Attention />}
                 </div>
             </Link>
 
@@ -294,7 +317,7 @@ const ClientItem = ({ client, id, type, activeTabList }) => {
 
             <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
                 <div onClick={handleOpenClient} className={s.task}>
-                    <p>{handleDateDifference(client.last_connect)}</p> <span></span>
+                    {client.manager_last !== 0 && <p>{handleDateDifference(client.last_connect)}</p>} <span></span>
                 </div>
             </Link>
 
@@ -318,8 +341,8 @@ const ClientItem = ({ client, id, type, activeTabList }) => {
             </Link>
 
 
-            <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`} className={`${s.comment_link} ${activeTabList == 1 && type !== 'fr' && s.comment_small} ${type == 'fr' && s.comment_link_fr}`}>
-                {handOverExpert == '' && <div className={`${s.comment} ${activeTabList == 1 && type !== 'fr' && s.comment_small} ${type == 'fr' && s.comment_fr}`} onMouseEnter={handleOpenTooltip} onMouseLeave={handleCloseTooltip}>
+            <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`} className={`${s.comment_link} ${activeTabList == 8 && type == 'fr' && s.comment_small} ${type == 'fr' && s.comment_link_fr}`}>
+                {handOverExpert == '' && <div className={`${s.comment} ${activeTabList == 8 && type == 'fr' && s.comment_small} ${type == 'fr' && s.comment_fr}`} onMouseEnter={handleOpenTooltip} onMouseLeave={handleCloseTooltip}>
                     {lastComment !== '' && <IconComment />}
                     <p className={s.text}>{lastComment}</p>
                     {lastComment.length > ((type == 'fr' || activeTabList == 1) ? 25 : 45) && <div className={`${s.tooltip} ${tooltip && s.tooltip_open}`}>
@@ -332,7 +355,7 @@ const ClientItem = ({ client, id, type, activeTabList }) => {
             </Link>
 
             <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
-                <div className={`${s.source} ${activeTabList == 1 && type !== 'fr' && s.source_open}`}>
+                <div className={`${s.source} ${activeTabList == 8 && type == 'fr' && s.source_open}`}>
                     <p>{client.from_site}</p>
                 </div>
             </Link>

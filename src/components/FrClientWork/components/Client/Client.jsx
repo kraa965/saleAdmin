@@ -11,6 +11,7 @@ import { addFavorite } from '../../Api/Api';
 import { selectorApp } from '../../store/reducer/App/selector';
 import { selectorClient } from '../../store/reducer/Client/selector';
 import { selectorWork } from '../../store/reducer/Work/selector';
+import { selectorExperts } from '../../../MyClientsFRmanager/store/reducer/Experts/selector';
 //slice
 import { setNumbersDefault, setButtonHiden } from '../../store/reducer/Client/slice';
 //component
@@ -28,18 +29,21 @@ const Client = ({ loadClose, loadVisible }) => {
     const [hidenList, setHidenList] = useState(false);
     const [heightBlock, setHeightBlock] = useState(322);
     const [time, setTime] = useState('');
+    const [expert, setExpert] = useState('')
     const buttonAddHiden = useSelector(selectorClient).buttonHiden;
     const client_numbers = useSelector(selectorClient).client_numbers;
     const client_id = useSelector(selectorClient).client_id;
     const stage = useSelector(selectorClient).stage;
     const cities = useSelector(selectorWork).cities;
     const clientInfo = useSelector(selectorClient);
+    const experts = useSelector(selectorExperts).experts;
+    const clientManager = useSelector(selectorClient).clientManager;
     const dispatch = useDispatch();
 
-  //убрать - 36 когда вернешь добовление номера
+    //убрать - 36 когда вернешь добовление номера
     useEffect(() => {
-        setHeightBlock(322 - 36 + (client_numbers.length == 1 ? 46 : (client_numbers.length - 1) * 54 + 46) - (buttonAddHiden ? 20 - 36 : 0))
-    }, [client_numbers, buttonAddHiden])
+        setHeightBlock(322 + (expert !== '' ? 26 : 0) + (client_numbers.length == 1 ? 46 : (client_numbers.length - 1) * 54 + 46) - (buttonAddHiden ? 20 : 0) )
+    }, [client_numbers, buttonAddHiden, expert])
 
     useEffect(() => {
         if (openList && editOpen) {
@@ -85,6 +89,13 @@ const Client = ({ loadClose, loadVisible }) => {
         }
     }
 
+    console.log(clientManager)
+
+    useEffect(() => {
+        const result = experts.find(el => el.id == clientManager?.id);
+        setExpert(result ? `${result.name} ${result.surname}` : '')
+    }, [experts, clientManager])
+
     const handleEditOpen = () => {
         if (editOpen && !openList) {
             setEditOpen(false);
@@ -126,9 +137,9 @@ const Client = ({ loadClose, loadVisible }) => {
                 })
         }
     }
-
+    /* 94 */
     return (
-        <div style={{ height: editOpen ? `${heightBlock}px` : '94px', overflow: hidenList && 'visible' }} className={`${s.client}  ${loadClose && s.client_dis}`}>
+        <div style={{ height: editOpen ? `${heightBlock}px` : `${expert !== '' ? 118 : 94}px`, overflow: hidenList && 'visible' }} className={`${s.client}  ${loadClose && s.client_dis}`}>
             <div className={s.block}>
                 <div onClick={handleEditOpen} className={`${s.container}`}>
                     <div className={s.loader}>
@@ -137,10 +148,17 @@ const Client = ({ loadClose, loadVisible }) => {
                     </div>
 
                     <div className={s.loader}>
-                        <p className={`${s.name} ${loadClose && s.hiden}`}>{clientInfo?.client_name } {clientInfo?.client_surname}</p>
-                        {/* <p className={s.time}>{handleTotalCallTime(clientInfo?.talkTime)}</p> */}
+                        <p className={`${s.name} ${loadClose && s.hiden}`}>{clientInfo?.client_name} {clientInfo?.client_surname}</p>
+                        <p className={s.time}>{handleTotalCallTime(clientInfo?.talkTime)}</p>
                         {loadClose && <LoaderTitle load={loadVisible} />}
                     </div>
+
+                    {expert !== '' && <div className={s.loader}>
+                        <p className={`${s.city} ${loadClose && s.hiden}`}>Эксперт: {expert}</p>
+                        {loadClose && <LoaderSub load={loadVisible} />}
+                    </div>
+                    }
+
                     <div className={`${s.icon_edit} ${editOpen && s.hidden}`}>
                         <IconEdit />
                     </div>
@@ -154,7 +172,7 @@ const Client = ({ loadClose, loadVisible }) => {
                     <IconStarActive onClick={handleFavorite} className={`${s.icon_2} ${favorite && s.icon_active}`} />
                 </div>
             </div>
-            <ClientEdit handleOpenList={handleOpenList} openList={openList} setOpenList={setOpenList} city={clientInfo?.client_city} setEditOpen={setEditOpen} stage={stage}/>
+            {!loadClose && <ClientEdit handleOpenList={handleOpenList} openList={openList} setOpenList={setOpenList} city={clientInfo?.client_city} setEditOpen={setEditOpen} stage={stage} />}
         </div>
     )
 };

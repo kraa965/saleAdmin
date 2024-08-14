@@ -24,8 +24,8 @@ import { setMessageStatus } from '../../store/reducer/Messenger/slice';
 //utils
 import { handleComparisonDate } from '../../utils/dates';
 import Fancybox from '../../utils/Fancybox';
-const bages = ['Приветствие', 'Визитка', 'Не дозвонился', 'НД новый', 'Ссылка на Zoom', 'Одобрение анкеты', "Вход в ЛК"];
-const Bage = ({ el, bage, setBage, setMessage, expertName, clientName }) => {
+const bages = ['Приветствие', 'Визитка', 'Ссылка на Zoom','НД', 'НД2' , 'НД3', 'Одобрение анкеты', "Вход в ЛК"];
+const Bage = ({ el, bage, setBage, setMessage, expertName, clientName, message }) => {
 
     const handleActiveBage = (e) => {
         const value = e.currentTarget.textContent;
@@ -41,7 +41,7 @@ const Bage = ({ el, bage, setBage, setMessage, expertName, clientName }) => {
             return
         }
 
-        if (value == 'Не дозвонился') {
+        if (value == 'НД') {
             setMessage('Добрый день. \nНе получилось с вами связаться, когда сможем пообщаться?');
             return
         }
@@ -61,8 +61,13 @@ const Bage = ({ el, bage, setBage, setMessage, expertName, clientName }) => {
             return
         }
 
-        if (value == 'НД новый') {
+        if (value == 'НД2') {
             setMessage(`${clientName}, здравствуйте! \nМеня зовут ${expertName}, компания Skilla. \nЯ эксперт по открытию и развитию партнеров нашей партнерской сети. \nМне передали вашу заявку, но, к сожалению, не получается до вас дозвониться. \nПодскажите, пожалуйста, когда будет удобно пообщаться по нашему сотрудничеству?`)
+            return
+        }
+
+        if (value == 'НД3') {
+            setMessage(`Добрый день. Это ${expertName}, компания Skilla. \nМы с вами ранее созванивались, переносили разговор, но связаться не получилось. \nПодскажите, когда сможем пообщаться?`)
             return
         }
 
@@ -336,7 +341,7 @@ const Messenger = ({ loadClose, theme, callButtonAdd }) => {
         }, 100);
     }
 
-
+console.log(messages)
     return (
         <div ref={messengerRef} className={`${s.messenger} ${callButtonAdd && s.messenger_margin} ${!loadHistory && s.messenger_disabled} ${!clientManager?.id && s.messenger_hidden}`}>
             <div className={s.fon}>

@@ -28,7 +28,9 @@ import {
     setCallMe,
     setClientStatus,
     setDayWithoutMove,
-    setClientManager
+    setClientManager,
+    setManagerLast,
+    setRejectComment
 } from './store/reducer/Client/slice';
 import { setLoadClient, setLoadPartners } from './store/reducer/App/slice';
 import { setComments, setDialog, setRoad, setNextConnect, setZoomStatus, setZoomConnect, setLastConnect } from './store/reducer/Work/slice';
@@ -50,6 +52,7 @@ const FrClientWork = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const path = location.pathname;
+    console.log('id клиента', client_id)
 
     useEffect(() => {
         setAnim(true);
@@ -72,8 +75,7 @@ const FrClientWork = () => {
             dispatch(setCallStatus(data));
             if (data.action == 'new_call_out') {
                 const id = Number(data.client_id)
-                dispatch(setClientId(id));
-
+                id == 0 ? dispatch(setClientId('')): dispatch(setClientId(id));
                 return
             }
         });
@@ -100,7 +102,7 @@ const FrClientWork = () => {
         dispatch(setZoomStatus(-1));
         dispatch(setZoomConnect('0000-00-00'));
 
-        client_id !== '' && getClientInformation(client_id)
+        client_id !== '' && client_id && getClientInformation(client_id)
             .then(res => {
                 console.log(res)
                 const client = res.data.client;
@@ -115,7 +117,9 @@ const FrClientWork = () => {
                 dispatch(setFavorite(''));
                 dispatch(setTalkTime(''));
                 dispatch(setClientSource(''));
-                dispatch(setClientManager({}))
+                dispatch(setClientManager({}));
+                dispatch(setManagerLast(0));
+                dispatch(setRejectComment(''));
                 //записыываем данные клиента
                 dispatch(setClientName(client.name));
                 dispatch(setClientSurname(client.surname));
@@ -125,15 +129,19 @@ const FrClientWork = () => {
                 dispatch(setFavorite(client.favorite));
                 dispatch(setTalkTime(client.talk_time));
                 dispatch(setClientSource(client.from_site));
-                dispatch(setClientManager(client.has_manager))
+                dispatch(setClientManager(client.has_manager));
+                dispatch(setManagerLast(client.manager_last));
+                dispatch(setRejectComment(client.comment_reject));
                 client.events_call !== 0 ? dispatch(setMissCall(true)) : dispatch(setMissCall(false));
                 client.is_call_me !== 0 ? dispatch(setCallMe(true)) : dispatch(setCallMe(false));
-                dispatch(setClientStatus(client.status))
+                dispatch(setClientStatus(client.status));
+               
                 //записываем комментарии клиента
               /*   const lastComment = client.at(-1).auto_important == 1 ? client.at(-1) : false; */
-                const comments = client?.partnership_client_logs/* ?.filter(el => (el.is_manual == 1 && el.person_id !== 0 && el.comment !== '' && el.newsletter_id == 0 && el.is_sms == 0) || (el.type == 'change_manager')) */.reverse();
+                const comments = client?.partnership_client_logs?.filter(el => (el.is_manual == 1 && el.person_id !== 0 && el.comment !== '' && el.newsletter_id == 0 && el.is_sms == 0) || (el.type == 'change_manager') || el.is_record?.time).reverse();
                 /* lastComment ? dispatch(setComments([lastComment, ...comments])) : */ dispatch(setComments(comments));
                 //Записываем скрипт
+                console.log(client?.partnership_client_logs)
                 dispatch(setDialog(dialog));
                 //Записываем Road
                 dispatch(setRoad(road));
@@ -155,7 +163,7 @@ const FrClientWork = () => {
 
     //обновляем Road
     useEffect(() => {
-        client_id == clientUpdate && getClientInformation(client_id)
+        client_id == clientUpdate && client_id !== '' && getClientInformation(client_id)
             .then(res => {
                 console.log(res)
                 const client = res.data.client;

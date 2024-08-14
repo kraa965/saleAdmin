@@ -83,6 +83,7 @@ const EditCard = ({ setAddWindow, setAnim, manager, restoreWindow }) => {
         }
     }, [managerUpdate])
 
+    console.log(manager.work_schedule_graph)
 
     useEffect(() => {
         manager.work_schedule_graph.forEach((el, i) => {

@@ -11,6 +11,7 @@ import Anketa from '../Anketa/Anketa';
 import CityPartners from '../CityPartners/CityPartners';
 import Scenario from '../Scenario/Scenario';
 import Messenger from '../Messenger/Messenger';
+import { YandexMap } from '../YandexMap/YandexMap';
 //selector 
 import { selectorApp } from '../../store/reducer/App/selector';
 import { selectorClient } from '../../store/reducer/Client/selector';
@@ -22,6 +23,7 @@ const Work = ({ scenario }) => {
     const [loadVisible, setLoadVisible] = useState(true);
     const loadClient = useSelector(selectorApp).loadClient;
     const openAnketa = useSelector(selectorWork).anketaOpen;
+    const client_city = useSelector(selectorClient).client_city;
 
     useEffect(() => {
         setTimeout(() => {
@@ -64,6 +66,13 @@ const Work = ({ scenario }) => {
                     <Messenger loadClose={loadClose} theme={JSON.parse(localStorage.getItem('theme'))} callButtonAdd={false} />
                 </div>
             </div>
+
+            <div className={`${s.block} ${s.block_map}`}>
+                <h3>Карта</h3>
+                <YandexMap city={client_city}/>
+            </div>
+
+
             <div className={`${s.block} ${s.block_city}`}>
                 <CityPartners />
             </div>

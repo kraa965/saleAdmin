@@ -1,0 +1,267 @@
+.container {
+    background-color: #F8FAFD;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    margin: 0 40px;
+
+    &_dark {
+      background-color: #2C374B;
+    }
+
+    &_tooltip {
+         position: absolute;
+         width: calc(100% - 60px);
+         height: 100%;
+         left: 40px;
+         bottom: 40px;
+         box-sizing: border-box;
+         display: flex;
+         justify-content: space-between;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin: 16px 16px 12px;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: 0.15px;
+
+    sup {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 14px;
+        opacity: 0.7;
+        margin-left: 6px;
+    }
+}
+
+.percent {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+}
+
+.graph {
+   display: flex;
+   justify-content: space-between;
+   height: 170px;
+   align-items: flex-end;
+   padding: 0 20px 40px 40px;
+   position: relative;
+}
+
+
+.point {
+    width: 18px;
+    height: 100%;
+/*     position: absolute; */
+    opacity: 0;
+    transition: all 0.15s;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 12;
+}
+
+
+.tooltip {
+    width: 236px;
+    height: 92px;
+    position: absolute;
+    background-color: #FFF;
+    border-radius: 4px;
+    opacity: 0;
+    
+    visibility: hidden;
+    transition: all 0.15s;
+    box-shadow: 0px 2px 8px 0px rgba(0, 32, 51, 0.16), 0px 2px 2px 0px rgba(0, 32, 51, 0.02), 0px 2px 8px 0px rgba(0, 32, 51, 0.16), 0px 2px 2px 0px rgba(0, 32, 51, 0.02);
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px;
+    z-index: 2;
+
+    &_dark {
+        background-color: #304253;
+    }
+
+   
+
+}
+
+.triangle {
+    width: 10px;
+    height: 10px;
+    background-color: #FFF;
+    transform: rotate(45deg);
+    position: absolute;
+    bottom: 48.5%;
+    right: -4px;
+
+    &_dark {
+        background-color: #304253;
+    }
+
+    &_left {
+       right: 230px;
+    }
+}
+
+.indicators {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.indicator {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.block_indicator {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    display: flex;
+    justify-content: space-between;
+
+    sup {
+        font-size: 12px;
+        line-height: 14px;
+        color: var(--color-text-secondary);
+       margin-left: 4px;
+    }
+}
+
+.progress {
+    width: 100%;
+    height: 8px;
+    border-radius: 3.3px;
+    background-color: var(--color-bg-daily);
+    overflow: hidden;
+}
+
+.line {
+    height: 100%;
+    background-color: #E75A5A;
+}
+
+.fault {
+    color: #E75A5A;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0.056px;
+
+    span {
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 18px;
+        color: #71869D;
+        margin-right: 12px;
+    }
+}
+
+.loader {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    transition: all 0.15s;
+
+    &_hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+.loader_inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.column {
+    width: 18px;
+    height: 100%;
+    position: relative;
+    
+    &_inner {
+        transition: all 0.3s ease-in-out;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+}
+
+.plan {
+    width: 18px;
+    background-color: var(--color-bg-graph);
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    border-radius: 4px;
+
+}
+
+.xaxis {
+    width: 100%;
+    position: absolute;
+    display: flex;
+    bottom: 8px;
+    left: 0;
+    justify-content: space-between;
+    padding: 0 20px 4px 40px;
+    box-sizing: border-box;
+    height: 30px;
+    align-items: center;
+    color: var(--color-text-secondary);
+
+    p {
+        width: 18px;
+        font-size: 10px;
+        transform: rotate(90deg);
+    }
+}
+
+.yaxis {
+    height: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    box-sizing: border-box;
+    left: 0;
+    bottom: 0;
+    padding-bottom: 40px;
+    padding-left: 14px;
+
+    p {
+        color: var(--color-text-secondary);
+        font-size: 12px;
+      
+    }
+}
+
+.area {
+    width: 18px;
+    position: relative;
+}
