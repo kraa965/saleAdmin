@@ -72,7 +72,8 @@ const Comments = ({ loadClose, loadVisible }) => {
             <div className={`${s.bage} ${s.bage_green} ${clientStatus == 10 && !loadClose && s.bage_vis}`}><p>Клиент стал партнером</p></div>
             <div className={`${s.bage} ${s.bage_reject} ${clientStatus == 3 && !loadClose && s.bage_vis}`}><IconReject /> <div><p>Клиент отказался от сотрудничества</p>
                 {lastExpert !== '' && <span>Последний эксперт: {lastExpert}</span>}
-                {lastExpert !== '' && <span>Причина отказа: {rejectComment}</span>}
+                {lastExpert == '' && managerLast !== 0 && <span>Последний консультант: {managerLast}</span>}
+                {rejectComment !== '' && rejectComment && <span>Причина отказа: {rejectComment}</span>}
             </div></div>
             <div className={`${s.bage} ${dayWithoutMove > 14 && clientStatus == 1 && !loadClose && s.bage_vis}`}><Icon14Days /> <p>По клиенту не было движения больше 14 дней</p></div>
             <div className={`${s.bage} ${s.bage_request} ${dayWithoutMove > 7 && clientStatus == 1 && dayWithoutMove <= 14 && !loadClose && s.bage_vis}`}><Icon7Days /> <p>По клиенту не было движения больше 7 дней</p></div>

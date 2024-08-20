@@ -9,7 +9,6 @@ export const handleDateDifferenceLeader = (d) => {
     const day2 = date2.getDate();
     const month2 = date2.getMonth() + 1;
     const year2 = date2.getFullYear();
-    const diffDays = Math.ceil((date - date2) / (1000 * 60 * 60 * 24));
     const hour = date2.getHours();
     const minute = date2.getMinutes();
 

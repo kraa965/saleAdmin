@@ -13,21 +13,40 @@ import { setHandOverClients } from '../../../../store/reducer/Updater/slice';
 import LoaderButton from '../../../../../LoaderButton/LoaderButton';
 
 const HandOverClient = ({ id, setHandOver }) => {
+    const role = document.getElementById('root_leader').getAttribute('role');
     const experts = useSelector(selectorExperts).experts;
+    const consultants = useSelector(selectorExperts).consultants;
     const [anim, setAnim] = useState(false);
     const [openList, setOpenList] = useState(false);
-    const [expert, setExpert] = useState(experts[1] || {});
+    const [managers, setManagers] = useState([]);
+    const [manager, setManager] = useState({});
     const [loader, setLoader] = useState(false);
     const dispatch = useDispatch();
     const modalRef = useRef();
     const listRef = useRef();
     console.log(experts)
+  
 
     useEffect(() => {
         setTimeout(() => {
             setAnim(true)
         })
     }, []);
+
+
+    useEffect(() => {
+        if (role == 'frmanager') {
+            setManagers(experts);
+            setManager(experts[1])
+            return
+        }
+
+        if (role == 'leader') {
+            setManagers(consultants);
+            setManager(consultants[1])
+            return
+        }
+    }, [role, experts, consultants])
 
     useEffect(() => {
         document.addEventListener('mousedown', closeModal);
@@ -54,25 +73,25 @@ const HandOverClient = ({ id, setHandOver }) => {
     }
 
     const handleOpenList = () => {
-        openList ?  setOpenList(false) : setOpenList(true);
+        openList ? setOpenList(false) : setOpenList(true);
     }
 
     const handleChooseExpert = (e) => {
         const id = e.currentTarget.id;
-        const choseExpert = experts.find(el => el.id == id);
-        setExpert(choseExpert);
+        const choseExpert = managers?.find(el => el.id == id);
+        setManager(choseExpert);
         setOpenList(false)
     }
 
     const handleTransferClient = () => {
         setLoader(true)
-        dispatch(setHandOverClients({ id, name: `${expert.name} ${expert.surname}` }))
+        dispatch(setHandOverClients({ id, name: `${manager.name} ${manager.surname}` }))
         handleCloseModal();
-        transferClient({ id, manager: expert.id })
+        transferClient({ id, manager: manager.id })
             .then(res => {
                 console.log(res);
                 setLoader(false);
-                dispatch(setHandOverClients({ id, name: `${expert.name} ${expert.surname}` }))
+                dispatch(setHandOverClients({ id, name: `${manager.name} ${manager.surname}` }))
                 handleCloseModal();
             })
             .catch(err => console.log(err))
@@ -89,17 +108,17 @@ const HandOverClient = ({ id, setHandOver }) => {
 
     return (
         <div ref={modalRef} className={`${s.modal} ${anim && s.modal_open}`}>
-            <h3>Передача эксперту</h3>
+            <h3>{role == 'frmanager' ? 'Передача эксперту' : 'Назначить консультанта'}</h3>
             <div ref={listRef} onClick={handleOpenList} className={s.expert}>
                 <div className={s.block}>
                     <div className={s.avatar}>
-                        <img src={expert.avatar_mini ? expert.avatar_mini : avatar}></img>
+                        <img src={manager.avatar_mini ? manager.avatar_mini : avatar}></img>
                     </div>
-                    <p className={s.name}>{expert.name} {expert.surname}</p>
+                    <p className={s.name}>{manager.name} {manager.surname}</p>
                 </div>
 
-                <ul  className={`${s.experts} ${openList && s.experts_open}`}>
-                    {experts.map(el => {
+                <ul className={`${s.experts} ${openList && s.experts_open}`}>
+                    {managers?.map(el => {
                         return <li onClick={handleChooseExpert} id={el.id} key={el.id}>
                             <div className={s.avatar}>
                                 <img src={el.avatar_mini ? el.avatar_mini : avatar}></img>

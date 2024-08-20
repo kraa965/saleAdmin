@@ -30,39 +30,28 @@ import { selectorExperts } from '../../../store/reducer/Experts/selector';
 //components
 import HandOverClient from './HandOverClient/HandOverClient';
 
-const ClientItemAll = ({ client, id, type, activeTabList }) => {
+const ClientItemAllLeader = ({ client, id, type, activeTabList }) => {
+    const consultants = useSelector(selectorExperts).consultants;
     const experts = useSelector(selectorExperts).experts;
     const [anim, setAnim] = useState(false);
     const [tooltip, setTooltip] = useState(false);
-    const [favorite, setFavorite] = useState(false);
-    const [viewFavorite, setViewFavorite] = useState(false);
     const [lastComment, setLastComment] = useState('');
     const [status, setStatus] = useState(0);
     const [statusText, setStatusText] = useState('');
     const [missedCall, setMissedCall] = useState(client.events_call !== 0 ? true : false);
     const [reqCall, setReqCall] = useState(client.is_call_me !== 0 ? true : false);
+    const [viewHandOver, setViewHandOver] = useState(false);
     const [handOver, setHandOver] = useState(false);
     const [handOverExpert, setHandOverExpert] = useState('');
-    const [bpDate, setBpDate] = useState('');
-    const [zoomDate, setZoomDate] = useState('');
-    const [anketaDate, setAnketaDate] = useState('');
-    const [coursStatus, setCoursStatus] = useState(false);
-    const [coursDate, setCoursDate] = useState('');
-    const [contractDate, setContractDate] = useState('');
-    const [prepayDate, setPrepayDate] = useState('');
     const [managerReject, setManagerReject] = useState('');
+    const [actualManager, setActualManager] = useState('');
+    const [materialDate, setMaterialDate] = useState('');
+    const [openBpDate, setOpenBpDate] = useState('');
+    const [bpDate, setBpDate] = useState('');
     const dispatch = useDispatch();
     const updater = useSelector(selectorUpdater);
     const client_id = useSelector(selectorClient).client_id;
     const navigate = useNavigate();
-
-    //Бизнес-план (1): - Сформирован бизнес-план (1) ClientOpenPlan
-    //запись на ZOOM (2): - Клиент запросил Zoom(2.1) ReqZoom,  Запись на Zoom-встречу (2.2) ClientZoomSet
-    //ZOOM (3): - Проведена встреча Zoom (3.2) ClientZoomFinish,  Zoom не состоялся (3.1) - парсим дату записи на ZOOM и сравниваем с текущей датой если текущая дата больше берем этот статус и последний статус < 3.2
-    //ANKETA (4): - Проверь анкету клиента (4.1) SendForm,  Анкета отклонена (4.2) - ,  Анкета кандидата(4.3) ClientAnketaAccept
-    //CONTRACT (6): - Договор не подписан (6.1) ContractСancelled,  Договор  (6.2) ClientContractSign
-    //PREPAID (7): - Предоплата не внесена (7.1) - , Предоплата 90 000 ₽ (7.2) ClientPrepaid
-    //REJECT (-1): - Отправлен в отказ (-1) ClientStatusReject
 
     useEffect(() => {
         setTimeout(() => {
@@ -76,7 +65,7 @@ const ClientItemAll = ({ client, id, type, activeTabList }) => {
         } else {
             setMissedCall(true)
         }
-    }, [client])
+    }, [client]);
 
     useEffect(() => {
         if (client.is_call_me == 0) {
@@ -84,38 +73,22 @@ const ClientItemAll = ({ client, id, type, activeTabList }) => {
         } else {
             setReqCall(true)
         }
-    }, [client])
+    }, [client]);
 
 
     useEffect(() => {
         setLastComment(client.last_comment ? client.last_comment : '')
     }, [client])
 
-    useEffect(() => {
-        const result = client?.lk_menus?.find(el => el.menu_id == 12)
-        result?.status == 'finished' ? setCoursStatus(true) : setCoursStatus(false)
-
-
-        result?.status == 'finished' ? setCoursDate(result.date_change) : setCoursDate('')
-    }, [client])
 
     useEffect(() => {
-        const bp = client?.lk_menus?.findLast(el => el.menu_id == 4 && el.status == 'finished');
-        const zoom = client?.lk_road_logs?.findLast(el => el.type == 'ClientZoomFinish');
-        const anketa = client?.lk_road_logs?.findLast(el => el.type == 'ClientAnketaAccept');
-        const contract = client?.lk_road_logs?.findLast(el => el.type == 'ClientContractSign');
-        const prepay = client?.lk_road_logs?.findLast(el => el.type == 'ClientPrepaid');
-        /*  const rejectLog = client?.lk_road_logs?.find(el => el.type == 'ClientStatusReject');
-         const rejectManager = experts.findLast(el => el.id == rejectLog?.person_id); */
-        console.log(prepay?.date)
+        const menu = client?.lk_menus;
+        const material = menu?.find(el => el.menu_id == 2 && el.status == 'finished');
+        const openBp = menu?.find(el => el.menu_id == 4 && (el.status == 'enabled' || el.status == 'finished'));
+        const bp = menu?.find(el => el.menu_id == 4 && el.status == 'finished');
+        setMaterialDate(material ? material.date_change : '');
+        setOpenBpDate(openBp ? openBp.date_change : '');
         setBpDate(bp ? bp.date_change : '')
-        setZoomDate(zoom ? handleStageTime(zoom.date) : '')
-        setAnketaDate(anketa ? handleStageTime(anketa.date) : '')
-        setContractDate(contract ? handleStageTime(contract.date) : '')
-        setPrepayDate(prepay ? handleStageTime(prepay.date) : '')
-        /*   setManagerReject(rejectManager ? `${rejectManager.name} ${rejectManager.surname}` : '') */
-
-
     }, [client])
 
     useEffect(() => {
@@ -128,9 +101,18 @@ const ClientItemAll = ({ client, id, type, activeTabList }) => {
     }, [client, updater]);
 
     useEffect(() => {
-        const result = experts.find(el => el.id == client?.manager_last);
-        setManagerReject(result ? `${result.name} ${result.surname}` : '')
-    }, [experts, client])
+        if (client?.has_manager) {
+            const result = experts?.find(el => el.id == client?.has_manager.id);
+            result ? setActualManager(`${client.manager_last !== 0 ? client.manager_last : 'Нет'}`) : setActualManager(`${client?.has_manager.name} ${client?.has_manager.surname}`)
+            return
+        }
+
+        if (!client?.has_manager) {
+            setActualManager(`${client.manager_last !== 0 ? client.manager_last : 'Нет'}`);
+            return
+        }
+
+    }, [client, experts])
 
     const handleOpenTooltip = () => {
         setTooltip(true)
@@ -140,47 +122,19 @@ const ClientItemAll = ({ client, id, type, activeTabList }) => {
         setTooltip(false)
     }
 
-    const handleFavorite = () => {
-        if (favorite) {
-            addFavorite({ id })
-                .then(res => {
-                    const client = res.data.client;
-                    dispatch(setRemoveFavorite(client));
-                    dispatch(setDeleteUpdateFavorites(id));
-                    dispatch(setUpdateNoFavorites(id));
-                    setFavorite(false);
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-        } else {
-
-            addFavorite({ id })
-                .then(res => {
-                    const client = res.data.client;
-                    dispatch(setAddFavorite(client));
-                    dispatch(setUpdateFavorites(id));
-                    dispatch(setDeleteUpdateNoFavorites(id));
-                    setFavorite(true);
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-        }
+    const handleViewHandOver = () => {
+        !handOver && setViewHandOver(true)
     }
 
-    const handleViewFavorite = () => {
-        !handOver && setViewFavorite(true)
-    }
-
-    const handleHidenFavorite = () => {
-        !handOver && setViewFavorite(false)
+    const handleHidenHandOver = () => {
+        !handOver && setViewHandOver(false)
     }
 
     const handleOpenModal = () => {
-        setHandOver(true)
-        setViewFavorite(false)
+        setHandOver(true);
+        setViewHandOver(false)
     }
+
 
     const handleOpenClient = () => {
         dispatch(setClientId(id));
@@ -197,9 +151,11 @@ const ClientItemAll = ({ client, id, type, activeTabList }) => {
         }
     }
 
+    console.log(handOverExpert)
+
     return (
 
-        <div id={id} onMouseEnter={handleViewFavorite} onMouseLeave={handleHidenFavorite} className={`${s.item} ${handOver && s.item_hover} ${anim && s.item_anim} ${handOverExpert !== '' && type !== 'fr' && s.item_dis}`}>
+        <div id={id} onMouseEnter={handleViewHandOver} onMouseLeave={handleHidenHandOver} className={`${s.item} ${handOver && s.item_hover} ${anim && s.item_anim} ${handOverExpert !== '' && type !== 'fr' && s.item_dis}`}>
             <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
                 <div className={`${s.empty} ${s.empty_all}`}>
                     {missedCall && <IconMissingCall />}
@@ -208,8 +164,8 @@ const ClientItemAll = ({ client, id, type, activeTabList }) => {
             </Link>
 
             <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
-                <div onClick={handleOpenClient} className={s.stage}>
-                    <p>{statusText} {handleStageTime(bpDate)}</p>
+                <div onClick={handleOpenClient} className={s.data}>
+                    <p>{statusText} {handleStageTime(client.date)}</p>
                 </div>
             </Link>
 
@@ -221,41 +177,31 @@ const ClientItemAll = ({ client, id, type, activeTabList }) => {
 
             <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
                 <div onClick={handleOpenClient} className={s.stage}>
-                    <p>{zoomDate}</p>
+                    <p>{client.date_log_lk ? handleStageTime(client.date_log_lk) : ''}</p>
                 </div>
             </Link>
 
             <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
                 <div onClick={handleOpenClient} className={s.stage}>
-                    <p>{anketaDate}</p>
+                    <p>{materialDate == '' ? '' : handleStageTime(materialDate)}</p>
                 </div>
             </Link>
 
             <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
-                <div onClick={handleOpenClient} className={s.stage}>
-                    {!coursStatus && <p></p>}
-                    {coursStatus && <p>{handleStageTime(coursDate)}</p>}
+                <div onClick={handleOpenClient} className={s.stage2}>
+                    <p>{openBpDate == '' ? '' : handleStageTime(openBpDate)}</p>
                 </div>
             </Link>
 
             <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
-                <div onClick={handleOpenClient} className={s.stage}>
-                    <p>{contractDate}</p>
-                </div>
-            </Link>
-
-            <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
-                <div onClick={handleOpenClient} className={s.stage}>
-                    <p>{prepayDate}</p>
+                <div onClick={handleOpenClient} className={s.stage2}>
+                    <p>{bpDate == '' ? '' : handleStageTime(bpDate)}</p>
                 </div>
             </Link>
 
             <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
                 <div className={`${s.task} ${s.task_all}`}>
                     <p>{handleTaskTime(client.next_connect)}</p>
-                    {client.next_connect == client.zoom_date && client.next_connect !== '0000-00-00 00:00:00' && <div className={s.zoom}>
-                        <IconZoomSmall />
-                    </div>}
                 </div>
             </Link>
 
@@ -282,19 +228,27 @@ const ClientItemAll = ({ client, id, type, activeTabList }) => {
 
 
             <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
-                {client.status !== 3 && <p className={s.handover_name2}>{handOverExpert !== '' ? handOverExpert : `${client?.has_manager?.name ? client?.has_manager?.name : ''} ${client?.has_manager?.surname ? client?.has_manager?.surname : ''}`}</p>}
-                {client.status == 3 && <p className={s.handover_name2}>{handOverExpert !== '' ? handOverExpert : `${managerReject}`}</p>}
+                {client.status !== 3 && <p className={s.handover_name2}>{handOverExpert !== '' ? handOverExpert : actualManager}</p>}
+                {client.status == 3 && <p className={s.handover_name2}>{handOverExpert !== '' ? handOverExpert : actualManager}</p>}
             </Link>
 
-
             <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
-                <div onClick={handleOpenClient} className={s.stage}>
-                    {client.status == 3 ? <p>{handleStageTime(client.reject_date)}</p> : <p></p>}
+                <div className={`${s.source} ${s.source_open}`}>
+                    <p>{client.from_site}</p>
                 </div>
             </Link>
 
 
-            {(handOverExpert == '' || type == 'fr') && handleDateDifference(bpDate) !== 'Сегодня' && <div className={`${s.handover}`}>{/* <p>передать</p> */}<button onClick={handleOpenModal} className={`${s.button} ${!viewFavorite && s.button_hiden}`}><IconHandOver /></button>
+
+            <Link onClick={handleOpenClient} to={`/leader/dashboard/experts/work/client=${id}`}>
+                <div onClick={handleOpenClient} className={s.stage}>
+                    {client.status == 3 ? <p>Отказ{/* {handleStageTime(client.reject_date)} */}</p> : <p></p>}
+                </div>
+            </Link>
+
+            
+
+            {(handOverExpert == '') && <div className={`${s.handover}`}>{/* <p>передать</p> */}<button onClick={handleOpenModal} className={`${s.button} ${!viewHandOver && s.button_hiden}`}><IconHandOver /></button>
                 {handOver && <div className={`${s.modal} ${handOver && s.modal_open}`}><HandOverClient id={id} setHandOver={setHandOver} /></div>}
             </div>
             }
@@ -305,4 +259,4 @@ const ClientItemAll = ({ client, id, type, activeTabList }) => {
     )
 };
 
-export default memo(ClientItemAll);
+export default memo(ClientItemAllLeader);

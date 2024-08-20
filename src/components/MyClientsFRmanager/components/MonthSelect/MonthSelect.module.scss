@@ -7,7 +7,7 @@
     border-radius: 8px;
     display: flex;
     align-items: center;
-     z-index: 50;
+     z-index: 51;
     cursor: pointer;
     position: relative;
     transition: all 0.2s;
@@ -54,7 +54,7 @@
         padding: 12px;
 
         &:hover {
-            background-color: var(--color-button-disabled);
+            background-color: var(--color-bg-full);
         }
     }
 

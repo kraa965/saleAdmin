@@ -19,8 +19,16 @@
     overflow: hidden;
     transition: height 0.3s ease-in-out;
 
+    &_leader {
+        height: 170px;
+    }
+
     &_open {
         height: 274px;
+
+        &_leader {
+            height: 404px;
+        }
     }
 }
 

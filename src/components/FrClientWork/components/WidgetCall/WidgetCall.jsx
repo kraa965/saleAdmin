@@ -18,24 +18,28 @@ import { selectorWork } from '../../store/reducer/Work/selector';
 import { selectorClient } from '../../store/reducer/Client/selector';
 import { selectorApp } from '../../store/reducer/App/selector';
 //slice
-import { setAnketaOpen } from '../../store/reducer/Work/slice';
+import { setAnketaOpen, setCoursOpen } from '../../store/reducer/Work/slice';
 //components
 import WidgetCallSceleton from '../WidgetCallSceleton/WidgetCallSceleton';
 import ModalConfirm from './ModalConfirm/ModalConfirm';
 //utils
 import { handleDatePlan, handleDateZoomDiff2, handleDateAnketa, handleDateDifference } from '../../utils/dates';
 
-const WidgetCall = ({ setWidget, setPrevWidget, stageZoom, zoomDate, stageSendAnketa, stageAnketa, stageTraining, empty, loadClose, setPlanWithoutCall, isNewClient, bpStep }) => {
+const WidgetCall = ({ setWidget, setPrevWidget, stageZoom, zoomDate, stageSendAnketa, stageAnketa, stageTraining, empty, loadClose, setPlanWithoutCall, isNewClient, bpStep, stageRoad }) => {
+    const role = document.getElementById('root_leader').getAttribute('role');
     const next_connect = useSelector(selectorWork).next_connect;
     const zoom_date = useSelector(selectorWork).zoom_date;
+    const anketa = useSelector(selectorWork)?.anketaForm;
     const client_id = useSelector(selectorClient).client_id;
     const client_main_number = useSelector(selectorClient).client_main_number;
     const anketaAcceptDate = useSelector(selectorClient).anketaAcceptDate;
     const callStatus = useSelector(selectorApp).callStatus;
+    const coursDate = useSelector(selectorClient).coursDate;
+    const answers = useSelector(selectorClient).answers;
     const [anim, setAnim] = useState(false);
     const [modalCancel, setModalCancel] = useState(false);
     const [dialing, setDialing] = useState(false);
-
+    console.log(stageRoad)
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -114,11 +118,26 @@ const WidgetCall = ({ setWidget, setPrevWidget, stageZoom, zoomDate, stageSendAn
         setWidget('comment')
     }
 
+    const handleOpenCours = () => {
+        dispatch(setCoursOpen(true))
+    }
+
+    console.log(isNewClient)
+
     return (
         <div className={`${s.call} ${anim && s.call_anim}`}>
-            <button onClick={handleHandOver} className={`${s.button} ${(!isNewClient || handleDateDifference(bpStep?.date) == 'Сегодня') && s.button_hidden} ${s.button_manager}`}><p>Назначить эксперта</p></button>
-            {isNewClient && <div className={`${handleDateDifference(bpStep?.date) !== 'Сегодня' && s.button_hidden} ${s.button_manager}`}><p className={s.sub}>Нельзя отдать в работу клиента открывшего БП сегодня</p></div>}
-            <div className={`${s.container} ${isNewClient && s.container_hidden}`}>
+            {role == 'frmanager' && <button onClick={handleHandOver} className={`${s.button} ${(!isNewClient || handleDateDifference(bpStep?.date) == 'Сегодня') && s.button_hidden} ${s.button_manager}`}>
+                <p>Назначить эксперта</p>
+
+            </button>}
+
+            {role == 'leader' && (stageRoad == 'base' || stageRoad == 'lk' || stageRoad == 'material' || stageRoad == 'openBp') && <button onClick={handleHandOver} className={`${s.button} ${s.button_manager}`}>
+                <p>Назначить консультанта</p>
+            </button>}
+
+            {isNewClient && role == 'frmanager' && <div className={`${(handleDateDifference(bpStep?.date) !== 'Сегодня' || role == 'leader') && s.button_hidden} ${s.button_manager}`}><p className={s.sub}>Нельзя отдать в работу клиента открывшего БП сегодня</p></div>}
+            {role == 'leader' && stageRoad !== 'base' && stageRoad !== 'lk' && stageRoad !== 'material' && stageRoad !== 'openBp' && <div className={s.button_manager}><p className={s.sub}>Клиент у экспертов</p></div>}
+            <div className={`${s.container} ${(isNewClient || role == 'leader' && stageRoad !== 'base' && stageRoad !== 'lk' && stageRoad !== 'material' && stageRoad !== 'openBp') && s.container_hidden}`}>
                 {!empty && stageZoom && <p className={s.text}>{'Zoom запланирован'} {handleDatePlan(zoom_date)}</p>}
                 {!empty && !stageZoom && <p className={s.text}>{`Контакт запланирован`} {handleDatePlan(next_connect)}</p>}
                 {stageZoom && handleDateZoomDiff2(zoomDate) && <button onClick={handleZoom} className={s.button}><p>Начать Zoom-встречу</p><IconZoom /></button>}
@@ -128,7 +147,8 @@ const WidgetCall = ({ setWidget, setPrevWidget, stageZoom, zoomDate, stageSendAn
                     {dialing && `Звоним...`}
                 </p><IconPhone /></button>
                 {stageTraining && <button onClick={handleOpenCancelModal} className={`${s.button} ${s.button_minor}`}><p>Отменить обучение</p><IconClose /></button>}
-                {stageAnketa && <button onClick={handleOpenAnketa} className={s.button_small}><p>{'Анкета'} {handleDateAnketa(anketaAcceptDate)}</p></button>}
+                {anketa.id && !stageSendAnketa && <button onClick={handleOpenAnketa} className={s.button_small}><p>{'Анкета'} {handleDateAnketa(anketaAcceptDate)}</p></button>}
+                {answers.length !== 0 && <button onClick={handleOpenCours} className={s.button_small}><p>{'Вводный курс'} {handleDateAnketa(coursDate)}</p></button>}
             </div>
             <div className={`${s.buttons} ${isNewClient && s.buttons_hidden}`}>
                 <div className={s.buttons_container}>
@@ -141,6 +161,7 @@ const WidgetCall = ({ setWidget, setPrevWidget, stageZoom, zoomDate, stageSendAn
                     <button onClick={handleComment} className={s.button_small}><p>Комментарий</p> <IconComment /></button>
                 </div>
             </div>
+            {isNewClient && anketa.id && <button onClick={handleOpenAnketa} className={s.button_small}><p>{'Анкета'} {handleDateAnketa(anketaAcceptDate)}</p></button>}
 
             {modalCancel && <ModalConfirm setModalCancel={setModalCancel} />}
 

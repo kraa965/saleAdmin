@@ -11,6 +11,7 @@ const initialState = {
     zoom_status: -1,
     zoom_date: '0000-00-00',
     anketaOpen: false,
+    coursOpen: false,
     anketaForm: {},
     workInfoUpdate: 0,
 };
@@ -68,6 +69,10 @@ const WorkSlice = createSlice({
             state.anketaOpen = action.payload;
         },
 
+        setCoursOpen(state, action) {
+            state.coursOpen = action.payload;
+        },
+
         setAnketaForm(state, action) {
             state.anketaForm = action.payload;
         }, 
@@ -93,6 +98,7 @@ export const {
     setAnketaOpen,
     setAnketaForm,
     setWorkInfoUpdate,
+    setCoursOpen
 } = WorkSlice.actions;
 
 export default WorkSlice.reducer;

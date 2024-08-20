@@ -16,6 +16,7 @@ const initialState = {
     anketa: [],
     contract: [],
     prepaid: [],
+    cours: [],
     favorite: [],
     loadToday: true,
     loadNew: true,
@@ -27,6 +28,7 @@ const initialState = {
     loadContract: true,
     loadPrepaid: true,
     loadFavorite: true,
+    loadCours: true,
 };
 
 const MyClientsSlice = createSlice({
@@ -105,6 +107,10 @@ const MyClientsSlice = createSlice({
             state.prepaid = action.payload /* [...state.zoom, ...action.payload] */;
         },
 
+        setCours(state, action) {
+            state.cours = action.payload;
+        },
+
         setFavorite(state, action) {
             state.favorite = action.payload /* [...state.zoom, ...action.payload] */;
         },
@@ -120,6 +126,8 @@ const MyClientsSlice = createSlice({
         setRemoveFavorite(state, action) {
             state.favorite = [...state.favorite].filter(el => el.id !== action.payload.id)/* [...state.zoom, ...action.payload] */;
         },
+
+        
 
         setLoadToday(state, action) {
             state.loadToday = action.payload;
@@ -160,6 +168,10 @@ const MyClientsSlice = createSlice({
         setLoadFavorite(state) {
             state.loadFavorite = false;
         },
+
+        setLoadCours(state) {
+            state.loadCours = false;
+        },
     },
 });
 
@@ -183,6 +195,8 @@ export const {
     setAnketa,
     setContract,
     setPrepaid,
+    setCours,
+    setLoadCours,
     setFavorite,
     setLoadToday,
     setLoadNoTask,

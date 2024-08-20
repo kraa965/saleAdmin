@@ -7,6 +7,7 @@ import { acceptAnketa, rejectAnketa, retryAnketa } from '../../../Api/Api';
 import LoaderButton from '../../LoaderButton/LoaderButton';
 //slice
 import { setClientUpdate } from '../../../store/reducer/Client/slice';
+import { setStage } from '../../../store/reducer/Client/slice';
 
 const ModalConfirm = ({ confirmType, clientId, setModalConfirm, setNewAnketaState}) => {
     const [anim, setAnim] = useState(false);
@@ -34,6 +35,7 @@ const ModalConfirm = ({ confirmType, clientId, setModalConfirm, setNewAnketaStat
             acceptAnketa(clientId)
             .then(res => {
                 dispatch(setClientUpdate(clientId));
+                dispatch(setStage('finishAnketa'));
                 endLoad();
 
             })
@@ -44,6 +46,7 @@ const ModalConfirm = ({ confirmType, clientId, setModalConfirm, setNewAnketaStat
         if(confirmType == 'reject') {
             rejectAnketa(clientId)
             .then(res => {
+                dispatch(setStage('rejectedAnketa'));
                 endLoad();
             })
             .catch(err => console.log(err));
@@ -53,6 +56,7 @@ const ModalConfirm = ({ confirmType, clientId, setModalConfirm, setNewAnketaStat
         if(confirmType == 'again') {
             retryAnketa(clientId)
             .then(res => {
+                dispatch(setStage('finishZoom'));
                 endLoad();
             })
             .catch(err => console.log(err));
@@ -96,7 +100,7 @@ const ModalConfirm = ({ confirmType, clientId, setModalConfirm, setNewAnketaStat
                     {confirmType == 'reject' && 'Уверен, что хочешь отклонить анкету?'}
                     {confirmType == 'ok' && 'Подтверждаешь одобрение?'}
                 </p>
-                <button onClick={handleConfirm} className={s.button}><p>Подтвердить</p> {load && <LoaderButton/>}</button>
+                <button onClick={handleConfirm} className={s.button}><p>Подтвердить</p> {load && <LoaderButton color={'#ffff'}/>}</button>
             </div>
         </div>
     )

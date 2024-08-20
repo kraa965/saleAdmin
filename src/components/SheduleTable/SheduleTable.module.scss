@@ -49,7 +49,7 @@
    }
 
    &_manager {
-      width: 100%;
+  width: 100%;
       min-width: 278px;
    }
 
@@ -76,9 +76,13 @@
 
    &_plan {
       min-width: 77px;
-      margin-left: 12px;
+      margin-left: 10px;
       display: flex;
       box-sizing: border-box;
+
+      &_fr {
+         min-width: 140px;
+      }
    }
 
    &_bonus {

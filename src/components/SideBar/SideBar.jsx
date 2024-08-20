@@ -377,6 +377,11 @@ function SideBar({ role, location }) {
                     <Link to={'/leader/dashboard'}>
                         <li onClick={handleActivePoint} id='1' className={`${s.item} ${activePoint === 1 && s.item_active}`}><DashIcon />Дашборд</li>
                     </Link>
+
+                    <Link to={'/leader/dashboard/clients'}>
+                        <li onClick={handleActivePoint} id='27' className={`${s.item}  ${activePoint === 27 && s.item_active}`}><Clients />Клиенты</li>
+                    </Link>
+                    
                     <Link to={'/leader/dashboard/sales'}>
                         <li onClick={handleActivePoint} id='2' className={`${s.item} ${s.item_2} ${activePoint === 2 && s.item_2_active}`}><SalesIcon />Продажи</li>
                     </Link>
@@ -403,9 +408,9 @@ function SideBar({ role, location }) {
                         <li onClick={handleActivePoint} id='23' className={`${s.item}  ${activePoint === 23 && s.item_active}`}><Stock2 />Склад</li>
                     </Link>
 
-                    <Link to={'/leader/dashboard/event'}>
+                  {/*   <Link to={'/leader/dashboard/event'}>
                         <li onClick={handleActivePoint} id='3' className={`${s.item}  ${activePoint === 3 && s.item_active}`}><IconEvent />Календарь событий</li>
-                    </Link>
+                    </Link> */}
 
                     {/* </div> */}
 

@@ -121,7 +121,9 @@
 }
 
 .search {
+    position: relative;
     width: 100%;
+    max-width: 240px;
     height: 46px;
     flex-shrink: 500;
     box-sizing: border-box;
@@ -268,6 +270,7 @@
     flex-wrap: wrap;
     gap: 8px;
     min-height: 28px;
+    margin-left: auto;
 }
 
 .expert {

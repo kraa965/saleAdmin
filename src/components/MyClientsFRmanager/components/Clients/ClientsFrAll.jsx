@@ -34,7 +34,9 @@ import {
     setPrepaidFrNextPage,
     setLoadPrepaidFr,
     setNewNextPage,
-    setLoadNew
+    setLoadNew,
+    setCoursFrNextPage,
+    setLoadCoursFr,
 } from '../../store/reducer/MyClientsFr/slice';
 //slice
 
@@ -52,6 +54,7 @@ const ClientsFrAll = () => {
     const [planFr, setPlanFr] = useState(JSON.parse(localStorage.getItem('planAll')) || []);
     const [zoomFr, setZoomFr] = useState(JSON.parse(localStorage.getItem('zoomAll')) || []);
     const [anketaFr, setAnketaFr] = useState(JSON.parse(localStorage.getItem('anketaAll')) || []);
+    const [coursFr, setCoursFr] = useState(JSON.parse(localStorage.getItem('coursAll')) || []);
     const [contractFr, setContractFr] = useState(JSON.parse(localStorage.getItem('contractAll')) || []);
     const [prepaidFr, setPrepaidFr] = useState(JSON.parse(localStorage.getItem('prepaidAll')) || []);
     const [noTaskFrNum, setNoTaskFrNum] = useState(JSON.parse(localStorage.getItem('noTaskAllNum')) || []);
@@ -59,6 +62,7 @@ const ClientsFrAll = () => {
     const [planFrNum, setPlanFrNum] = useState(JSON.parse(localStorage.getItem('planAllNum')) || []);
     const [zoomFrNum, setZoomFrNum] = useState(JSON.parse(localStorage.getItem('zoomAllNum')) || []);
     const [anketaFrNum, setAnketaFrNum] = useState(JSON.parse(localStorage.getItem('anketaAllNum')) || []);
+    const [coursFrNum, setCoursFrNum] = useState(JSON.parse(localStorage.getItem('coursAllNum')) || []);
     const [contractFrNum, setContractFrNum] = useState(JSON.parse(localStorage.getItem('contractAllNum')) || []);
     const [prepaidFrNum, setPrepaidFrNum] = useState(JSON.parse(localStorage.getItem('prepaidAllNum')) || []);
     const [clientsNew, setClientsNew] = useState(JSON.parse(localStorage.getItem('newAll')) || []);
@@ -73,11 +77,11 @@ const ClientsFrAll = () => {
     console.log(localStorage.getItem('expert'))
 
     useEffect(() => {
-        
+
         setTimeout(() => {
             setFirstLoad(false)
         }, 150)
-       
+
     }, []);
 
     //получение списка моих клиентов
@@ -111,7 +115,7 @@ const ClientsFrAll = () => {
                 const clients = res.data.data.data;
                 const clientsNum = res.data.data.total;
                 try {
-                    localStorage.setItem('newAll', JSON.stringify(clients.slice(0, 10)))
+                    localStorage.setItem('newAll', JSON.stringify(clients.slice(0, 50)))
                 } catch (e) {
                     localStorage.removeItem('newAll')
                 }
@@ -130,7 +134,7 @@ const ClientsFrAll = () => {
                 const clients = res.data.data.data;
                 const clientsNum = res.data.data.total;
                 try {
-                    localStorage.setItem('noTaskAll', JSON.stringify(clients.slice(0, 10)))
+                    localStorage.setItem('noTaskAll', JSON.stringify(clients.slice(0, 50)))
                 } catch (e) {
                     localStorage.removeItem('noTaskAll')
                 }
@@ -175,7 +179,7 @@ const ClientsFrAll = () => {
                 const clients = res.data.data.data;
                 const clientsNum = res.data.data.total;
                 try {
-                    localStorage.setItem('zoomAll', JSON.stringify(clients.slice(0, 10)))
+                    localStorage.setItem('zoomAll', JSON.stringify(clients.slice(0, 50)))
                 } catch (e) {
                     localStorage.removeItem('zoomAll')
                 }
@@ -198,7 +202,7 @@ const ClientsFrAll = () => {
                 const clients = res.data.data.data;
                 const clientsNum = res.data.data.total;
                 try {
-                    localStorage.setItem('anketaAll', JSON.stringify(clients.slice(0, 10)))
+                    localStorage.setItem('anketaAll', JSON.stringify(clients.slice(0, 50)))
                 } catch (e) {
                     localStorage.removeItem('anketaAll')
                 }
@@ -216,13 +220,36 @@ const ClientsFrAll = () => {
             })
             .catch(err => console.log(err))
 
+        getMyClients('intro_course', 'leader_expert', manager, date, handleEndDayMonth(date), sortAll, rejectFilter)
+            .then(res => {
+                const clients = res.data.data.data;
+                const clientsNum = res.data.data.total;
+                try {
+                    localStorage.setItem('coursAll', JSON.stringify(clients.slice(0, 50)))
+                } catch (e) {
+                    localStorage.removeItem('coursAll')
+                }
+
+                localStorage.setItem('coursAllNum', JSON.stringify(clientsNum))
+                setCoursFr(clients);
+                setCoursFrNum(clientsNum);
+
+                dispatch(setCoursFrNextPage(res.data.data.next_page_url))
+                setTimeout(() => {
+                    dispatch(setLoadCoursFr(false));
+                }, 100)
+
+
+            })
+            .catch(err => console.log(err))
+
         getMyClients('contract', 'leader_expert', manager, date, handleEndDayMonth(date), sortAll, rejectFilter)
             .then(res => {
                 const clients = res.data.data.data;
                 const clientsNum = res.data.data.total;
                 console.log(res)
                 try {
-                    localStorage.setItem('contractAll', JSON.stringify(clients.slice(0, 10)))
+                    localStorage.setItem('contractAll', JSON.stringify(clients.slice(0, 50)))
                 } catch (e) {
                     localStorage.removeItem('contractAll')
                 }
@@ -245,7 +272,7 @@ const ClientsFrAll = () => {
                 const clients = res.data.data.data;
                 const clientsNum = res.data.data.total;
                 try {
-                    localStorage.setItem('prepaidAll', JSON.stringify(clients.slice(0, 10)))
+                    localStorage.setItem('prepaidAll', JSON.stringify(clients.slice(0, 50)))
                 } catch (e) {
                     localStorage.removeItem('prepaidAll')
                 }
@@ -264,39 +291,39 @@ const ClientsFrAll = () => {
             .catch(err => console.log(err))
     }, [manager, date, rejectFilter]);
 
-/*     useEffect(() => {
-        (archiveFr.length == 0 || !firstLoad) ? dispatch(setLoadArchiveFr(true)) : dispatch(setLoadArchiveFr(false));
-
-        !firstLoad && setArchiveFr([]);
-        !firstLoad && setArchiveFrNum('');
-        !firstLoad && localStorage.removeItem('clientsAll');
-      
-        getMyClients('all', 'leader_expert', manager, date, handleEndDayMonth(date), sortAll, rejectFilter)
-            .then(res => {
-
-                console.log('все клиенты', res)
-                const clients = res.data.data.data;
-                const clientsNum = res.data.data.total;
-              
-                setArchiveFr(clients);
-                setArchiveFrNum(clientsNum);
-
-                dispatch(setArchiveFrNextPage(res.data.data.next_page_url))
-                setTimeout(() => {
-                    dispatch(setLoadArchiveFr(false));
-                }, 150)
-
-                try {
-                    localStorage.setItem('clientsAll', JSON.stringify(clients.slice(0, 50)))
-                } catch (e) {
-                    localStorage.removeItem('clientsAll')
-                }
-
-
-                localStorage.setItem('clientsAllNum', JSON.stringify(clientsNum))
-            })
-            .catch(err => console.log(err))
-    }, [manager, date, rejectFilter]) */
+    /*     useEffect(() => {
+            (archiveFr.length == 0 || !firstLoad) ? dispatch(setLoadArchiveFr(true)) : dispatch(setLoadArchiveFr(false));
+    
+            !firstLoad && setArchiveFr([]);
+            !firstLoad && setArchiveFrNum('');
+            !firstLoad && localStorage.removeItem('clientsAll');
+          
+            getMyClients('all', 'leader_expert', manager, date, handleEndDayMonth(date), sortAll, rejectFilter)
+                .then(res => {
+    
+                    console.log('все клиенты', res)
+                    const clients = res.data.data.data;
+                    const clientsNum = res.data.data.total;
+                  
+                    setArchiveFr(clients);
+                    setArchiveFrNum(clientsNum);
+    
+                    dispatch(setArchiveFrNextPage(res.data.data.next_page_url))
+                    setTimeout(() => {
+                        dispatch(setLoadArchiveFr(false));
+                    }, 150)
+    
+                    try {
+                        localStorage.setItem('clientsAll', JSON.stringify(clients.slice(0, 50)))
+                    } catch (e) {
+                        localStorage.removeItem('clientsAll')
+                    }
+    
+    
+                    localStorage.setItem('clientsAllNum', JSON.stringify(clientsNum))
+                })
+                .catch(err => console.log(err))
+        }, [manager, date, rejectFilter]) */
 
     console.log(manager)
 
@@ -341,7 +368,7 @@ const ClientsFrAll = () => {
             {(activeTab == 2 || activeTab == 3) && <ClientsListFr activeTab={activeTab} noTaskFr={noTaskFr} archiveFr={archiveFr} planFr={planFr} zoomFr={zoomFr} anketaFr={anketaFr} contractFr={contractFr} prepaidFr={prepaidFr}
                 setnNoTaskFr={setnNoTaskFr} setArchiveFr={setArchiveFr} setPlanFr={setPlanFr} setZoomFr={setZoomFr} setAnketaFr={setAnketaFr} setContractFr={setContractFr} setPrepaidFr={setPrepaidFr}
                 planFrNum={planFrNum} zoomFrNum={zoomFrNum} anketaFrNum={anketaFrNum} contractFrNum={contractFrNum} prepaidFrNum={prepaidFrNum} noTaskFrNum={noTaskFrNum} archiveFrNum={archiveFrNum} manager={manager} setManager={setManager}
-                sortAll={sortAll} date={date} setDate={setDate} clientsNew={clientsNew} setClientsNew={setClientsNew} clientsNewNum={clientsNewNum} setRejectFilter={setRejectFilter} rejectFilter={rejectFilter}
+                sortAll={sortAll} date={date} setDate={setDate} clientsNew={clientsNew} setClientsNew={setClientsNew} clientsNewNum={clientsNewNum} setRejectFilter={setRejectFilter} rejectFilter={rejectFilter} coursFr={coursFr} setCoursFr={setCoursFr} coursFrNum={coursFrNum}
             />}
             {/* {activeTab == 1 && <Planer />} */}
             {/* {activeTab == 1 && planerLoader && <PlanerSceleton load={planerLoad} />} */}

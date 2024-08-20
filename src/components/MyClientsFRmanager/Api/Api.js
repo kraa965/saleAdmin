@@ -15,15 +15,29 @@ instanceWithToken.interceptors.request.use(config => {
 });
 
 export const getMyClients = (type, category, manager, dateStart, dateEnd, sort, reject) => {
-    return instanceWithToken.get(`${baseUrl}api/frmanager/clients?type=${type}&category=${category}${manager > 0 ? `&filter[manager]=${manager}` : ''}${dateStart !== '' && dateStart ? `&filter[bp_start]=${dateStart}&filter[bp_finish]=${dateEnd}` : ''}${sort ? `&sort=${sort}&sort_rev=${dateStart !== '' && dateStart ? 0 : 1}` : ''}${reject ? `&filter[reject_switch]=${reject}` : ''}`);
+    return instanceWithToken.get(`${baseUrl}api/frmanager/clients?type=${type}&category=${category}${manager > 0 ? `&filter[manager]=${manager}` : ''}${dateStart !== '' && dateStart ? `&filter[bp_start]=${dateStart}&filter[bp_finish]=${dateEnd}` : ''}&sort[]=-bp_open${reject ? `&filter[reject_switch]=${reject}` : ''}`);
 }
 
 export const SearchMyClients = (type, category, search, manager, dateStart, dateEnd, sort, reject) => {
-    return instanceWithToken.get(`${baseUrl}api/frmanager/clients?type=${type}&category=${category}&search=${search}${manager > 0 ? `&filter[manager]=${manager}` : ''}${dateStart !== '' && dateStart ? `&filter[bp_start]=${dateStart}&filter[bp_finish]=${dateEnd}` : ''}${sort ? `&sort=${sort}&sort_rev=${dateStart !== '' && dateStart ? 0 : 1}` : ''}${reject ? `&filter[reject_switch]=${reject}` : ''}`);
+    return instanceWithToken.get(`${baseUrl}api/frmanager/clients?type=${type}&category=${category}&search=${search}${manager > 0 ? `&filter[manager]=${manager}` : ''}${dateStart !== '' && dateStart ? `&filter[bp_start]=${dateStart}&filter[bp_finish]=${dateEnd}` : ''}&sort[]=-bp_open${reject ? `&filter[reject_switch]=${reject}` : ''}`);
 }
 
 export const getMyClientsPagination = (path, type, category, manager, dateStart, dateEnd, sort, reject) => {
-    return instanceWithToken.get(`${path}&type=${type}&category=${category}${manager > 0 ? `&filter[manager]=${manager}` : ''}${dateStart !== '' && dateStart ? `&filter[bp_start]=${dateStart}&filter[bp_finish]=${dateEnd}` : ''}${sort ? `&sort=${sort}&sort_rev=${dateStart !== '' && dateStart ? 0 : 1}` : ''}${reject ? `&filter[reject_switch]=${reject}` : ''}`);
+    return instanceWithToken.get(`${path}&type=${type}&category=${category}${manager > 0 ? `&filter[manager]=${manager}` : ''}${dateStart !== '' && dateStart ? `&filter[bp_start]=${dateStart}&filter[bp_finish]=${dateEnd}` : ''}&sort[]=-bp_open${reject ? `&filter[reject_switch]=${reject}` : ''}`);
+}
+
+
+
+export const getMyClientsLeader = (type, category, manager, dateStart, dateEnd, sort, reject) => {
+    return instanceWithToken.get(`${baseUrl}api/frmanager/clients?type=${type}&category=${category}${manager > 0 ? `&filter[manager]=${manager}` : ''}${dateStart !== '' && dateStart ? `&filter[created_start]=${dateStart}&filter[created_finish]=${dateEnd}` : ''}&sort[]=-date${reject ? `&filter[reject_switch]=${reject}` : ''}`);
+}
+
+export const SearchMyClientsLeader = (type, category, search, manager, dateStart, dateEnd, sort, reject) => {
+    return instanceWithToken.get(`${baseUrl}api/frmanager/clients?type=${type}&category=${category}&search=${search}${manager > 0 ? `&filter[manager]=${manager}` : ''}${dateStart !== '' && dateStart ? `&filter[created_start]=${dateStart}&filter[created_finish]=${dateEnd}` : ''}&sort[]=-date${reject ? `&filter[reject_switch]=${reject}` : ''}`);
+}
+
+export const getMyClientsPaginationLeader = (path, type, category, manager, dateStart, dateEnd, sort, reject) => {
+    return instanceWithToken.get(`${path}&type=${type}&category=${category}${manager > 0 ? `&filter[manager]=${manager}` : ''}${dateStart !== '' && dateStart ? `&filter[created_start]=${dateStart}&filter[created_finish]=${dateEnd}` : ''}&sort[]=-date${reject ? `&filter[reject_switch]=${reject}` : ''}`);
 }
 
 

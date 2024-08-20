@@ -6,65 +6,13 @@ import { addSpaceNumber } from '../../utils/addSpaceNumber';
 import { useState, useEffect } from 'react';
 import { setDayOfWeek } from '../../utils/dates';
 
-function SheduleTableItem({ dark, manager, sheet, date }) {
+function SheduleTableItemFr({ dark, manager, sheet, date }) {
     const [tooltipFail, setTooltipFail] = useState(false);
     const [tooltip, setTooltip] = useState(false);
-    const [colorLine, setColorLine] = useState('');
     const [sum, setSum] = useState(sheet?.earnings_actual || 0);
-    const earnings = sheet.bp_num;
-    const plan = sheet.bp_plan;
-    const bonus = sheet.expert_bonus;
-    console.log(sheet)
-    useEffect(() => {
-        if (earnings / plan <= 0) {
-            setColorLine('');
-            return
-        }
-        if (earnings / plan <= 0.5) {
-            setColorLine('red');
-            return
-        }
-        if (earnings / plan > 0.5 && earnings / plan < 0.9) {
-            setColorLine('yellow');
-            return
-        }
-        if (earnings / plan >= 0.9) {
-            setColorLine('green');
-            return
-        }
-    }, [earnings, plan]);
 
-    useEffect(() => {
-        const price = 80000 / sheet.shift_number;
-        const mistakesNum = sheet?.mistakes?.filter((el) => el?.type?.name === 'Незапланированный выходной за свой счет' ||
-        el?.type?.name === 'Плановый выходной за свой счет').length;
-        console.log(price, mistakesNum, sheet.shift_half, sheet.shift_number,sheet.shift_worked, sheet.shift_vacation, bonus )
+    const salePercent = sheet.percent_sum;
 
-        if (sheet.shift_vacation > 0 && sheet.shift_half > 0) {
-            const sum = (sheet.shift_half * price / 2) + ((sheet.shift_number - sheet.shift_half) * price) + Number(bonus);
-            setSum(sum.toFixed(0));
-            return
-        }
-
-        if (sheet.shift_vacation > 0 && sheet.shift_half == 0 && mistakesNum == 0) {
-            const sum = ((sheet.shift_worked + sheet.shift_vacation) * price > 80000 ? 80000 : (sheet.shift_worked + sheet.shift_vacation) * price) + Number(bonus);
-            setSum(sum.toFixed(0));
-            return
-        }
-
-        if (sheet.shift_vacation > 0 && sheet.shift_half == 0 && mistakesNum > 0) {
-            const sum = ((sheet.shift_worked + sheet.shift_vacation) * price > (80000 - mistakesNum * price)  ? (80000 - mistakesNum * price) : (sheet.shift_worked + sheet.shift_vacation) * price) + Number(bonus);
-            setSum(sum.toFixed(0));
-            return
-        }
-
-        if (sheet.shift_vacation == 0) {
-            const sum = Number(sheet.earnings_actual) + Number(bonus);
-            setSum(sum);
-            return
-        }
-
-    }, [sheet])
 
     function handleOpenTooltip() {
         if (tooltip) {
@@ -82,7 +30,6 @@ function SheduleTableItem({ dark, manager, sheet, date }) {
         }
     }
 
-    console.log(sheet)
 
     return (
         <div style={{ display: sheet.shift_worked <= 0 && date.monthIndex <= 0 ? 'none' : '' }} className={`${s.item} ${dark && s.item_dark}`}>
@@ -98,19 +45,11 @@ function SheduleTableItem({ dark, manager, sheet, date }) {
                     <span>{manager.schedule.id === 1 ? '5/2' : '2/2'}</span>
                 </div>
             </div>
-            <div className={s.progress}>
-                <p className={s.text}>{sheet.bp_num} из {sheet.bp_plan} БП / {sheet.bp_num == 0 ? Math.round(sheet.earnings_total) : addSpaceNumber(Math.round(sheet.earnings_total / sheet.bp_num))} руб</p>
-                <div className={`${s.line} ${dark && s.line_dark}`}>
-                    {/*  <div style={{ width: `${sheet.earnings_actual / sheet.plan * 100}%` }} className={`${s.line_plan} ${dark && s.line_plan_dark}`}></div> */}
-                    <div style={{ width: (sheet.bp_num == 0 || !sheet.bp_num) ? '0%' : `${sheet.bp_num / sheet.bp_plan * 100}%` }} className={`${s.inner} ${colorLine === 'yellow' && s.yellow} 
-                                                                                                ${colorLine === 'green' && s.green} ${colorLine === 'red' && s.red}`}>
-                    </div>
-                </div>
-            </div>
-            <div className={s.plan}>
+          
+            <div className={`${s.plan} ${s.plan_fr}`}>
                 <p className={s.text}>{addSpaceNumber(sheet.plan)}</p>
             </div>
-            <div className={s.bonus}>
+            <div className={`${s.bonus}`}>
                 {sheet.mistakes.length >= 2 && <IconСross onMouseEnter={handleOpenTooltipFail} onMouseLeave={handleOpenTooltipFail} />}
                 {sheet.mistakes.length < 2 && <p className={s.text}>{addSpaceNumber(sheet.bonus)}</p>}
                 <div className={`${s.tooltip} ${tooltipFail && s.tooltip_open} ${dark && s.tooltip_dark}`}>
@@ -126,8 +65,8 @@ function SheduleTableItem({ dark, manager, sheet, date }) {
                 </div>
             </div>
 
-            <div className={s.bonus}>
-                <p>{bonus > 0 ? addSpaceNumber(bonus) : ''}</p>
+            <div className={`${s.bonus}`}>
+                <p>{salePercent > 0 ? addSpaceNumber(salePercent) : ''}</p>
             </div>
 
             <div className={s.shift}>
@@ -175,4 +114,4 @@ function SheduleTableItem({ dark, manager, sheet, date }) {
     )
 };
 
-export default SheduleTableItem;
+export default SheduleTableItemFr;

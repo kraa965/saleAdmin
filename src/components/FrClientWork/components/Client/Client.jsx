@@ -30,20 +30,23 @@ const Client = ({ loadClose, loadVisible }) => {
     const [heightBlock, setHeightBlock] = useState(322);
     const [time, setTime] = useState('');
     const [expert, setExpert] = useState('')
+    const [actualManager, setActualManager] = useState('');
     const buttonAddHiden = useSelector(selectorClient).buttonHiden;
     const client_numbers = useSelector(selectorClient).client_numbers;
+    const clientStatus = useSelector(selectorClient).clientStatus
     const client_id = useSelector(selectorClient).client_id;
     const stage = useSelector(selectorClient).stage;
     const cities = useSelector(selectorWork).cities;
     const clientInfo = useSelector(selectorClient);
     const experts = useSelector(selectorExperts).experts;
     const clientManager = useSelector(selectorClient).clientManager;
+    const managerLast = useSelector(selectorClient).managerLast;
     const dispatch = useDispatch();
 
     //убрать - 36 когда вернешь добовление номера
     useEffect(() => {
-        setHeightBlock(322 + (expert !== '' ? 26 : 0) + (client_numbers.length == 1 ? 46 : (client_numbers.length - 1) * 54 + 46) - (buttonAddHiden ? 20 : 0) )
-    }, [client_numbers, buttonAddHiden, expert])
+        setHeightBlock(322 + (expert !== '' && actualManager !== '' ? 52 : (expert !== '' || actualManager !== '') ?  26 : 0) + (client_numbers.length == 1 ? 46 : (client_numbers.length - 1) * 54 + 46) - (buttonAddHiden ? 20 : 0))
+    }, [client_numbers, buttonAddHiden, expert, actualManager])
 
     useEffect(() => {
         if (openList && editOpen) {
@@ -96,6 +99,26 @@ const Client = ({ loadClose, loadVisible }) => {
         setExpert(result ? `${result.name} ${result.surname}` : '')
     }, [experts, clientManager])
 
+    useEffect(() => {
+
+        if(clientStatus == 3) {
+            setActualManager('')
+            return
+        }
+
+        if (clientManager?.id) {
+            const result = experts?.find(el => el.id == clientManager?.id);
+            result ? setActualManager(`${managerLast !== 0 ? managerLast : ''}`) : setActualManager(`${clientManager?.name} ${clientManager?.surname}`)
+            return
+        }
+
+        if (!clientManager?.id) {
+            setActualManager(`${managerLast !== 0 ? managerLast : ''}`);
+            return
+        }
+
+    }, [clientManager, experts, clientStatus])
+
     const handleEditOpen = () => {
         if (editOpen && !openList) {
             setEditOpen(false);
@@ -137,9 +160,9 @@ const Client = ({ loadClose, loadVisible }) => {
                 })
         }
     }
-    /* 94 */
+ 
     return (
-        <div style={{ height: editOpen ? `${heightBlock}px` : `${expert !== '' ? 118 : 94}px`, overflow: hidenList && 'visible' }} className={`${s.client}  ${loadClose && s.client_dis}`}>
+        <div style={{ height: editOpen ? `${heightBlock}px` : `${expert !== '' && actualManager !== '' ? 142 : (expert !== '' || actualManager !== '') ? 118 : 94}px`, overflow: hidenList && 'visible' }} className={`${s.client}  ${loadClose && s.client_dis}`}>
             <div className={s.block}>
                 <div onClick={handleEditOpen} className={`${s.container}`}>
                     <div className={s.loader}>
@@ -151,10 +174,16 @@ const Client = ({ loadClose, loadVisible }) => {
                         <p className={`${s.name} ${loadClose && s.hiden}`}>{clientInfo?.client_name} {clientInfo?.client_surname}</p>
                         <p className={s.time}>{handleTotalCallTime(clientInfo?.talkTime)}</p>
                         {loadClose && <LoaderTitle load={loadVisible} />}
-                    </div>
+                    </div> 
 
                     {expert !== '' && <div className={s.loader}>
                         <p className={`${s.city} ${loadClose && s.hiden}`}>Эксперт: {expert}</p>
+                        {loadClose && <LoaderSub load={loadVisible} />}
+                    </div>
+                    }
+
+                    {actualManager !== '' && <div className={s.loader}>
+                        <p className={`${s.city} ${loadClose && s.hiden}`}>Консультант: {actualManager}</p>
                         {loadClose && <LoaderSub load={loadVisible} />}
                     </div>
                     }

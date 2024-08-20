@@ -30,7 +30,7 @@ export const postStudy = (id) => {
     return instanceWithToken.post(`https://api2.skilla.ru/api/requests/${id}/training`);
 }
 
-export const postSumRecived= (id, date) => {
+export const postSumRecived = (id, date) => {
     return instanceWithToken.post(`https://api2.skilla.ru/api/requests/${id}/sum-confirmation?date=${date}`);
 }
 
@@ -129,22 +129,29 @@ export const addPause = (id, time) => {
 
 //метрики 
 export const getMetricsSales = () => {
-    return instanceWithToken.get(`https://api2.skilla.ru/api/frmanager/metrics/sales`); 
+    return instanceWithToken.get(`https://api2.skilla.ru/api/frmanager/metrics/sales`);
 }
 
 export const getMetricsSteps = () => {
-    return instanceWithToken.get(`https://api2.skilla.ru/api/frmanager/metrics/steps`); 
+    return instanceWithToken.get(`https://api2.skilla.ru/api/frmanager/metrics/steps`);
 }
 
 //график качество оброботки трафика
 export const getTraficStatistics = (date, managerId) => {
-    return instanceWithToken.get(`https://api2.skilla.ru/api/frmanager/metrics/experts/traffic_quality?date=${date}&manager_id=${managerId}`); 
+    return instanceWithToken.get(`https://api2.skilla.ru/api/frmanager/metrics/experts/traffic_quality?date=${date}&manager_id=${managerId}`);
 }
 
 export const getProfileStatistics = (id) => {
-    return instanceWithToken.get(`https://api2.skilla.ru/api/leader/dashboard/statistics?manager_id=${id}`); 
+    return instanceWithToken.get(`https://api2.skilla.ru/api/leader/dashboard/statistics?manager_id=${id}`);
 }
 
+export const getLeaderProgress = () => {
+    return instanceWithToken.get(`https://api2.skilla.ru/api/leader/dashboard/progress`);
+}
+
+export const refundPay = (id, date, sum) => {
+    return instanceWithToken.post(`https://api2.skilla.ru/api/frmanager/clients/pay/refund?client_id=${id}&date=${date}&sum=${sum}`);
+}
 
 
 

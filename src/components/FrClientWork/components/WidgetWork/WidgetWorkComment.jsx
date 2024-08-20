@@ -46,6 +46,7 @@ const ScreenShot = ({ el, handleDeleteScreen }) => {
 
 const WidgetWorkComment = ({ setWidget, setPrevWidget, setPlanWithoutCall, callStatus }) => {
     const client_id = useSelector(selectorClient).client_id;
+    const role = document.getElementById('root_leader').getAttribute('role');
     const commentForSend = useSelector(selectorWork).commentsForSend;
     const client_main_number = useSelector(selectorClient).client_main_number;
     const [type, setType] = useState('zoom');
@@ -170,7 +171,7 @@ const WidgetWorkComment = ({ setWidget, setPrevWidget, setPlanWithoutCall, callS
     };
 
     const handleOpenPlan = () => {
-        const message = { id: 0, person_id: 0, client_id: client_id, comment: comment, date: new Date(), sms, file: screenShots[0], fileForView: [screenShots[0]?.fileForView] }
+        const message = { id: 0, person_id: 0, client_id: client_id, comment: `Комментарий руководителя (${role == 'leader' ? 'Юлия Корчагина' : role == 'frmanager' ? 'Анна Шуляк' : ''}):  ${comment}`, date: new Date(), sms, file: screenShots[0], fileForView: [screenShots[0]?.fileForView] }
       /*   if (!commentForSend.comment) {
             dispatch(addComment(message));
             dispatch(setCommentsForSend(message));

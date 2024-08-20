@@ -12,7 +12,7 @@ import {
     setNoTaskFrNextPage, setArchiveFrNextPage, setPlanFrNextPage, setZoomFrNextPage,
     setAnketaFrNextPage, setСontractFrNextPage, setPrepaidFrNextPage, setAddNoTaskFr,
     setAddArchiveFr, setAddPlanFr, setAddZoomFr, setAddAnketaFr, setAddСontractFr,
-    setAddPrepaidFr, setLoadNoTaskFr, setNewNextPage,
+    setAddPrepaidFr, setLoadNoTaskFr, setNewNextPage, setCoursFrNextPage
 } from '../../store/reducer/MyClientsFr/slice';
 //components
 import ClientTable from '../ClientTable/ClientsTable';
@@ -29,7 +29,8 @@ import { getMyClientsPagination, SearchMyClients } from '../../Api/Api';
 const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaFr, contractFr, prepaidFr,
     setnNoTaskFr, setArchiveFr, setPlanFr, setZoomFr, setAnketaFr, setContractFr, setPrepaidFr,
     planFrNum, zoomFrNum, anketaFrNum, contractFrNum, prepaidFrNum, noTaskFrNum, archiveFrNum, manager,
-    setManager, sortAll, date, setDate, clientsNew, setClientsNew, clientsNewNum, setRejectFilter, rejectFilter
+    setManager, sortAll, date, setDate, clientsNew, setClientsNew, clientsNewNum, setRejectFilter, rejectFilter,
+    coursFr, coursFrNum, setCoursFr
 }) => {
     const myClients = useSelector(selectorMyClientsFr);
     const noTaskFrNextPage = myClients.noTaskFrNextPage;
@@ -38,6 +39,7 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
     const loadPlanFr = myClients.loadPlanFr;
     const loadZoomFr = myClients.loadZoomFr;
     const loadAnketaFr = myClients.loadAnketaFr;
+    const loadCoursFr = myClients.loadCoursFr;
     const loadContractFr = myClients.loadContractFr;
     const loadPrepaidFr = myClients.loadPrepaidFr;
     const loadNewFr = myClients.loadNew;
@@ -45,6 +47,7 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
     const planFrNextPage = myClients.planFrNextPage;
     const zoomFrNextPage = myClients.zoomFrNextPage;
     const anketaFrNextPage = myClients.anketaFrNextPage;
+    const coursFrNextPage = myClients.coursFrNextPage;
     const contractFrNextPage = myClients.contractFrNextPage;
     const prepaidFrNextPage = myClients.prepaidFrNextPage;
     const newFrNextPage = myClients.newNextPage;
@@ -126,12 +129,17 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
             return
         }
 
+        if (activeTabList == 9 && !isSearch) {
+            setClients(coursFr);
+            return
+        }
+
         if (isSearch) {
             setClients(clientsSearch);
             return
         }
 
-    }, [activeTabList, noTaskFr, archiveFr, planFr, zoomFr, anketaFr, contractFr, prepaidFr, clientsSearch, clientsNew, isSearch]);
+    }, [activeTabList, noTaskFr, archiveFr, planFr, zoomFr, anketaFr, contractFr, prepaidFr, clientsSearch, clientsNew, coursFr, isSearch]);
 
     useEffect(() => {
         setIsSearch(false);
@@ -213,13 +221,18 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
         if (activeTabList == 8) {
 
             SearchMyClients('new', 'leader_expert', query)
-            .then(res => {
-                console.log(res)
-                const result = res.data.data.data;
-                setClientsSearch(result);
-                setLoadSearch(false);
-            })
-            .catch(err => console.log(err))
+                .then(res => {
+                    console.log(res)
+                    const result = res.data.data.data;
+                    setClientsSearch(result);
+                    setLoadSearch(false);
+                })
+                .catch(err => console.log(err))
+            return
+        }
+
+        if (activeTabList == 9) {
+            handleFetchSearch('intro_course', query);
             return
         }
     }
@@ -233,8 +246,9 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
 
     const handleCleanSearch = () => {
         setQuery('');
-        setIsSearch(false);
         setSearchOpen(false)
+        setIsSearch(false);
+      
         setClientsSearch([]);
     }
 
@@ -307,6 +321,23 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
                     dispatch(setZoomFrNextPage(data.next_page_url));
                     setTimeout(() => {
                         setZoomFr(prevState => [...prevState, ...data.data]);
+                        setLoad(false);
+                    }, 100)
+
+                })
+                .catch(err => console.log(err));
+            return
+        }
+
+        if (activeTabList == 9 && coursFrNextPage && coursFrNextPage !== '' && !isSearch) {
+            setLoad(true);
+            getMyClientsPagination(coursFrNextPage, 'intro_course', 'leader_expert', manager, date, handleEndDayMonth(date), sortAll, rejectFilter)
+                .then(res => {
+                    console.log(res);
+                    const data = res.data.data;
+                    dispatch(setCoursFrNextPage(data.next_page_url));
+                    setTimeout(() => {
+                        setCoursFr(prevState => [...prevState, ...data.data]);
                         setLoad(false);
                     }, 100)
 
@@ -428,13 +459,15 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
         localStorage.setItem('expert', JSON.stringify(id))
     }
 
+    console.log(searchOpen)
+
     const handleReset = () => {
         setManager(0);
         localStorage.setItem('expert', JSON.stringify(0))
     }
 
     const handleOpenSearch = () => {
-        setSearchOpen(true)
+        !searchOpen && setSearchOpen(true)
     }
 
     function closeModal(e) {
@@ -457,25 +490,10 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
 
                 <div className={`${s.header} ${activeTab == 3 && s.header_hiden}`}>
 
-                    <div onClick={handleOpenSearch} ref={modalRef} className={`${s.searchfr} ${searchOpen && s.searchfr_open}`}>
-                        {searchOpen ? <div onClick={handleSearch} className={`${s.icon_search}`}>
-                            <IconSearch />
-                        </div> :
-                            <div className={`${s.icon_search}`}>
-                                <IconSearch />
-                            </div>
-                        }
 
 
-                        <input onKeyDown={handleSearchEnter} ref={refInput} onFocus={handleWritePrevState} onChange={handleQuery} type='text' value={query || ''} placeholder='Искать...'></input>
 
-                        <div className={`${s.icon_clean}  ${(query.length > 0 && searchOpen) && s.icon_clean_vis}`}>
-                            <IconSearchClose onClick={handleCleanSearch} />
-                        </div>
-                    </div>
-
-
-                    <div style={{marginLeft: `60px`}} className={s.tabs}>
+                    <div className={s.tabs}>
 
                         <div onClick={handleActiveTab} id='8' className={`${s.tab} ${activeTabList == 8 && s.tab_active} ${clientsNewNum == 0 && s.tab_disabled}`}>
                             <p>Новые</p><sup>{clientsNewNum == 0 ? '' : clientsNewNum}</sup>
@@ -484,7 +502,7 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
                             <p>Без задач</p><sup>{noTaskFrNum == 0 ? '' : noTaskFrNum}</sup>
                         </div>
 
-                     {/*    <div onClick={handleActiveTab} id='2' className={`${s.tab} ${activeTabList == 2 && s.tab_active} ${archiveFrNum == 0 && s.tab_disabled}`}>
+                        {/*    <div onClick={handleActiveTab} id='2' className={`${s.tab} ${activeTabList == 2 && s.tab_active} ${archiveFrNum == 0 && s.tab_disabled}`}>
                             <p>Все шаги</p><sup>{archiveFrNum == 0 ? '' : archiveFrNum}</sup>
                         </div> */}
 
@@ -498,6 +516,10 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
 
                         <div onClick={handleActiveTab} id='5' className={`${s.tab} ${activeTabList == 5 && s.tab_active} ${anketaFrNum == 0 && s.tab_disabled}`}>
                             <p>Заполнена анкета</p><sup>{anketaFrNum == 0 ? '' : anketaFrNum}</sup>
+                        </div>
+
+                        <div onClick={handleActiveTab} id='9' className={`${s.tab} ${activeTabList == 9 && s.tab_active} ${coursFrNum == 0 && s.tab_disabled}`}>
+                            <p>Вводный курс</p><sup>{coursFrNum == 0 ? '' : coursFrNum}</sup>
                         </div>
 
                         <div onClick={handleActiveTab} id='6' className={`${s.tab} ${activeTabList == 6 && s.tab_active} ${contractFrNum == 0 && s.tab_disabled}`}>
@@ -529,6 +551,24 @@ const ClientsListFr = ({ activeTab, noTaskFr, archiveFr, planFr, zoomFr, anketaF
 
                         <button onClick={handleReset} className={`${s.button} ${manager == 0 && s.button_hiden}`}><p>Сбросить</p> <IconCloseSmall /></button>
                     </div>
+
+                    <div onClick={handleOpenSearch} ref={modalRef} className={`${s.searchfr} ${searchOpen && s.searchfr_open}`}>
+                        {searchOpen ? <div onClick={handleSearch} className={`${s.icon_search}`}>
+                            <IconSearch />
+                        </div> :
+                            <div className={`${s.icon_search}`}>
+                                <IconSearch />
+                            </div>
+                        }
+
+
+                        <input onKeyDown={handleSearchEnter} ref={refInput} onFocus={handleWritePrevState} onChange={handleQuery} type='text' value={query || ''} placeholder='Искать...'></input>
+
+                        <div className={`${s.icon_clean}  ${searchOpen && s.icon_clean_vis}`}>
+                            <IconSearchClose onClick={handleCleanSearch} />
+                        </div>
+                    </div>
+
                     <div className={s.reject}>
                         <p>Скрыть отказы</p>
                         <SwitchDark setRejectFilter={setRejectFilter} rejectFilter={rejectFilter} />

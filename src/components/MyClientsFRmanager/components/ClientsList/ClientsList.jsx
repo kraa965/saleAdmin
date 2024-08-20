@@ -32,6 +32,7 @@ const ClientsList = ({ activeTab }) => {
     const anketa = myClients.anketa;
     const contract = myClients.contract;
     const prepaid = myClients.prepaid;
+    const cours = myClients.cours;
     const favorite = myClients.favorite;
     const [anim, setAnim] = useState(false);
     const [clients, setClients] = useState(clientsToday || []);
@@ -104,7 +105,12 @@ const ClientsList = ({ activeTab }) => {
             return
         }
 
-    }, [activeTabList, activeTab, clientsToday, clientsNew, noTask, archive, planMeeting, zoom, anketa, contract, prepaid, favorite]);
+        if (activeTabList == 10 && activeTab !== 3) {
+            setClients(cours);
+            return
+        }
+
+    }, [activeTabList, activeTab, clientsToday, clientsNew, noTask, archive, planMeeting, zoom, anketa, contract, prepaid, cours, favorite]);
 
 
     const handleActiveTab = (e) => {
@@ -239,6 +245,11 @@ const ClientsList = ({ activeTab }) => {
                         <div onClick={handleActiveTab} id='7' className={`${s.tab} ${activeTabList == 7 && s.tab_active} ${anketa.length == 0 && s.tab_disabled}`}>
                             <p>Заполнена анкета</p><sup>{anketa.length == 0 ? '' : anketa.length}</sup>
                         </div>
+
+                        <div onClick={handleActiveTab} id='10' className={`${s.tab} ${activeTabList == 10 && s.tab_active} ${cours.length == 0 && s.tab_disabled}`}>
+                            <p>Вводный курс</p><sup>{cours.length == 0 ? '' : cours.length}</sup>
+                        </div>
+
                         <div onClick={handleActiveTab} id='8' className={`${s.tab} ${activeTabList == 8 && s.tab_active} ${contract.length == 0 && s.tab_disabled}`}>
                             <p>Подписан договор</p><sup>{contract.length == 0 ? '' : contract.length}</sup>
                         </div>
@@ -259,6 +270,7 @@ const ClientsList = ({ activeTab }) => {
             {activeTabList == 7 && <ClientTableSceleton load={myClients.loadAnketa} />}
             {activeTabList == 8 && <ClientTableSceleton load={myClients.loadContract} />}
             {activeTabList == 9 && <ClientTableSceleton load={myClients.loadPrepaid} />}
+            {activeTabList == 10 && <ClientTableSceleton load={myClients.loadCours} />}
             {activeTab == 3 && <ClientTableSceleton load={myClients.loadFavorite} />}
         </>
     )

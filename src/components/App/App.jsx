@@ -11,9 +11,9 @@ import icon from '../../image/iconCalendar.svg';
 import { setDark } from '../../store/reducer/menu/slice';
 
 //Api
-import { getTeam } from '../../Api/Api';
+import { getTeam, refundPay } from '../../Api/Api';
 //slice
-import { setExperts } from '../MyClientsFRmanager/store/reducer/Experts/slice';
+import { setExperts, setConsultants } from '../MyClientsFRmanager/store/reducer/Experts/slice';
 import { setNotification, setMessageMessanger, setNotifications, setMessageStatus } from '../FrClientWork/store/reducer/Messenger/slice';
 //selector
 import { selectorClient } from '../FrClientWork/store/reducer/Client/selector';
@@ -146,13 +146,24 @@ function App() {
 
   //получаем список экспертов
   useEffect(() => {
-    role == 'frmanager' && getTeam(1)
+    getTeam(1)
       .then(res => {
         const experts = res.data.team;
-        dispatch(setExperts(experts))
-        localStorage.setItem('expertsList', JSON.stringify(experts));
+        if (role == 'frmanager') {
+          dispatch(setExperts(experts))
+          localStorage.setItem('expertsList', JSON.stringify(experts));
+          return
+        }
+
+        if (role == 'leader') {
+          dispatch(setConsultants(experts))
+          localStorage.setItem('consultantsList', JSON.stringify(experts));
+          return
+        }
+
       })
       .catch(err => console.log(err))
+
   }, [role])
 
   //сообщения whats up

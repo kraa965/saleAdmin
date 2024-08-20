@@ -11,14 +11,14 @@ const ClientsTable = ({ clients, activeTab, activeTabList, type }) => {
     const listRef = useRef();
     const timerDebounceRef = useRef();
     const [sortClients, setSortClients] = useState(clients);
-    console.log(activeTabList, type)
+    console.log(clients)
 
     useEffect(() => {
         const clientSort = [...clients];
 
         clientSort.sort(function (a, b) {
-            const callRequestA = a.partnership_client_logs.at(-1).auto_important;
-            const callRequestB = b.partnership_client_logs.at(-1).auto_important;
+            const callRequestA = a.last_comment?.auto_important;
+            const callRequestB = b.last_comment?.auto_important;
 
             if (callRequestB > callRequestA) {
                 return 1
@@ -91,6 +91,9 @@ const ClientsTable = ({ clients, activeTab, activeTabList, type }) => {
                             <p>Анкета</p>
                         </div>
                         <div className={s.stage}>
+                            <p>Вводный курс</p>
+                        </div>
+                        <div className={s.stage}>
                             <p>Договор</p>
                         </div>
 
@@ -105,9 +108,9 @@ const ClientsTable = ({ clients, activeTab, activeTabList, type }) => {
                             <p>Коммуникация</p>
                         </div>
 
-                        <div className={`${s.comment} ${s.comment_small2}`}>
+                        {/*  <div className={`${s.comment} ${s.comment_small2}`}>
                             <p>Комментарий</p>
-                        </div>
+                        </div> */}
 
                         <div className={s.expert}>
                             <p>Эксперт</p>
@@ -136,6 +139,11 @@ const ClientsTable = ({ clients, activeTab, activeTabList, type }) => {
                             <p>Шаг</p>
                         </div>
                         {activeTabList == 8 && type == 'fr' && <div className={`${s.comment} ${s.comment_small}`}>
+                            <p>Комментарий</p>
+                        </div>
+                        }
+
+                        {type !== 'fr' && <div className={`${s.comment}`}>
                             <p>Комментарий</p>
                         </div>
                         }

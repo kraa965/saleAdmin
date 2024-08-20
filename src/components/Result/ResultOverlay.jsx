@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ReactComponent as IconCalendar } from '../../image/iconCalendar.svg';
 import Calendar from '../../utils/DateCalendar/DateCalendar';
 import { setDateDay } from '../../utils/dates';
+import Statistic30 from './Statistic30/Statistic30';
 
 function ResultOverlay() {
     const [activePoint, setActivePoint] = useState(0);
@@ -73,6 +74,10 @@ function ResultOverlay() {
                     <button onClick={handleOpenManager}  className={`${s.button} ${loader && s.button_dis} ${dark && s.button_dark} ${!managers && s.button_active} ${!managers && dark && s.button_active_dark}`}>Сатистика</button>
                 </div>
             </div>
+
+            <Statistic30/>
+
+            
             <Result date={date} activePoint={activePoint} setLoader={setLoader} loader={loader} managers={managers}/>
         </div>
     )

@@ -28,6 +28,7 @@ sendAnketa(смотрим если последний лог type == SendForm), 
 
 const Widget = ({ loadClose }) => {
     const road = Object.values(useSelector(selectorWork).road).slice(4, 10);
+    const role = document.getElementById('root_leader').getAttribute('role');
     const client_id = useSelector(selectorClient).client_id;
     const zoom_status = useSelector(selectorWork).zoom_status;
     const next_connect = useSelector(selectorWork).next_connect;
@@ -52,19 +53,15 @@ const Widget = ({ loadClose }) => {
     const callStatus = useSelector(selectorApp).callStatus;
 
 
-
     useEffect(() => {
-        if (widget == '' && !isNewClient) {
+    
+        if (widget == '') {
             setPrevWidget('')
             dispatch(setHeight(316))
             return
         }
 
-        if(isNewClient) {
-            dispatch(setHeight(208));
-            return
-        }
-    }, [widget, isNewClient]);
+    }, [widget]);
 
     useEffect(() => {
         clientManager?.id ? setIsNewClient(false) : setIsNewClient(true);
@@ -125,7 +122,7 @@ const Widget = ({ loadClose }) => {
             setStageSendAnketa(false)
         }
 
-        if (stageRoad == 'finishAnketa' || stageRoad == 'signContract' || stageRoad == 'prepaid' || stageRoad == 'ReqTraining' || stageRoad == 'finishTraining' || stageRoad == 'access') {
+        if (stageRoad == 'finishAnketa' || stageRoad == 'cours' || stageRoad == 'rejectedAnketa' || stageRoad == 'signContract' || stageRoad == 'prepaid' || stageRoad == 'ReqTraining' || stageRoad == 'finishTraining' || stageRoad == 'access') {
             setStageAnketa(true);
         } else {
             setStageAnketa(false);
@@ -148,20 +145,20 @@ const Widget = ({ loadClose }) => {
     }, [last_connect, next_connect]);
 
     return (
-        <div style={{ height: `${widgetHeight}px`}} className={`${s.widget}`}>
+        <div style={{ height: `${widgetHeight}px` }} className={`${s.widget}`}>
             {widget === '' && <WidgetCall setWidget={setWidget} setPrevWidget={setPrevWidget} stageZoom={stageZoom} zoomDate={zoom_date} stageSendAnketa={stageSendAnketa}
                 stageAnketa={stageAnketa} stageTraining={stageTraining} empty={empty} loadClose={loadClose} setPlanWithoutCall={setPlanWithoutCall} isNewClient={isNewClient}
-                bpStep={road[0]}
+                bpStep={road[0]} stageRoad={stageRoad}
             />}
-            {widget === 'call' && <WidgetWork setWidget={setWidget} setPrevWidget={setPrevWidget} setPlanWithoutCall={setPlanWithoutCall}/>} 
-            {widget === 'comment' && <WidgetWorkComment setWidget={setWidget} setPrevWidget={setPrevWidget} setPlanWithoutCall={setPlanWithoutCall}/>}
+            {widget === 'call' && <WidgetWork setWidget={setWidget} setPrevWidget={setPrevWidget} setPlanWithoutCall={setPlanWithoutCall} />}
+            {widget === 'comment' && <WidgetWorkComment setWidget={setWidget} setPrevWidget={setPrevWidget} setPlanWithoutCall={setPlanWithoutCall} />}
             {widget === 'zoom' && <WidgetWorkZoom setWidget={setWidget} setPrevWidget={setPrevWidget} setPlanWithoutCall={setPlanWithoutCall} />}
             {widget === 'plan' && <WidgetPlan setWidget={setWidget} setPrevWidget={setPrevWidget} type={'call'} planWithoutCall={planWithoutCall} setPlanTime={setPlanTime} setPlanZoom={setPlanZoom} />}
             {widget === 'planZoom' && <WidgetPlan setWidget={setWidget} type={'zoom'} planWithoutCall={planWithoutCall} setPlanTime={setPlanTime} setPlanZoom={setPlanZoom} />}
             {widget == 'end' && <WidgetEndWork planTime={planTime} planZoom={planZoom} setWidget={setWidget} endType={endType} setEndType={setEndType} />}
             {widget == 'cancelZoom' && <WidgetReject setWidget={setWidget} type={'zoom'} setStageZoom={setStageZoom} setEndType={setEndType} />}
             {widget == 'reject' && <WidgetReject setWidget={setWidget} setPrevWidget={setPrevWidget} prevWidget={prevWidget} type={'reject'} setStageZoom={setStageZoom} setEndType={setEndType} />}
-            {widget == 'handOver' && <HandOverWidget setWidget={setWidget} prevWidget={prevWidget} setEndType={setEndType} isNewClient={isNewClient}/>}
+            {widget == 'handOver' && <HandOverWidget setWidget={setWidget} prevWidget={prevWidget} setEndType={setEndType} isNewClient={isNewClient} />}
         </div>
     )
 };

@@ -11,7 +11,7 @@ import { selectorClient } from './store/reducer/Client/selector';
 import { selectorWork } from './store/reducer/Work/selector';
 import { selectorApp } from './store/reducer/App/selector';
 //slice
-import { setCities } from './store/reducer/Work/slice';
+import { setCities, setAnketaForm } from './store/reducer/Work/slice';
 import { setClientId } from './store/reducer/Client/slice';
 import {
     setClientName,
@@ -30,7 +30,8 @@ import {
     setDayWithoutMove,
     setClientManager,
     setManagerLast,
-    setRejectComment
+    setRejectComment,
+    setCoursAnswer
 } from './store/reducer/Client/slice';
 import { setLoadClient, setLoadPartners } from './store/reducer/App/slice';
 import { setComments, setDialog, setRoad, setNextConnect, setZoomStatus, setZoomConnect, setLastConnect } from './store/reducer/Work/slice';
@@ -90,6 +91,8 @@ const FrClientWork = () => {
             .catch(err => console.log(err))
     }, []);
 
+    console.log(client_id)
+
     //загружаем данные клиента
     useEffect(() => {
         dispatch(setLoadClient(true));
@@ -101,8 +104,10 @@ const FrClientWork = () => {
         dispatch(setNextConnect('0000-00-00'));
         dispatch(setZoomStatus(-1));
         dispatch(setZoomConnect('0000-00-00'));
+        dispatch(setCoursAnswer([]));
+        dispatch(setAnketaForm({}));
 
-        client_id !== '' && client_id && getClientInformation(client_id)
+        client_id !== '' && getClientInformation(client_id)
             .then(res => {
                 console.log(res)
                 const client = res.data.client;
@@ -150,12 +155,14 @@ const FrClientWork = () => {
                 dispatch(setZoomStatus(client.zoom_status));
                 dispatch(setZoomConnect(client.zoom_date));
 
+                setTimeout(() => {
+                    dispatch(setLoadClient(false));
+                }, 50);
+
                 const lastMoves = Object.values(road).findLast((el, i) => el.status == 'finished' && i < 10);
                 dispatch(setDayWithoutMove(handleDifDate(lastMoves.date)))
 
-                setTimeout(() => {
-                    dispatch(setLoadClient(false));
-                });
+                client?.answer_intro_biz.length > 0 && dispatch(setCoursAnswer(JSON.parse(client?.answer_intro_biz)));
             })
             .catch(err => console.log(err));
     }, [client_id]);

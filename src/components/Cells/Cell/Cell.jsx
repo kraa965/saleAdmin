@@ -221,6 +221,7 @@ function Cell({ type, dark, manager, date, eventsList, eventsDay, isAdd, shiftId
             {type === 1 &&
 
                 <div onMouseEnter={handleOpenButtons} onMouseLeave={handleCloseButtons} className={`${s.cell} ${anim && s.cell_anim} ${s.cell_5}`}>
+            
                     {!view && <div className={`${s.line} ${s.line_green}`}></div>}
                     {!view && eventsDay.length > 0 && <div className={s.alert}><IconAlert /></div>}
                     {view ?

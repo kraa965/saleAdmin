@@ -13,6 +13,7 @@ import Metrics from '../Metrics/Metrics';
 import AppMyCLients from '../MyClientsFRmanager/components/AppMyCLients/AppMyCLients';
 import Clients from '../MyClientsFRmanager/components/Clients/Clients';
 import ClientsFrAll from '../MyClientsFRmanager/components/Clients/ClientsFrAll';
+import ClientsFrLeader from '../MyClientsFRmanager/components/Clients/ClientsFrLeader';
 import FrClientWork from '../FrClientWork/FrClientWork';
 import Calendar from '../CalendarEvent/CalendarEvent/Calendar';
 import Notifications from '../FrClientWork/components/Notifications/Notifications';
@@ -32,7 +33,7 @@ function Window({ role }) {
                     <Route path="/experts/work/*" element={<FrClientWork />} />
                     <Route path="/leader/dashboard/experts/work/*" element={<FrClientWork />} />
                     <Route path="/leader/dashboard/myclients" element={<Clients />} />
-                    <Route path="/leader/dashboard/clients" element={<ClientsFrAll />} />
+                    <Route path="/leader/dashboard/clients" element={role == 'leader' ? <ClientsFrLeader/> : <ClientsFrAll />} />
                     <Route path="/leader/dashboard/" element={<ResultOverlay />} />
                     <Route path="/leader/dashboard/sales" element={<Sales />} />
                     <Route path="/leader/dashboard/team" element={<Team />} />
@@ -43,7 +44,7 @@ function Window({ role }) {
                     <Route path="/leader/dashboard/purchases" element={<AppPurchase />} />
                     <Route path="/leader/dashboard/event" element={<Calendar />} />
                     <Route path="*" element={<ResultOverlay />} />
-           
+
                     {/* {menu === 'result' && <Result />}
                         {menu === 'sales' && <Sales />} */}
                     {/* {menu === 'team' && <Team />}

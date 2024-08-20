@@ -8,6 +8,7 @@ import Comments from '../Comments/Comments';
 import CallPlan from '../CallPlan/CallPlan';
 import Widget from '../Widget/Widget';
 import Anketa from '../Anketa/Anketa';
+import Cours from '../Cours/Cours';
 import CityPartners from '../CityPartners/CityPartners';
 import Scenario from '../Scenario/Scenario';
 import Messenger from '../Messenger/Messenger';
@@ -23,7 +24,9 @@ const Work = ({ scenario }) => {
     const [loadVisible, setLoadVisible] = useState(true);
     const loadClient = useSelector(selectorApp).loadClient;
     const openAnketa = useSelector(selectorWork).anketaOpen;
+    const openCours = useSelector(selectorWork).coursOpen;
     const client_city = useSelector(selectorClient).client_city;
+    console.log(openCours)
 
     useEffect(() => {
         setTimeout(() => {
@@ -69,7 +72,7 @@ const Work = ({ scenario }) => {
 
             <div className={`${s.block} ${s.block_map}`}>
                 <h3>Карта</h3>
-                <YandexMap city={client_city}/>
+                <YandexMap city={client_city} />
             </div>
 
 
@@ -80,6 +83,7 @@ const Work = ({ scenario }) => {
             <div className={`${s.block} ${s.block_scenario}`}>
                 <Scenario scenario={scenario} />
             </div>
+            {openCours && <Cours />}
             {openAnketa && <Anketa />}
         </div>
     )

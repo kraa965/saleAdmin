@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     experts: JSON.parse(localStorage.getItem('expertsList')) || [],
+    consultants: JSON.parse(localStorage.getItem('consultantsList')) || [],
 };
 
 const ExpertsSlice = createSlice({
@@ -12,11 +13,16 @@ const ExpertsSlice = createSlice({
         setExperts(state, action) {
             state.experts = action.payload;
         },
+
+        setConsultants(state, action) {
+            state.consultants = action.payload;
+        },
     }
 });
 
 export const {
-    setExperts
+    setExperts,
+    setConsultants
 } = ExpertsSlice.actions;
 
 export default ExpertsSlice.reducer;

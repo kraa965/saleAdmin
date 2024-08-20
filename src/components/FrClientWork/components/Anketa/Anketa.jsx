@@ -25,6 +25,8 @@ const Anketa = () => {
     const dispatch = useDispatch();
     const modalRef = useRef();
 
+    console.log(answers)
+
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
@@ -70,7 +72,7 @@ const Anketa = () => {
         <div className={`${s.overlay} ${anim && s.overlay_anim}`}>
             <div ref={modalRef} className={`${s.anketa} ${anim && s.anketa_anim}`}>
                 <div className={s.header}>
-                    <h2 className={s.title}>Анкета партнера</h2>
+                    <h2 className={`${s.title} ${stageRoad == 'rejectedAnketa' & newAnketaState !== 'again' && s.title_red}`}>Анкета партнера {stageRoad == 'rejectedAnketa' & newAnketaState !== 'again' ? 'отклонена' : ''}</h2>
                     <div onClick={handleClose} className={s.icon_close}><IconClose /></div>
                 </div>
                 <div className={s.container}>
@@ -218,7 +220,7 @@ const Anketa = () => {
                         }
 
 
-                        {answers['Расскажите о вашей карьере за последние 5 лет'].length > 0 && <div className={s.block}>
+                        {answers['Расскажите о вашей карьере за последние 5 лет']?.length > 0 && <div className={s.block}>
                             <span>Расскажите о вашей карьере за последние 5 лет</span>
                             <p>{answers['Расскажите о вашей карьере за последние 5 лет']}</p>
                         </div>
@@ -236,14 +238,15 @@ const Anketa = () => {
                         }
                     </div>
                 </div>
-                { <div className={`${s.buttons} ${(stageRoad !== 'sendAnketa' || newAnketaState !== '') && s.buttons_hiden}`}>
+                {stageRoad == 'rejectedAnketa' && newAnketaState !== 'again' && <button onClick={handleOpenConfirm} id='again' className={s.button_again}>Заполнить заново <IconUpdate /></button>}
+                {<div className={`${s.buttons} ${(stageRoad !== 'sendAnketa' || newAnketaState !== '') && s.buttons_hiden}`}>
                     <button onClick={handleOpenConfirm} id='again' className={s.button_again}>Заполнить заново <IconUpdate /></button>
                     <div className={s.buttons_right}>
                         <button onClick={handleOpenConfirm} id='reject' className={`${s.button} ${s.button_reject}`}>Отклонить</button>
                         <button onClick={handleOpenConfirm} id='ok' className={s.button}>Одобрить анкету</button>
                     </div>
                 </div>}
-                {modalConfirm && <ModalConfirm confirmType={confirmType} setModalConfirm={setModalConfirm} setNewAnketaState={setNewAnketaState} clientId={client_id}/>}
+                {modalConfirm && <ModalConfirm confirmType={confirmType} setModalConfirm={setModalConfirm} setNewAnketaState={setNewAnketaState} clientId={client_id} />}
                 <span className={`${s.status} ${newAnketaState == 'reject' && s.status_reject} ${newAnketaState == 'ok' && s.status_ok}`}>
                     {newAnketaState == 'ok' && 'Анкета одобрена!'}
                     {newAnketaState == 'reject' && 'Анкета отклонена'}

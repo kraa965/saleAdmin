@@ -46,6 +46,8 @@ const ClientItem = ({ client, id, type, activeTabList }) => {
     const [newMessage, setNewMessage] = useState(client.is_new_msg !== 0 ? true : false)
     const [handOver, setHandOver] = useState(false);
     const [handOverExpert, setHandOverExpert] = useState('');
+    const [coursStatus, setCoursStatus] = useState(false);
+    const [coursDate, setCoursDate] = useState('');
     const dispatch = useDispatch();
     const updater = useSelector(selectorUpdater);
     const client_id = useSelector(selectorClient).client_id;
@@ -96,12 +98,22 @@ const ClientItem = ({ client, id, type, activeTabList }) => {
             return
         }
     }, [messageFromSocket])
-    console.log(messageFromSocket, client.is_new_msg, client.name)
+
 
 
     useEffect(() => {
-        const comment = client.partnership_client_logs?.filter(el => el.is_manual == 1 && el.person_id !== 0 && el.comment !== '' && el.newsletter_id == 0 && el.is_sms == 0).at(-1)?.comment;
-        comment && setLastComment(comment)
+        const result = client?.lk_menus?.find(el => el.menu_id == 12)
+        result?.status == 'finished' ? setCoursStatus(true) : setCoursStatus(false)
+
+
+        result?.status == 'finished' ? setCoursDate(result.date_change) : setCoursDate('')
+    }, [client])
+    console.log(client.lk_menus.find(el => el.menu_id == 12), coursStatus)
+
+
+
+    useEffect(() => {
+        setLastComment(client.last_comment ? client.last_comment : '')
     }, [client])
 
     useEffect(() => {
@@ -110,9 +122,11 @@ const ClientItem = ({ client, id, type, activeTabList }) => {
             el.type == 'ClientZoomFinish' || el.type == 'SendForm' ||
             el.type == 'ClientAnketaAccept' || el.type == 'ContractСancelled' ||
             el.type == 'ClientContractSign' || el.type == 'ClientPrepaid');
-
         const lastRoad = cleanRoad?.at(-1);
-        setLastRoadDate(lastRoad?.date);
+        const bpStage = client.lk_menus.find(el => el.menu_id == 4 && el.status == 'finished')  
+
+        bpStage && lastRoad?.type == 'ClientOpenPlan' ? setLastRoadDate(bpStage?.date_change) :setLastRoadDate(lastRoad?.date)
+
 
         if (lastRoad?.type == 'ClientOpenPlan') {
             setStatus(1);
@@ -144,9 +158,15 @@ const ClientItem = ({ client, id, type, activeTabList }) => {
             return
         }
 
-        if (lastRoad?.type == 'SendForm') {
+        if (lastRoad?.type == 'SendForm' && cleanRoad[0].type !== 'ClientAnketaAccept') {
             setStatus(4.1);
-            setStatusText('Проверь анкету');
+            setStatusText('Проверь анкету клиента');
+            return
+        }
+
+        if (lastRoad?.type == 'SendForm' && cleanRoad[0].type == 'ClientAnketaAccept') {
+            setStatus(4.3);
+            setStatusText('Анкета кандидата');
             return
         }
 
@@ -156,11 +176,19 @@ const ClientItem = ({ client, id, type, activeTabList }) => {
             return
         }
 
-        if (lastRoad?.type == 'ClientAnketaAccept') {
+
+        if (lastRoad?.type == 'ClientAnketaAccept' && !coursStatus) {
             setStatus(4.3);
             setStatusText('Анкета кандидата');
             return
         }
+
+        if (lastRoad?.type == 'ClientAnketaAccept' && coursStatus) {
+            setStatus(5);
+            setStatusText('Вводный курс');
+            return
+        }
+
 
         if (lastRoad?.type == 'ContractСancelled') {
             setStatus(6.1);
@@ -189,7 +217,7 @@ const ClientItem = ({ client, id, type, activeTabList }) => {
             return
         }
 
-    }, [client]);
+    }, [client, coursStatus]);
 
     useEffect(() => {
 
@@ -274,7 +302,7 @@ const ClientItem = ({ client, id, type, activeTabList }) => {
     }
 
     const handleOpenClient = () => {
-    /*     dispatch(setClientId(id)); */
+        /*     dispatch(setClientId(id)); */
         messageFromSocket?.client?.id == id && dispatch(setNotification({}))
         console.log('нажал на строчку')
         navigate(`/leader/dashboard/experts/work/client=${id}`);
@@ -327,6 +355,7 @@ const ClientItem = ({ client, id, type, activeTabList }) => {
                         <div className={`${s.bar} ${status == 2.1 && s.bar_yellow} ${status >= 2.2 && s.bar_green}`}></div>
                         <div className={`${s.bar}  ${status >= 3.2 && s.bar_green}`}></div>
                         <div className={`${s.bar} ${status == 4.1 && s.bar_yellow} ${status == 4.2 && s.bar_red} ${status >= 4.3 && s.bar_green}`}></div>
+                        <div className={`${s.bar} ${status >= 5 && s.bar_green}`}></div>
                         <div className={`${s.bar}  ${status == 6.1 && s.bar_red} ${status >= 6.2 && s.bar_green}`}></div>
                         <div className={`${s.bar} ${status == 7.1 && s.bar_red} ${status >= 7.2 && s.bar_green}`}></div>
                     </div>
@@ -334,7 +363,8 @@ const ClientItem = ({ client, id, type, activeTabList }) => {
                     <div className={s.step_text}>
                         <p>{statusText}</p>
 
-                        <sup>{handleDateDifference(lastRoadDate)}</sup>
+                        {!coursStatus && <sup>{handleDateDifference(lastRoadDate)}</sup>}
+                        {coursStatus && <sup>{handleDateDifference(coursDate)}</sup>}
                     </div>
 
                 </div>

@@ -199,7 +199,7 @@ function CellModal({ type, setOpenModal, dark, id, name, surname, date, eventsLi
                                         eventsList.filter((el) => el.id !== 2 && el.id !== 6 && el.id !== 7 && el.id !== 9 && el.id !== 10 && el.id !== 7)
                                         :
                                         eventsList).map((el) => {
-                                            if (el.id !== 11) {
+                                            if (el.id !== 112) {
                                                 return <div key={el.id} onClick={handleInputValue} id={el.id}
                                                     className={`${s.item} ${idEventsDay.includes(el.id) && s.item_check} ${value == el.name && s.item_active} ${dark && s.item_dark}`}>
                                                     <p>{el.name}</p>

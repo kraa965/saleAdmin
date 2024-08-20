@@ -16,6 +16,7 @@ const initialState = {
     anketaFr: [],
     anketaFrNum: 0,
     anketaFrNextPage: '',
+    coursFrNextPage: '',
     contractFr: [],
     contractFrNum: 0,
     contractFrNextPage: '',
@@ -28,6 +29,7 @@ const initialState = {
     loadPlanFr: true,
     loadZoomFr: true,
     loadAnketaFr: true,
+    loadCoursFr: true,
     loadContractFr: true,
     loadPrepaidFr: true,
     loadNew: true
@@ -142,9 +144,23 @@ const MyClientsFrSlice = createSlice({
             state.anketaFrNextPage = action.payload;
         },
 
+        
         setLoadAnketaFr(state, action) {
             state.loadAnketaFr = action.payload;
         },
+
+
+        //курс 
+
+        setCoursFrNextPage(state, action) {
+            state.coursFrNextPage = action.payload;
+        },
+
+        
+        setLoadCoursFr(state, action) {
+            state.loadCoursFr = action.payload;
+        },
+
 
         //Договор
         setСontractFr(state, action) {
@@ -241,7 +257,9 @@ export const {
     setPrepaidFrNextPage,
     setLoadPrepaidFr,
     setNewNextPage,
-    setLoadNew
+    setLoadNew,
+    setCoursFrNextPage,
+    setLoadCoursFr,
 
 } = MyClientsFrSlice.actions;
 

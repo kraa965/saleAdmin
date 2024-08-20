@@ -34,6 +34,8 @@ import {
     setLoadFavorite,
     setPlanNum,
     setPlanNextPage,
+    setCours,
+    setLoadCours,
 } from '../../store/reducer/MyClients/slice';
 
 //selector
@@ -174,6 +176,18 @@ const Clients = () => {
                 dispatch(setPrepaid(clients));
                 setTimeout(() => {
                     dispatch(setLoadPrepaid());
+                })
+            })
+            .catch(err => console.log(err))
+
+
+        getMyClients('intro_course', 'default')
+            .then(res => {
+                const clients = res.data.data.data;
+                console.log(clients)
+                dispatch(setCours(clients));
+                setTimeout(() => {
+                    dispatch(setLoadCours());
                 })
             })
             .catch(err => console.log(err))

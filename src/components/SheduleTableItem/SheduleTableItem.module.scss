@@ -136,6 +136,11 @@
     padding: 16px;
     box-sizing: border-box;
     align-items: center;
+
+    &_fr {
+        min-width: 140px;
+        padding-left: 0;
+    }
 }
 
 .bonus {
@@ -154,6 +159,7 @@
             opacity: 0.8;
         }
     }
+
 }
 
 .shift {

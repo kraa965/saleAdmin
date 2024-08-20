@@ -47,6 +47,10 @@
     font-weight: 600;
     line-height: 24px;
     letter-spacing: 0.15px;
+
+    &_red {
+        color: #E75A5A;
+    }
 }
 
 .icon_close {
@@ -120,6 +124,7 @@
 
     &_hiden {
         height: 0;
+        margin: 0;
     }
 }
 
@@ -182,7 +187,7 @@
 
 .status {
     position: absolute;
-    bottom: 20px;
+    bottom: 12px;
     left: 0;
     width: 100%;
     text-align: center;
